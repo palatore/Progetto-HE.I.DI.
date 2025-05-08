@@ -15,20 +15,55 @@
   <ion-grid>
     <ion-row>
       <ion-col size-md="3">
-        <ion-card style="padding:20px 20px 500px 20px">
+        <ion-card style="padding:20px 20px 20px 20px; font-size: 30px;">
           La tua giornata
+          <ion-card style="padding: 10%;">
+            <p>Colazione</p>
+            <p>- frutta 50kcal</p>
+            <p style="text-decoration: line-through;">- cereali 100kcal</p>
+            <p style="text-decoration: line-through;">- latte 50kcal</p>
+            <p>- caffè 0kcal</p>
+          </ion-card>
+          <ion-card style="padding: 10%;">
+            <p>Pranzo</p>
+            <p>- frutta 50kcal</p>
+            <p>- pasta 300kcal</p>
+            <p style="text-decoration: line-through;">- salumi 50kcal</p>
+          </ion-card>
+          <ion-card style="padding: 10%;">
+            <p>Spuntino</p>
+            <p>- frutta 50kcal</p>
+          </ion-card>
+          <ion-card style="padding: 10%;">
+            <p>Cena</p>
+            <p>- frutta secca 100kcal</p>
+            <p>- pane 100kcal</p>
+            <p>- carne 250kcal</p>
+          </ion-card>
         </ion-card>
       </ion-col>
       <ion-col size-md="9">
         <ion-grid>
           <ion-row>
             <ion-card style="padding:20px">
-              prova
+              Calorie assunte: 200kcal
             </ion-card>
           </ion-row>
           <ion-row>
             <ion-card style="padding:20px">
-              esilom
+              Obiettivo calorie giornaliero: 2000kcal
+            </ion-card>
+          </ion-row>
+          <ion-row>
+            <ion-card style="padding-right: 700px;">
+              <ion-icon name="calendar"></ion-icon>
+              <ion-card-header>
+                <ion-card-title style="font-size: 30px;">Calendario</ion-card-title>
+                <ion-card-subtitle style="font-size: 20px;">La tua settimana</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-datetime displayFormat="DD/MM/YYYY" value="11-09-2001"></ion-datetime>
+              </ion-card-content>
             </ion-card>
           </ion-row>
         </ion-grid>

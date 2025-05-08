@@ -12,6 +12,35 @@
       <ion-title size="large">Tab 3</ion-title>
     </ion-toolbar>
   </ion-header>
+<ion-card style="font-size: 30px;">Crea nuovo pasto
+  <ion-card-header>
+    <ion-card-title>Nuovo pasto</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+      <ion-item>
+        <ion-label>Pasto</ion-label>
+        <ion-select placeholder="Scegli un pasto">
+          <ion-select-option value="colazione">Colazione</ion-select-option>
+          <ion-select-option value="pranzo">Pranzo</ion-select-option>
+          <ion-select-option value="cena">Cena</ion-select-option>
+          <ion-select-option value="cena">Spuntino</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Nome cibo</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Calorie</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+    </ion-list>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+    <div style="text-align: center;">
+      <button ion-button color="primary">Aggiungi</button>
+    </div>
+
+  </ion-card-content>
+</ion-card>
 </ion-content>
