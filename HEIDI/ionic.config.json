@@ -1,0 +1,7 @@
+{
+  "name": "HEIDI",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
