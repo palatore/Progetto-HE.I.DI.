@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonGrid, IonRow, IonCol, IonIcon, IonDatetime } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
 
 @Component({
   selector: 'app-tab1',
@@ -8,7 +9,10 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, Io
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonGrid, IonRow, IonCol, IonIcon, IonDatetime, IonCardContent, IonCardTitle, IonCardSubtitle, IonCardHeader],
 })
 export class Tab1Page {
-  constructor() {}
+  constructor() {
+    addIcons({
+      'calendar': 'assets/icon/calendar.png',});
+  }
 
-  name: string = 'Allah';
+  name: string = 'Utente';
 }
