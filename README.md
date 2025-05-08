@@ -15,5 +15,5 @@ Users can modify their diet whenever they want. They are able to modify a single
 
 User can save food in different favorites list, one for food and one for lunches.
 
-//more idea to be written
+//more ideas to be written
 -----------------------------------------------------
