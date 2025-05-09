@@ -11,9 +11,9 @@ Users can log in and interact with the application, program a schedule based on 
 
 Users can consult a database where food is stored, they can see properties as calories, sugar, grease, proteins, vitamins held by a food sample.
 
-Users can modify their diet whenever they want. They are able to modify a single-day schedule, a lunch-only schedule or a periodic schedule such as weekly, monthly, yearly or custom recurrence schedules.
+Users can modify their diet whenever they want. They are able to modify a single-day schedule, a lunch-only schedule or a periodic schedule such as weekly, monthly, yearly or custom recurrence events.
 
 User can save food in different favorites list, one for food and one for lunches.
 
-//more idea to be written
+//more ideas to be written
 -----------------------------------------------------
