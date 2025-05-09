@@ -1,7 +1,9 @@
 PROGETTO MATERIA PROGRAMMAZIONE WEB E MOBILE
 ------------------------------------------------------
 PROJECT FOR BACHERLOR'S DEGREE SUBJECT
+
 HEIDI IS A WEB APP.
+
 The acronym HE.I.DI. stands for HEalthy Interactive DIet.
 
 FEATURES (not yet implemented)
@@ -16,4 +18,28 @@ Users can modify their diet whenever they want. They are able to modify a single
 User can save food in different favorites list, one for food and one for lunches.
 
 //more ideas to be written
+
+Suggestions from professor: include a second actor to the application called dietologo, a dietologo is a super user which can consult their patients' schedules and
+interacti with them. A dietologo can rate a food, lunch or an entire day that belongs to one of their patients. Patiens can request a feedback from their dietologo. IMPORTANT: Dietologo-patient is a one-to-many relation. They are visibly connected and it can be seen in the user or in the dietologo profile page.
+
+//IMPORTANTE: COSTRUIRE UNO SCHEMA E UN DIAGRAMMA E-R DA PRESENTARE AL PROFESSORE
 -----------------------------------------------------
+DA IMPLEMENTARE:
+
+- Login utente
+- Login dietologo
+- Home page utente
+- Home page dietologo
+- Dati cibo
+- Funzione di ricerca e consultazione cibo
+- Funzione di creazione nuovi pasti
+- Dati dei pasti
+- Pagina profilo utente
+- Pagina profilo dietologo
+- Dati utente, spazio utente dove salvare diete, pasti e cibi
+- Dati dietologo, dove salvare pazienti
+- Definire permessi
+- Pagina della giornata corrente per l'utente, concatenazione pasti e checklist
+- Pagina della settimana corrente per l'utente
+- Calendario basato su google calendar
+- Backend
