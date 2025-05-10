@@ -1,9 +1,42 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Benvenuto, effettua il login</ion-title>
+    <ion-title class="ion-text-center">Benvenuto
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-icon name="a"></ion-icon>
+<ion-content [fullscreen]="true" class="loginBackground">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="6" class="ion-text-center">
+        <ion-card class="loginCard">
+          <ion-card-header class="ion-justify-content-center">
+            <div class="iconContainer"><ion-icon name="a" size="large"></ion-icon></div>
+            <ion-card-title>Accedi a HEIDI</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <ion-item class="loginCamp">
+                <ion-label position="floating">Email</ion-label>
+                <ion-input type="email" formControlName="email"></ion-input>
+              </ion-item>
+              <ion-item class="loginCamp">
+                <ion-label position="floating">Password</ion-label>
+                <ion-input type="password" formControlName="password"></ion-input>
+              </ion-item>
+              <div class="buttonContainer">
+                <ion-button expand="full" type="submit" [disabled]="!loginForm.valid">Accedi</ion-button>
+              </div>
+            </form>
+            <div class="registerLink">
+              Non hai un account? <a routerLink="/auth/registrazione">Registrati</a>
+            </div>
+            <div class="forgotPasswordLink">
+              Hai dimenticato la password? <a routerLink="/auth/password-dimenticata">Recupera</a>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

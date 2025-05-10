@@ -1,0 +1,24 @@
+.loginBackground {
+    --ion-background-color: lightblue;
+}
+
+.loginCard {
+    --ion-text-color: black;
+    --ion-card-background: lightgreen;
+    --ion-card-border-radius: 10px;
+    --ion-card-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.iconContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginCamp {
+    --background: transparent;
+}
+
+ion-card-title {
+    color:black;
+}
