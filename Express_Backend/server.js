@@ -63,7 +63,7 @@ app.post('/login', (req, res) => {
     }
     if (result.length > 0) {
       // Utente trovato, rimanda i risultati
-      return res.status(200).json({ message: 'Login avvenuto' });
+      return res.status(201).json({ message: 'Login avvenuto' });
     } else {
       // Utente non trovato, ritorna l'errore
       return res.status(401).json({ error: 'Email e password non validi' });
@@ -81,12 +81,32 @@ app.post('/loginD', (req, res) => {
     }
     if (result.length > 0) {
       // Utente trovato, rimanda i risultati
-      return res.status(200).json({ message: 'Login avvenuto' });
+      return res.status(201).json({ message: 'Login avvenuto' });
     } else {
       // Utente non trovato, ritorna l'errore
       return res.status(401).json({ error: 'Email e password non validi' });
     }
   });
+});
+
+app.post('/registration', (req, res) => {
+  const {ruolo, email, nome, cognome, password} = req.body;
+
+  if(ruolo === 'dietologo') {
+    db.run('INSERT INTO dietologi (name, surname, email, password) VALUES (?, ?, ?, ?)', [nome, cognome, email, password], (err, result) => {
+      if(err) {
+        res.status(500).json(err.message);
+      }
+      return res.status(201).json({message: 'Registrazione avvenuta con successo'})
+    });
+  } else {
+    db.run('INSERT INTO utenti (name, surname, email, password) VALUES (?, ?, ?, ?)', [nome, cognome, email, password], (err, result) => {
+      if(err) {
+        res.status(500).json(err.message);
+      }
+      return res.status(201).json({message: 'Registrazione avvenuta con successo'})
+    });
+  }
 });
 
 //avvio del server

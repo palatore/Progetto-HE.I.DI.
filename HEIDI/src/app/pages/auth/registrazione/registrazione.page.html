@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>registrazione</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="9" size-md="6">
+        <ion-card class="registrationCard">
+          <ion-card-header class="ion-justify-content-center">
+            <div class="iconContainer"><ion-icon name="a" size="large"></ion-icon></div>
+              <ion-card-title>Registrati a HEIDI</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <ion-radio-group formControlName="ruolo">
+                <ion-label class="ion-padding">Utente</ion-label>
+                <ion-radio slot="start" value="utente" class="ion-padding"></ion-radio>
+                <ion-radio value="dietologo" class="ion-padding"></ion-radio>
+                <ion-label class="ion-padding">Dietologo</ion-label>
+              </ion-radio-group>
+              <ion-item class="registerCamp">
+                <ion-label position="floating">Email</ion-label>
+                <ion-input type="email" formControlName="email"></ion-input>
+              </ion-item>
+              <ion-item class="registerCamp">
+                <ion-label position="floating">Nome</ion-label>
+                <ion-input formControlName="nome"></ion-input>
+              </ion-item>
+              <ion-item class="registerCamp">
+                <ion-label position="floating">Cognome</ion-label>
+                <ion-input formControlName="cognome"></ion-input>
+              </ion-item>
+              <ion-item class="registerCamp">
+              <ion-label position="floating">Password</ion-label>
+                <ion-input type="password" formControlName="password"></ion-input>
+              </ion-item>
+              <ion-item class="registerCamp">
+              <ion-label position="floating">Conferma Password</ion-label>
+                <ion-input type="password" formControlName="repeatpw"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('repeatpw')?.touched">
+              <ion-label color="danger">Le password non coincidono</ion-label>
+              </ion-item>
+              <div class="buttonContainer">
+                <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Registrati</ion-button>
+              </div>
+            </form>
+             <div class="loginLink">
+              Hai già un account? <a routerLink="/login">Login</a>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

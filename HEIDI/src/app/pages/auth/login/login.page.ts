@@ -5,13 +5,14 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonRow, IonGrid, 
 import { addIcons } from 'ionicons';
 import { firstValueFrom } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/login.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, IonSegment, IonSegmentButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, IonSegment, IonSegmentButton, RouterModule]
 })
 export class LoginPage implements OnInit {
   public loginForm: FormGroup;
@@ -47,7 +48,7 @@ export class LoginPage implements OnInit {
             this.serverError =  true;
             this.errMessage = 'Errore interno';
           }
-          else if(response.status === 200) {
+          else if(response.status === 201) {
             console.log('Login attempt with email:', this.loginForm.value.email);
             console.log('Login attempt with password:', this.loginForm.value.password);
             await this.loginservice.onLoginSuccess('D');
@@ -75,7 +76,7 @@ export class LoginPage implements OnInit {
             this.serverError =  true;
             this.errMessage = 'Errore interno';
           }
-          else if(response.status === 200) {
+          else if(response.status === 201) {
             console.log('Login attempt with email:', this.loginForm.value.email);
             console.log('Login attempt with password:', this.loginForm.value.password);
             await this.loginservice.onLoginSuccess('U');

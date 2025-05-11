@@ -22,4 +22,8 @@ export const routes: Routes = [
     path: 'homeDietologo',
     loadComponent: () => import('./pages/home/home-dietologo/home-dietologo.page').then( m => m.HomeDietologoPage)
   },
+  {
+    path: 'registrazione',
+    loadComponent: () => import('./pages/auth/registrazione/registrazione.page').then( m => m.RegistrazionePage)
+  },
 ];

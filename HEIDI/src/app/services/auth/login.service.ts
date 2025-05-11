@@ -1,3 +1,5 @@
+//questo service si chiama login ma contiene anche i metodi per registrarsi e per recuperare i dati
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -29,5 +31,14 @@ export class LoginService {
     else {
       await this.router.navigate(['/home']);
     }
+  }
+
+  register(ruolo:string, email:string, nome:string, cognome:string, password:string): Observable<any> {
+    console.log('Dati invati al server:', { ruolo, email, nome, cognome, password});
+    return this.http.post(`${this.apiUrl}/registration`, {ruolo, email, nome, cognome, password}, {observe: 'response'});
+  }
+
+  async onRegistrationSuccess() {
+   await this.router.navigate(['/login']);
   }
 }
