@@ -53,6 +53,42 @@ app.get('/alimenti', (req, res) => {
   });
 });
 
+//definizione del login utenti
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  db.all('SELECT * FROM utenti WHERE email = ? AND password = ?', [email, password], (err, result) => {
+    if(err) {
+      res.status(500).json({error: err.message});
+    }
+    if (result.length > 0) {
+      // Utente trovato, rimanda i risultati
+      return res.status(200).json({ message: 'Login avvenuto' });
+    } else {
+      // Utente non trovato, ritorna l'errore
+      return res.status(401).json({ error: 'Email e password non validi' });
+    }
+  });
+});
+
+//definizione del login dietologi
+app.post('/loginD', (req, res) => {
+  const { email, password } = req.body;
+
+  db.all('SELECT * FROM dietologi WHERE email = ? AND password = ?', [email, password], (err, result) => {
+    if(err) {
+      res.status(500).json({error: err.message});
+    }
+    if (result.length > 0) {
+      // Utente trovato, rimanda i risultati
+      return res.status(200).json({ message: 'Login avvenuto' });
+    } else {
+      // Utente non trovato, ritorna l'errore
+      return res.status(401).json({ error: 'Email e password non validi' });
+    }
+  });
+});
+
 //avvio del server
 app.listen(port, () => {
   console.log(`Server in ascolto sulla porta ${port}`);
