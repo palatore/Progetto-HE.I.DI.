@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>home</ion-title>
+    <ion-title>Home</ion-title>
+    <ion-item>
+      <ion-button (click) ="logout()">Logout</ion-button>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +16,4 @@
       </ion-item>
     </ion-toolbar>
   </ion-header>
-  <ion-item>
-        <ion-button (click) ="logout()">Logout</ion-button>
-      </ion-item>
 </ion-content>
