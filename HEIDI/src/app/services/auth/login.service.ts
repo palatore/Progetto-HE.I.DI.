@@ -16,12 +16,12 @@ export class LoginService {
 
   login(email: string, password: string): Observable<any> {
     console.log('Dati inviati al server:', { email, password });
-    return this.http.post(`${this.apiUrl}/login`, { email, password }, {observe: 'response'});
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }, {observe: 'response'});
   }
 
   loginD(email: string, password: string): Observable<any> {
     console.log('Dati inviati al server:', { email, password });
-    return this.http.post(`${this.apiUrl}/loginD`, { email, password }, {observe: 'response'});
+    return this.http.post<any>(`${this.apiUrl}/loginD`, { email, password }, {observe: 'response'});
   }
 
   async onLoginSuccess(type:String) {
@@ -40,5 +40,9 @@ export class LoginService {
 
   async onRegistrationSuccess() {
    await this.router.navigate(['/login']);
+  }
+
+  async onLogoutSuccess() {
+    await this.router.navigate(['/login']);
   }
 }

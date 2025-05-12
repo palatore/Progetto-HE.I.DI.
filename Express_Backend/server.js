@@ -68,10 +68,10 @@ app.post('/login', (req, res) => {
       const user = result[0];
       const token = jwt.sign(
         { id: user.id, email: user.email, ruolo: 'utente'},
-        SECRET_KEY,
-        {scadenza:'2h'}
+        CHIAVE_SEGRETA,
+        {expiresIn:'2h'}
       );
-      return res.status(201).json({ message: 'Login avvenuto' });
+      return res.status(201).json({ message: 'Login avvenuto', token });
     } else {
       // Utente non trovato, ritorna l'errore
       return res.status(401).json({ error: 'Email e password non validi' });
@@ -92,10 +92,10 @@ app.post('/loginD', (req, res) => {
       const user = result[0];
       const token = jwt.sign(
         { id: user.id, email: user.email, ruolo: 'dietologo'},
-        SECRET_KEY,
-        {scadenza:'2h'}
+        CHIAVE_SEGRETA,
+        {expiresIn:'2h'}
       );
-      return res.status(201).json({ message: 'Login avvenuto' });
+      return res.status(201).json({ message: 'Login avvenuto', token });
     } else {
       // Utente non trovato, ritorna l'errore
       return res.status(401).json({ error: 'Email e password non validi' });

@@ -55,12 +55,12 @@ export class LoginPage implements OnInit {
             this.serverError =  true;
             this.errMessage = 'Errore interno';
           }
-          else if(response.status === 201 && response.token) {
+          else if(response.status === 201 && response.body.token) {
             console.log('Login attempt with email:', this.loginForm.value.email);
             console.log('Login attempt with password:', this.loginForm.value.password);
             localStorage.setItem('tipoUtente', this.loginType);
             localStorage.setItem('userEmail', this.loginForm.value.email);
-            localStorage.setItem('token', response.token);
+            localStorage.setItem('token', response.body.token);
             await this.loginservice.onLoginSuccess('D');
             this.loginFailed = false;
           }
@@ -80,18 +80,19 @@ export class LoginPage implements OnInit {
       else if(this.loginType === "Utente"){
         try {
           const response =  await firstValueFrom(this.loginservice.login(this.loginForm.value.email, this.loginForm.value.password));
+          console.log('Risposta dal backend:', response);
           if(response === null) {
             this.showError = true;
             this.loginFailed = true;
             this.serverError =  true;
             this.errMessage = 'Errore interno';
           }
-          else if(response.status === 201 && response.token) {
+          else if(response.status === 201 && response.body.token) {
             console.log('Login attempt with email:', this.loginForm.value.email);
             console.log('Login attempt with password:', this.loginForm.value.password);
             localStorage.setItem('tipoUtente', this.loginType);
             localStorage.setItem('userEmail', this.loginForm.value.email);
-            localStorage.setItem('token', response.token);
+            localStorage.setItem('token', response.body.token);
             await this.loginservice.onLoginSuccess('U');
             this.loginFailed = false;
           }
