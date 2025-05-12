@@ -35,8 +35,10 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     const tipoUtente = localStorage.getItem('tipoUtente');
     const userEmail = localStorage.getItem('userEmail');
-    if(tipoUtente && userEmail) {
+    const token = localStorage.getItem('token');
+    if(tipoUtente && userEmail && token) {
       //Utente già loggato, reindirizzato alla home
+      this.loginservice.onLoginSuccess(tipoUtente === 'Dietologo' ? 'D' : 'U');
     }
   }
 
@@ -53,7 +55,7 @@ export class LoginPage implements OnInit {
             this.serverError =  true;
             this.errMessage = 'Errore interno';
           }
-          else if(response.status === 201) {
+          else if(response.status === 201 && response.token) {
             console.log('Login attempt with email:', this.loginForm.value.email);
             console.log('Login attempt with password:', this.loginForm.value.password);
             localStorage.setItem('tipoUtente', this.loginType);
@@ -84,7 +86,7 @@ export class LoginPage implements OnInit {
             this.serverError =  true;
             this.errMessage = 'Errore interno';
           }
-          else if(response.status === 201) {
+          else if(response.status === 201 && response.token) {
             console.log('Login attempt with email:', this.loginForm.value.email);
             console.log('Login attempt with password:', this.loginForm.value.password);
             localStorage.setItem('tipoUtente', this.loginType);

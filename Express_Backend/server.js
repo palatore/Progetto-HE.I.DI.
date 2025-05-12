@@ -4,6 +4,8 @@ const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const db = require('./db.js');
+const jwt = require('jsonwebtoken');
+const CHIAVE_SEGRETA = 'kingdomhearts';
 //creazione del server Express
 //importazioni dei moduli
 
@@ -62,7 +64,13 @@ app.post('/login', (req, res) => {
       res.status(500).json({error: err.message});
     }
     if (result.length > 0) {
-      // Utente trovato, rimanda i risultati
+      // Utente trovato, rimanda i risultati e gen era il token
+      const user = result[0];
+      const token = jwt.sign(
+        { id: user.id, email: user.email, ruolo: 'utente'},
+        SECRET_KEY,
+        {scadenza:'2h'}
+      );
       return res.status(201).json({ message: 'Login avvenuto' });
     } else {
       // Utente non trovato, ritorna l'errore
@@ -81,6 +89,12 @@ app.post('/loginD', (req, res) => {
     }
     if (result.length > 0) {
       // Utente trovato, rimanda i risultati
+      const user = result[0];
+      const token = jwt.sign(
+        { id: user.id, email: user.email, ruolo: 'dietologo'},
+        SECRET_KEY,
+        {scadenza:'2h'}
+      );
       return res.status(201).json({ message: 'Login avvenuto' });
     } else {
       // Utente non trovato, ritorna l'errore
