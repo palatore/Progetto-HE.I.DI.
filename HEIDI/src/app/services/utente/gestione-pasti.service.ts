@@ -1,0 +1,20 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GestionePastiService {
+
+  private apiUrl:String = "http://localhost:3000"; //sostituire con l'url corretto poi
+
+  constructor(private http:HttpClient) { }
+
+  creaPasto(nome:String, data:Date, tipo:String) {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post<any>(`${this.apiUrl}/creaPasti`, { nome, data, tipo }, {headers, observe: 'response'});
+
+  }
+}

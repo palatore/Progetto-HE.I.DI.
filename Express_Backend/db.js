@@ -63,16 +63,48 @@ db.serialize(() => {
         }
     });
 
-  //popolazione della tabella utenti se non è già popolata
-  db.get('SELECT COUNT(*) AS count FROM utenti', (err, row) => {
-    if (err) {
-      console.error('Errore nella selezione degli utenti ' + err.message);
-    } else if (row.count === 0) {
-      const comando = db.prepare('INSERT INTO utenti (name, surname, email, password) VALUES (?, ?, ?, ?)');
-      comando.run('Pietro', 'Gambadilegno', 'pietro.gdl@steambot.dis', 'malefica');
-      comando.run('Wilson Grant', 'Fisk', 'kingpin@brooklyn.com', 'marvel');
-      comando.run('Taro', 'Sakamoto', 'tarosakamoto01@gmail.com', 'HanaAoi');
-      comando.run('Majin', 'Buu', 'babidiofficial@regnodemoniaco.kai', 'dolcetti');
+    //creazione della tabella dei pasti
+    db.run(`CREATE TABLE IF NOT EXISTS pasti (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        nome VARCHAR(255) NOT NULL,
+        data DATE NOT NULL,
+        tipo TEXT NOT NULL,
+        FOREIGN KEY(user_id) REFERENCES utenti(id)
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella pasti ' + err.message);
+        } else {
+            console.log('Tabella pasti creata con successo.');
+        }
+    });
+
+    //creazione della tabella degli alimenti_pasto
+    db.run(`CREATE TABLE IF NOT EXISTS alimenti_pasto (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        pasto_id INTEGER NOT NULL,
+        alimento_id INTEGER NOT NULL,
+        quantita decimal(6,2) NOT NULL,
+        FOREIGN KEY(pasto_id) REFERENCES pasti(id),
+        FOREIGN KEY(alimento_id) REFERENCES alimenti(id)
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella alimenti_pasto ' + err.message);
+        } else {
+            console.log('Tabella alimenti_pasto creata con successo.');
+        }
+    });
+
+    //popolazione della tabella utenti se non è già popolata
+    db.get('SELECT COUNT(*) AS count FROM utenti', (err, row) => {
+      if (err) {
+        console.error('Errore nella selezione degli utenti ' + err.message);
+      } else if (row.count === 0) {
+        const comando = db.prepare('INSERT INTO utenti (name, surname, email, password) VALUES (?, ?, ?, ?)');
+        comando.run('Pietro', 'Gambadilegno', 'pietro.gdl@steambot.dis', 'malefica');
+        comando.run('Wilson Grant', 'Fisk', 'kingpin@brooklyn.com', 'marvel');
+        comando.run('Taro', 'Sakamoto', 'tarosakamoto01@gmail.com', 'HanaAoi');
+        comando.run('Majin', 'Buu', 'babidiofficial@regnodemoniaco.kai', 'dolcetti');
       }
     });
     //popolazione della tabella dietologi se non è già popolata

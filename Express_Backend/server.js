@@ -17,6 +17,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //abilitazione del CORS e del body parser per gestire le richieste JSON e URL-encoded
 
+//funzione per importare il token e passare l'id utente al backend
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'Token mancante' });
+
+  jwt.verify(token, CHIAVE_SEGRETA, (err, user) => {
+    if (err) return res.status(403).json({ error: 'Token non valido' });
+    req.user = user;
+    next();
+  });
+}
+
 app.get('/', (req, res) => {
   res.send('Benvenuto nel server Express!');
 });
@@ -26,9 +39,9 @@ app.get('/', (req, res) => {
 app.get('/utenti', (req, res) => {
   db.all('SELECT * FROM utenti', [], (err, rows) => {
     if (err) {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     } else {
-      res.json(rows);
+      return res.json(rows);
     }
   });
 });
@@ -37,9 +50,9 @@ app.get('/utenti', (req, res) => {
 app.get('/dietologi', (req, res) => {
   db.all('SELECT * FROM dietologi', [], (err, rows) => {
     if (err) {
-      res.status(500).json({ error: err.message });
+     return  res.status(500).json({ error: err.message });
     } else {
-      res.json(rows);
+      return res.json(rows);
     }
   });
 });
@@ -48,9 +61,31 @@ app.get('/dietologi', (req, res) => {
 app.get('/alimenti', (req, res) => {
   db.all('SELECT * FROM alimenti', [], (err, rows) => {
     if (err) {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     } else {
-      res.json(rows);
+      return res.json(rows);
+    }
+  });
+});
+
+//definizione della rotta per l'elenco dei pasti
+app.get('/pasti', (req, res) => {
+  db.all('SELECT * FROM pasti', [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    } else {
+      return res.json(rows);
+    }
+  });
+});
+
+//definizione della rotta per i dettagli dei pasti
+app.get('/alimenti_pasti', (req, res) => {
+  db.all('SELECT * FROM alimenti_pasti', [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    } else {
+      return res.json(rows);
     }
   });
 });
@@ -61,7 +96,7 @@ app.post('/login', (req, res) => {
 
   db.all('SELECT * FROM utenti WHERE email = ? AND password = ?', [email, password], (err, result) => {
     if(err) {
-      res.status(500).json({error: err.message});
+      return res.status(500).json({error: err.message});
     }
     if (result.length > 0) {
       // Utente trovato, rimanda i risultati e gen era il token
@@ -85,7 +120,7 @@ app.post('/loginD', (req, res) => {
 
   db.all('SELECT * FROM dietologi WHERE email = ? AND password = ?', [email, password], (err, result) => {
     if(err) {
-      res.status(500).json({error: err.message});
+      return res.status(500).json({error: err.message});
     }
     if (result.length > 0) {
       // Utente trovato, rimanda i risultati
@@ -103,24 +138,50 @@ app.post('/loginD', (req, res) => {
   });
 });
 
+//definizione registrazione
 app.post('/registration', (req, res) => {
   const {ruolo, email, nome, cognome, password} = req.body;
 
   if(ruolo === 'dietologo') {
-    db.run('INSERT INTO dietologi (name, surname, email, password) VALUES (?, ?, ?, ?)', [nome, cognome, email, password], (err, result) => {
+    db.run('INSERT INTO dietologi (name, surname, email, password) VALUES (?, ?, ?, ?)', [nome, cognome, email, password], (err) => {
       if(err) {
-        res.status(500).json(err.message);
+        return res.status(500).json(err.message);
       }
       return res.status(201).json({message: 'Registrazione avvenuta con successo'})
     });
   } else {
-    db.run('INSERT INTO utenti (name, surname, email, password) VALUES (?, ?, ?, ?)', [nome, cognome, email, password], (err, result) => {
+    db.run('INSERT INTO utenti (name, surname, email, password) VALUES (?, ?, ?, ?)', [nome, cognome, email, password], (err) => {
       if(err) {
-        res.status(500).json(err.message);
+        return res.status(500).json(err.message);
       }
       return res.status(201).json({message: 'Registrazione avvenuta con successo'})
     });
   }
+});
+
+//definizione post creazione pasti
+app.post('/creaPasti', authenticateToken, (req, res) => {
+  const user_id = req.user.id;
+  const {nome, data, tipo} = req.body;
+  db.run('INSERT INTO pasti (user_id, nome, data, tipo) VALUES (?, ?, ?, ?)', [user_id, nome, data, tipo], (err) => {
+    if(err) {
+      return res.status(500).json(err.message);
+    } else {
+      return res.status(201).json({message: 'Pasto creato con successo'});
+    }
+  });
+});
+
+//definizione post creazione dettaglio pasti
+app.post('/riempiPasti', (req, res) => {
+  const {pasto_id, alimento_id, quantita} = req.body;
+  db.run('INSERT INTO alimenti_pasto (pasto_id, alimento_id, quantita) VALUES (?, ?, ?)' [pasto_id, alimento_id, quantita], (err) => {
+    if(err) {
+      return res.status(500).json(err.message);
+    } else {
+      return res.status(201).jeson({message: 'Alimenti inseriti con successo'});
+    }
+  });
 });
 
 //avvio del server

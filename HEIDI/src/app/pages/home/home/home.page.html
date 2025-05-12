@@ -13,11 +13,31 @@
     <ion-card-content class="pasti">
       <ion-grid>
         <ion-row>
-          <ion-card>colazione</ion-card>
-          <ion-card>pranzo</ion-card>
-          <ion-card>cena</ion-card>
+          <ion-col>
+            <ion-card class ="pasto">colazione</ion-card>
+          </ion-col>
+          <ion-col>
+            <ion-card class ="pasto">pranzo</ion-card>
+          </ion-col>
+          <ion-col>
+            <ion-card class ="pasto">cena</ion-card>
+          </ion-col>
         </ion-row>
       </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="provvisoria">
+    <ion-card-header>
+      SEZIONE PROVVISORIA DA CAMBIARE POSTO IN CASO
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button (click)="showForm()"> Crea Pasto</ion-button>
+      <form *ngIf="isShowingForm"[formGroup]="pastoForm" (ngSubmit)="onSubmit()">
+        <ion-input type="text" formControlName="nome"></ion-input>
+        <ion-input type="date" formControlName="data"></ion-input>
+        <ion-input type="text" formControlName="tipo"></ion-input>
+        <ion-button type="submit">Salva</ion-button>
+      </form> 
     </ion-card-content>
   </ion-card>
 </ion-content>
