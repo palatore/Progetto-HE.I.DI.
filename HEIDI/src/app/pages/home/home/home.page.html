@@ -8,12 +8,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-      <ion-item>
-        <ion-button (click) ="logout()">Logout</ion-button>
-      </ion-item>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card class="laTuaGiornata">
+    La tua giornata
+    <ion-card-content class="pasti">
+      <ion-grid>
+        <ion-row>
+          <ion-card>colazione</ion-card>
+          <ion-card>pranzo</ion-card>
+          <ion-card>cena</ion-card>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
