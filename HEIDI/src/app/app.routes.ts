@@ -26,4 +26,8 @@ export const routes: Routes = [
     path: 'registrazione',
     loadComponent: () => import('./pages/auth/registrazione/registrazione.page').then( m => m.RegistrazionePage)
   },
+  {
+    path: 'creazionePasto',
+    loadComponent: () => import('./pages/utente/creazione-pasto/creazione-pasto.page').then( m => m.CreazionePastoPage)
+  },
 ];

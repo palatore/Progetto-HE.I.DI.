@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Creazione Pasto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="provvisoria">
+    <ion-card-header>
+      SEZIONE PROVVISORIA
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="pastoForm" (ngSubmit)="onSubmit()">
+        <ion-grid class="ion-justify-center">
+          <ion-row>
+            <ion-col>
+              <ion-input type="text" placeholder="Nome Pasto" formControlName="nome"></ion-input>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-select placeholder="Tipo Pasto" formControlName="tipo">
+                  <ion-select-option value="Colazione">Colazione</ion-select-option>
+                  <ion-select-option value="Pranzo">Pranzo</ion-select-option>
+                  <ion-select-option value="Cena">Cena</ion-select-option>
+                  <ion-select-option value="Spuntino">Spuntino</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-input type="date" formControlName="data"></ion-input>
+          </ion-row>
+        </ion-grid>
+        <ion-button type="submit">Crea</ion-button>
+      </form> 
+    </ion-card-content>
+  </ion-card>
+</ion-content>
