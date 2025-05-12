@@ -33,6 +33,11 @@ export class LoginPage implements OnInit {
    }
 
   ngOnInit() {
+    const tipoUtente = localStorage.getItem('tipoUtente');
+    const userEmail = localStorage.getItem('userEmail');
+    if(tipoUtente && userEmail) {
+      //Utente già loggato, reindirizzato alla home
+    }
   }
 
   async onSubmit() {
@@ -51,6 +56,9 @@ export class LoginPage implements OnInit {
           else if(response.status === 201) {
             console.log('Login attempt with email:', this.loginForm.value.email);
             console.log('Login attempt with password:', this.loginForm.value.password);
+            localStorage.setItem('tipoUtente', this.loginType);
+            localStorage.setItem('userEmail', this.loginForm.value.email);
+            localStorage.setItem('token', response.token);
             await this.loginservice.onLoginSuccess('D');
             this.loginFailed = false;
           }
@@ -79,6 +87,9 @@ export class LoginPage implements OnInit {
           else if(response.status === 201) {
             console.log('Login attempt with email:', this.loginForm.value.email);
             console.log('Login attempt with password:', this.loginForm.value.password);
+            localStorage.setItem('tipoUtente', this.loginType);
+            localStorage.setItem('userEmail', this.loginForm.value.email);
+            localStorage.setItem('token', response.token);
             await this.loginservice.onLoginSuccess('U');
             this.loginFailed = false;
           }
@@ -98,6 +109,12 @@ export class LoginPage implements OnInit {
     } else {
       console.log('Il form non è valido');
     }
+  }
+
+  logout() {
+    localStorage.removeItem('tipoUtente');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('token');
   }
 
 }
