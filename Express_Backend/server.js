@@ -90,6 +90,21 @@ app.get('/alimenti_pasti', (req, res) => {
   });
 });
 
+//definizione delle rotta per ricerche pasti
+app.post('/checkPasto', authenticateToken, (req, res) =>{
+  const user_id = req.user.id;
+  const {nome, data, tipo} = req.body;
+  db.all('SELECT * FROM pasti WHERE user_id = ? AND nome = ?  AND data = ? AND tipo = ?', [user_id, nome, data, tipo], (err, result) => {
+    if(err) {
+      return res.status(500).json(err.message);
+    } else if(result.length > 0){
+      res.status(200).json({exists: true});
+    } else {
+      res.status(200).json({exists: false});
+    }
+  });
+});
+
 //definizione del login utenti
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
@@ -179,7 +194,7 @@ app.post('/riempiPasti', (req, res) => {
     if(err) {
       return res.status(500).json(err.message);
     } else {
-      return res.status(201).jeson({message: 'Alimenti inseriti con successo'});
+      return res.status(201).json({message: 'Alimenti inseriti con successo'});
     }
   });
 });

@@ -11,10 +11,16 @@ export class GestionePastiService {
 
   constructor(private http:HttpClient) { }
 
-  creaPasto(nome:String, data:Date, tipo:String) {
+  creaPasto(nome:String, data:String, tipo:String) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.post<any>(`${this.apiUrl}/creaPasti`, { nome, data, tipo }, {headers, observe: 'response'});
-
   }
+
+  checkPasto(nome:String, data:String, tipo:String) {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post<any>(`${this.apiUrl}/checkPasto`, { nome, data, tipo }, {headers});
+  }
+
 }

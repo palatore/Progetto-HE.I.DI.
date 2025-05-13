@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Creazione Pasto</ion-title>
+    <ion-button [routerLink]='["/home"]' slot="end">Home</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -32,7 +33,10 @@
           </ion-row>
         </ion-grid>
         <ion-button type="submit">Crea</ion-button>
-      </form> 
+        <div *ngIf="showAlreadyExistent" style="color: red; background-color: transparent">
+          Pasto già esistente
+        </div>
+      </form>
     </ion-card-content>
   </ion-card>
 </ion-content>
