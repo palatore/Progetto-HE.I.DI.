@@ -22,5 +22,9 @@ export class GestionePastiService {
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.post<any>(`${this.apiUrl}/checkPasto`, { nome, data, tipo }, {headers});
   }
+  
+  getAlimenti() {
+    return this.http.get<any[]>('http://localhost:3000/alimenti');
+  }
 
 }

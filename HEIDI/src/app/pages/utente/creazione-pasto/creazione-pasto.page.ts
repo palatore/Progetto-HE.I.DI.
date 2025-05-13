@@ -14,27 +14,67 @@ import { RouterModule } from '@angular/router';
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule]
 })
 export class CreazionePastoPage implements OnInit {
+public alimenti:any[] = [];
 public pastoForm:FormGroup;
+public riempiPastoForm:FormGroup;
 public showAlreadyExistent:Boolean = false;
 public showRiempiPasto:Boolean = false;
+public expiredSession:Boolean = false;
   
 
   constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService) {
     this.pastoForm = formbuilder.group({
-      nome: '',
-      data: '',
-      tipo: ''
+      nome: ['', Validators.required],
+      data: ['', Validators.required],
+      tipo: ['', Validators.required]
     });
+
+    this.riempiPastoForm = formbuilder.group({
+      id_pasto: [Number, Validators.required],
+      alimento_0: null,
+      qta_0: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      alimento_1: null,
+      qta_1: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      alimento_2: null,
+      qta_2: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      alimento_3: null,
+      qta_3: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      alimento_4: null,
+      qta_4: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      alimento_5: null,
+      qta_5: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      alimento_6: null,
+      qta_6: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      alimento_7: null,
+      qta_7: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      alimento_8: null,
+      qta_8: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      alimento_9: null,
+      qta_9: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      bevanda_0: null,
+      qta_b_0: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      bevanda_1: null,
+      qta_b_1: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      bevanda_2: null,
+      qta_b_2: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      bevanda_3: null,
+      qta_b_3: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+      bevanda_4: null,
+      qta_b_4: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
+    })
    }
 
   ngOnInit() {
+    this.foodService.getAlimenti().subscribe({
+      next: (data) => {this.alimenti = data;},
+      error: (err) => {console.error(err)}
+    });
   }
 
   async onSubmit() {
     const nomePasto = this.pastoForm.value.nome;
     const dataPasto = this.pastoForm.value.data;
     const tipoPasto = this.pastoForm.value.tipo;
-
 
     try {
       const response = await firstValueFrom(this.foodService.checkPasto(nomePasto, dataPasto, tipoPasto));
@@ -49,6 +89,11 @@ public showRiempiPasto:Boolean = false;
       if(e instanceof Error) {
         console.log(e.message);
         return;
+      } else if(e.status === 403) {
+        this.expiredSession = true;
+      } else {
+        this.showAlreadyExistent = false;
+        this.expiredSession = false;
       }
     }
     //Se non esiste, crea il pasto
@@ -60,13 +105,19 @@ public showRiempiPasto:Boolean = false;
       } else if(response.status === 201) {
         console.log('inserito il pasto correttamente');
         this.showRiempiPasto = true;
+        const pastoId = response.body.id;
+        this.riempiPastoForm.patchValue({id_pasto: pastoId});
+        console.log('passato id al nuovo form:', this.riempiPastoForm.value.id_pasto);
       }
     } catch(e:any) {
       if(e instanceof Error) {
         console.log(e.message);
       }
-
     }
+  }
+
+  async submitRiempi(){
+
   }
 
 }

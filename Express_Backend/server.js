@@ -178,12 +178,11 @@ app.post('/registration', (req, res) => {
 app.post('/creaPasti', authenticateToken, (req, res) => {
   const user_id = req.user.id;
   const {nome, data, tipo} = req.body;
-  db.run('INSERT INTO pasti (user_id, nome, data, tipo) VALUES (?, ?, ?, ?)', [user_id, nome, data, tipo], (err) => {
+  db.run('INSERT INTO pasti (user_id, nome, data, tipo) VALUES (?, ?, ?, ?)', [user_id, nome, data, tipo], function(err) {
     if(err) {
       return res.status(500).json(err.message);
-    } else {
-      return res.status(201).json({message: 'Pasto creato con successo'});
     }
+      return res.status(201).json({message: 'Pasto creato con successo', id: this.lastID});
   });
 });
 

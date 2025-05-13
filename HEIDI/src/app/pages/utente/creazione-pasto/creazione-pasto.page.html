@@ -32,11 +32,142 @@
             <ion-input type="date" formControlName="data"></ion-input>
           </ion-row>
         </ion-grid>
-        <ion-button type="submit">Crea</ion-button>
+        <ion-button type="submit" [disabled]="!pastoForm.valid">Crea</ion-button>
         <div *ngIf="showAlreadyExistent" style="color: red; background-color: transparent">
           Pasto già esistente
         </div>
       </form>
     </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="showRiempiPasto">
+    <ion-grid>
+      <form [formGroup]="riempiPastoForm" (ngSubmit)="submitRiempi()">
+
+        <ion-row>
+          <ion-col>
+            Seleziona cibo
+            <ion-item>
+              <ion-select class="ionSelectCibo1" placeholder="Alimento 1" formControlName="alimento_0">
+                <ion-select-option class="ionSelectCibo1" *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="riempiPastoForm.get('alimento_0')?.value">
+          <ion-col>
+            <ion-item>
+              <ion-select class="ionSelectCibo2" placeholder="Alimento 2" formControlName="alimento_1">
+                <ion-select-option *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="riempiPastoForm.get('alimento_1')?.value">
+          <ion-col>
+            <ion-item>
+              <ion-select class="ionSelectCibo3" placeholder="Alimento 3" formControlName="alimento_2">
+                <ion-select-option *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="riempiPastoForm.get('alimento_2')?.value">
+          <ion-col>
+            <ion-item>
+              <ion-select class="ionSelectCibo4" placeholder="Alimento 4" formControlName="alimento_3">
+                <ion-select-option *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="riempiPastoForm.get('alimento_3')?.value">
+          <ion-col>
+            <ion-item>
+              <ion-select class="ionSelectCibo5" placeholder="Alimento 5" formControlName="alimento_4">
+                <ion-select-option *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="riempiPastoForm.get('alimento_4')?.value">
+          <ion-col>
+            <ion-item>
+              <ion-select class="ionSelectCibo6" placeholder="Alimento 6" formControlName="alimento_5">
+                <ion-select-option *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="riempiPastoForm.get('alimento_5')?.value">
+          <ion-col>
+            <ion-item>
+              <ion-select class="ionSelectCibo7" placeholder="Alimento 7" formControlName="alimento_6">
+                <ion-select-option *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="riempiPastoForm.get('alimento_6')?.value">
+          <ion-col>
+            <ion-item>
+              <ion-select class="ionSelectCibo8" placeholder="Alimento 8" formControlName="alimento_7">
+                <ion-select-option *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="riempiPastoForm.get('alimento_7')?.value">
+          <ion-col>
+            <ion-item>
+              <ion-select class="ionSelectCibo9" placeholder="Alimento 9" formControlName="alimento_8">
+                <ion-select-option *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="riempiPastoForm.get('alimento_8')?.value">
+          <ion-col>
+            <ion-item>
+              <ion-select class="ionSelectCibo10" placeholder="Alimento 10" formControlName="alimento_9">
+                <ion-select-option *ngFor="let alimento of alimenti" [value]="alimento.id">
+                  {{alimento.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          Seleziona bevanda
+        </ion-row>
+      </form>
+    </ion-grid>
   </ion-card>
 </ion-content>
