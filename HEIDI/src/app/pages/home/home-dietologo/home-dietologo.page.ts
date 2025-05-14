@@ -1,20 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonButton, IonContent, IonHeader, IonItem, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { LoginService } from 'src/app/services/auth/login.service';
 
 @Component({
   selector: 'app-home-dietologo',
   templateUrl: './home-dietologo.page.html',
   styleUrls: ['./home-dietologo.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonItem, IonButton]
 })
 export class HomeDietologoPage implements OnInit {
 
-  constructor() { }
+  constructor(private loginService:LoginService) { }
 
   ngOnInit() {
+  }
+
+async logout() {
+    localStorage.removeItem('tipoUtente');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('token');
+    await this.loginService.onLogoutSuccess();
   }
 
 }

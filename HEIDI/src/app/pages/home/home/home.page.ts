@@ -15,16 +15,7 @@ import { RouterModule } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  public pastoForm:FormGroup;
-  
-
-  constructor(private formbuilder:FormBuilder, private loginService:LoginService, private foodService:GestionePastiService) {
-    this.pastoForm = formbuilder.group({
-      nome: '',
-      data: Date,
-      tipo: ''
-    });
-   }
+  constructor(private loginService:LoginService) {}
 
   ngOnInit() {
   }
