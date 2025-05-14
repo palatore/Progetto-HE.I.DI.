@@ -48,7 +48,7 @@ app.get('/utenti', (req, res) => {
 
 //definizione della rotta per l'elenco dei dietologi
 app.get('/dietologi', (req, res) => {
-  db.all('SELECT * FROM dietologi', [], (err, rows) => {
+  db.all('SELECT * FROM utenti WHERE ruolo = "dietologo"', [], (err, rows) => {
     if (err) {
      return  res.status(500).json({ error: err.message });
     } else {
@@ -114,34 +114,10 @@ app.post('/login', (req, res) => {
       return res.status(500).json({error: err.message});
     }
     if (result.length > 0) {
-      // Utente trovato, rimanda i risultati e gen era il token
+      // Utente trovato, rimanda i risultati e genera il token
       const user = result[0];
       const token = jwt.sign(
-        { id: user.id, email: user.email, ruolo: 'utente'},
-        CHIAVE_SEGRETA,
-        {expiresIn:'2h'}
-      );
-      return res.status(201).json({ message: 'Login avvenuto', token });
-    } else {
-      // Utente non trovato, ritorna l'errore
-      return res.status(401).json({ error: 'Email e password non validi' });
-    }
-  });
-});
-
-//definizione del login dietologi
-app.post('/loginD', (req, res) => {
-  const { email, password } = req.body;
-
-  db.all('SELECT * FROM dietologi WHERE email = ? AND password = ?', [email, password], (err, result) => {
-    if(err) {
-      return res.status(500).json({error: err.message});
-    }
-    if (result.length > 0) {
-      // Utente trovato, rimanda i risultati
-      const user = result[0];
-      const token = jwt.sign(
-        { id: user.id, email: user.email, ruolo: 'dietologo'},
+        { id: user.id, email: user.email, ruolo: user.ruolo},
         CHIAVE_SEGRETA,
         {expiresIn:'2h'}
       );
@@ -158,14 +134,14 @@ app.post('/registration', (req, res) => {
   const {ruolo, email, nome, cognome, password} = req.body;
 
   if(ruolo === 'dietologo') {
-    db.run('INSERT INTO dietologi (name, surname, email, password) VALUES (?, ?, ?, ?)', [nome, cognome, email, password], (err) => {
+    db.run('INSERT INTO utenti (name, surname, email, password, ruolo) VALUES (?, ?, ?, ?, ?)', [nome, cognome, email, password, ruolo], (err) => {
       if(err) {
         return res.status(500).json(err.message);
       }
       return res.status(201).json({message: 'Registrazione avvenuta con successo'})
     });
   } else {
-    db.run('INSERT INTO utenti (name, surname, email, password) VALUES (?, ?, ?, ?)', [nome, cognome, email, password], (err) => {
+    db.run('INSERT INTO utenti (name, surname, email, password, ruolo) VALUES (?, ?, ?, ?, ?)', [nome, cognome, email, password, ruolo], (err) => {
       if(err) {
         return res.status(500).json(err.message);
       }

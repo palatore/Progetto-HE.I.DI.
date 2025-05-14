@@ -14,33 +14,20 @@ const db = new sqlite3.Database(dbPath, (err) => {
 //creazione del database SQLite
 
 db.serialize(() => {
+
     //creazione della tabella utenti
   db.run(`CREATE TABLE IF NOT EXISTS utenti (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(255) NOT NULL,
     surname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    ruolo VARCHAR(50) NOT NULL
   )`, (err) => {
     if (err) {
       console.error('Errore nella creazione della tabella utenti ' + err.message);
     } else {
       console.log('Tabella utenti creata con successo.');
-    }
-  });
-
-  //creazione della tabella dietologi
-  db.run(`CREATE TABLE IF NOT EXISTS dietologi (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(255) NOT NULL,
-    surname VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
-  )`, (err) => {
-    if (err) {
-      console.error('Errore nella creazione della tabella dietologi ' + err.message);
-    } else {
-      console.log('Tabella dietologi creata con successo.');
     }
   });
 
@@ -100,23 +87,15 @@ db.serialize(() => {
       if (err) {
         console.error('Errore nella selezione degli utenti ' + err.message);
       } else if (row.count === 0) {
-        const comando = db.prepare('INSERT INTO utenti (name, surname, email, password) VALUES (?, ?, ?, ?)');
-        comando.run('Pietro', 'Gambadilegno', 'pietro.gdl@steambot.dis', 'malefica');
-        comando.run('Wilson Grant', 'Fisk', 'kingpin@brooklyn.com', 'marvel');
-        comando.run('Taro', 'Sakamoto', 'tarosakamoto01@gmail.com', 'HanaAoi');
-        comando.run('Majin', 'Buu', 'babidiofficial@regnodemoniaco.kai', 'dolcetti');
+        const comando = db.prepare('INSERT INTO utenti (name, surname, email, password, ruolo) VALUES (?, ?, ?, ?, ?)');
+        comando.run('Pietro', 'Gambadilegno', 'pietro.gdl@steambot.dis', 'malefica', 'utente');
+        comando.run('Wilson Grant', 'Fisk', 'kingpin@brooklyn.com', 'marvel', 'utente');
+        comando.run('Taro', 'Sakamoto', 'tarosakamoto01@gmail.com', 'HanaAoi', 'utente');
+        comando.run('Majin', 'Buu', 'babidiofficial@regnodemoniaco.kai', 'dolcetti', 'utente');
+        comando.run('Cereza', 'Balder', 'bayonetta@vigrid.fr', 'jubileus', 'dietologo');
+        comando.run('Shauna', 'Vayne', 'nighthunter@runeterra.rt', 'Demoni', 'dietologo');
+        comando.run('Dendra', 'Kihada', 'dendra.kihada@mesapoli.sp', 'Miriam', 'dietologo');
       }
-    });
-    //popolazione della tabella dietologi se non è già popolata
-    db.get('SELECT COUNT(*) AS count FROM dietologi', (err, row) => {
-        if (err) {
-            console.error('Errore nella selezione dei dietologi ' + err.message);
-        } else if (row.count === 0) {
-            const comando = db.prepare('INSERT INTO dietologi (name, surname, email, password) VALUES (?, ?, ?, ?)');
-            comando.run('Cereza', 'Balder', 'bayonetta@vigrid.fr', 'jubileus');
-            comando.run('Shauna', 'Vayne', 'nighthunter@runeterra.rt', 'Demoni');
-            comando.run('Dendra', 'Kihada', 'dendra.kihada@mesapoli.sp', 'Miriam');
-        }
     });
 
     //popolazione della tabella alimenti se non è già popolata

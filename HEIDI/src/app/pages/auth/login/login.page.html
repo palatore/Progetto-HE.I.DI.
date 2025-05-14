@@ -13,14 +13,6 @@
           <ion-card-header class="ion-justify-content-center">
             <div class="iconContainer"><ion-icon name="a" size="large"></ion-icon></div>
             <ion-card-title>Accedi a HEIDI</ion-card-title>
-            <ion-segment [(ngModel)]="loginType" class="loginTabs">
-              <ion-segment-button value="Utente">
-                <ion-label class="loginTabs">Utente</ion-label>
-              </ion-segment-button>
-              <ion-segment-button value="Dietologo">
-                <ion-label class="loginTabs">Dietologo</ion-label>
-              </ion-segment-button>
-            </ion-segment>
           </ion-card-header>
           <ion-card-content>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">

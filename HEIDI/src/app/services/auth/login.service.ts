@@ -19,11 +19,6 @@ export class LoginService {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password }, {observe: 'response'});
   }
 
-  loginD(email: string, password: string): Observable<any> {
-    console.log('Dati inviati al server:', { email, password });
-    return this.http.post<any>(`${this.apiUrl}/loginD`, { email, password }, {observe: 'response'});
-  }
-
   async onLoginSuccess(type:String) {
     if(type === "D") {
       await this.router.navigate(["/homeDietologo"]);
