@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const db = require('./db.js');
 const jwt = require('jsonwebtoken');
 const CHIAVE_SEGRETA = 'kingdomhearts';
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const pastiRoutes = require('./routes/pastiRoutes');
 //creazione del server Express
 //importazioni dei moduli
 
@@ -15,6 +18,10 @@ const port = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/pasti', pastiRoutes);
 //abilitazione del CORS e del body parser per gestire le richieste JSON e URL-encoded
 
 //funzione per importare il token e passare l'id utente al backend
@@ -34,50 +41,6 @@ app.get('/', (req, res) => {
   res.send('Benvenuto nel server Express!');
 });
 //definizione della rotta principale
-
-//definiziaone della rotta per l'elenco degli utenti
-app.get('/utenti', (req, res) => {
-  db.all('SELECT * FROM utenti', [], (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    } else {
-      return res.json(rows);
-    }
-  });
-});
-
-//definizione della rotta per l'elenco dei dietologi
-app.get('/dietologi', (req, res) => {
-  db.all('SELECT * FROM utenti WHERE ruolo = "dietologo"', [], (err, rows) => {
-    if (err) {
-     return  res.status(500).json({ error: err.message });
-    } else {
-      return res.json(rows);
-    }
-  });
-});
-
-//definizione della rotta per l'elenco degli alimenti
-app.get('/alimenti', (req, res) => {
-  db.all('SELECT * FROM alimenti', [], (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    } else {
-      return res.json(rows);
-    }
-  });
-});
-
-//definizione della rotta per l'elenco dei pasti
-app.get('/pasti', (req, res) => {
-  db.all('SELECT * FROM pasti', [], (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    } else {
-      return res.json(rows);
-    }
-  });
-});
 
 //definizione della rotta per i dettagli dei pasti
 app.get('/alimenti_pasti', (req, res) => {
@@ -106,7 +69,7 @@ app.post('/checkPasto', authenticateToken, (req, res) =>{
 });
 
 //definizione del login utenti
-app.post('/login', (req, res) => {
+/* app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
   db.all('SELECT * FROM utenti WHERE email = ? AND password = ?', [email, password], (err, result) => {
@@ -127,7 +90,7 @@ app.post('/login', (req, res) => {
       return res.status(401).json({ error: 'Email e password non validi' });
     }
   });
-});
+}); */
 
 //definizione registrazione
 app.post('/registration', (req, res) => {

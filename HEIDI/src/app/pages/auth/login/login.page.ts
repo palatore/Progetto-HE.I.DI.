@@ -48,25 +48,15 @@ export class LoginPage implements OnInit {
       // Qui avviene il login
         try {
           const response =  await firstValueFrom(this.loginservice.login(this.loginForm.value.email, this.loginForm.value.password));
-          console.log('Risposta dal backend:', response);
-          if(response === null) {
-            this.showError = true;
-            this.loginFailed = true;
-            this.serverError =  true;
-            this.errMessage = 'Errore interno';
+          const token = response.token;
+          const decoded:any = jwtDecode(token);
+          localStorage.setItem('tipoUtente', decoded.ruolo);
+          localStorage.setItem('userEmail', this.loginForm.value.email);
+          localStorage.setItem('token', token);
+          await this.loginservice.onLoginSuccess(decoded.ruolo === 'dietologo' ? 'D' : 'U');
+          this.loginFailed = false;
           }
-          else if(response.status === 201 && response.body.token) {
-            console.log('Login attempt with email:', this.loginForm.value.email);
-            console.log('Login attempt with password:', this.loginForm.value.password);
-            const token = response.body.token;
-            const decoded:any = jwtDecode(token);
-            localStorage.setItem('tipoUtente', decoded.ruolo);
-            localStorage.setItem('userEmail', this.loginForm.value.email);
-            localStorage.setItem('token', token);
-            await this.loginservice.onLoginSuccess(decoded.ruolo === 'dietologo' ? 'D' : 'U');
-            this.loginFailed = false;
-          }
-        } catch (e:any) {
+        catch (e:any) {
           if(e.status === 401) {
             this.loginFailed = true;
             this.showError = true;

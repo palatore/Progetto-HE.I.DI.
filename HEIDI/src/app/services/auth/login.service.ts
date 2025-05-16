@@ -14,9 +14,9 @@ export class LoginService {
 
   constructor(private router:Router, private http:HttpClient) { }
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string) {
     console.log('Dati inviati al server:', { email, password });
-    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }, {observe: 'response'});
+    return this.http.post<any>(`${this.apiUrl}/api/auth/login`, { email, password });
   }
 
   async onLoginSuccess(type:String) {
