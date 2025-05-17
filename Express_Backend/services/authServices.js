@@ -29,6 +29,19 @@ class Authservices {
         }
     }
 
+    static async registration(ruolo, nome, cognome, email, password) {
+        try {
+            const user = User.findByEmail(email);
+            if(user) {
+                throw new Error('Email già in uso');
+            }
+
+            return await User.create(nome, cognome, email, password, ruolo);
+        } catch(e) {
+            throw e;
+        }
+    }
+
 }
 
 module.exports = Authservices;

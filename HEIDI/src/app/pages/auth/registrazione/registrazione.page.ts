@@ -44,45 +44,26 @@ export class RegistrazionePage implements OnInit {
   }
 
   async onSubmit() {
-    const role = this.registerForm.value.ruolo;
+    const ruolo = this.registerForm.value.ruolo;
     const mail = this.registerForm.value.email;
     const name = this.registerForm.value.nome;
     const surname = this.registerForm.value.cognome;
     const pw = this.registerForm.value.password;
 
-    if(role === 'dietologo') {
-      try{
-        console.log('dietologooo');
-        const response = await firstValueFrom(this.registrationService.register(role, mail, name, surname, pw));
-        if(response === null) {
-          this.showError = true;
-          this.registrationFailed = true;
-          this.serverError =  true;
-          this.errMessage = 'Errore interno';
-        } else if(response.status === 201) {
-          console.log('Registrato il profilo:', role, mail, name, surname, pw);
-          await this.registrationService.onRegistrationSuccess();
-        }
-      } catch(e:any) {
-
+    try{
+      const response = await firstValueFrom(this.registrationService.register(ruolo, mail, name, surname, pw));
+      if(response === null) {
+        this.showError = true;
+        this.registrationFailed = true;
+        this.serverError =  true;
+        this.errMessage = 'Errore interno';
+      } else if(response.status === 201) {
+        console.log('Registrato il profilo con id:', response.data.id, response.data.ruolo);
+        await this.registrationService.onRegistrationSuccess();
       }
-    } else {
-      try{
-        console.log('utenteeee');
-        const response = await firstValueFrom(this.registrationService.register(role, mail, name, surname, pw));
-        if(response === null) {
-          this.showError = true;
-          this.registrationFailed = true;
-          this.serverError =  true;
-          this.errMessage = 'Errore interno';
-        } else if(response.status === 201) {
-          console.log('Registrato il profilo:', role, mail, name, surname, pw);
-          await this.registrationService.onRegistrationSuccess();
-        }
-      } catch(e:any) {
+    } catch(e:any) {
 
-      }
-    }
+    } 
   }
 
 }

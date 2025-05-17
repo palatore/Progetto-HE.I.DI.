@@ -17,7 +17,7 @@ class User {
     
     return new Promise((resolve, reject) => {
       db.run(
-        'INSERT INTO users (nome, cognome, email, password, ruolo) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO utenti (nome, cognome, email, password, ruolo) VALUES (?, ?, ?, ?, ?)',
         [nome, cognome, email, hashedPassword, ruolo],
         function(err) {
           if (err) reject(err);

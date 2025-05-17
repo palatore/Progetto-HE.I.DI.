@@ -2,6 +2,7 @@ const { body, validationResult } = require('express-validator');
 
 // controllo che i campi siano valorizzati per la registrazione
 const registerValidator = [
+  body('ruolo').notEmpty().withMessage('Ruolo è obbligatorio'),
   body('name').notEmpty().withMessage('Nome è obbligatorio'),
   body('surname').notEmpty().withMessage('Cognome è obbligatorio'),
   body('email').isEmail().withMessage('Email non valida'),

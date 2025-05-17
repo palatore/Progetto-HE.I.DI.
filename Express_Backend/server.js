@@ -68,30 +68,6 @@ app.post('/checkPasto', authenticateToken, (req, res) =>{
   });
 });
 
-//definizione del login utenti
-/* app.post('/login', (req, res) => {
-  const { email, password } = req.body;
-
-  db.all('SELECT * FROM utenti WHERE email = ? AND password = ?', [email, password], (err, result) => {
-    if(err) {
-      return res.status(500).json({error: err.message});
-    }
-    if (result.length > 0) {
-      // Utente trovato, rimanda i risultati e genera il token
-      const user = result[0];
-      const token = jwt.sign(
-        { id: user.id, email: user.email, ruolo: user.ruolo},
-        CHIAVE_SEGRETA,
-        {expiresIn:'2h'}
-      );
-      return res.status(201).json({ message: 'Login avvenuto', token });
-    } else {
-      // Utente non trovato, ritorna l'errore
-      return res.status(401).json({ error: 'Email e password non validi' });
-    }
-  });
-}); */
-
 //definizione registrazione
 app.post('/registration', (req, res) => {
   const {ruolo, email, nome, cognome, password} = req.body;
