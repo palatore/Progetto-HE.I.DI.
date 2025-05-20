@@ -30,7 +30,7 @@ export class RegistrazionePage implements OnInit {
       nome: ['', Validators.required],
       cognome:['', Validators.required],
       password:['', [Validators.required, Validators.minLength(8)]],
-      repeatpw:['', [Validators.required, Validators.maxLength(8)]]
+      repeatpw:['', [Validators.required, Validators.minLength(8)]]
     }, { validators: passwordMatchValidator() });
     this.registerForm.get('password')?.valueChanges.subscribe(() => {
       this.registerForm.updateValueAndValidity();
@@ -51,7 +51,7 @@ export class RegistrazionePage implements OnInit {
     const pw = this.registerForm.value.password;
 
     try{
-      const response = await firstValueFrom(this.registrationService.register(ruolo, mail, name, surname, pw));
+      const response = await firstValueFrom(this.registrationService.register(ruolo, name, surname, mail, pw));
       if(response === null) {
         this.showError = true;
         this.registrationFailed = true;

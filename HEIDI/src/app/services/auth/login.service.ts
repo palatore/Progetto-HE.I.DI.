@@ -28,9 +28,9 @@ export class LoginService {
     }
   }
 
-  register(ruolo:string, email:string, nome:string, cognome:string, password:string): Observable<any> {
-    console.log('Dati invati al server:', { ruolo, email, nome, cognome, password});
-    return this.http.post(`${this.apiUrl}/api/auth/register`, {ruolo, email, nome, cognome, password}, {observe: 'response'});
+  register(ruolo:string, nome:string, cognome:string, email:string, password:string): Observable<any> {
+    console.log('Dati invati al server:', { ruolo, nome, cognome, email, password});
+    return this.http.post(`${this.apiUrl}/api/auth/register`, {ruolo, nome, cognome, email, password}, {observe: 'response'});
   }
 
   async onRegistrationSuccess() {

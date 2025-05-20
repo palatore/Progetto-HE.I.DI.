@@ -69,7 +69,7 @@ app.post('/checkPasto', authenticateToken, (req, res) =>{
 });
 
 //definizione registrazione
-app.post('/registration', (req, res) => {
+/*app.post('/registration', (req, res) => {
   const {ruolo, email, nome, cognome, password} = req.body;
 
   if(ruolo === 'dietologo') {
@@ -87,7 +87,7 @@ app.post('/registration', (req, res) => {
       return res.status(201).json({message: 'Registrazione avvenuta con successo'})
     });
   }
-});
+});*/
 
 //definizione post creazione pasti
 app.post('/creaPasti', authenticateToken, (req, res) => {

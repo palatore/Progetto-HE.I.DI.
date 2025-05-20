@@ -17,11 +17,14 @@ class User {
     
     return new Promise((resolve, reject) => {
       db.run(
-        'INSERT INTO utenti (nome, cognome, email, password, ruolo) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO utenti (name, surname, email, password, ruolo) VALUES (?, ?, ?, ?, ?)',
         [nome, cognome, email, hashedPassword, ruolo],
         function(err) {
           if (err) reject(err);
-          resolve({ id: this.lastID, nome, cognome, email, ruolo });
+          db.get('SELECT last_insert_rowid() as id', (err2, row) => {
+          if (err2) return reject(err2);
+          resolve({ id: row.id, nome, cognome, email, ruolo });
+          });
         }
       );
     });

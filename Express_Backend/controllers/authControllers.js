@@ -14,11 +14,13 @@ class AuthControllers {
     }
 
     static async register(req, res) {
-        const {ruolo, email, nome, cognome, password} = req.body;
+        const {ruolo, nome, cognome, email, password} = req.body;
         try {
-            const result = await Authservices.registration(ruolo, email, nome, cognome, password);
+            console.log("invio questi dati:", req.body);
+            const result = await Authservices.registration(ruolo, nome, cognome, email, password);
             res.status(201).json({success: true, data: result});
         } catch (e) {
+            console.log(e.status);
             res.status(400).json({success: false, message: e.message});
         }
     }
