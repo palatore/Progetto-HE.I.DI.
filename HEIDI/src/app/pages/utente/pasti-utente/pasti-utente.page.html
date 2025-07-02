@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>I Miei Pasti</ion-title>
+    <ion-button [routerLink]='["/home"]' slot="end">Home</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let pasto of pastiUtente">
+      <ion-label>
+        <h2>{{ pasto.nome }}</h2>
+        <p>Data: {{ pasto.data | date: 'dd/MM/yyyy' }}</p>
+        <p>{{ pasto.tipo }}</p>
+      </ion-label>
+      <ion-button fill="outline" slot="end" [routerLink]="['/pasto-dettaglio', pasto.id]">Dettagli</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full">Aggiungi Pasto</ion-button>
+</ion-content>

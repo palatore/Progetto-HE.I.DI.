@@ -30,4 +30,10 @@ export const routes: Routes = [
     path: 'creazionePasto',
     loadComponent: () => import('./pages/utente/creazione-pasto/creazione-pasto.page').then( m => m.CreazionePastoPage)
   },
+
+{
+    path: 'pastiUtente',
+    loadComponent: () => import('./pages/utente/pasti-utente/pasti-utente.page').then( m => m.PastiUtentePage)
+  },
+
 ];

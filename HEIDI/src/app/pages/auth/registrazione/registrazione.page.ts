@@ -52,13 +52,15 @@ export class RegistrazionePage implements OnInit {
 
     try{
       const response = await firstValueFrom(this.registrationService.register(ruolo, name, surname, mail, pw));
-      if(response === null) {
+      console.log('Registrazione completata con successo:', response);
+      if(!response.body.success || response.body.status !== 200) {
+        console.log('Registrazione fallita');
         this.showError = true;
         this.registrationFailed = true;
         this.serverError =  true;
         this.errMessage = 'Errore interno';
-      } else if(response.status === 201) {
-        console.log('Registrato il profilo con id:', response.data.id, response.data.ruolo);
+      } else {
+        console.log('Registrato il profilo con id:', response.body.data.id, response.body.data.ruolo);
         await this.registrationService.onRegistrationSuccess();
       }
     } catch(e:any) {

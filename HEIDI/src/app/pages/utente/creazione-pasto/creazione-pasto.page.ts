@@ -69,6 +69,12 @@ public expiredSession:Boolean = false;
       next: (data) => {this.alimenti = data;},
       error: (err) => {console.error(err)}
     });
+
+    this.pastoForm.reset();
+    this.riempiPastoForm.reset();
+
+    this.showAlreadyExistent = false;
+    this.showRiempiPasto = false;
   }
 
   async onSubmit() {
@@ -78,10 +84,7 @@ public expiredSession:Boolean = false;
 
     try {
       const response = await firstValueFrom(this.foodService.checkPasto(nomePasto, dataPasto, tipoPasto));
-      if(response === null) {
-        console.log('errore di nullità');
-        return;
-      } else if(response && response.exists) {
+      if(response && response.exists) {
         this.showAlreadyExistent = true;
         return;
       }
@@ -98,7 +101,7 @@ public expiredSession:Boolean = false;
     }
     //Se non esiste, crea il pasto
     try {
-      const response = await firstValueFrom(this.foodService.creaPasto(this.pastoForm.value.nome, this.pastoForm.value.data, this.pastoForm.value.tipo));
+      const response = await firstValueFrom(this.foodService.creaPasti(this.pastoForm.value.nome, this.pastoForm.value.data, this.pastoForm.value.tipo));
       if (response === null) {
         console.log('errore di nullità');
         return
@@ -117,7 +120,39 @@ public expiredSession:Boolean = false;
   }
 
   async submitRiempi(){
-
+    console.log('submitRiempi chiamata');
+    const idPasto = this.riempiPastoForm.value.id_pasto;
+    const alimenti = [];
+    const bevande = [];
+    for(let i = 0; i < 10; i++) {
+      const alimento = this.riempiPastoForm.value[`alimento_${i}`];
+      const qta = this.riempiPastoForm.value[`qta_${i}`];
+      if(alimento && qta) {
+        alimenti.push({id: alimento, qta: qta});
+      }
+    }
+    for(let i = 0; i < 5; i++) {
+      const bevanda = this.riempiPastoForm.value[`bevanda_${i}`];
+      const qta_b = this.riempiPastoForm.value[`qta_b_${i}`];
+      if(bevanda && qta_b) {
+        bevande.push({id: bevanda, qta: qta_b});
+      }
+    }
+    try {
+      const response = await firstValueFrom(this.foodService.riempiPasto(idPasto, alimenti, bevande));
+      if(response && response.status === 201) {
+        console.log('pasto riempito correttamente');
+        this.showRiempiPasto = false;
+        this.pastoForm.reset();
+        this.riempiPastoForm.reset();
+      }
+    } catch(e:any) {
+      if(e instanceof Error) {
+        console.log(e.message);
+      } else if(e.status === 403) {
+        this.expiredSession = true;
+      }
+    }
   }
 
 }

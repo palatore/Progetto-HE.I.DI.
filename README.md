@@ -26,20 +26,28 @@ interacti with them. A dietologo can rate a food, lunch or an entire day that be
 -----------------------------------------------------
 DA IMPLEMENTARE:
 
-- Login utente
-- Login dietologo
-- Home page utente
-- Home page dietologo
-- Dati cibo
+- Home page
+    - Caricamento dinamico
+    - Visualizzazione completa della situazione
+    - Menu e rimandi veloci
+    - Menu a tendina/dropdown con funzioni
 - Funzione di ricerca e consultazione cibo
+    - Ricerca per ogni tipo di filtro
 - Funzione di creazione nuovi pasti
-- Dati dei pasti
+    - Calcolo delle calorie compreso
+- Funzione di modifica pasti
 - Pagina profilo utente
 - Pagina profilo dietologo
-- Dati utente, spazio utente dove salvare diete, pasti e cibi
-- Dati dietologo, dove salvare pazienti
+- Dati utente
+- Dati dietologo
 - Definire permessi
 - Pagina della giornata corrente per l'utente, concatenazione pasti e checklist
 - Pagina della settimana corrente per l'utente
 - Calendario basato su google calendar
 - Backend
+- CSS GLOBALE
+
+NOTE:
+- Le funzioni di creapasto e modificapasto sono utilizzabili da utenti e dietologi(solo la seconda). Quindi ha senso che i servizi dedicati a queste funzioni rimandino alle zone di backend riservate agli utenti visto che sono loro ad effettuare l'azione.
+- La home page si carica in modo diverso in base all'utente loggato, è unica e non separata per ruoli
+- Cerca di seguire in modo più coerente possibile le funzioni nel diagramma senza fare giri troppo lunghi e inutilmente complessi
