@@ -39,6 +39,33 @@ class PastiServices {
         });
     };
 
+    static async getDettagliPasto(id_pasto) {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT * FROM pasti WHERE id = ?', [id_pasto], (err, pasto) => {
+                if(err) {
+                    reject(err);
+                } else if (!pasto) {
+                    resolve(null);
+                } else {
+                    db.all('SELECT ap.*, a.name, a.kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, alimenti) => {
+                        if(err) {
+                            reject(err);
+                        } else {
+                            db.get('SELECT SUM(a.kcal * ap.quantita / 100) AS tot_kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, result) => {
+                                if(err) {
+                                    reject(err);
+                                } else {
+                                    const dettagliPasto = { ...pasto, alimenti, totCalorie: result.tot_kcal || 0 };
+                                    resolve(dettagliPasto);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    };
+
     static async getPastiUtente(user_id) {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM pasti p WHERE p.user_id = ? ORDER BY data', [user_id], (err, rows) => {
@@ -91,21 +118,29 @@ class PastiServices {
                 });
             });
 
-            const insertBevande = bevande.map(bevanda => {
-                return new Promise((res, rej) => {
-                    db.run('INSERT INTO alimenti_pasto (pasto_id, bevanda_id, quantita) VALUES (?, ?, ?)', [id_pasto, bevanda.id, bevanda.qta], function(err) {
+            Promise.all([insertAlimenti])
+                .then(results => resolve({message: 'Pasto riempito con successo', id_pasto, alimenti}))
+                .catch(err => reject(err));
+        });
+    }
+    
+    static async eliminaPasto(id_pasto) {
+        return new Promise((resolve, reject) => {
+            db.run('DELETE FROM alimenti_pasto WHERE pasto_id = ?', [id_pasto], function(err) {
+                if(err) {
+                    reject(err);
+                } else {
+                    db.run('DELETE FROM pasti WHERE id = ?', [id_pasto], function(err) {
                         if(err) {
-                            rej(err);
+                            reject(err);
+                        } else if (this.changes === 0) {
+                            resolve({message: 'Nessun pasto trovato con questo ID'});
                         } else {
-                            res(this.lastID);
+                            resolve({message: 'Pasto eliminato con successo'});
                         }
                     });
-                });
+                }
             });
-
-            Promise.all([...insertAlimenti, ...insertBevande])
-                .then(results => resolve({message: 'Pasto riempito con successo', id_pasto, alimenti, bevande}))
-                .catch(err => reject(err));
         });
     }
 

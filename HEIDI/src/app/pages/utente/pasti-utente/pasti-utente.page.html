@@ -13,9 +13,30 @@
         <p>Data: {{ pasto.data | date: 'dd/MM/yyyy' }}</p>
         <p>{{ pasto.tipo }}</p>
       </ion-label>
-      <ion-button fill="outline" slot="end" [routerLink]="['/pasto-dettaglio', pasto.id]">Dettagli</ion-button>
+      <ion-button fill="outline" (click)="mostraDettagli(pasto)" slot="end">Dettagli</ion-button>
+      <ion-button fill="outline" color="danger" (click)="eliminaPasto(pasto.id)" slot="end">Elimina</ion-button>
     </ion-item>
   </ion-list>
+
+<div *ngIf="pastoSelezionato" class="overlay-dettagli" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ pastoSelezionato.nome }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Data: {{ pastoSelezionato.data | date: 'dd/MM/yyyy' }}</p>
+      <p>Tipo: {{ pastoSelezionato.tipo }}</p>
+      <p><b>Totale Calorie:</b> {{ dettagliPasto?.totCalorie }}</p>
+      <ul>
+        <li *ngFor="let alimento of dettagliPasto?.alimenti">
+          {{ alimento.name }} - {{ alimento.quantita }}g ({{ alimento.kcal }} kcal/100g)
+        </li>
+      </ul>
+      <!-- Qui puoi aggiungere altri dettagli -->
+      <ion-button (click)="chiudiDettagli()">Chiudi</ion-button>
+    </ion-card-content>
+  </ion-card>
+</div>
 
   <ion-button expand="full">Aggiungi Pasto</ion-button>
 </ion-content>

@@ -29,6 +29,21 @@ class PastiControllers {
         }
     };
 
+    static getDettagliPasto = async (req, res) => {
+        try {
+            const id_pasto = req.params.id_pasto;
+            console.log('ID pasto:', id_pasto);
+            const dettagliPasto = await PastiServices.getDettagliPasto(id_pasto);
+            if (dettagliPasto) {
+                res.json(dettagliPasto);
+            } else {
+                res.status(404).json({error: 'Pasto non trovato'});
+            }
+        } catch (e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
     static getPastiUtente = async (req, res) => {
         try {
             const user_id = req.user.id;
@@ -75,6 +90,17 @@ class PastiControllers {
             res.status(500).json({error: e.message});
         }
     }
+
+    static eliminaPasto = async (req, res) => {
+        try {
+            const id_pasto = req.params.id_pasto;
+            console.log('Eliminazione pasto con ID:', id_pasto);
+            await PastiServices.eliminaPasto(id_pasto);
+            res.status(201).json({message: 'Pasto eliminato con successo'});
+        } catch (e) {
+            res.status(500).json({error: e.message});
+        }
+    };
 
 }
 module.exports = PastiControllers;

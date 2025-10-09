@@ -23,6 +23,18 @@ export class GestionePastiService {
     return this.http.post<any>(`${this.apiUrl}/api/pasti/riempiPasto`, { id_pasto, alimenti, bevande }, {headers, observe: 'response'});
   }
 
+  modificaPasto(id_pasto:Number) {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.put<any>(`${this.apiUrl}/api/pasti/modificaPasto/${id_pasto}`, {}, {headers, observe: 'response'});
+  }
+
+  eliminaPasto(id_pasto:Number) {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.delete<any>(`${this.apiUrl}/api/pasti/eliminaPasto/${id_pasto}`, {headers, observe: 'response'});
+  }
+
   checkPasto(nome:String, data:String, tipo:String) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
@@ -33,6 +45,12 @@ export class GestionePastiService {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.get<any[]>(`${this.apiUrl}/api/pasti/pastiUtente`, {headers});
+  }
+
+  getDettagliPasto(id_pasto:Number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<any>(`${this.apiUrl}/api/pasti/dettagliPasto/${id_pasto}`, {headers});
   }
   
   getAlimenti() {
