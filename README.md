@@ -24,28 +24,58 @@ interacti with them. A dietologo can rate a food, lunch or an entire day that be
 
 //IMPORTANTE: COSTRUIRE UNO SCHEMA E UN DIAGRAMMA E-R DA PRESENTARE AL PROFESSORE
 -----------------------------------------------------
+AGGIORNAMENTO 11/05/2026
+
+Dopo aver parlato con il professore ecco i punti principali che deve avere l'applicazioe:
+
+- UTENTE (Paziente)
+    - Ha due calendari: uno dieta e uno allenamenti
+    - Può creare pasti da inserire nel calendario e anche programmi di allenamento personali
+    - Può richiedere valutazioni a figure professionali riguardo entrambe le cose
+    - Può richiedere a figure professionali di essere seguito o di ottenere i contatti per diventare paziente
+    - Le richieste possono avere un campo "Urgente" e un campo per commentare liberamente la richiesta
+    - Può impostare flag quando si registra per segnalare condizioni mediche particolari presenti che influnezano dieta e/o allenamento
+    - Ha una cronologia di due settimane con registrati
+    - Autenticazione a 2 fattori facoltativa (email con codice)
+
+- Professionsta Alimentazione
+    - Imposta un flag con la specializzazione: dietologo, nutrizionista, diabetologo, medico, ricercatore, ecc.
+    - Può personalizzare il suo profilo inserendo colleghi, ambienti di lavoro dove è situato ecc.
+    - Può creare, modificare o approvare piani di alimentazione dei suoi pazienti
+    - Le creazione, modifiche e le approvazioni possono avere un campo di testo per eventuali commenti e spiegazioni
+    - Su richiesta (solo richieste non legate a condizioni mediche specifiche) può modificare e approvare piani di alimentazioni di utenti non pazienti
+    - Può approvare richieste di "affiliazione" da parte di utenti non pazienti per iniziare a seguirli. Poi in seguito sarà sua discrezione se etichettarli come pazienti.
+    - Può registrare i suoi pazienti alla piattaforma impostando già il collegamento con il suo profilo e impostando flag su possibili condizioni mediche del nuovo pazientte.
+    - Può vedere alcuni dati dei profili utenti che gli inviano richiesta (età, peso, eventuali patologie ecc.)
+    - Autenticazione a 2 fattori obbligatoria (email con codice)
+
+- Professionista Allenamento
+    - Imposta un flag con la specializzazione: Personal Trainer, fisioterapista, insegnante di disciplina, ricercatore, ecc.
+    - Può personalizzare il suo profilo inserendo colleghi, ambienti di lavoro dove è situato ecc.
+    - Può creare, modificare o approvare piani di allenamento dei suoi pazienti
+    - Le creazione, modifiche e le approvazioni possono avere un campo di testo per eventuali commenti e spiegazioni
+    - Su richiesta (solo richieste non legate a condizioni mediche specifiche) può modificare e approvare piani di allenamenti di utenti non pazienti
+    - Può approvare richieste di "affiliazione" da parte di utenti non pazienti per iniziare a seguirli. Poi in seguito sarà sua discrezione se etichettarli come pazienti.
+    - Può registrare i suoi pazienti alla piattaforma impostando già il collegamento con il suo profilo e impostando flag su possibili condizioni mediche del nuovo pazientte.
+    - Può vedere alcuni dati dei profili utenti che gli inviano richiesta (età, peso, eventuali patologie ecc.)
+    - Autenticazione a 2 fattori obbligatoria (email con codice)
+
+
+
+
+<idee>
+1. Le figure provessionali possono venire votate dagli utenti? 1-5 stelle
+2. I professionist possono collaborare e/o comunicare tra di loro? 
+3. I genitori possono registare i figli o i neonati?
+
+
+
+
+
+-----------------------------------------------------
+
 DA IMPLEMENTARE:
 
-- Home page
-    - Caricamento dinamico
-    - Visualizzazione completa della situazione
-    - Menu e rimandi veloci
-    - Menu a tendina/dropdown con funzioni
-- Funzione di ricerca e consultazione cibo
-    - Ricerca per ogni tipo di filtro
-- Funzione di creazione nuovi pasti
-    - Calcolo delle calorie compreso
-- Funzione di modifica pasti
-- Pagina profilo utente
-- Pagina profilo dietologo
-- Dati utente
-- Dati dietologo
-- Definire permessi
-- Pagina della giornata corrente per l'utente, concatenazione pasti e checklist
-- Pagina della settimana corrente per l'utente
-- Calendario basato su google calendar
-- Backend
-- CSS GLOBALE
 
 NOTE:
 - Le funzioni di creapasto e modificapasto sono utilizzabili da utenti e dietologi(solo la seconda). Quindi ha senso che i servizi dedicati a queste funzioni rimandino alle zone di backend riservate agli utenti visto che sono loro ad effettuare l'azione.

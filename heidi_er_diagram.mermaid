@@ -1,0 +1,93 @@
+erDiagram
+    UTENTE ||--o{ PASTO : "crea"
+    UTENTE }o--o{ DIETOLOGO : "è associato a"
+    DIETOLOGO ||--o{ VALUTAZIONE : "assegna"
+    PASTO ||--o{ VALUTAZIONE : "riceve"
+    PASTO ||--o{ COMPOSIZIONE_ALIMENTO : "contiene"
+    PASTO ||--o{ COMPOSIZIONE_BEVANDA : "include"
+    ALIMENTO ||--o{ COMPOSIZIONE_ALIMENTO : "è presente in"
+    BEVANDA ||--o{ COMPOSIZIONE_BEVANDA : "è presente in"
+    DIETOLOGO ||--o{ MODIFICA_PASTO : "modifica"
+    PASTO ||--o{ MODIFICA_PASTO : "viene modificato"
+
+    UTENTE {
+        int id PK
+        string email UK
+        string nome
+        string cognome
+        string password
+        string ruolo
+        date data_registrazione
+    }
+
+    DIETOLOGO {
+        int id PK
+        string email UK
+        string nome
+        string cognome
+        string password
+        string ruolo
+        date data_registrazione
+    }
+
+    PASTO {
+        int id PK
+        int id_utente FK
+        string nome
+        date data
+        string tipo
+        float calorie_totali
+        date data_creazione
+    }
+
+    ALIMENTO {
+        int id PK
+        string name
+        float kcal_per_100g
+        float proteine
+        float carboidrati
+        float grassi
+        string categoria
+    }
+
+    BEVANDA {
+        int id PK
+        string name
+        float kcal_per_100ml
+        float zuccheri
+        string tipo
+    }
+
+    COMPOSIZIONE_ALIMENTO {
+        int id PK
+        int id_pasto FK
+        int id_alimento FK
+        float quantita_grammi
+        float kcal_calcolate
+    }
+
+    COMPOSIZIONE_BEVANDA {
+        int id PK
+        int id_pasto FK
+        int id_bevanda FK
+        float quantita_ml
+        float kcal_calcolate
+    }
+
+    VALUTAZIONE {
+        int id PK
+        int id_pasto FK
+        int id_dietologo FK
+        int voto
+        string commento
+        date data_valutazione
+    }
+
+    MODIFICA_PASTO {
+        int id PK
+        int id_pasto FK
+        int id_dietologo FK
+        string tipo_modifica
+        string dettagli
+        date data_modifica
+    }
