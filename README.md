@@ -67,7 +67,7 @@ Dopo aver parlato con il professore ecco i punti principali che deve avere l'app
 1. Le figure provessionali possono venire votate dagli utenti? 1-5 stelle
 2. I professionist possono collaborare e/o comunicare tra di loro? 
 3. I genitori possono registare i figli o i neonati?
-4. Bacheca con pasti condivisi da utenti e professionisti visualizzabile universalmente per copiare i pasti
+4. Bacheca con pasti e allenamenti condivisi da utenti e professionisti visualizzabile universalmente per copiarli
 
 
 
