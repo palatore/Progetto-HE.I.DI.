@@ -1,0 +1,129 @@
+---
+config:
+  layout: elk
+---
+erDiagram
+	direction LR
+	UTENTE {
+		int id PK ""  
+		string email UK ""  
+		string nome  ""  
+		string cognome  ""  
+		string password  ""  
+		string ruolo  ""  
+		int eta ""
+		float altezza ""
+		float peso ""
+		string condizione  ""  
+		int id_P1 FK ""  
+		string Professionista_1  ""  
+		int id_P2 FK ""  
+		string Professionista_2  ""  
+	}
+
+	PROFESSIONISTA {
+		int id PK ""  
+		string email UK ""  
+		string nome  ""  
+		string cognome  ""  
+		string password  ""  
+		string ruolo  ""  
+	}
+
+	RUOLO {
+		string id PK ""  
+		string nome  ""  
+	}
+
+	ALBO {
+		int id_professionista PK ""  
+		string id_ruolo PK ""  
+		string tipo  ""  
+	}
+
+	CALENDARIO {
+		date data PK ""  
+		int id_utente PK ""  
+		int id_pasto FK ""  
+		int id_workout FK ""  
+		string tipo  ""  
+	}
+
+	PASTO {
+		int id PK ""  
+		int id_utente FK ""  
+		string nome  ""  
+		date data  ""  
+		string tipo  ""  
+		float calorie_totali  ""  
+		date data_creazione  ""  
+	}
+
+	ALLENAMENTO {
+		int id PK ""  
+		int id_utente FK ""  
+		string nome  ""  
+		date data  ""  
+		string tipo  ""  
+		float calorie_totali  ""  
+		date data_creazione  ""  
+	}
+
+	VALUTAZIONE {
+		int id PK ""  
+		int id_pasto FK ""  
+		int id_allenamento FK ""  
+		int id_professionista FK ""  
+		int voto  ""  
+		string commento  ""  
+		date data_valutazione  ""  
+	}
+
+	DETTAGLI_PASTO {
+		int id PK ""  
+		int id_pasto FK ""  
+		int id_alimento FK ""  
+		float quantita_grammi  ""  
+		float kcal_calcolate  ""  
+	}
+
+	ALIMENTO {
+		int id PK ""  
+		string name  ""  
+		float kcal_per_100g  ""  
+		float proteine  ""  
+		float carboidrati  ""  
+		float grassi  ""  
+		string categoria  ""  
+	}
+
+	PROFESSIONSTA_ALIMENTARE {
+
+	}
+
+	PROFESSIONISTA_ALLENAMENTI {
+
+	}
+
+	UTENTE||--o{PASTO:"crea/modifica"
+	UTENTE}o--o{PASTO:"visualizza/valuta/condivide"
+	UTENTE||--o{ALLENAMENTO:"crea/modifica"
+	UTENTE||--o{ALLENAMENTO:"visualizza/valuta/condivide"
+	UTENTE||--o{CALENDARIO:"crea/modifica"
+	UTENTE}o--o{CALENDARIO:"visualizza/condivide"
+	UTENTE}o--o{PROFESSIONISTA:"è associato a"
+	PROFESSIONSTA_ALIMENTARE}o--o{VALUTAZIONE:"assegna"
+	PROFESSIONSTA_ALIMENTARE||--||PROFESSIONISTA:"è istanza di"
+	PROFESSIONISTA_ALLENAMENTI||--||PROFESSIONISTA:"è istanza di"
+	PASTO||--o{VALUTAZIONE:"riceve"
+	PASTO||--o{DETTAGLI_PASTO:"contiene"
+	PASTO||--o{DETTAGLI_PASTO:"include"
+	ALIMENTO||--o{DETTAGLI_PASTO:"è presente in"
+	CALENDARIO||--o{PASTO:"Contiene"
+	PROFESSIONISTA}o--|{RUOLO:"sceglie"
+	PROFESSIONSTA_ALIMENTARE||--o{PASTO:"crea"
+	PROFESSIONSTA_ALIMENTARE}o--o{PASTO:"visualizza/modifica"
+	PROFESSIONISTA_ALLENAMENTI||--|{ALLENAMENTO:"crea"
+	PROFESSIONISTA_ALLENAMENTI}o--o{ALLENAMENTO:"visualizza/modifica"
+	PROFESSIONISTA}o--||ALBO:"iscrito a"
+	ALLENAMENTO}|--|{VALUTAZIONE:"riceve"
