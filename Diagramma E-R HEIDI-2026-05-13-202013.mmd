@@ -3,7 +3,7 @@ config:
   layout: elk
 ---
 erDiagram
-	direction LR
+	direction TB
 	UTENTE {
 		int id PK ""  
 		string email UK ""  
@@ -11,9 +11,9 @@ erDiagram
 		string cognome  ""  
 		string password  ""  
 		string ruolo  ""  
-		int eta ""
-		float altezza ""
-		float peso ""
+		int eta  ""  
+		float altezza  ""  
+		float peso  ""  
 		string condizione  ""  
 		int id_P1 FK ""  
 		string Professionista_1  ""  
@@ -64,8 +64,7 @@ erDiagram
 		int id_utente FK ""  
 		string nome  ""  
 		date data  ""  
-		string tipo  ""  
-		float calorie_totali  ""  
+		int durata_minuti  ""  
 		date data_creazione  ""  
 	}
 
@@ -80,21 +79,35 @@ erDiagram
 	}
 
 	DETTAGLI_PASTO {
-		int id PK ""  
 		int id_pasto FK ""  
 		int id_alimento FK ""  
 		float quantita_grammi  ""  
 		float kcal_calcolate  ""  
 	}
 
+	DETTAGLI_ALLENAMENTO {
+		int id_allenamento FK ""  
+		int id_esercizio FK ""  
+		sting ripetizioni  ""  
+		int pesi_kg  ""  
+		int riposo_minuti  ""  
+	}
+
 	ALIMENTO {
 		int id PK ""  
-		string name  ""  
+		string nome  ""  
 		float kcal_per_100g  ""  
-		float proteine  ""  
-		float carboidrati  ""  
-		float grassi  ""  
+		float proteine_g  ""  
+		float carboidrati_g  ""  
+		float zuccheri_g  ""  
+		float grassi_g  ""  
 		string categoria  ""  
+	}
+
+	ESERCIZIO {
+		int id PK ""  
+		string nome  ""  
+		string gruppo_muscolare  ""  
 	}
 
 	PROFESSIONSTA_ALIMENTARE {
@@ -105,25 +118,32 @@ erDiagram
 
 	}
 
+	BACHECA_CONDIVISA {
+
+	}
+
 	UTENTE||--o{PASTO:"crea/modifica"
-	UTENTE}o--o{PASTO:"visualizza/valuta/condivide"
+	UTENTE}o--o{PASTO:"visualizza/condivide"
 	UTENTE||--o{ALLENAMENTO:"crea/modifica"
-	UTENTE||--o{ALLENAMENTO:"visualizza/valuta/condivide"
+	UTENTE||--o{ALLENAMENTO:"visualizza/condivide"
 	UTENTE||--o{CALENDARIO:"crea/modifica"
-	UTENTE}o--o{CALENDARIO:"visualizza/condivide"
+	UTENTE}o--o{CALENDARIO:"visualizza"
 	UTENTE}o--o{PROFESSIONISTA:"è associato a"
 	PROFESSIONSTA_ALIMENTARE}o--o{VALUTAZIONE:"assegna"
 	PROFESSIONSTA_ALIMENTARE||--||PROFESSIONISTA:"è istanza di"
 	PROFESSIONISTA_ALLENAMENTI||--||PROFESSIONISTA:"è istanza di"
 	PASTO||--o{VALUTAZIONE:"riceve"
-	PASTO||--o{DETTAGLI_PASTO:"contiene"
-	PASTO||--o{DETTAGLI_PASTO:"include"
-	ALIMENTO||--o{DETTAGLI_PASTO:"è presente in"
+	PASTO||--||DETTAGLI_PASTO:"include"
+	ALIMENTO}o--o{DETTAGLI_PASTO:"è presente in"
 	CALENDARIO||--o{PASTO:"Contiene"
 	PROFESSIONISTA}o--|{RUOLO:"sceglie"
 	PROFESSIONSTA_ALIMENTARE||--o{PASTO:"crea"
 	PROFESSIONSTA_ALIMENTARE}o--o{PASTO:"visualizza/modifica"
-	PROFESSIONISTA_ALLENAMENTI||--|{ALLENAMENTO:"crea"
+	PROFESSIONISTA_ALLENAMENTI||--o{ALLENAMENTO:"crea"
 	PROFESSIONISTA_ALLENAMENTI}o--o{ALLENAMENTO:"visualizza/modifica"
 	PROFESSIONISTA}o--||ALBO:"iscrito a"
-	ALLENAMENTO}|--|{VALUTAZIONE:"riceve"
+	ALLENAMENTO||--o{VALUTAZIONE:"riceve"
+	ALLENAMENTO||--||DETTAGLI_ALLENAMENTO:"include"
+	ESERCIZIO}o--o{DETTAGLI_ALLENAMENTO:"è presente in"
+	BACHECA_CONDIVISA||--o{PASTO:"contiene"
+	BACHECA_CONDIVISA||--o{ALLENAMENTO:"contiene"
