@@ -1,21 +1,33 @@
 const db = require('../db.js');
-const pastiModel = require('../models/pasti.js');
 
-class PastiServices {
+//Interagisce direttamente con il database per le operazioni CRUD sugli utenti
+
+class Pasti {
 
     static async getAllAlimenti() {
-        console.log('Chiamo il model per ottenere tutti gli alimenti');
-        const alimenti = await pastiModel.getAllAlimenti();
-        console.log('Alimenti ottenuti:', alimenti);
-        return alimenti;
-    };
+        return new Promise((resolve, reject) => {
+            console.log('Sto eseguendo la query per ottenere tutti gli alimenti');
+            db.all('SELECT * FROM alimenti', [], (err, rows) => {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
+        });
+    }
 
     static async getAllPasti() {
-        console.log('Chiamo il model per ottenere tutti i pasti');
-        const pasti = await pastiModel.getAllPasti();
-        console.log('Pasti ottenuti:', pasti);
-        return pasti;
-    };
+        return new Promise((resolve, reject) => {
+            db.all('SELECT * FROM pasti', [], (err, rows) => {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
+        });
+    }
 
     static async getAllAlimentiPasti() {
         return new Promise((resolve, reject) => {
@@ -27,10 +39,10 @@ class PastiServices {
                 }
             });
         });
-    };
+    }
 
     static async getDettagliPasto(id_pasto) {
-/*        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             db.get('SELECT * FROM pasti WHERE id = ?', [id_pasto], (err, pasto) => {
                 if(err) {
                     reject(err);
@@ -53,8 +65,8 @@ class PastiServices {
                     });
                 }
             });
-        }); */
-    };
+        });
+    }
 
     static async getPastiUtente(user_id) {
         return new Promise((resolve, reject) => {
@@ -66,7 +78,7 @@ class PastiServices {
                 }
             });
         });
-    };
+    }
 
     static async checkPasto(user_id, nome, data, tipo) {
         return new Promise((resolve, reject) => {
@@ -78,7 +90,7 @@ class PastiServices {
                 }
             });
         });
-    };
+    }
 
     static async creaPasti(user_id, nome, data, tipo) {
         return new Promise((resolve, reject) => {
@@ -90,11 +102,10 @@ class PastiServices {
                 }
             });
         });
-    };
+    }
 
-    static async riempiPasto(id_pasto, alimenti, bevande) {
-        console.log('RiempiPasto service chiamato');
-        return new Promise((resolve, reject) => {
+    static async riempiPasto(id_pasto, alimenti) {
+    return new Promise((resolve, reject) => {
             const insertAlimenti = alimenti.map(alimento => {
                 console.log('sto inserendo alimento:', alimento, alimento.id, 'con quantità:', alimento.qta);
                 return new Promise((res, rej) => {
@@ -113,7 +124,7 @@ class PastiServices {
                 .catch(err => reject(err));
         });
     }
-    
+
     static async eliminaPasto(id_pasto) {
         return new Promise((resolve, reject) => {
             db.run('DELETE FROM alimenti_pasto WHERE pasto_id = ?', [id_pasto], function(err) {
@@ -133,7 +144,6 @@ class PastiServices {
             });
         });
     }
+} 
 
-}
-
-module.exports = PastiServices;
+module.exports = Pasti;
