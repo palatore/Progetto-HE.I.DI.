@@ -1,4 +1,3 @@
-const Authservices = require('../services/authServices');
 const AuthServices = require('../services/authServices');
 
 class AuthControllers {
@@ -17,7 +16,7 @@ class AuthControllers {
         const {ruolo, nome, cognome, email, password} = req.body;
         try {
             console.log("invio questi dati:", req.body);
-            const result = await Authservices.registration(ruolo, nome, cognome, email, password);
+            const result = await AuthServices.registration(ruolo, nome, cognome, email, password);
             res.status(201).json({success: true, data: result});
         } catch (e) {
             console.log(e.status);

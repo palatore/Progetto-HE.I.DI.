@@ -29,6 +29,18 @@ class Pasti {
         });
     }
 
+    static async findPastoById(id_pasto) {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT * FROM pasti WHERE id = ?', [id_pasto], (err, row) => {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(row);
+                }
+            });
+        });
+    };
+
     static async getAllAlimentiPasti() {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM alimenti_pasto', [], (err, rows) => {
@@ -41,26 +53,18 @@ class Pasti {
         });
     }
 
-    static async getDettagliPasto(id_pasto) {
+    static async getDettagliPasto(id_pasto, pasto) {
         return new Promise((resolve, reject) => {
-            db.get('SELECT * FROM pasti WHERE id = ?', [id_pasto], (err, pasto) => {
+            db.all('SELECT ap.*, a.name, a.kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, alimenti) => {
                 if(err) {
                     reject(err);
-                } else if (!pasto) {
-                    resolve(null);
                 } else {
-                    db.all('SELECT ap.*, a.name, a.kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, alimenti) => {
+                    db.get('SELECT SUM(a.kcal * ap.quantita / 100) AS tot_kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, result) => {
                         if(err) {
                             reject(err);
                         } else {
-                            db.get('SELECT SUM(a.kcal * ap.quantita / 100) AS tot_kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, result) => {
-                                if(err) {
-                                    reject(err);
-                                } else {
-                                    const dettagliPasto = { ...pasto, alimenti, totCalorie: result.tot_kcal || 0 };
-                                    resolve(dettagliPasto);
-                                }
-                            });
+                            const dettagliPasto = { ...pasto, alimenti, totCalorie: result.tot_kcal || 0 };
+                            resolve(dettagliPasto);
                         }
                     });
                 }

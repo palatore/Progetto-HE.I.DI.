@@ -18,120 +18,82 @@ class PastiServices {
     };
 
     static async getAllAlimentiPasti() {
-        return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM alimenti_pasto', [], (err, rows) => {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(rows);
-                }
-            });
-        });
+        console.log('Chiamo il model per ottenere tutti gli alimenti_pasti');
+        const alimentiPasti = await pastiModel.getAllAlimentiPasti();
+        console.log('Alimenti_pasti ottenuti:', alimentiPasti);
+        return alimentiPasti;
     };
 
     static async getDettagliPasto(id_pasto) {
-/*        return new Promise((resolve, reject) => {
-            db.get('SELECT * FROM pasti WHERE id = ?', [id_pasto], (err, pasto) => {
-                if(err) {
-                    reject(err);
-                } else if (!pasto) {
-                    resolve(null);
-                } else {
-                    db.all('SELECT ap.*, a.name, a.kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, alimenti) => {
-                        if(err) {
-                            reject(err);
-                        } else {
-                            db.get('SELECT SUM(a.kcal * ap.quantita / 100) AS tot_kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, result) => {
-                                if(err) {
-                                    reject(err);
-                                } else {
-                                    const dettagliPasto = { ...pasto, alimenti, totCalorie: result.tot_kcal || 0 };
-                                    resolve(dettagliPasto);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }); */
+        //Per prima cosa chiamo il model per controllare che il pasto esista
+        const pasto = await pastiModel.findPastoById(id_pasto);
+        if (!pasto) {
+            console.log('Pasto non trovato con ID:', id_pasto);
+            return null;
+        } else {
+        //Procedo alla ricerca dei dettagli del pasto
+            const dettagliPasto = await pastiModel.getDettagliPasto(id_pasto, pasto);
+            console.log('Dettagli pasto ottenuti:', dettagliPasto);
+            return dettagliPasto;
+        }
     };
 
     static async getPastiUtente(user_id) {
-        return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM pasti p WHERE p.user_id = ? ORDER BY data', [user_id], (err, rows) => {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(rows);
-                }
-            });
-        });
+        //ottieni tutti i pasti appartenenti all'utente
+        const pastiUtente = await pastiModel.getPastiUtente(user_id);
+        if (pastiUtente && pastiUtente.length > 0) {
+            console.log('Pasti utente ottenuti:', pastiUtente);
+            return pastiUtente;
+        } else {
+            console.log('Nessun pasto trovato per l\'utente con ID:', user_id);
+            return [];
+        };
     };
 
     static async checkPasto(user_id, nome, data, tipo) {
-        return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM pasti WHERE user_id = ? AND nome = ? AND data = ? AND tipo = ?', [user_id, nome, data, tipo], (err, rows) => {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(rows.length > 0);
-                }
-            });
-        });
+        //controlla se esiste già un pasto con lo stesso nome, data e tipo per l'utente
+        const pasto = await pastiModel.checkPasto(user_id, nome, data, tipo);
+        if (pasto) {
+            console.log('Pasto già esistente:', pasto);
+        } else {
+            console.log('Nessun risultato trovato con questi dati');
+        }
+        return pasto;
     };
 
     static async creaPasti(user_id, nome, data, tipo) {
-        return new Promise((resolve, reject) => {
-            db.run('INSERT INTO pasti (user_id, nome, data, tipo) VALUES (?, ?, ?, ?)', [user_id, nome, data, tipo], function(err) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve({lastID: this.lastID});
-                }
-            });
-        });
+        //crea un nuovo pasto per l'utente
+        const nuovoPasto = await pastiModel.creaPasti(user_id, nome, data, tipo);
+        if (nuovoPasto) {
+            console.log('Pasto creato con successo:');
+        } else {
+            console.log('Errore nella creazione del pasto');
+        }
+        return nuovoPasto;
     };
 
     static async riempiPasto(id_pasto, alimenti, bevande) {
+        //dopo la creazione di un pasto, riempi quel pasto con alimenti presi dal database
         console.log('RiempiPasto service chiamato');
-        return new Promise((resolve, reject) => {
-            const insertAlimenti = alimenti.map(alimento => {
-                console.log('sto inserendo alimento:', alimento, alimento.id, 'con quantità:', alimento.qta);
-                return new Promise((res, rej) => {
-                    db.run('INSERT INTO alimenti_pasto (pasto_id, alimento_id, quantita) VALUES (?, ?, ?)', [id_pasto, alimento.id, alimento.qta], function(err) {
-                        if(err) {
-                            rej(err);
-                        } else {
-                            res(this.lastID);
-                        }
-                    });
-                });
-            });
-
-            Promise.all([insertAlimenti])
-                .then(results => resolve({message: 'Pasto riempito con successo', id_pasto, alimenti}))
-                .catch(err => reject(err));
-        });
+        const contenutoPasto = await pastiModel.riempiPasto(id_pasto, alimenti);
+        if (contenutoPasto) {
+            console.log('Pasto riempito con successo:', contenutoPasto);
+        } else {
+            console.log('Errore nel riempimento del pasto');
+        }
+        return contenutoPasto;
     }
     
     static async eliminaPasto(id_pasto) {
-        return new Promise((resolve, reject) => {
-            db.run('DELETE FROM alimenti_pasto WHERE pasto_id = ?', [id_pasto], function(err) {
-                if(err) {
-                    reject(err);
-                } else {
-                    db.run('DELETE FROM pasti WHERE id = ?', [id_pasto], function(err) {
-                        if(err) {
-                            reject(err);
-                        } else if (this.changes === 0) {
-                            resolve({message: 'Nessun pasto trovato con questo ID'});
-                        } else {
-                            resolve({message: 'Pasto eliminato con successo'});
-                        }
-                    });
-                }
-            });
-        });
+        //elimina un pasto esistente, prima eliminando le relazioni con gli alimenti e poi eliminando il pasto stesso
+        console.log('EliminaPasto service chiamato per ID pasto:', id_pasto);
+        const risultatoEliminazione = await pastiModel.eliminaPasto(id_pasto);
+        if (risultatoEliminazione) {
+            console.log('Pasto eliminato con successo:');
+        } else {
+            console.log('Errore nell\'eliminazione del pasto o pasto non trovato');
+        }
+        return risultatoEliminazione;
     }
 
 }

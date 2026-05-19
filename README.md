@@ -72,7 +72,9 @@ Dopo aver parlato con il professore ecco i punti principali che deve avere l'app
 
 -----------------------------------------------------
 
-DA IMPLEMENTARE:
+TO-DO:
+- Migliorare la creazione dei pasti e la visualizzazione dei dettagli pasti (PIU' DETTAGLI!)
+- Migliorare il calcolo di calorie e proprietà dei dettagli pasti
 
 
 NOTE:
