@@ -17,9 +17,11 @@
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
               <ion-radio-group formControlName="ruolo">
                 <ion-label class="ion-padding">Utente</ion-label>
-                <ion-radio slot="start" value="utente" class="ion-padding"></ion-radio>
-                <ion-radio value="dietologo" class="ion-padding"></ion-radio>
-                <ion-label class="ion-padding">Dietologo</ion-label>
+                <ion-radio slot="start" value="0" class="ion-padding"></ion-radio>
+                <ion-radio value="1" class="ion-padding"></ion-radio>
+                <ion-label class="ion-padding">Professionista Alimentare</ion-label>
+                <ion-radio value="2" class="ion-padding"></ion-radio>
+                <ion-label class="ion-padding">Professionista Allenamenti</ion-label>
               </ion-radio-group>
               <ion-item class="registerCamp">
                 <ion-label position="floating">Email</ion-label>

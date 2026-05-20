@@ -20,7 +20,7 @@ export class LoginService {
   }
 
   async onLoginSuccess(type:String) {
-    if(type === "D") {
+    if(type === "P") {
       await this.router.navigate(["/homeDietologo"]);
     }
     else {

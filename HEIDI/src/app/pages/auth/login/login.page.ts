@@ -53,7 +53,8 @@ export class LoginPage implements OnInit {
           localStorage.setItem('tipoUtente', decoded.ruolo);
           localStorage.setItem('userEmail', this.loginForm.value.email);
           localStorage.setItem('token', token);
-          await this.loginservice.onLoginSuccess(decoded.ruolo === 'dietologo' ? 'D' : 'U');
+          //controlla il ruolo e indirizza alla home corretta, 0 per utente, tutto il resto per Professionisti
+          await this.loginservice.onLoginSuccess(decoded.ruolo === '0' ? 'U' : 'P');
           this.loginFailed = false;
           }
         catch (e:any) {

@@ -24,6 +24,12 @@ export class HomePage implements OnInit {
     console.log('hey');
   }
 
+//controlla il localstorage per impostare un flag su home.page.html che mostra o nasconde determinati elementi in base al tipo di utente loggato
+  isLoggedIn() {
+    const tipoUtente = localStorage.getItem('tipoUtente');
+    return tipoUtente !== null;
+  }
+
   async logout() {
     localStorage.removeItem('tipoUtente');
     localStorage.removeItem('userEmail');
