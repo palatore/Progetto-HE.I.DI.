@@ -54,7 +54,7 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS pasti (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
-        nome VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
         data DATE NOT NULL,
         tipo TEXT NOT NULL,
         FOREIGN KEY(user_id) REFERENCES utenti(id)
