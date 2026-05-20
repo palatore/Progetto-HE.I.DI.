@@ -33,12 +33,12 @@ export class LoginPage implements OnInit {
    }
 
   ngOnInit() {
-    const tipoUtente = localStorage.getItem('tipoUtente');
+    const tipoUtente = Number(localStorage.getItem('tipoUtente'));
     const userEmail = localStorage.getItem('userEmail');
     const token = localStorage.getItem('token');
     if(tipoUtente && userEmail && token) {
       //Utente già loggato, reindirizzato alla home
-      this.loginservice.onLoginSuccess(tipoUtente === 'dietologo' ? 'D' : 'U');
+      this.loginservice.onLoginSuccess(tipoUtente === 0 ? 'U' : 'P');
     }
   }
 
@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
           localStorage.setItem('userEmail', this.loginForm.value.email);
           localStorage.setItem('token', token);
           //controlla il ruolo e indirizza alla home corretta, 0 per utente, tutto il resto per Professionisti
-          await this.loginservice.onLoginSuccess(decoded.ruolo === '0' ? 'U' : 'P');
+          await this.loginservice.onLoginSuccess(decoded.ruolo === 0 ? 'U' : 'P');
           this.loginFailed = false;
           }
         catch (e:any) {

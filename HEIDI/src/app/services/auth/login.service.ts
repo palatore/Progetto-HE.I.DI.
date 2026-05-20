@@ -22,7 +22,7 @@ export class LoginService {
     return this.http.post<any>(`${this.apiUrl}/api/auth/login`, { email, password });
   }
 
-  async onLoginSuccess(type:String) {
+  async onLoginSuccess(type:string) {
     if(type === "P") {
       await this.router.navigate(["/homeDietologo"]);
     }
