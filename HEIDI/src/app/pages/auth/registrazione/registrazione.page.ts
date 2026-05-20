@@ -53,7 +53,7 @@ export class RegistrazionePage implements OnInit {
     try{
       const response = await firstValueFrom(this.registrationService.register(ruolo, name, surname, mail, pw));
       console.log('Registrazione completata con successo:', response);
-      if(!response.body.success || response.body.status !== 200) {
+      if(!response.body.success || response.status !== 201) {
         console.log('Registrazione fallita');
         this.showError = true;
         this.registrationFailed = true;
