@@ -8,24 +8,33 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card class="laTuaGiornata">
-    La tua giornata | La tua settimana
-    <ion-card-content class="pasti">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-card class ="pasto">colazione</ion-card>
-          </ion-col>
-          <ion-col>
-            <ion-card class ="pasto">pranzo</ion-card>
-          </ion-col>
-          <ion-col>
-            <ion-card class ="pasto">cena</ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+  <ng-container *ngIf="(userRole | async) as ruolo">
+    <ion-card *ngIf="ruolo === '0'" class="laTuaGiornata">
+      La tua giornata | La tua settimana
+      <ion-card-content class="pasti">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-card class ="pasto">colazione</ion-card>
+            </ion-col>
+            <ion-col>
+              <ion-card class ="pasto">pranzo</ion-card>
+            </ion-col>
+            <ion-col>
+              <ion-card class ="pasto">cena</ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="ruolo !== '0'" class="iTuoiPazienti">
+      I tuoi Pazienti
+      <ion-card-content class="pasti">
+        <!-- Contenuto per dietologo -->
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
   <ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button>
   <ion-button [routerLink]="['/pastiUtente']">I miei Pasti</ion-button>
 </ion-content>
