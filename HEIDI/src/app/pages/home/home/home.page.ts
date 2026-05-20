@@ -16,8 +16,10 @@ import { RouterModule } from '@angular/router';
 export class HomePage implements OnInit {
 
   constructor(private loginService:LoginService) {}
+  public tipoUtente: string | null = null;
 
   ngOnInit() {
+    this.tipoUtente = localStorage.getItem('tipoUtente');
   }
 
   showForm() {
@@ -26,8 +28,7 @@ export class HomePage implements OnInit {
 
 //controlla il localstorage per impostare un flag su home.page.html che mostra o nasconde determinati elementi in base al tipo di utente loggato
   isLoggedIn() {
-    const tipoUtente = localStorage.getItem('tipoUtente');
-    return tipoUtente !== null;
+    return this.tipoUtente !== null;
   }
 
   async logout() {
