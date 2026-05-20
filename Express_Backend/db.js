@@ -15,14 +15,14 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
 db.serialize(() => {
 
-    //creazione della tabella utenti
+  //creazione della tabella utenti
   db.run(`CREATE TABLE IF NOT EXISTS utenti (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(255) NOT NULL,
     surname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    ruolo VARCHAR(50) NOT NULL
+    ruolo INTEGER NOT NULL
   )`, (err) => {
     if (err) {
       console.error('Errore nella creazione della tabella utenti ' + err.message);
@@ -83,18 +83,19 @@ db.serialize(() => {
     });
 
     //popolazione della tabella utenti se non è già popolata
+    //ruolo 0 = utente, 1 = professionista alimentare, 2 = professionista allenamenti
     db.get('SELECT COUNT(*) AS count FROM utenti', (err, row) => {
       if (err) {
         console.error('Errore nella selezione degli utenti ' + err.message);
       } else if (row.count === 0) {
         const comando = db.prepare('INSERT INTO utenti (name, surname, email, password, ruolo) VALUES (?, ?, ?, ?, ?)');
-        comando.run('Pietro', 'Gambadilegno', 'pietro.gdl@steambot.dis', 'malefica', 'utente');
-        comando.run('Wilson Grant', 'Fisk', 'kingpin@brooklyn.com', 'marvel', 'utente');
-        comando.run('Taro', 'Sakamoto', 'tarosakamoto01@gmail.com', 'HanaAoi', 'utente');
-        comando.run('Majin', 'Buu', 'babidiofficial@regnodemoniaco.kai', 'dolcetti', 'utente');
-        comando.run('Cereza', 'Balder', 'bayonetta@vigrid.fr', 'jubileus', 'dietologo');
-        comando.run('Shauna', 'Vayne', 'nighthunter@runeterra.rt', 'Demoni', 'dietologo');
-        comando.run('Dendra', 'Kihada', 'dendra.kihada@mesapoli.sp', 'Miriam', 'dietologo');
+        comando.run('Pietro', 'Gambadilegno', 'pietro.gdl@steambot.dis', 'malefica', '0');
+        comando.run('Wilson Grant', 'Fisk', 'kingpin@brooklyn.com', 'marvel', '0');
+        comando.run('Taro', 'Sakamoto', 'tarosakamoto01@gmail.com', 'HanaAoi', '0');
+        comando.run('Majin', 'Buu', 'babidiofficial@regnodemoniaco.kai', 'dolcetti', '0');
+        comando.run('Cereza', 'Balder', 'bayonetta@vigrid.fr', 'jubileus', '2');
+        comando.run('Shauna', 'Vayne', 'nighthunter@runeterra.rt', 'Demoni', '1');
+        comando.run('Dendra', 'Kihada', 'dendra.kihada@mesapoli.sp', 'Miriam', '2');
       }
     });
 
