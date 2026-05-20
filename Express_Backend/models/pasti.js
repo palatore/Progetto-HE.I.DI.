@@ -86,7 +86,7 @@ class Pasti {
 
     static async checkPasto(user_id, nome, data, tipo) {
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM pasti WHERE user_id = ? AND nome = ? AND data = ? AND tipo = ?', [user_id, nome, data, tipo], (err, rows) => {
+            db.all('SELECT * FROM pasti WHERE user_id = ? AND name = ? AND data = ? AND tipo = ?', [user_id, nome, data, tipo], (err, rows) => {
                 if(err) {
                     reject(err);
                 } else {
@@ -98,7 +98,7 @@ class Pasti {
 
     static async creaPasti(user_id, nome, data, tipo) {
         return new Promise((resolve, reject) => {
-            db.run('INSERT INTO pasti (user_id, nome, data, tipo) VALUES (?, ?, ?, ?)', [user_id, nome, data, tipo], function(err) {
+            db.run('INSERT INTO pasti (user_id, name, data, tipo) VALUES (?, ?, ?, ?)', [user_id, nome, data, tipo], function(err) {
                 if(err) {
                     reject(err);
                 } else {
