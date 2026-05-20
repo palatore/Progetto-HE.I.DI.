@@ -54,7 +54,7 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS pasti (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
-        nome VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
         data DATE NOT NULL,
         tipo TEXT NOT NULL,
         FOREIGN KEY(user_id) REFERENCES utenti(id)
@@ -79,6 +79,53 @@ db.serialize(() => {
             console.error('Errore nella creazione della tabella alimenti_pasto ' + err.message);
         } else {
             console.log('Tabella alimenti_pasto creata con successo.');
+        }
+    });
+
+     //creazione della tabella degli esercizi
+    db.run(`CREATE TABLE IF NOT EXISTS esercizi (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        gruppo_muscolare VARCHAR(255) NOT NULL
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella esercizi ' + err.message);
+        } else {
+            console.log('Tabella esercizi creata con successo.');
+        }
+    });
+
+    //creazione della tabella degli allenamenti
+    db.run(`CREATE TABLE IF NOT EXISTS allenamenti (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        data DATE NOT NULL,
+        durata_min INTEGER NOT NULL,
+        data_creazione DATE NOT NULL,
+        FOREIGN KEY(user_id) REFERENCES utenti(id)
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella allenamenti ' + err.message);
+        } else {
+            console.log('Tabella allenamenti creata con successo.');
+        }
+    });
+
+    //creazione della tabella degli esercizi_allenamento
+    db.run(`CREATE TABLE IF NOT EXISTS esercizi_allenamento (
+        esercizio_id INTEGER NOT NULL,
+        allenamento_id INTEGER NOT NULL,
+        ripetizioni VARCHAR(255) NOT NULL,
+        pesi_kg INTEGER NOT NULL,
+        riposo_min INTEGER NOT NULL,
+        FOREIGN KEY(esercizio_id) REFERENCES esercizi(id),
+        FOREIGN KEY(allenamento_id) REFERENCES allenamenti(id)
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella esercizi_allenamento ' + err.message);
+        } else {
+            console.log('Tabella esercizi_allenamento creata con successo.');
         }
     });
 
@@ -293,6 +340,97 @@ db.serialize(() => {
             comando.run('Tacos', 'Fast food', 200, 10.0, 0.0, 0.0, 'Vitamina B1, B3');
             comando.run('Nachos', 'Fast food', 400, 20.0, 0.0, 0.0, 'Vitamina B1, B3');
             comando.run('Frittura mista', 'Fast food', 350, 25.0, 0.0, 0.0, 'Vitamina B1, B3');
+        }
+    });
+
+
+    //popolazione della tabella esercizi se non è già popolata
+    db.get('SELECT COUNT(*) AS count FROM esercizi', (err, row) => {
+        if (err) {
+            console.error('Errore nella selezione degli esercizi ' + err.message);
+        } else if (row.count === 0) {
+            const comando = db.prepare('INSERT INTO esercizi (name, gruppo_muscolare) VALUES (?, ?)');
+            //petto
+            comando.run('Panca piana', 'Petto');
+            comando.run('Panca inclinata', 'Petto');
+            comando.run('Panca stretta', 'Petto');
+            comando.run('Panca piana', 'Petto');
+            comando.run('Croci coi manubri', 'Petto');
+            comando.run('Croci ai cavi', 'Petto');
+            comando.run('Chest press', 'Petto');
+            comando.run('Peck deck', 'Petto');
+            comando.run('Piegamenti sulle braccia', 'Petto');
+
+            //deltoidi
+            comando.run('Alzate laterali', 'Deltoidi');
+            comando.run('Tirate al mento', 'Deltoidi');
+            comando.run('Alzate posteriori', 'Deltoidi');
+
+            //tricipiti
+            comando.run('Floor press', 'Tricipiti');
+            comando.run('Board press', 'Tricipiti');
+            comando.run('Military press', 'Tricipiti');
+            comando.run('French press', 'Tricipiti');
+            comando.run('Tricipiti ai cavi', 'Tricipiti');
+            comando.run('Push down', 'Tricipiti');
+            comando.run('Dip', 'Tricipiti');
+            comando.run('Piegamenti stretti', 'Tricipiti');
+            comando.run('Dip alla panca', 'Tricipiti');
+
+            //bicipiti brachiali
+            comando.run('Curl con manubri', 'Bicipiti');
+            comando.run('Curl con bilanciere', 'Bicipiti');
+            comando.run('Spider curl manubri', 'Bicipiti');
+            comando.run('Spider curl bilanciere', 'Bicipiti');
+            comando.run('Curl su panca inclinata', 'Bicipiti');
+            comando.run('Curl concentrato', 'Bicipiti');
+            comando.run('Drag curl', 'Bicipiti');
+
+            //avambracci
+            comando.run('Flessione polsi', 'Avambracci');
+            comando.run('Estensione polsi', 'Avambracci');
+            comando.run('Curl inverso', 'Avambracci');
+
+            //dorso
+            comando.run('Aperture peck back', 'Dorsali');
+            comando.run('Arnold press', 'Dorsali');
+            comando.run('Lat machine avanti', 'Dorsali');
+            comando.run('Lat machine dietro', 'Dorsali');
+            comando.run('Low row', 'Dorsali');
+            comando.run('Pulley basso', 'Dorsali');
+            comando.run('Trazioni', 'Dorsali');
+            comando.run('Handstand al muro', 'Dorsali');
+
+            //addome
+            comando.run('Crunch', 'Addominali');
+            comando.run('Bicicletta', 'Addominali');
+            comando.run('Barchetta', 'Addominali');
+            comando.run('Crunch inverso', 'Addominali');
+            comando.run('Sit-up', 'Addominali');
+            comando.run('Plank', 'Addominali');
+            comando.run('L-sit', 'Addominali');
+
+            //quadricipiti
+            comando.run('Squat', 'Quadricipiti');
+            comando.run('Affondi', 'Quadricipiti');
+            comando.run('Front squat', 'Quadricipiti');
+            comando.run('Leg extension', 'Quadricipiti');
+
+            //glutei
+            comando.run('Hack squat', 'Glutei');
+            comando.run('Hip thrust', 'Glutei');
+            comando.run('Squat bulgaro', 'Glutei');
+
+            //bicipiti femorali
+            comando.run('Leg press', 'Cosce');
+            comando.run('Stacco', 'Cosce');
+            comando.run('Glute ham raise', 'Cosce');
+            comando.run('Iperestensione', 'Cosce');
+
+            //polpacci
+            comando.run('Step up', 'Polpacci');
+            comando.run('Calf', 'Polpacci');
+            comando.run('Calf machine', 'Polpacci');
         }
     });
 
