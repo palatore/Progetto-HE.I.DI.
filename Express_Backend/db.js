@@ -25,11 +25,62 @@ db.serialize(() => {
     ruolo INTEGER NOT NULL
   )`, (err) => {
     if (err) {
-      console.error('Errore nella creazione della tabella utenti ' + err.message);
+        console.error('Errore nella creazione della tabella utenti ' + err.message);
     } else {
-      console.log('Tabella utenti creata con successo.');
+        console.log('Tabella utenti creata con successo.');
     }
   });
+
+  //creazione della tabella profilo_utente
+  db.run(`CREATE TABLE IF NOT EXISTS profilo_utente (
+        id_utente INTEGER NOT NULL,
+        eta INTEGER,
+        altezza_cm INTEGER,
+        peso_kg INTEGER,
+        condizioni_mediche VARCHAR(255),
+        id_P1 INTEGER,
+        professionista1 VARCHAR(50),
+        id_P2 INTEGER,
+        professionista2 VARCHAR(50),
+        FOREIGN KEY(id_utente) REFERENCES utenti(id),
+        FOREIGN KEY(id_P1) REFERENCES utenti(id),
+        FOREIGN KEY(id_P2) REFERENCES utenti(id)
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella profilo_utente ' + err.message);
+        } else {
+            console.log('Tabella profilo_utente creata con successo.');
+        }
+    });
+
+
+    //creazione della tabella ruoli_professionisti
+    db.run(`CREATE TABLE IF NOT EXISTS ruoli_professionisti (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ruolo VARCHAR(255) NOT NULL
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella ruoli_professionisti ' + err.message);
+        } else {
+            console.log('Tabella ruoli_professionisti creata con successo.');
+        }
+    });
+
+    //creazione della tabella albo_professionisti
+    db.run(`CREATE TABLE IF NOT EXISTS albo_professionisti (
+        id_professionista INTEGER NOT NULL,
+        id_ruolo INTEGER NOT NULL,
+        tipo VARCHAR(255),
+        FOREIGN KEY(id_professionista) REFERENCES utenti(id),
+        FOREIGN KEY(id_ruolo) REFERENCES ruoli_professionisti(id)
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella albo_professionisti ' + err.message);
+        } else {
+            console.log('Tabella albo_professionisti creata con successo.');
+        }
+    });
+
 
   //creazione della tabella dei cibi
     db.run(`CREATE TABLE IF NOT EXISTS alimenti (
