@@ -1,6 +1,6 @@
 const db = require('../db.js');
 
-//Interagisce direttamente con il database per le operazioni CRUD sugli utenti
+//Interagisce direttamente con il database per le operazioni CRUD sui pasti
 
 class Pasti {
 
