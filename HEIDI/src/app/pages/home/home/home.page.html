@@ -35,6 +35,19 @@
       </ion-card-content>
     </ion-card>
   </ng-container>
-  <ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button>
-  <ion-button [routerLink]="['/pastiUtente']">I miei Pasti</ion-button>
+  <!--<ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button> -->
+  <!--<ion-button [routerLink]="['/pastiUtente']">I miei Pasti</ion-button> -->
+  <ng-container *ngIf="(ruoloUtente | async) as ruolo">
+    <!-- Button per utente normale (ruolo 0) -->
+    <ng-container *ngIf="ruolo === '0'">
+      <ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button>
+      <ion-button [routerLink]="['/pastiUtente']">I miei Pasti</ion-button>
+    </ng-container>
+  
+    <!-- Button per professionista -->
+    <ng-container *ngIf="ruolo !== '0'">
+      <ion-button [routerLink]="['/gestioneRichieste']">Le mie Richieste</ion-button>
+      <ion-button [routerLink]="['/pazientiDietologo']">I miei Pazienti</ion-button>
+    </ng-container>
+  </ng-container>
 </ion-content>
