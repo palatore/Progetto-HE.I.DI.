@@ -17,15 +17,15 @@ import { RouterModule } from '@angular/router';
 export class HomePage implements OnInit {
 
   constructor(private loginService:LoginService) {
-    this.userRole = this.loginService.getUserRole();
+    this.ruoloUtente = this.loginService.getUserRole();
   }
  
-  userRole: Observable<string | null>; ;
+  ruoloUtente: Observable<string | null>; ;
 
   ngOnInit() {}
 
   isLoggedIn(): Observable<boolean> {
-    return this.userRole.pipe(map(role => role !== null));
+    return this.ruoloUtente.pipe(map(role => role !== null));
   }
 
   showForm() {

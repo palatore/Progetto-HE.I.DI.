@@ -33,12 +33,12 @@ export class LoginPage implements OnInit {
    }
 
   ngOnInit() {
-    const tipoUtente = Number(localStorage.getItem('tipoUtente'));
+    const tipoUtente = (localStorage.getItem('tipoUtente'));
     const userEmail = localStorage.getItem('userEmail');
     const token = localStorage.getItem('token');
     if(tipoUtente && userEmail && token) {
-      //Utente già loggato, reindirizzato alla home
-      this.loginservice.onLoginSuccess(tipoUtente === 0 ? 'U' : 'P');
+      //Utente già loggato, reindirizzato alla home, per ora tra commenti perché è responsabilità del guard
+      //this.loginservice.onLoginSuccess(tipoUtente);
     }
   }
 
@@ -50,12 +50,11 @@ export class LoginPage implements OnInit {
           const response =  await firstValueFrom(this.loginservice.login(this.loginForm.value.email, this.loginForm.value.password));
           const token = response.token;
           const decoded:any = jwtDecode(token);
-          localStorage.setItem('tipoUtente', decoded.ruolo);
+          //imposta nel localstorage l'email e il token utente, che serviranno solo per successive funzioni
           localStorage.setItem('userEmail', this.loginForm.value.email);
           localStorage.setItem('token', token);
           //controlla il ruolo e indirizza alla home corretta, 0 per utente, tutto il resto per Professionisti
-          await this.loginservice.onLoginSuccess(decoded.ruolo === 0 ? 'U' : 'P');
-          this.loginFailed = false;
+          await this.loginservice.onLoginSuccess(decoded.ruolo);
           }
         catch (e:any) {
           if(e.status === 401) {
