@@ -34,7 +34,120 @@ class Allenamenti {
 
 
     //metodo per trovare gli esercizi grazie al loro ID
-    static async findEserciziById(){
-        // da completare
+    static async findEserciziById(id_esercizio){
+        return new Promise((resolve, reject) =>{
+            db.all('SELECT * FROM esercizi WHERE id = ?', [esercizio], (err, rows) =>{
+                if(err){
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
+        });
     }
-} 
+
+    //metodo per ottenere tutti gli esercizi all'interno di un allenamento
+    static async getAllEserciziAllenamento() {
+        return new Promise((resolve, reject) =>{
+            db.all('SELECT * FROM esercizi_allenamento', [], (err, rows) => {
+                if(err){
+                    reject(err);
+                } else{
+                    resolve(rows);
+                };
+            });
+        });
+    }
+
+    //metodo per ottenere i dettagli di un allenamento
+    static async getDettagliAllenamento(id_allenamento, allenamento){
+        return new Promise((resolve, reject) => {
+            db.all('SELECT ea.*, ')
+        })
+    }
+
+
+    //metodo per ottenere gli allenamenti di un utente
+    static async getAllenamentiUtente(user_id) {
+        return new Promise((resolve, reject)=>{
+            db.all('SELECT * FROM allenamenti a WHERE a.user_id = ? ORDER BY data', [user_id], (err, rows)=>{
+                if(err){
+                    reject(err);
+                } else{
+                    resolve(rows);
+                };
+            });
+        });
+    }
+
+    //metodo per evitare allenamenti duplicati
+    static async checkAllenamento(user_id, data) {
+        return new Promise((resolve, reject)=> {
+            db.all('SELECT * FROM allenamenti WHERE user_id = ? AND data = ?', [user_id,data], (err,rows)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(rows.length > 0);
+                };
+            });
+        });
+    }
+
+    //metodo per creare allenamenti
+    static async creaAllenamenti(user_id, nome, giorno, data){
+        return new Promise((resolve, reject)=>{
+            db.run('INSERT INTO allenamenti (user_id, nome, giorno, data) VALUES (?, ?, ?, ?)', [user_id, nome, giorno, data], function(err){
+                if(err){
+                    reject(err);
+                } else {
+                    resolve({lastID: this.lastID});
+                }
+            });
+        });
+    }
+
+    //metodo per riempire un allenamento
+    static async riempiAllenamento(id_allenamento, esercizi){
+        return new Promise((resolve, reject)=> {
+            const insertAllenamenti = allenamenti.map(allenamento =>{
+                console.log('sto inserendo allenamento:', esercizio, esercizio.id, 'con:', esercizio.reps, 'ripetizioni,', esercizio.kg, 'kg,', esercizio.rest, 'minuti di riposo, e', esercizio.durata, 'minuti di durata stimata');
+                return new Promise((res, rej)=>{
+                    db.run('INSERT INTO esercizi_allenamento (allenamento_id, esercizio_id, ripetizioni, pesi_kg, riposo_min, durata_min) VALUES (?, ?, ?, ?, ?, ?)', [id_allenamento, esercizio.id, esercizio.reps, esercizio.kg, esercizio.rest, esercizio.durata], function(err){
+                        if(err){
+                            rej(err);
+                        } else {
+                            res(this.lastID);
+                        }
+                    });
+                });
+            });
+
+            Promise.all([insertAllenamenti])
+            .then(results => resolve({message: 'Allenamento riempito con successo', id_allenamento, esercizi}))
+            .catch(err => reject(err));
+        });
+    }
+
+    //metodo per eliminare un allenamento
+    static async eliminaAllenamento(id_allenamento){
+        return new Promise((resolve, reject) => {
+            db.run('DELETE FROM esercizi_allenamento WHERE allenamento_id = ?', [id_allenamento], function(err) {
+                if(err){
+                    reject(err);
+                } else {
+                    db.run('DELETE FROM allenamenti WHERE id = ?', [id_allenamento], function(err) {
+                        if(err){
+                            reject(err);
+                        } else if(this.changes === 0) {
+                            resolve({message: 'Nessun allenamento trovato con questo ID'});
+                        } else {
+                            resolve({message: 'Allenamento eliminato con successo'});
+                        }
+                    });
+                }
+            });
+        });
+    }
+}
+
+module.exports = Allenamenti; 

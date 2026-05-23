@@ -137,7 +137,9 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS esercizi (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        gruppo_muscolare VARCHAR(255) NOT NULL
+        gruppo_muscolare VARCHAR(255) NOT NULL,
+        fase VARCHAR(255) NOT NULL,
+        durata_esercizio INTEGER NOT NULL
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella esercizi ' + err.message);
@@ -151,9 +153,8 @@ db.serialize(() => {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
-        data DATE NOT NULL,
-        durata_min INTEGER NOT NULL,
-        data_creazione DATE NOT NULL,
+        data DATE NULL,
+        data_creazione DATE NULL,
         FOREIGN KEY(user_id) REFERENCES utenti(id)
     )`, (err) => {
         if (err) {
@@ -165,11 +166,12 @@ db.serialize(() => {
 
     //creazione della tabella degli esercizi_allenamento
     db.run(`CREATE TABLE IF NOT EXISTS esercizi_allenamento (
-        esercizio_id INTEGER NOT NULL,
         allenamento_id INTEGER NOT NULL,
+        esercizio_id INTEGER NOT NULL,
         ripetizioni VARCHAR(255) NOT NULL,
-        pesi_kg INTEGER NOT NULL,
-        riposo_min INTEGER NOT NULL,
+        pesi_kg INTEGER NULL,
+        riposo_min INTEGER NULL,
+        durata_min INTEGER NOT NULL,
         FOREIGN KEY(esercizio_id) REFERENCES esercizi(id),
         FOREIGN KEY(allenamento_id) REFERENCES allenamenti(id)
     )`, (err) => {
@@ -401,88 +403,113 @@ db.serialize(() => {
         if (err) {
             console.error('Errore nella selezione degli esercizi ' + err.message);
         } else if (row.count === 0) {
-            const comando = db.prepare('INSERT INTO esercizi (name, gruppo_muscolare) VALUES (?, ?)');
+            const comando = db.prepare('INSERT INTO esercizi (name, gruppo_muscolare, fase, durata) VALUES (?, ?, ?, ?)');
             //petto
-            comando.run('Panca piana', 'Petto');
-            comando.run('Panca inclinata', 'Petto');
-            comando.run('Panca stretta', 'Petto');
-            comando.run('Panca piana', 'Petto');
-            comando.run('Croci coi manubri', 'Petto');
-            comando.run('Croci ai cavi', 'Petto');
-            comando.run('Chest press', 'Petto');
-            comando.run('Peck deck', 'Petto');
-            comando.run('Piegamenti sulle braccia', 'Petto');
+            comando.run('Panca piana', 'Petto', 'Centrale', 30);
+            comando.run('Panca inclinata', 'Petto', 'Centrale', 30);
+            comando.run('Panca stretta', 'Petto', 'Centrale', 30);
+            comando.run('Panca piana', 'Petto', 'Centrale', 30);
+            comando.run('Croci coi manubri', 'Petto', 'Centrale', 30);
+            comando.run('Croci ai cavi', 'Petto', 'Centrale', 30);
+            comando.run('Chest press', 'Petto', 'Centrale', 30);
+            comando.run('Peck deck', 'Petto', 'Centrale', 30);
+            comando.run('Piegamenti sulle braccia', 'Petto', 'Centrale', 30);
+            comando.run('Aperture al muro', 'Petto', 'Stretching', 60);
+            comando.run('Aperture braccia 90°', 'Petto', 'Stretching', 60);
 
             //deltoidi
-            comando.run('Alzate laterali', 'Deltoidi');
-            comando.run('Tirate al mento', 'Deltoidi');
-            comando.run('Alzate posteriori', 'Deltoidi');
+            comando.run('Alzate laterali', 'Deltoidi', 'Centrale', 30);
+            comando.run('Tirate al mento', 'Deltoidi', 'Centrale', 30);
+            comando.run('Alzate posteriori', 'Deltoidi', 'Centrale', 30);
+            comando.run('Allungamenti deltoidi', 'Deltoidi', 'Stretching', 60);
 
             //tricipiti
-            comando.run('Floor press', 'Tricipiti');
-            comando.run('Board press', 'Tricipiti');
-            comando.run('Military press', 'Tricipiti');
-            comando.run('French press', 'Tricipiti');
-            comando.run('Tricipiti ai cavi', 'Tricipiti');
-            comando.run('Push down', 'Tricipiti');
-            comando.run('Dip', 'Tricipiti');
-            comando.run('Piegamenti stretti', 'Tricipiti');
-            comando.run('Dip alla panca', 'Tricipiti');
+            comando.run('Floor press', 'Tricipiti', 'Centrale', 30);
+            comando.run('Board press', 'Tricipiti', 'Centrale', 30);
+            comando.run('Military press', 'Tricipiti', 'Centrale', 30);
+            comando.run('French press', 'Tricipiti', 'Centrale', 30);
+            comando.run('Tricipiti ai cavi', 'Tricipiti', 'Centrale', 30);
+            comando.run('Push down', 'Tricipiti', 'Centrale', 30);
+            comando.run('Dip', 'Tricipiti', 'Centrale', 30);
+            comando.run('Piegamenti stretti', 'Tricipiti', 'Centrale', 30);
+            comando.run('Dip alla panca', 'Tricipiti', 'Centrale', 30);
+            comando.run('Allungamenti tricipiti', 'Tricipiti', 'Stretching', 60);
 
             //bicipiti brachiali
-            comando.run('Curl con manubri', 'Bicipiti');
-            comando.run('Curl con bilanciere', 'Bicipiti');
-            comando.run('Spider curl manubri', 'Bicipiti');
-            comando.run('Spider curl bilanciere', 'Bicipiti');
-            comando.run('Curl su panca inclinata', 'Bicipiti');
-            comando.run('Curl concentrato', 'Bicipiti');
-            comando.run('Drag curl', 'Bicipiti');
+            comando.run('Curl con manubri', 'Bicipiti', 'Centrale', 30);
+            comando.run('Curl con bilanciere', 'Bicipiti', 'Centrale', 30);
+            comando.run('Spider curl manubri', 'Bicipiti', 'Centrale', 30);
+            comando.run('Spider curl bilanciere', 'Bicipiti', 'Centrale', 30);
+            comando.run('Curl su panca inclinata', 'Bicipiti', 'Centrale', 30);
+            comando.run('Curl concentrato', 'Bicipiti', 'Centrale', 30);
+            comando.run('Drag curl', 'Bicipiti', 'Centrale', 30);
+            comando.run('Estensioni palmo al muro', 'Bicipiti', 'Stretching', 60);
 
             //avambracci
-            comando.run('Flessione polsi', 'Avambracci');
-            comando.run('Estensione polsi', 'Avambracci');
-            comando.run('Curl inverso', 'Avambracci');
+            comando.run('Flessione polsi', 'Avambracci', 'Centrale', 30);
+            comando.run('Estensione polsi', 'Avambracci', 'Centrale', 30);
+            comando.run('Curl inverso', 'Avambracci', 'Centrale', 30);
 
             //dorso
-            comando.run('Aperture peck back', 'Dorsali');
-            comando.run('Arnold press', 'Dorsali');
-            comando.run('Lat machine avanti', 'Dorsali');
-            comando.run('Lat machine dietro', 'Dorsali');
-            comando.run('Low row', 'Dorsali');
-            comando.run('Pulley basso', 'Dorsali');
-            comando.run('Trazioni', 'Dorsali');
-            comando.run('Handstand al muro', 'Dorsali');
+            comando.run('Aperture peck back', 'Dorsali', 'Centrale', 30);
+            comando.run('Arnold press', 'Dorsali', 'Centrale', 30);
+            comando.run('Lat machine avanti', 'Dorsali', 'Centrale', 30);
+            comando.run('Lat machine dietro', 'Dorsali', 'Centrale', 30);
+            comando.run('Low row', 'Dorsali', 'Centrale', 30);
+            comando.run('Pulley basso', 'Dorsali', 'Centrale', 30);
+            comando.run('Trazioni', 'Dorsali', 'Centrale', 30);
+            comando.run('Handstand al muro', 'Dorsali', 'Centrale', 30);
+            comando.run('Posizione del bambino', 'Dorsali', 'Stretching', 60);
+            comando.run('Allungamenti dorsali laterali', 'Dorsali', 'Stretching', 60);
+
 
             //addome
-            comando.run('Crunch', 'Addominali');
-            comando.run('Bicicletta', 'Addominali');
-            comando.run('Barchetta', 'Addominali');
-            comando.run('Crunch inverso', 'Addominali');
-            comando.run('Sit-up', 'Addominali');
-            comando.run('Plank', 'Addominali');
-            comando.run('L-sit', 'Addominali');
+            comando.run('Crunch', 'Addominali', 'Centrale', 30);
+            comando.run('Bicicletta', 'Addominali', 'Centrale', 30);
+            comando.run('Barchetta', 'Addominali', 'Centrale', 30);
+            comando.run('Crunch inverso', 'Addominali', 'Centrale', 30);
+            comando.run('Sit-up', 'Addominali', 'Centrale', 30);
+            comando.run('Plank', 'Addominali', 'Centrale', 30);
+            comando.run('L-sit', 'Addominali', 'Centrale', 30);
+            comando.run('Posizione della foca', 'Addominali', 'Stretching', 60);
 
             //quadricipiti
-            comando.run('Squat', 'Quadricipiti');
-            comando.run('Affondi', 'Quadricipiti');
-            comando.run('Front squat', 'Quadricipiti');
-            comando.run('Leg extension', 'Quadricipiti');
+            comando.run('Squat', 'Quadricipiti', 'Centrale', 30);
+            comando.run('Affondi', 'Quadricipiti', 'Centrale', 30);
+            comando.run('Front squat', 'Quadricipiti', 'Centrale', 30);
+            comando.run('Leg extension', 'Quadricipiti', 'Centrale', 30);
+            comando.run('Allungamenti quadricipiti', 'Quadricipiti', 'Stretching', 60);
+
 
             //glutei
-            comando.run('Hack squat', 'Glutei');
-            comando.run('Hip thrust', 'Glutei');
-            comando.run('Squat bulgaro', 'Glutei');
+            comando.run('Hack squat', 'Glutei', 'Centrale', 30);
+            comando.run('Hip thrust', 'Glutei', 'Centrale', 30);
+            comando.run('Squat bulgaro', 'Glutei', 'Centrale', 30);
+            comando.run('Allungamenti ginocchia al petto', 'Glutei', 'Stretching', 60);
 
             //bicipiti femorali
-            comando.run('Leg press', 'Cosce');
-            comando.run('Stacco', 'Cosce');
-            comando.run('Glute ham raise', 'Cosce');
-            comando.run('Iperestensione', 'Cosce');
+            comando.run('Leg press', 'Cosce', 'Centrale', 30);
+            comando.run('Stacco', 'Cosce', 'Centrale', 30);
+            comando.run('Glute ham raise', 'Cosce', 'Centrale', 30);
+            comando.run('Iperestensione', 'Cosce', 'Centrale', 30);
+            comando.run('Spaccata', 'Cosce', 'Stretching', 60);
+            comando.run('Pike', 'Cosce', 'Stretching', 60);
 
             //polpacci
-            comando.run('Step up', 'Polpacci');
-            comando.run('Calf', 'Polpacci');
-            comando.run('Calf machine', 'Polpacci');
+            comando.run('Step up', 'Polpacci', 'Centrale', 30);
+            comando.run('Calf', 'Polpacci', 'Centrale', 30);
+            comando.run('Calf machine', 'Polpacci', 'Centrale', 30);
+
+
+            //generico
+            comando.run('Corsa', 'Full Body', 'Riscaldamento', 300);
+            comando.run('Cyclette', 'Full Body', 'Riscaldamento', 300);
+            comando.run('Salto della corda', 'Full Body', 'Riscaldamento', 60);
+            comando.run('Circonduzioni', 'Arti superiori', 'Riscaldamento', 60);
+            comando.run('Circonduzioni', 'Arti inferiori', 'Riscaldamento', 60);
+            comando.run('Skip alto', 'Arti inferiori', 'Riscaldamento', 30);
+            comando.run('Skip basso', 'Arti inferiori', 'Riscaldamento', 30);
+            
         }
     });
 
