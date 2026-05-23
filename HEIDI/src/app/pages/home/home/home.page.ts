@@ -4,6 +4,7 @@ import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } 
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { GestionePastiService } from 'src/app/services/utente/gestione-pasti.service';
+import { map, Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -15,19 +16,20 @@ import { RouterModule } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  constructor(private loginService:LoginService) {}
+  constructor(private loginService:LoginService) {
+    this.ruoloUtente = this.loginService.getUserRole();
+  }
+ 
+  ruoloUtente: Observable<string | null>; ;
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  isLoggedIn(): Observable<boolean> {
+    return this.ruoloUtente.pipe(map(role => role !== null));
   }
 
   showForm() {
     console.log('hey');
-  }
-
-//controlla il localstorage per impostare un flag su home.page.html che mostra o nasconde determinati elementi in base al tipo di utente loggato
-  isLoggedIn() {
-    const tipoUtente = localStorage.getItem('tipoUtente');
-    return tipoUtente !== null;
   }
 
   async logout() {

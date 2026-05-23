@@ -74,6 +74,7 @@ Dopo aver parlato con il professore ecco i punti principali che deve avere l'app
 
 TO-DO:
 - Fare Home unica con elementi visibili solo a determinati ruoli
+- I pasti e gli allenamenti non contengono una data da impostare, semplicemente verrà impostata quando li inserirranno nel calendario dal menù calendario.
 - Migliorare la creazione dei pasti e la visualizzazione dei dettagli pasti (PIU' DETTAGLI!)
 - Migliorare il calcolo di calorie e proprietà dei dettagli pasti
 
