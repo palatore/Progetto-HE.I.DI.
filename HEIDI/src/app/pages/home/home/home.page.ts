@@ -33,9 +33,6 @@ export class HomePage implements OnInit {
   }
 
   async logout() {
-    localStorage.removeItem('tipoUtente');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('token');
     await this.loginService.onLogoutSuccess();
   }
 }

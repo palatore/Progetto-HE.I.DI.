@@ -55,6 +55,9 @@ export class LoginService {
   }
 
   async onLogoutSuccess() {
+    localStorage.removeItem('tipoUtente');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('token');
     this.ruoloUtente.next(null);
     await this.router.navigate(['/login']);
   }
