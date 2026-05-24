@@ -3,6 +3,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "ignoreDeprecations": "6.0",
+    "types": ["jest", "node"],
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
