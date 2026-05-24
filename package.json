@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@angular/cli": "^21.2.12",
     "@angular/core": "^21.2.12",
     "@capacitor/camera": "^8.2.0",
     "@capacitor/core": "^8.3.4",
