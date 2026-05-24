@@ -15,6 +15,8 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
 db.serialize(() => {
 
+//SEZIONE UTENTI
+
   //creazione della tabella utenti
   db.run(`CREATE TABLE IF NOT EXISTS utenti (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,7 +55,6 @@ db.serialize(() => {
         }
     });
 
-
     //creazione della tabella ruoli_professionisti
     db.run(`CREATE TABLE IF NOT EXISTS ruoli_professionisti (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -81,6 +82,7 @@ db.serialize(() => {
         }
     });
 
+//SEZIONE ALIMENTARE
 
   //creazione della tabella dei cibi
     db.run(`CREATE TABLE IF NOT EXISTS alimenti (
@@ -106,8 +108,8 @@ db.serialize(() => {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
-        data DATE NOT NULL,
         tipo TEXT NOT NULL,
+        data_creazione DATE NULL,
         FOREIGN KEY(user_id) REFERENCES utenti(id)
     )`, (err) => {
         if (err) {
@@ -132,6 +134,8 @@ db.serialize(() => {
             console.log('Tabella alimenti_pasto creata con successo.');
         }
     });
+
+//SEZIONE ALLENAMENTI
 
      //creazione della tabella degli esercizi
     db.run(`CREATE TABLE IF NOT EXISTS esercizi (
