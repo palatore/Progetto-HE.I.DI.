@@ -50,9 +50,9 @@ class PastiServices {
         };
     };
 
-    static async checkPasto(user_id, nome, data, tipo) {
+    static async checkPasto(user_id, nome, tipo) {
         //controlla se esiste già un pasto con lo stesso nome, data e tipo per l'utente
-        const pasto = await pastiModel.checkPasto(user_id, nome, data, tipo);
+        const pasto = await pastiModel.checkPasto(user_id, nome, tipo);
         if (pasto) {
             console.log('Pasto già esistente:', pasto);
         } else {
@@ -61,9 +61,9 @@ class PastiServices {
         return pasto;
     };
 
-    static async creaPasti(user_id, nome, data, tipo) {
+    static async creaPasti(user_id, nome, tipo) {
         //crea un nuovo pasto per l'utente
-        const nuovoPasto = await pastiModel.creaPasti(user_id, nome, data, tipo);
+        const nuovoPasto = await pastiModel.creaPasti(user_id, nome, tipo);
         if (nuovoPasto) {
             console.log('Pasto creato con successo:');
         } else {

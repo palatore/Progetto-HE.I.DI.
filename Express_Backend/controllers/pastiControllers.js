@@ -58,10 +58,10 @@ class PastiControllers {
     static checkPasto = async (req, res) => {
         console.log('Controllo pasto in corso...');
         try {
-            const {nome, data, tipo} = req.body;
+            const {nome, tipo} = req.body;
             const user_id = req.user.id;
-            console.log('I tuoi dati:', user_id, nome, data, tipo);
-            const exists = await PastiServices.checkPasto(user_id, nome, data, tipo);
+            console.log('I tuoi dati:', user_id, nome, tipo);
+            const exists = await PastiServices.checkPasto(user_id, nome, tipo);
             res.status(200).json({exists});
         } catch (e) {
             res.status(500).json({error: e.message});
@@ -70,9 +70,9 @@ class PastiControllers {
 
     static creaPasti = async (req, res) => {
         try {
-            const {nome, data, tipo} = req.body;
+            const {nome, tipo} = req.body;
             const user_id = req.user.id;
-            const result = await PastiServices.creaPasti(user_id, nome, data, tipo);
+            const result = await PastiServices.creaPasti(user_id, nome, tipo);
             res.status(201).json({message: 'Pasto creato con successo', id: result.lastID});
         } catch (e) {
             res.status(500).json({error: e.message});
