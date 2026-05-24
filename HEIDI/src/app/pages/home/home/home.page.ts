@@ -35,4 +35,5 @@ export class HomePage implements OnInit {
   async logout() {
     await this.loginService.onLogoutSuccess();
   }
+  
 }
