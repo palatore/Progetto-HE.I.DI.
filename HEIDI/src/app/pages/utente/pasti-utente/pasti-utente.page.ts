@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GestionePastiService } from 'src/app/services/utente/gestione-pasti.service';
+import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonRow, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 
@@ -75,9 +75,9 @@ export class PastiUtentePage implements OnInit {
     }
   }
 
-  pastiUtente = [{nome: 'Pasto 1', data: '2023-10-01', tipo: 500, id: 1},
-                 {nome: 'Pasto 2', data: '2023-10-02', tipo: 600, id: 2},
-                 {nome: 'Pasto 3', data: '2023-10-03', tipo: 550, id: 3}];
+  pastiUtente = [{nome: 'Pasto 1', data_creazione: '', tipo: 500, id: 1},
+                 {nome: 'Pasto 2', data_creazione: '', tipo: 600, id: 2},
+                 {nome: 'Pasto 3', data_creazione: '', tipo: 550, id: 3}];
 
   //DA IMPLEMENTARE:
   // - Caricamento pasti utente a inizio pagina usando i onInit e token

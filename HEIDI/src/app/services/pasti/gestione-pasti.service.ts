@@ -11,10 +11,10 @@ export class GestionePastiService {
 
   constructor(private http:HttpClient) { }
 
-  creaPasti(nome:String, data:String, tipo:String) {
+  creaPasti(nome:String, tipo:String) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
-    return this.http.post<any>(`${this.apiUrl}/api/pasti/creaPasti`, { nome, data, tipo }, {headers, observe: 'response'});
+    return this.http.post<any>(`${this.apiUrl}/api/pasti/creaPasti`, { nome, tipo }, {headers, observe: 'response'});
   }
 
   riempiPasto(id_pasto:Number, alimenti:any[], bevande:any[]) {
@@ -35,10 +35,10 @@ export class GestionePastiService {
     return this.http.delete<any>(`${this.apiUrl}/api/pasti/eliminaPasto/${id_pasto}`, {headers, observe: 'response'});
   }
 
-  checkPasto(nome:String, data:String, tipo:String) {
+  checkPasto(nome:String, tipo:String) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
-    return this.http.post<any>(`${this.apiUrl}/api/pasti/checkPasto`, { nome, data, tipo }, {headers});
+    return this.http.post<any>(`${this.apiUrl}/api/pasti/checkPasto`, { nome, tipo }, {headers});
   }
 
   getPastiUtente(): Observable<any[]> {

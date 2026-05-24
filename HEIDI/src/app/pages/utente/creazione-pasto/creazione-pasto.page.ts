@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { GestionePastiService } from 'src/app/services/utente/gestione-pasti.service';
+import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { firstValueFrom } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
@@ -25,7 +25,6 @@ public expiredSession:Boolean = false;
   constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService) {
     this.pastoForm = formbuilder.group({
       nome: ['', Validators.required],
-      data: ['', Validators.required],
       tipo: ['', Validators.required]
     });
 
@@ -83,7 +82,7 @@ public expiredSession:Boolean = false;
     const tipoPasto = this.pastoForm.value.tipo;
 
     try {
-      const response = await firstValueFrom(this.foodService.checkPasto(nomePasto, dataPasto, tipoPasto));
+      const response = await firstValueFrom(this.foodService.checkPasto(nomePasto, tipoPasto));
       if(response && response.exists) {
         this.showAlreadyExistent = true;
         return;
@@ -101,7 +100,7 @@ public expiredSession:Boolean = false;
     }
     //Se non esiste, crea il pasto
     try {
-      const response = await firstValueFrom(this.foodService.creaPasti(this.pastoForm.value.nome, this.pastoForm.value.data, this.pastoForm.value.tipo));
+      const response = await firstValueFrom(this.foodService.creaPasti(this.pastoForm.value.nome, this.pastoForm.value.tipo));
       if (response === null) {
         console.log('errore di nullità');
         return

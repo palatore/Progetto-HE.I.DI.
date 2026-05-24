@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { LoginService } from 'src/app/services/auth/login.service';
-import { GestionePastiService } from 'src/app/services/utente/gestione-pasti.service';
+import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { map, Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 

@@ -74,7 +74,7 @@ class Pasti {
 
     static async getPastiUtente(user_id) {
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM pasti p WHERE p.user_id = ? ORDER BY data', [user_id], (err, rows) => {
+            db.all('SELECT * FROM pasti p WHERE p.user_id = ?', [user_id], (err, rows) => {
                 if(err) {
                     reject(err);
                 } else {

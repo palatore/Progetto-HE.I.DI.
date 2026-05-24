@@ -10,7 +10,7 @@
     <ion-item *ngFor="let pasto of pastiUtente">
       <ion-label>
         <h2>{{ pasto.nome }}</h2>
-        <p>Data: {{ pasto.data | date: 'dd/MM/yyyy' }}</p>
+        <p>Data: {{ pasto.data_creazione | date: 'dd/MM/yyyy' }}</p>
         <p>{{ pasto.tipo }}</p>
       </ion-label>
       <ion-button fill="outline" (click)="mostraDettagli(pasto)" slot="end">Dettagli</ion-button>
