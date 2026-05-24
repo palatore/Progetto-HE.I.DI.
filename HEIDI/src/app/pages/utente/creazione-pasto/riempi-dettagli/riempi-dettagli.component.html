@@ -1,0 +1,189 @@
+<ion-card>
+      <ion-grid>
+        <form [formGroup]="riempiDettagliForm" (ngSubmit)="submitRiempi()">
+          <ion-row>
+            <ion-col>
+              Seleziona dettagli
+              <ion-item>
+                <ion-select class="ionSelectDettaglio1" placeholder="dettaglio 1" formControlName="dettaglio_0">
+                  <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                    {{dettaglio.name}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_0"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="riempiDettagliForm.get('dettaglio_0')?.value">
+              <ion-col>
+              <ion-item>
+                <ion-select class="ionSelectDettaglio2" placeholder="dettaglio 2" formControlName="dettaglio_1">
+                <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                  {{dettaglio.name}}
+                </ion-select-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_1"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="riempiDettagliForm.get('dettaglio_1')?.value">
+              <ion-col>
+              <ion-item>
+                <ion-select class="ionSelectDettaglio3" placeholder="dettaglio 3" formControlName="dettaglio_2">
+                <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                  {{dettaglio.name}}
+                </ion-select-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_2"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="riempiDettagliForm.get('dettaglio_2')?.value">
+              <ion-col>
+              <ion-item>
+                <ion-select class="ionSeletDettaglio4" placeholder="dettaglio 4" formControlName="dettaglio_3">
+                <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                  {{dettaglio.name}}
+                </ion-select-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_3"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="riempiDettagliForm.get('dettaglio_3')?.value">
+              <ion-col>
+              <ion-item>
+                <ion-select class="ionSelectDettaglio5" placeholder="dettaglio 5" formControlName="dettaglio_4">
+                <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                  {{dettaglio.name}}
+                </ion-select-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_4"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="riempiDettagliForm.get('dettaglio_4')?.value">
+              <ion-col>
+              <ion-item>
+                <ion-select class="ionSelectDettaglio6" placeholder="dettaglio 6" formControlName="dettaglio_5">
+                <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                  {{dettaglio.name}}
+                </ion-select-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_5"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="riempiDettagliForm.get('dettaglio_5')?.value">
+              <ion-col>
+              <ion-item>
+                <ion-select class="ionSelectDettaglio7" placeholder="dettaglio 7" formControlName="dettaglio_6">
+                <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                  {{dettaglio.name}}
+                </ion-select-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_6"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="riempiDettagliForm.get('dettaglio_6')?.value">
+              <ion-col>
+              <ion-item>
+                <ion-select class="ionSelectDettaglio8" placeholder="dettaglio 8" formControlName="dettaglio_7">
+                <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                  {{dettaglio.name}}
+                </ion-select-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_7"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="riempiDettagliForm.get('dettaglio_7')?.value">
+              <ion-col>
+              <ion-item>
+                <ion-select class="ionSelectDettaglio9" placeholder="dettaglio 9" formControlName="dettaglio_8">
+                <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                  {{dettaglio.name}}
+                </ion-select-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_8"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="riempiDettagliForm.get('dettaglio_8')?.value">
+              <ion-col>
+              <ion-item>
+                <ion-select class="ionSelectDettaglio10" placeholder="dettaglio 10" formControlName="dettaglio_9">
+                <ion-select-option *ngFor="let dettaglio of dettagli" [value]="dettaglio.id">
+                  {{dettaglio.name}}
+                </ion-select-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                Quantità
+                <ion-item>
+                  <ion-input type="number" step="any" placeholder="Quantità" formControlName="qta_9"></ion-input>
+                </ion-item>
+              </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-button type="submit">Riempi Attività</ion-button>
+          </ion-row>
+        </form>
+      </ion-grid>
+    </ion-card>

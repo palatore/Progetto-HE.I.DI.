@@ -75,9 +75,9 @@ export class PastiUtentePage implements OnInit {
     }
   }
 
-  pastiUtente = [{nome: 'Pasto 1', data_creazione: '', tipo: 500, id: 1},
-                 {nome: 'Pasto 2', data_creazione: '', tipo: 600, id: 2},
-                 {nome: 'Pasto 3', data_creazione: '', tipo: 550, id: 3}];
+  pastiUtente = [{name: 'Pasto 1', data_creazione: '1/1/1000', tipo: 500, id: 1},
+                 {name: 'Pasto 2', data_creazione: '1/1/1000', tipo: 600, id: 2},
+                 {name: 'Pasto 3', data_creazione: '1/1/1000', tipo: 550, id: 3}];
 
   //DA IMPLEMENTARE:
   // - Caricamento pasti utente a inizio pagina usando i onInit e token

@@ -5,13 +5,14 @@ import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { firstValueFrom } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { RiempiDettagliComponent } from "./riempi-dettagli/riempi-dettagli.component";
 
 @Component({
   selector: 'app-creazione-pasto',
   templateUrl: './creazione-pasto.page.html',
   styleUrls: ['./creazione-pasto.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent]
 })
 export class CreazionePastoPage implements OnInit {
 public alimenti:any[] = [];
@@ -22,7 +23,7 @@ public showRiempiPasto:Boolean = false;
 public expiredSession:Boolean = false;
   
 
-  constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService) {
+  constructor(private formbuilder:FormBuilder, private riempiTutto:RiempiDettagliComponent, private foodService:GestionePastiService) {
     this.pastoForm = formbuilder.group({
       nome: ['', Validators.required],
       tipo: ['', Validators.required]
@@ -108,8 +109,10 @@ public expiredSession:Boolean = false;
         console.log('inserito il pasto correttamente');
         this.showRiempiPasto = true;
         const pastoId = response.body.id;
+        this.riempiTutto.riempiDettagliForm.patchValue({id_attivita: pastoId});
         this.riempiPastoForm.patchValue({id_pasto: pastoId});
         console.log('passato id al nuovo form:', this.riempiPastoForm.value.id_pasto);
+        console.log('passato id al nuovo form:', this.riempiTutto.riempiDettagliForm.value.id_pasto);
       }
     } catch(e:any) {
       if(e instanceof Error) {
