@@ -39,6 +39,12 @@
   </ion-card>
 
   <ng-container>
-    <app-riempi-dettagli [isShow]="showRiempiPasto" [dettagli]="alimenti" [new_id_attivita]="id_pasto_creato" (chiudi)="onChiudi()"></app-riempi-dettagli>
+    <app-riempi-dettagli 
+      [isShow]="showRiempiPasto"
+      [dettagli]="alimenti"
+      [new_id_attivita]="id_pasto_creato"
+      (chiudi)="onChiudi()"
+      (dettagliInseriti)="submitRiempi($event)">
+    </app-riempi-dettagli>
   </ng-container>
 </ion-content>

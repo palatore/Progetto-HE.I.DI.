@@ -17,7 +17,7 @@ import { RiempiDettagliComponent } from "./riempi-dettagli/riempi-dettagli.compo
 export class CreazionePastoPage implements OnInit {
 public alimenti:any[] = [];
 public pastoForm:FormGroup;
-public id_pasto_creato:Number | undefined;
+public id_pasto_creato:Number = 0;
 public showAlreadyExistent:Boolean = false;
 public showRiempiPasto:Boolean = false;
 public expiredSession:Boolean = false;
@@ -87,22 +87,14 @@ public expiredSession:Boolean = false;
     }
   }
 
-  async submitRiempi(){
-  /*  console.log('submitRiempi chiamata');
+  async submitRiempi(alimenti:any[]) {
+    console.log('submitRiempi chiamata con alimenti:', alimenti);
     const idPasto = this.id_pasto_creato
-    const alimenti = [];
-    for(let i = 0; i < 10; i++) {
-      const alimento = this.riempiPastoForm.value[`alimento_${i}`];
-      const qta = this.riempiPastoForm.value[`qta_${i}`];
-      if(alimento && qta) {
-        alimenti.push({id: alimento, qta: qta});
-      }
-    }
     try {
+      console.log('id pasto da riempire:', idPasto);
       const response = await firstValueFrom(this.foodService.riempiPasto(idPasto, alimenti));
       if(response && response.status === 201) {
         console.log('pasto riempito correttamente');
-        this.showRiempiPasto = false;
         this.pastoForm.reset();      }
     } catch(e:any) {
       if(e instanceof Error) {
@@ -110,11 +102,10 @@ public expiredSession:Boolean = false;
       } else if(e.status === 403) {
         this.expiredSession = true;
       }
-    } */
+    }
   }
 
   onChiudi() {
-    this.submitRiempi();
     this.showRiempiPasto = false;
     this.pastoForm.reset();
     console.log('debug: pasto riempito e chiuso');

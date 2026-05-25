@@ -31,7 +31,7 @@ export class RiempiDettagliComponent  implements OnInit {
       return this.id_attivita;
     }
   @Output() chiudi = new EventEmitter<void>();
-  @Output() dettagliInseriti:any[]= [];
+  @Output() dettagliInseriti = new EventEmitter<any[]>();
 
   public riempiDettagliForm:FormGroup;
 
@@ -72,7 +72,16 @@ export class RiempiDettagliComponent  implements OnInit {
     //da implementare il caricamento degli esercizi
   }
 
-  async submitRiempi(){
+  submitRiempi(){
+    const dettagli_inseriti = [];
+    for(let i = 0; i < 10; i++) {
+      const dettaglio = this.riempiDettagliForm.value[`dettaglio_${i}`];
+      const qta = this.riempiDettagliForm.value[`qta_${i}`];
+      if(dettaglio && qta) {
+        dettagli_inseriti.push({id: dettaglio, qta: qta});
+      }
+    }
+    this.dettagliInseriti.emit(dettagli_inseriti);
     this.chiudi.emit();
     this.riempiDettagliForm.reset();
   }
