@@ -64,12 +64,6 @@ export class RiempiDettagliComponent  implements OnInit {
   }
 
   ngOnInit() {
-  /*  this.foodService.getAlimenti().subscribe({
-      next: (data) => {this.alimenti = data;},
-      error: (err) => {console.error(err)}
-    });
-  */
-    //da implementare il caricamento degli esercizi
   }
 
   submitRiempi(){
