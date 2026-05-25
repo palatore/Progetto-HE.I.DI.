@@ -17,10 +17,10 @@ export class GestionePastiService {
     return this.http.post<any>(`${this.apiUrl}/api/pasti/creaPasti`, { nome, tipo }, {headers, observe: 'response'});
   }
 
-  riempiPasto(id_pasto:Number, alimenti:any[], bevande:any[]) {
+  riempiPasto(id_pasto:Number, alimenti:any[]) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
-    return this.http.post<any>(`${this.apiUrl}/api/pasti/riempiPasto`, { id_pasto, alimenti, bevande }, {headers, observe: 'response'});
+    return this.http.post<any>(`${this.apiUrl}/api/pasti/riempiPasto`, { id_pasto, alimenti}, {headers, observe: 'response'});
   }
 
   modificaPasto(id_pasto:Number) {

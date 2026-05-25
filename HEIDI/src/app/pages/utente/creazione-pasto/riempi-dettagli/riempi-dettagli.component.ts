@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/angular/standalone';
@@ -14,9 +14,24 @@ import { RouterModule } from '@angular/router';
 
 })
 export class RiempiDettagliComponent  implements OnInit {
+  private id_attivita:Number | undefined;
+
   @Input() dettagli:any[] = [];
   @Input() isShow:Boolean = false;
-  @Input() id_attivita:Number | undefined;
+  @Input() 
+    //Quando riceve un nuovo id attività lo assegna nel form
+    set new_id_attivita(value:Number | undefined) {
+      this.id_attivita = value;
+      if (value) {
+        this.riempiDettagliForm.patchValue({id_attivita: value});
+        console.log('id_attivita aggiornato in riempi dettagli:', this.riempiDettagliForm.value.id_attivita);
+      }
+    }
+    get new_id_attivita():Number | undefined {
+      return this.id_attivita;
+    }
+  @Output() chiudi = new EventEmitter<void>();
+  @Output() dettagliInseriti = new EventEmitter<any[]>();
 
   public riempiDettagliForm:FormGroup;
 
@@ -24,7 +39,7 @@ export class RiempiDettagliComponent  implements OnInit {
 
     this.riempiDettagliForm = this.formbuilder.group({
     //per prima cosa passiamo l'id del pasto o dell'allenamento che vogliamo riempire
-    id_attivita: [Number, Validators.required],
+    id_attivita: [null, Validators.required],
     dettaglio_0: null, //questo può essere un alimento o un esercizio in base a cosa vuole costruire l'utente
     qta_0: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
     dettaglio_1: null,
@@ -49,18 +64,20 @@ export class RiempiDettagliComponent  implements OnInit {
   }
 
   ngOnInit() {
-  /*  this.foodService.getAlimenti().subscribe({
-      next: (data) => {this.alimenti = data;},
-      error: (err) => {console.error(err)}
-    });
-  */
-    //da implementare il caricamento degli esercizi
-
-    this.riempiDettagliForm.reset();
   }
 
-  async submitRiempi(){
-    this.isShow = false;
+  submitRiempi(){
+    const dettagli_inseriti = [];
+    for(let i = 0; i < 10; i++) {
+      const dettaglio = this.riempiDettagliForm.value[`dettaglio_${i}`];
+      const qta = this.riempiDettagliForm.value[`qta_${i}`];
+      if(dettaglio && qta) {
+        dettagli_inseriti.push({id: dettaglio, qta: qta});
+      }
+    }
+    this.dettagliInseriti.emit(dettagli_inseriti);
+    this.chiudi.emit();
+    this.riempiDettagliForm.reset();
   }
   
 
