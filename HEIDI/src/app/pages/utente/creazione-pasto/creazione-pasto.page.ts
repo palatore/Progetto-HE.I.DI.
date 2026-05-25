@@ -30,26 +30,32 @@ public expiredSession:Boolean = false;
     });
   }
 
+  //metodo onInit della pagina, carica tramite il servizio gli alimenti disponibili nel database
+  //il metodo utilizza la proprietà subscribe degli observable per gestire la risposta del servizio
   ngOnInit() {
     this.foodService.getAlimenti().subscribe({
       next: (data) => {this.alimenti = data;},
       error: (err) => {console.error(err)}
     });
-
+  //in seguito resetta il form e imposta i flag a false per permettere un nuovo inserimento
     this.pastoForm.reset();
     this.showAlreadyExistent = false;
     this.showRiempiPasto = false;
   }
 
+  //questo metodo fa sì che al refresh della pagina il form venga resettato
   ionViewWillEnter() {
     this.pastoForm.reset();
   }
 
+  //metodo per crare un pasto al submit del form nella pagina html
   async onSubmit() {
     const nomePasto = this.pastoForm.value.nome;
-    const dataPasto = this.pastoForm.value.data;
     const tipoPasto = this.pastoForm.value.tipo;
 
+    //ricava i dati inseriti nel form e quindi procede a controllare se esiste già un pasto identico
+    //se esiste, ritorna con un messaggio di errore impostato dal flag true
+    //se non esiste, procede alla creazione del pasto con i dati inseriti
     try {
       const response = await firstValueFrom(this.foodService.checkPasto(nomePasto, tipoPasto));
       if(response && response.exists) {
@@ -67,18 +73,19 @@ public expiredSession:Boolean = false;
         this.expiredSession = false;
       }
     }
-    //Se non esiste, crea il pasto
+  //Se non esiste, crea il pasto
     try {
       const response = await firstValueFrom(this.foodService.creaPasti(this.pastoForm.value.nome, this.pastoForm.value.tipo));
       if (response === null) {
         console.log('errore di nullità');
         return
       } else if(response.status === 201) {
-        console.log('inserito il pasto correttamente');
+  //dopo aer creato il pasto, imposta il flag per mostrare il component di inserimento dettagli a true
+  //il component si attiva tramite il decorator @Input
+  //successivamente il metodo conserva l'id del pasto appena creato per poi passarlo successivamente al component
         this.showRiempiPasto = true;
         const pastoId = response.body.id;
         this.id_pasto_creato = pastoId;
-        console.log('id pasto creato:', this.id_pasto_creato);
       }
     } catch(e:any) {
       if(e instanceof Error) {
@@ -87,14 +94,13 @@ public expiredSession:Boolean = false;
     }
   }
 
+  //metodo per inserire i dettagli pasto nel database, richiede come parametro l'insieme degli alimenti impostati tramite il component
   async submitRiempi(alimenti:any[]) {
-    console.log('submitRiempi chiamata con alimenti:', alimenti);
     const idPasto = this.id_pasto_creato
+  //dopo aver ricavato l'id del pasto di cui inserire i dettagli, procede con l'inserimento
     try {
-      console.log('id pasto da riempire:', idPasto);
       const response = await firstValueFrom(this.foodService.riempiPasto(idPasto, alimenti));
       if(response && response.status === 201) {
-        console.log('pasto riempito correttamente');
         this.pastoForm.reset();      }
     } catch(e:any) {
       if(e instanceof Error) {
@@ -105,9 +111,10 @@ public expiredSession:Boolean = false;
     }
   }
 
+  //metodo per chiudere il component di inserimento dettagli pasto
+  //questo metodo funziona tramite i decorator @Output nel component
   onChiudi() {
     this.showRiempiPasto = false;
     this.pastoForm.reset();
-    console.log('debug: pasto riempito e chiuso');
   }
 }
