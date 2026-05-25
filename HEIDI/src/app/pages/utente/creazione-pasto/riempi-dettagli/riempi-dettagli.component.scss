@@ -1,0 +1,21 @@
+.dettagliRow {
+    display: flex;
+    flex-wrap: wrap;  // Permette alle card di andare a capo se lo spazio è insufficiente
+    justify-content: center;  // Centra le card orizzontalmente
+}
+
+.dettaglioCard {
+    margin: 5px;
+    width: 100%;
+    aspect-ratio: 1;  // Rende la card quadrato
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: antiquewhite; //da decidere
+}
+
+.dettaglioImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  // Riempie lo spazio mantenendo le proporzioni
+}

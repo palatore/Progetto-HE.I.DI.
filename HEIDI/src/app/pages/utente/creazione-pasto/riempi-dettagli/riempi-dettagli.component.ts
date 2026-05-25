@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-riempi-dettagli',
   templateUrl: './riempi-dettagli.component.html',
   styleUrls: ['./riempi-dettagli.component.scss'],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule]
 
 })
 export class RiempiDettagliComponent  implements OnInit {
@@ -64,6 +64,15 @@ export class RiempiDettagliComponent  implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  getImgPath(dettaglio:any): string {
+    const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
+    if(parametro) {
+      return `assets/dettagli/${parametro}.png`;
+    } else {
+      return 'assets/dettagli/default.png';
+    }
   }
 
   submitRiempi(){
