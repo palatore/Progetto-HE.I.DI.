@@ -17,7 +17,7 @@ import { RiempiDettagliComponent } from "./riempi-dettagli/riempi-dettagli.compo
 export class CreazionePastoPage implements OnInit {
 public alimenti:any[] = [];
 public pastoForm:FormGroup;
-public id_pasto_creato:Number = 0;
+public id_pasto_creato:number = 0;
 public showAlreadyExistent:Boolean = false;
 public showRiempiPasto:Boolean = false;
 public expiredSession:Boolean = false;
