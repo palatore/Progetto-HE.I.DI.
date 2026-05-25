@@ -33,10 +33,10 @@ class Allenamenti {
     }
 
 
-    //metodo per trovare gli esercizi grazie al loro ID
-    static async findEserciziById(id_esercizio){
+    //metodo per trovare gli allenamenti grazie al loro ID
+    static async findAllenamentiById(id_allenamento){
         return new Promise((resolve, reject) =>{
-            db.all('SELECT * FROM esercizi WHERE id = ?', [esercizio], (err, rows) =>{
+            db.all('SELECT * FROM allenamenti WHERE id = ?', [allenamento], (err, rows) =>{
                 if(err){
                     reject(err);
                 } else {
@@ -93,9 +93,9 @@ class Allenamenti {
     }
 
     //metodo per evitare allenamenti duplicati
-    static async checkAllenamento(user_id, data) {
+    static async checkAllenamento(user_id, giorno) {
         return new Promise((resolve, reject)=> {
-            db.all('SELECT * FROM allenamenti WHERE user_id = ? AND data = ?', [user_id,data], (err,rows)=>{
+            db.all('SELECT * FROM allenamenti WHERE user_id = ? AND data = ?', [user_id, giorno], (err,rows)=>{
                 if(err){
                     reject(err);
                 }else{
