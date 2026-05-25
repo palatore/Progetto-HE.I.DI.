@@ -14,20 +14,20 @@ import { RouterModule } from '@angular/router';
 
 })
 export class RiempiDettagliComponent  implements OnInit {
-  private id_attivita:Number | undefined;
+  private id_attivita:number | undefined;
 
   @Input() dettagli:any[] = [];
   @Input() isShow:Boolean = false;
   @Input() 
     //Quando riceve un nuovo id attività lo assegna nel form
-    set new_id_attivita(value:Number | undefined) {
+    set new_id_attivita(value:number | undefined) {
       this.id_attivita = value;
       if (value) {
         this.riempiDettagliForm.patchValue({id_attivita: value});
         console.log('id_attivita aggiornato in riempi dettagli:', this.riempiDettagliForm.value.id_attivita);
       }
     }
-    get new_id_attivita():Number | undefined {
+    get new_id_attivita():number | undefined {
       return this.id_attivita;
     }
   @Output() chiudi = new EventEmitter<void>();
