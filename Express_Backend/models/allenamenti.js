@@ -62,8 +62,20 @@ class Allenamenti {
     //metodo per ottenere i dettagli di un allenamento
     static async getDettagliAllenamento(id_allenamento, allenamento){
         return new Promise((resolve, reject) => {
-            db.all('SELECT ea.*, ')
-        })
+            db.all('SELECT ea.*, a.name FROM esercizi_allenamento ea JOIN esercizi e ON ea.esercizio_id = e.id WHERE ea.allenamento_id = ?', [id_allenamento], (err, esercizi)=>{
+                if(err){
+                    reject(err);
+                } else {
+                    db.get('SELECT * FROM esercizi_allenamento ea JOIN esercizi e ON ea.esercizio_id = e.id WHERE ea.allenamento_id = ?', [id_allenamento], (err, rows)=>{
+                        if(err){
+                            reject(err);
+                        } else {
+                            resolve(rows);
+                        }
+                    });
+                }
+            });
+        });
     }
 
 
@@ -96,7 +108,7 @@ class Allenamenti {
     //metodo per creare allenamenti
     static async creaAllenamenti(user_id, nome, giorno, data){
         return new Promise((resolve, reject)=>{
-            db.run('INSERT INTO allenamenti (user_id, nome, giorno, data) VALUES (?, ?, ?, ?)', [user_id, nome, giorno, data], function(err){
+            db.run('INSERT INTO allenamenti (user_id, nome, giorno, data, durata) VALUES (?, ?, ?, ?, ?)', [user_id, nome, giorno, data, durata], function(err){
                 if(err){
                     reject(err);
                 } else {
@@ -110,9 +122,9 @@ class Allenamenti {
     static async riempiAllenamento(id_allenamento, esercizi){
         return new Promise((resolve, reject)=> {
             const insertAllenamenti = allenamenti.map(allenamento =>{
-                console.log('sto inserendo allenamento:', esercizio, esercizio.id, 'con:', esercizio.reps, 'ripetizioni,', esercizio.kg, 'kg,', esercizio.rest, 'minuti di riposo, e', esercizio.durata, 'minuti di durata stimata');
+                console.log('sto inserendo allenamento:', esercizio, esercizio.id, 'con:', esercizio.reps, 'ripetizioni,', esercizio.kg, 'kg, e', esercizio.rest, 'minuti di riposo');
                 return new Promise((res, rej)=>{
-                    db.run('INSERT INTO esercizi_allenamento (allenamento_id, esercizio_id, ripetizioni, pesi_kg, riposo_min, durata_min) VALUES (?, ?, ?, ?, ?, ?)', [id_allenamento, esercizio.id, esercizio.reps, esercizio.kg, esercizio.rest, esercizio.durata], function(err){
+                    db.run('INSERT INTO esercizi_allenamento (allenamento_id, esercizio_id, ripetizioni, pesi_kg, riposo_minuti) VALUES (?, ?, ?, ?, ?)', [id_allenamento, esercizio.id, esercizio.reps, esercizio.kg, esercizio.rest], function(err){
                         if(err){
                             rej(err);
                         } else {
