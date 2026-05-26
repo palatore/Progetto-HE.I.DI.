@@ -196,7 +196,7 @@
       <ion-grid>
         <ion-row class="dettagliRow">
           <ion-col size="3" *ngFor="let dettaglio of dettagli">
-            <ion-card class="dettaglioCard" (onClick)="segnaDettaglio(dettaglio.id)">
+            <ion-card class="dettaglioCard" (click)="this.segnaDettaglio(dettaglio.id)">
               <img
                 [src]="getImgPath(dettaglio)"
                 (error)="onImgError($event)"
