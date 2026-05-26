@@ -68,11 +68,15 @@ export class RiempiDettagliComponent  implements OnInit {
 
   getImgPath(dettaglio:any): string {
     const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
-    if(parametro) {
-      return `assets/dettagli/${parametro}.png`;
-    } else {
-      return 'assets/dettagli/default.png';
-    }
+    const imgPath = `assets/dettagli/${parametro}.png`;
+    return imgPath;
+  }
+  onImgError(event: any) {
+  event.target.src = 'assets/dettagli/default.png';
+}
+
+  segnaDettaglio(id_dettaglio:Number) {
+    console.error('CHE FIGATA');
   }
 
   submitRiempi(){

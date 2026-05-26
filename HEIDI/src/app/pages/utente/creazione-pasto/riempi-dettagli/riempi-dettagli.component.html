@@ -190,16 +190,18 @@
           </form>
         </ion-grid>
     </ion-card>
-  </ng-container>
 
   <!--Sezione icone quadrate-->
-  <ng-container>
-    <ion-card>
+    <ion-card class="containerDettagliCards">
       <ion-grid>
         <ion-row class="dettagliRow">
           <ion-col size="3" *ngFor="let dettaglio of dettagli">
-            <ion-card class="dettaglioCard">
-              <img [src]="getImgPath(dettaglio)" alt="{{dettaglio.name}}" class="dettaglioImage">
+            <ion-card class="dettaglioCard" (onClick)="segnaDettaglio(dettaglio.id)">
+              <img
+                [src]="getImgPath(dettaglio)"
+                (error)="onImgError($event)"
+                alt="{{dettaglio.name}}"
+                class="dettaglioImage">
               <ion-card-content class="dettaglioName">
                 {{dettaglio.name}}
               </ion-card-content>
@@ -208,5 +210,4 @@
         </ion-row>
       </ion-grid>
     </ion-card>
-  </ng-container>
 </ng-container>
