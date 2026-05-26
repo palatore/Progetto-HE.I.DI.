@@ -10,24 +10,24 @@ import { RouterModule } from '@angular/router';
   selector: 'app-riempi-dettagli',
   templateUrl: './riempi-dettagli.component.html',
   styleUrls: ['./riempi-dettagli.component.scss'],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule]
 
 })
 export class RiempiDettagliComponent  implements OnInit {
-  private id_attivita:Number | undefined;
+  private id_attivita:number | undefined;
 
   @Input() dettagli:any[] = [];
   @Input() isShow:Boolean = false;
   @Input() 
     //Quando riceve un nuovo id attività lo assegna nel form
-    set new_id_attivita(value:Number | undefined) {
+    set new_id_attivita(value:number | undefined) {
       this.id_attivita = value;
       if (value) {
         this.riempiDettagliForm.patchValue({id_attivita: value});
         console.log('id_attivita aggiornato in riempi dettagli:', this.riempiDettagliForm.value.id_attivita);
       }
     }
-    get new_id_attivita():Number | undefined {
+    get new_id_attivita():number | undefined {
       return this.id_attivita;
     }
   @Output() chiudi = new EventEmitter<void>();
@@ -64,6 +64,19 @@ export class RiempiDettagliComponent  implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  getImgPath(dettaglio:any): string {
+    const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
+    const imgPath = `assets/dettagli/${parametro}.png`;
+    return imgPath;
+  }
+  onImgError(event: any) {
+  event.target.src = 'assets/dettagli/default.png';
+}
+
+  segnaDettaglio(id_dettaglio:Number) {
+    console.error('CHE FIGATA');
   }
 
   submitRiempi(){

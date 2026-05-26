@@ -1,0 +1,42 @@
+.containerDettagliCards {
+    max-height:400px;
+    overflow-y: auto;  // Barra di scorrimento verticale
+    overflow-x: hidden;  // No Barra di scorrimento orizzontale
+}
+
+.dettagliRow {
+    display: flex;
+    flex-wrap: wrap;  // Permette alle card di andare a capo se lo spazio è insufficiente
+    justify-content: center;  // Centra le card orizzontalmente
+}
+
+.dettaglioCard {
+    margin: 5px;
+    padding: 5px;
+    width: 100%;
+    aspect-ratio: 1;  // Rende la card quadrata
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: antiquewhite; //da decidere
+    box-sizing: border-box;  // Include padding e border nella dimensione totale della card
+}
+
+.dettaglioImage {
+    width: 100%;
+    height: 70%;
+    object-fit: contain;  // Mostra tutta l'immagine senza tagliarla
+}
+
+.dettaglioName {
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    color: #333;
+    word-wrap: break-word;  // Permette al testo di andare a capo se è troppo lungo
+}
