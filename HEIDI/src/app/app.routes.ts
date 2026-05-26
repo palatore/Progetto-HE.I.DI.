@@ -33,10 +33,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/utente/creazione-pasto/creazione-pasto.page').then( m => m.CreazionePastoPage),
     canActivate: [AuthGuard]
   },
-
-{
+  {
     path: 'pastiUtente',
     loadComponent: () => import('./pages/utente/pasti-utente/pasti-utente.page').then( m => m.PastiUtentePage)
+  },
+  {
+    path: 'creazioneAllenamento',
+    loadComponent: () => import('./pages/utente/creazione-allenamento/creazione-allenamento.page').then( m => m.CreazioneAllenamentoPage),
+    canActivate: [AuthGuard]
   },
 
 ];
