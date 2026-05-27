@@ -22,6 +22,8 @@ public id_pasto_creato:number = 0;
 public showAlreadyExistent:Boolean = false;
 public showRiempiPasto:Boolean = false;
 public expiredSession:Boolean = false;
+alimento_selezionato:any = null; //variabile per la gestione delle info
+alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   
 
   constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService) {
@@ -48,6 +50,8 @@ public expiredSession:Boolean = false;
   ionViewWillEnter() {
     this.pastoForm.reset();
   }
+
+//INSERIMENTO PASTO NEL DATABASE
 
   //metodo per crare un pasto al submit del form nella pagina html
   async onSubmit() {
@@ -93,6 +97,24 @@ public expiredSession:Boolean = false;
         console.log(e.message);
       }
     }
+  }
+
+//INSERIMENTO DETTAGLI PASTO
+
+  //metodo per ricevere un alimento dal component di riempimento per mostrarne le info
+  onAlimentoSelezionato(alimento:any) {
+    console.log('Ho ricevuto un alimento da selezionare:', alimento);
+    this.alimento_selezionato = alimento;
+  }
+
+  //metodo per inviare i dettagli di un alimento selezionato al component di riempimento pasto
+  mettiInLista(cibo: {id: number, qta: number}) {
+    this.alimento_selezionato = [{
+      ['dettaglio_x']: cibo.id,
+      ['qta_x']: cibo.qta
+    }];
+
+    this.alimento_selezionato = null;
   }
 
   //metodo per inserire i dettagli pasto nel database, richiede come parametro l'insieme degli alimenti impostati tramite il component

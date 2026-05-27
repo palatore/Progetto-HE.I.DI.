@@ -43,10 +43,13 @@
       [isShow]="showRiempiPasto"
       [miei_dettagli]="alimenti"
       [new_id_attivita]="id_pasto_creato"
+      (dettaglioSelezionato)="onAlimentoSelezionato($event)"
       (chiudi)="onChiudi()"
       (dettagliInseriti)="submitRiempi($event)">
     </app-riempi-dettagli>
 
-    <app-info-dettagli></app-info-dettagli>
+    <app-info-dettagli
+      [dettaglio]="alimento_selezionato"
+      (inLista)="mettiInLista($event)"></app-info-dettagli>
   </ng-container>
 </ion-content>

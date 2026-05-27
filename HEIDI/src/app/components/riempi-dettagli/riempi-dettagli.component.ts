@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonInput, IonItem, IonRow, IonSelect, IonSelectOption} from '@ionic/angular/standalone';
@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule]
 
 })
-export class RiempiDettagliComponent  implements OnInit {
+export class RiempiDettagliComponent  implements OnInit, OnChanges {
   private id_attivita:number | undefined;
   public dettagli:any[] = [];
   private dettagli_completi:any[] = [];
@@ -39,6 +39,8 @@ export class RiempiDettagliComponent  implements OnInit {
     get new_id_attivita():number | undefined {
       return this.id_attivita;
     }
+  @Input() dettagli_aggiunti_da_info:any[] = [];
+  @Output() dettaglioSelezionato = new EventEmitter<any>();
   @Output() chiudi = new EventEmitter<void>();
   @Output() dettagliInseriti = new EventEmitter<any[]>();
 
@@ -93,13 +95,18 @@ export class RiempiDettagliComponent  implements OnInit {
     }
   }
 
-  //con questa funzione, cliccando sul dettaglio questo viene aggiunto al form dettagli
-  segnaDettaglio(id_dettaglio:Number) {
-    //per prima cosa trova un posto libero
-    for(let i = 0; i < 10; i++) {
-      if (!this.riempiDettagliForm.value[`dettaglio_${i}`]) {
-        this.riempiDettagliForm.patchValue({[`dettaglio_${i}`]: id_dettaglio, [`qta_${i}`]: 1});
-        break;
+  //emette il dettaglio selezionato al genitore per mostrarne le info tramite il componente di info
+  segnaDettaglio(dettaglio:any) {
+    console.log('Dettaglio selezionato:', dettaglio);
+    this.dettaglioSelezionato.emit(dettaglio);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    //se riceve nuovi dettagli da info li aggiunge alla lista dei dettagli insieriti nel pasto o allenamento
+    if(changes['dettagli_aggiunti_da_info']) {
+      const nuovi_dettagli = changes['dettagli_agginti_da_info'].currentValue;
+      if(nuovi_dettagli) {
+        this.riempiDettagliForm.patchValue(nuovi_dettagli);
       }
     }
   }
