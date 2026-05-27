@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonInput, IonItem, IonRow, IonSelect, IonSelectOption} from '@ionic/angular/standalone';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { firstValueFrom } from 'rxjs';
 import { RouterModule } from '@angular/router';
@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-riempi-dettagli',
   templateUrl: './riempi-dettagli.component.html',
   styleUrls: ['./riempi-dettagli.component.scss'],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule]
+  imports: [CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule]
 
 })
 export class RiempiDettagliComponent  implements OnInit {
