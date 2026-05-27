@@ -193,21 +193,22 @@
 
   <!--Sezione icone quadrate-->
     <ion-card class="containerDettagliCards">
-      <ion-grid>
-        <ion-row class="dettagliRow">
-          <ion-col size="3" *ngFor="let dettaglio of dettagli">
-            <ion-card class="dettaglioCard" (click)="this.segnaDettaglio(dettaglio.id)">
-              <img
-                [src]="getImgPath(dettaglio)"
-                (error)="onImgError($event)"
-                alt="{{dettaglio.name}}"
-                class="dettaglioImage">
-              <ion-card-content class="dettaglioName">
-                {{dettaglio.name}}
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+        <ion-input type="text", placeholder="Cerca..." (input)="filtraDettagli($event)"></ion-input>"
+        <ion-grid>
+          <ion-row class="dettagliRow">
+            <ion-col size="3" *ngFor="let dettaglio of dettagli">
+              <ion-card class="dettaglioCard" (click)="this.segnaDettaglio(dettaglio.id)">
+                <img
+                  [src]="getImgPath(dettaglio)"
+                  (error)="onImgError($event)"
+                  alt="{{dettaglio.name}}"
+                  class="dettaglioImage">
+                <ion-card-content class="dettaglioName">
+                  {{dettaglio.name}}
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
     </ion-card>
 </ng-container>

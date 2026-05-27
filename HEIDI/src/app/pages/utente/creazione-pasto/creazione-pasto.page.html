@@ -41,10 +41,12 @@
   <ng-container>
     <app-riempi-dettagli 
       [isShow]="showRiempiPasto"
-      [dettagli]="alimenti"
+      [miei_dettagli]="alimenti"
       [new_id_attivita]="id_pasto_creato"
       (chiudi)="onChiudi()"
       (dettagliInseriti)="submitRiempi($event)">
     </app-riempi-dettagli>
+
+    <app-info-dettagli></app-info-dettagli>
   </ng-container>
 </ion-content>

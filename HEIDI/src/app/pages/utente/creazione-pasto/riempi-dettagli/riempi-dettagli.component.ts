@@ -15,8 +15,17 @@ import { RouterModule } from '@angular/router';
 })
 export class RiempiDettagliComponent  implements OnInit {
   private id_attivita:number | undefined;
+  public dettagli:any[] = [];
+  private dettagli_completi:any[] = [];
 
-  @Input() dettagli:any[] = [];
+  @Input()
+    set miei_dettagli(value:any[]) {
+      this.dettagli = value;
+      this.dettagli_completi = [...value]; //copia per filtrare senza modificare
+    }
+    get miei_dettagli():any[] {
+      return this.dettagli;
+    }
   @Input() isShow:Boolean = false;
   @Input() 
     //Quando riceve un nuovo id attività lo assegna nel form
@@ -75,8 +84,24 @@ export class RiempiDettagliComponent  implements OnInit {
   event.target.src = 'assets/dettagli/default.png';
   }
 
+  filtraDettagli(event: any) {
+    const filtro = event.target.value.toLowerCase(); //prende l'input e lo rende minuscolo per cercare corrispondenze
+    if (!filtro) {
+      this.dettagli = [...this.dettagli_completi];
+    } else {
+      this.dettagli = this.dettagli_completi.filter(dettaglio => dettaglio.name.toLowerCase().includes(filtro));
+    }
+  }
+
+  //con questa funzione, cliccando sul dettaglio questo viene aggiunto al form dettagli
   segnaDettaglio(id_dettaglio:Number) {
-    console.error('CHE FIGATA');
+    //per prima cosa trova un posto libero
+    for(let i = 0; i < 10; i++) {
+      if (!this.riempiDettagliForm.value[`dettaglio_${i}`]) {
+        this.riempiDettagliForm.patchValue({[`dettaglio_${i}`]: id_dettaglio, [`qta_${i}`]: 1});
+        break;
+      }
+    }
   }
 
   submitRiempi(){

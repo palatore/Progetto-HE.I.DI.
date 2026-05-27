@@ -6,13 +6,14 @@ import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.serv
 import { firstValueFrom } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { RiempiDettagliComponent } from "./riempi-dettagli/riempi-dettagli.component";
+import { InfoDettagliComponent } from "src/app/components/info-dettagli/info-dettagli.component";
 
 @Component({
   selector: 'app-creazione-pasto',
   templateUrl: './creazione-pasto.page.html',
   styleUrls: ['./creazione-pasto.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent]
 })
 export class CreazionePastoPage implements OnInit {
 public alimenti:any[] = [];
