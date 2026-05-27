@@ -5,7 +5,7 @@ import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { firstValueFrom } from 'rxjs';
 import { RouterModule } from '@angular/router';
-import { RiempiDettagliComponent } from "./riempi-dettagli/riempi-dettagli.component";
+import { RiempiDettagliComponent } from "../../../components/riempi-dettagli/riempi-dettagli.component";
 import { InfoDettagliComponent } from "src/app/components/info-dettagli/info-dettagli.component";
 
 @Component({
