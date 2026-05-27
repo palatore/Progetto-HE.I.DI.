@@ -14,11 +14,41 @@
            <form [formGroup]="allenamentoForm">
             <ion-grid class="ion-justify-center">
                 <ion-row>
-                    <ion-input type="text" placeholder="Nome Allenamento"></ion-input>
+                    <ion-col>
+                        <ion-input type="text" placeholder="Nome Allenamento" formControlName="nome"></ion-input>
+                    </ion-col>
+                    <ion-col class="ion-justify-top">
+                        <ion-card-title> 
+                            Giorno Allenamento
+                        </ion-card-title>
+                        
+                       <ion-datetime-button datetime="datetime" ></ion-datetime-button>
+
+                       <ion-modal [keepContentsMounted]="true">
+                        <ng-template>
+                            <ion-datetime 
+                            id="datetime"
+                            presentation="date"
+                            [showDefaultButtons]="true"
+                            doneText="Seleziona"
+                            cancelText="Annulla"
+                            formControlName="giorno">
+                            </ion-datetime>
+                        </ng-template>
+                            
+                       </ion-modal>
+                    </ion-col>
                 </ion-row>
             </ion-grid>
-            <ion-button type="submit" disabled> Crea </ion-button>
+            <ion-button type="submit" [disabled]="!allenamentoForm.valid"> Crea </ion-button>
+            <div *ngIf="showAlreadyExistent" style="color: red; background-color: transparent">
+                Allenamento già esistente
+            </div>
            </form>
         </ion-card-content>
     </ion-card>
+
+    <ng-container>
+       <!-- app-riempi-allenamento -->
+    </ng-container>
 </ion-content>

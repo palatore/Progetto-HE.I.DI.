@@ -156,9 +156,9 @@ db.serialize(() => {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
-        data DATE NULL,
-        data_creazione DATE NULL,
+        data DATE NOT NULL,
         durata_minuti INTEGER NOT NULL,
+        data_creazione DATE NULL,
         FOREIGN KEY(user_id) REFERENCES utenti(id)
     )`, (err) => {
         if (err) {

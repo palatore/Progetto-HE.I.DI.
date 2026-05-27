@@ -61,9 +61,9 @@ class AllenamentiServices {
         return allenamento;
     };
 
-    static async creaAllenamenti(user_id, nome, giorno, data){
+    static async creaAllenamenti(user_id, nome, giorno, durata, data){
         //crea un nuovo allenamento per l'utente
-        const nuovoAllenamento = await allenamentiModel.creaAllenamenti(user_id, nome, giorno, data);
+        const nuovoAllenamento = await allenamentiModel.creaAllenamenti(user_id, nome, giorno, durata, data);
         if(nuovoAllenamento){
             console.log('Allenamento creato con successo');
         }else{
