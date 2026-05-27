@@ -43,4 +43,10 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
 
+  //SOLO PER PREPARAZIONE DEL FORM DELL'ALLENAMENTO
+  {
+    path: 'testRiempiAllenamento',
+    loadComponent: () => import('./pages/utente/creazione-allenamento/riempi-allenamento/riempi-allenamento.component').then(m => m.RiempiAllenamentoComponent)
+  },
+
 ];
