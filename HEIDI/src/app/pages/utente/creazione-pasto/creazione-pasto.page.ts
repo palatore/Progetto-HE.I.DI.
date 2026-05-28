@@ -102,17 +102,36 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
 //INSERIMENTO DETTAGLI PASTO
 
   //metodo per ricevere un alimento dal component di riempimento per mostrarne le info
-  onAlimentoSelezionato(alimento:any) {
-    console.log('Ho ricevuto un alimento da selezionare:', alimento);
-    this.alimento_selezionato = alimento;
+  async onAlimentoSelezionato(id_alimento:number) {
+    console.log('Ho ricevuto un alimento da selezionare:', id_alimento);
+    this.alimento_selezionato = await this.datiAlimento(id_alimento);
   }
 
-  //metodo per inviare i dettagli di un alimento selezionato al component di riempimento pasto
-  mettiInLista(cibo: {id: number, qta: number}) {
-    this.alimento_selezionato = [{
-      ['dettaglio_x']: cibo.id,
-      ['qta_x']: cibo.qta
+  //metodo per ricavare i dati di un alimento passato dal component di riempimento
+  //il component passa l'id e si cercano i dati corrispondenti
+  //le info ottenute vengono inviate al component di visualizzazione info tramite @Input
+  async datiAlimento(id_alimento:number): Promise<any> {
+    try {
+      const response = await firstValueFrom(this.foodService.getAlimentoById(id_alimento));
+      if(response) {
+        return response;
+      } else {
+        console.log('Alimento non trovato per id:', id_alimento);
+      }
+    } catch (error) {
+      console.error('Errore nel recupero dellw info:', error);
+    }
+
+  }
+
+  //metodo per inviare un alimento di cui si è visualizzate le info e selezionato al component di riempimento pasto
+  async mettiInLista(alimento: {id_alimento:number, qta:number}) {
+    const cibo = await this.datiAlimento(alimento.id_alimento);
+    this.alimento_da_aggiungere = [{
+      alimento: cibo,
+      qta: alimento.qta
     }];
+    console.log('Debug: alimento da aggiungere', this.alimento_da_aggiungere);
 
     this.alimento_selezionato = null;
   }

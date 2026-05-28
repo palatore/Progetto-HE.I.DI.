@@ -2,6 +2,7 @@ const PastiServices = require('../services/pastiServices');
 
 class PastiControllers {
 
+    //GET dammi tutti gli alimenti
     static getAlimenti = async (req, res) => {
         try {
             const alimenti = await PastiServices.getAllAlimenti();
@@ -11,6 +12,24 @@ class PastiControllers {
         }
     };
 
+    //GET restituiscimi un alimento dato il suo ID
+    static getAlimentoById = async (req, res) => {
+        try {
+            const id_alimento = req.params.id_alimento;
+            console.log('ID alimento:', id_alimento);
+            const alimento = await PastiServices.getAlimentoById(id_alimento);
+            if(alimento) {
+                console.log('Alimento trovato:', alimento);
+                res.json(alimento);
+            } else {
+                res.status(404).json({error: 'Alimento non trovato'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    //GET dammi tutti i pasti
     static getPasti = async (req, res) => {
         try {
             const pasti = await PastiServices.getAllPasti();
@@ -20,6 +39,7 @@ class PastiControllers {
         }
     };
 
+    //GET dammi tutti i dettagli di tutti i pasti
     static getAlimentiPasti = async (req, res) => {
         try {
             const alimentiPasti = await PastiServices.getAllAlimentiPasti();
@@ -29,6 +49,7 @@ class PastiControllers {
         }
     };
 
+    //GET dammi i dettagli di un singolo pasto dato il suo ID
     static getDettagliPasto = async (req, res) => {
         try {
             const id_pasto = req.params.id_pasto;
@@ -44,6 +65,7 @@ class PastiControllers {
         }
     };
 
+    //GET dammi tutti i pasti relativi a un utente dato il suo ID
     static getPastiUtente = async (req, res) => {
         try {
             const user_id = req.user.id;
@@ -55,6 +77,7 @@ class PastiControllers {
         }
     }
 
+    //POST controlla se un pasto, dato il nome e il tipo, esiste già nel database per l'utente
     static checkPasto = async (req, res) => {
         console.log('Controllo pasto in corso...');
         try {
@@ -68,6 +91,7 @@ class PastiControllers {
         }
     };
 
+    //POST salva un nuovo pasto nel database
     static creaPasti = async (req, res) => {
         try {
             const {nome, tipo} = req.body;
@@ -79,6 +103,7 @@ class PastiControllers {
         }
     };
 
+    //POST aggiungi i dettagli di un determinato pasto nel detabase
     static riempiPasto = async (req, res) => {
         console.log('RiempiPasto controller chiamato');
         try {
@@ -91,6 +116,7 @@ class PastiControllers {
         }
     }
 
+    //DELETE elimina un pasto dato il suo ID
     static eliminaPasto = async (req, res) => {
         try {
             const id_pasto = req.params.id_pasto;

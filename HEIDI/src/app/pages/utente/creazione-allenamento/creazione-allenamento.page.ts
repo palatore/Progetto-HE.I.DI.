@@ -48,10 +48,15 @@ public expiredSession:Boolean = false;
             }else if(response.status === 201){
                 console.log('allenamento creato con id:', response.body.id);
             }
+<<<<<<< HEAD
         }catch(e:any){
             if(e instanceof Error){
                 console.log(e.message);
             }
+=======
+        } catch(e:any){
+            console.error('Errore durante la creazione dell\'allenamento:', e);
+>>>>>>> 59c9619e399290cec8d2fda8cfcced13ed8b86e4
         }
     }
 

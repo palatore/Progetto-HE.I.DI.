@@ -2,8 +2,6 @@ import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitte
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonInput, IonItem, IonRow, IonSelect, IonSelectOption} from '@ionic/angular/standalone';
-import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
-import { firstValueFrom } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -39,14 +37,14 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
     get new_id_attivita():number | undefined {
       return this.id_attivita;
     }
-  @Input() dettagli_aggiunti_da_info:any[] = [];
-  @Output() dettaglioSelezionato = new EventEmitter<any>();
+  @Input() dettagli_aggiunti_da_info:any;
+  @Output() dettaglioSelezionato = new EventEmitter<number>();
   @Output() chiudi = new EventEmitter<void>();
   @Output() dettagliInseriti = new EventEmitter<any[]>();
 
   public riempiDettagliForm:FormGroup;
 
-  constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService) {
+  constructor(private formbuilder:FormBuilder) {
 
     this.riempiDettagliForm = this.formbuilder.group({
       //per prima cosa passiamo l'id del pasto o dell'allenamento che vogliamo riempire
@@ -96,17 +94,30 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   }
 
   //emette il dettaglio selezionato al genitore per mostrarne le info tramite il componente di info
-  segnaDettaglio(dettaglio:any) {
-    console.log('Dettaglio selezionato:', dettaglio);
-    this.dettaglioSelezionato.emit(dettaglio);
+  segnaDettaglio(id_dettaglio:number) {
+    console.log('Dettaglio selezionato:', id_dettaglio);
+    this.dettaglioSelezionato.emit(id_dettaglio);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     //se riceve nuovi dettagli da info li aggiunge alla lista dei dettagli insieriti nel pasto o allenamento
     if(changes['dettagli_aggiunti_da_info']) {
-      const nuovi_dettagli = changes['dettagli_agginti_da_info'].currentValue;
+      const nuovi_dettagli = changes['dettagli_aggiunti_da_info'].currentValue;
+      console.log('Ricevuti nuovi dettagli da inserire dal component di info:', nuovi_dettagli);
       if(nuovi_dettagli) {
-        this.riempiDettagliForm.patchValue(nuovi_dettagli);
+        for (let i = 0; i <10; i++) {
+          if(this.riempiDettagliForm.value[`dettaglio_${i}`] === null) {
+            this.riempiDettagliForm.patchValue({
+              [`dettaglio_${i}`]: nuovi_dettagli[0]?.alimento.id || null,
+              [`qta_${i}`]: nuovi_dettagli[0]?.qta || null
+            });
+            break;
+          } else {
+            console.log('Debug: Campo già riempito, passo al successivo')
+          }
+        }
+      } else {
+        console.log('Debug: nessun nuovo dettaglio o dettaglio vuoto');
       }
     }
   }

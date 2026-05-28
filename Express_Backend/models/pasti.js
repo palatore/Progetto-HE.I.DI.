@@ -17,6 +17,18 @@ class Pasti {
         });
     }
 
+    static async getAlimentoById(id_alimento) {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT * FROM alimenti WHERE id = ?', [id_alimento], (err, row) => {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(row);
+                }
+            });
+        });
+    }
+
     static async getAllPasti() {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM pasti', [], (err, rows) => {

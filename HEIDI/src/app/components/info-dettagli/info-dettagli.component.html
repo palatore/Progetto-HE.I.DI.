@@ -1,4 +1,17 @@
 <ng-container *ngIf="dettaglio">
+    <ion-card>
+        <ion-card-header>
+        {{dettaglio.name}}
+        </ion-card-header>
+        <ion-card-content>
+        <p>Calorie: {{dettaglio.calorie}}</p>
+        <p>Carboidrati: {{dettaglio.carboidrati}}</p>
+        <p>Proteine: {{dettaglio.proteine}}</p>
+        <p>Grassi: {{dettaglio.grassi}}</p>
+        </ion-card-content>
+        <ion-input type="number" step="any" placeholder="Quantità" [(ngModel)]="quantita"></ion-input>
+        <ion-button (click)="mandaInLista()">Aggiungi al pasto</ion-button>
+    </ion-card>
 dettaglio: {{dettaglio.id}}
 <ion-button (click)="chiudi()"> CHIUDI</ion-button>
 </ng-container>

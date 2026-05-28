@@ -4,6 +4,7 @@ const authenticateToken = require('../middlewares/authenticateToken.js');
 const PastiControllers = require('../controllers/pastiControllers');
 
 router.get('/alimenti', PastiControllers.getAlimenti);
+router.get('/alimento/:id_alimento', PastiControllers.getAlimentoById);
 router.get('/pasti', PastiControllers.getPasti);
 router.get('/alimenti_pasti', PastiControllers.getAlimentiPasti);
 router.get('/dettagliPasto/:id_pasto', authenticateToken, PastiControllers.getDettagliPasto);
