@@ -11,7 +11,7 @@
             CREAZIONE ALLENAMENTO
         </ion-card-header>
         <ion-card-content>
-           <form [formGroup]="allenamentoForm">
+           <form [formGroup]="allenamentoForm" (ngSubmit)="onSubmit()">
             <ion-grid class="ion-justify-center">
                 <ion-row>
                     <ion-col>
