@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonRow, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
@@ -42,7 +43,7 @@ export class PastiUtentePage implements OnInit {
     this.dettagliPasto = null; // Resetta i dettagli del pasto selezionato
     try {
       // Simula una chiamata al servizio per ottenere i dettagli del pasto
-      this.dettagliPasto = await this.pastiService.getDettagliPasto(pasto.id).toPromise();
+      this.dettagliPasto = await firstValueFrom(this.pastiService.getDettagliPasto(pasto.id));
       console.log('Dettagli del pasto:', this.dettagliPasto);
     } catch (error) {
       console.error('Errore nel caricamento dei dettagli del pasto:', error);

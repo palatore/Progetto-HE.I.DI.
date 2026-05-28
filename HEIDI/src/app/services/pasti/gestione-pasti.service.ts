@@ -57,4 +57,8 @@ export class GestionePastiService {
     return this.http.get<any[]>('http://localhost:3000/api/pasti/alimenti');
   }
 
+  getAlimentoById(id_alimento:Number) {
+    return this.http.get<any>(`http://localhost:3000/api/pasti/alimento/${id_alimento}`);
+  }
+
 }

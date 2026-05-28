@@ -2,8 +2,6 @@ import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitte
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonInput, IonItem, IonRow, IonSelect, IonSelectOption} from '@ionic/angular/standalone';
-import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
-import { firstValueFrom } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -40,13 +38,13 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
       return this.id_attivita;
     }
   @Input() dettagli_aggiunti_da_info:any[] = [];
-  @Output() dettaglioSelezionato = new EventEmitter<any>();
+  @Output() dettaglioSelezionato = new EventEmitter<number>();
   @Output() chiudi = new EventEmitter<void>();
   @Output() dettagliInseriti = new EventEmitter<any[]>();
 
   public riempiDettagliForm:FormGroup;
 
-  constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService) {
+  constructor(private formbuilder:FormBuilder) {
 
     this.riempiDettagliForm = this.formbuilder.group({
       //per prima cosa passiamo l'id del pasto o dell'allenamento che vogliamo riempire
@@ -96,9 +94,9 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   }
 
   //emette il dettaglio selezionato al genitore per mostrarne le info tramite il componente di info
-  segnaDettaglio(dettaglio:any) {
-    console.log('Dettaglio selezionato:', dettaglio);
-    this.dettaglioSelezionato.emit(dettaglio);
+  segnaDettaglio(id_dettaglio:number) {
+    console.log('Dettaglio selezionato:', id_dettaglio);
+    this.dettaglioSelezionato.emit(id_dettaglio);
   }
 
   ngOnChanges(changes: SimpleChanges) {

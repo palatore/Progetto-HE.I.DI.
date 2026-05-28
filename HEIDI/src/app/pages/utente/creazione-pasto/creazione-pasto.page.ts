@@ -102,9 +102,21 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
 //INSERIMENTO DETTAGLI PASTO
 
   //metodo per ricevere un alimento dal component di riempimento per mostrarne le info
-  onAlimentoSelezionato(alimento:any) {
-    console.log('Ho ricevuto un alimento da selezionare:', alimento);
-    this.alimento_selezionato = alimento;
+  onAlimentoSelezionato(id_alimento:number) {
+    console.log('Ho ricevuto un alimento da selezionare:', id_alimento);
+    this.alimento_selezionato = this.datiAlimento(id_alimento);
+  }
+
+  async datiAlimento(id_alimento:number): Promise<any> {
+    try {
+      const response = await firstValueFrom(this.foodService.getAlimentoById(id_alimento));
+      if(response  && response.exists) {
+        return response.data;
+      }
+    } catch (error) {
+      console.error('Errore nel recupero dellw info:', error);
+    }
+
   }
 
   //metodo per inviare i dettagli di un alimento selezionato al component di riempimento pasto
