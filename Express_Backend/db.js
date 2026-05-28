@@ -157,7 +157,6 @@ db.serialize(() => {
         user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
         data DATE NOT NULL,
-        durata_minuti INTEGER NOT NULL,
         data_creazione DATE NULL,
         FOREIGN KEY(user_id) REFERENCES utenti(id)
     )`, (err) => {
@@ -175,6 +174,7 @@ db.serialize(() => {
         ripetizioni VARCHAR(255) NOT NULL,
         pesi_kg INTEGER NULL,
         riposo_minuti INTEGER NOT NULL,
+        durata_minuti INTEGER NULL,
         FOREIGN KEY(esercizio_id) REFERENCES esercizi(id),
         FOREIGN KEY(allenamento_id) REFERENCES allenamenti(id)
     )`, (err) => {
