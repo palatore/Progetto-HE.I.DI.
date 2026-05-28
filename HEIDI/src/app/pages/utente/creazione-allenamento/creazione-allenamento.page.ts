@@ -41,13 +41,15 @@ public expiredSession:Boolean = false;
         // INSERISCI QUI IL CONTROLLO SULLA DATA
         //crea l'allenamento
         try{
-            const response = await firstValueFrom(this.allenamentoService.creaAllenamenti(this.allenamentoForm.value.nome, this.allenamentoForm.value.giorno));
+            const response = await firstValueFrom(this.workoutService.creaAllenamenti(this.allenamentoForm.value.nome, this.allenamentoForm.value.giorno));
             if(response === null){
                 console.log('errore di nullità');
                 return
             }else if(response.status === 201){
                 console.log('allenamento creato con id:', response.body.id);
             }
+        } catch(e:any){
+            console.error('Errore durante la creazione dell\'allenamento:', e);
         }
     }
 

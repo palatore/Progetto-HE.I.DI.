@@ -10,6 +10,18 @@ class PastiServices {
         return alimenti;
     };
 
+    static async getAlimentoById(id_alimento) {
+        console.log('Chiamo il model per ottenere un alimento dato il suo ID:', id_alimento);
+        const alimento = await pastiModel.getAlimentoById(id_alimento);
+        if (alimento) {
+            console.log('Alimento ottenuto:', alimento);
+            return alimento;
+        } else {
+            console.log('Alimento non trovato con ID:', id_alimento);
+            return null;
+        }
+    };
+
     static async getAllPasti() {
         console.log('Chiamo il model per ottenere tutti i pasti');
         const pasti = await pastiModel.getAllPasti();

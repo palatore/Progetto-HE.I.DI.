@@ -37,7 +37,7 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
     get new_id_attivita():number | undefined {
       return this.id_attivita;
     }
-  @Input() dettagli_aggiunti_da_info:any[] = [];
+  @Input() dettagli_aggiunti_da_info:any;
   @Output() dettaglioSelezionato = new EventEmitter<number>();
   @Output() chiudi = new EventEmitter<void>();
   @Output() dettagliInseriti = new EventEmitter<any[]>();
@@ -102,9 +102,22 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     //se riceve nuovi dettagli da info li aggiunge alla lista dei dettagli insieriti nel pasto o allenamento
     if(changes['dettagli_aggiunti_da_info']) {
-      const nuovi_dettagli = changes['dettagli_agginti_da_info'].currentValue;
+      const nuovi_dettagli = changes['dettagli_aggiunti_da_info'].currentValue;
+      console.log('Ricevuti nuovi dettagli da inserire dal component di info:', nuovi_dettagli);
       if(nuovi_dettagli) {
-        this.riempiDettagliForm.patchValue(nuovi_dettagli);
+        for (let i = 0; i <10; i++) {
+          if(this.riempiDettagliForm.value[`dettaglio_${i}`] === null) {
+            this.riempiDettagliForm.patchValue({
+              [`dettaglio_${i}`]: nuovi_dettagli[0]?.alimento.id || null,
+              [`qta_${i}`]: nuovi_dettagli[0]?.qta || null
+            });
+            break;
+          } else {
+            console.log('Debug: Campo già riempito, passo al successivo')
+          }
+        }
+      } else {
+        console.log('Debug: nessun nuovo dettaglio o dettaglio vuoto');
       }
     }
   }
