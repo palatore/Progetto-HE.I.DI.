@@ -108,7 +108,7 @@ class Allenamenti {
     //metodo per creare allenamenti
     static async creaAllenamenti(user_id, nome, giorno, data){
         return new Promise((resolve, reject)=>{
-            db.run('INSERT INTO allenamenti (user_id, nome, giorno, data, durata) VALUES (?, ?, ?, ?, ?)', [user_id, nome, giorno, data, durata], function(err){
+            db.run('INSERT INTO allenamenti (user_id, nome, giorno, data) VALUES (?, ?, ?, ?)', [user_id, nome, giorno, data], function(err){
                 if(err){
                     reject(err);
                 } else {
