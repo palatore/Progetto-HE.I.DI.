@@ -193,7 +193,7 @@
 
   <!--Sezione icone quadrate-->
     <ion-card class="containerDettagliCards">
-        <ion-input type="text", placeholder="Cerca..." (input)="filtraDettagli($event)"></ion-input>"
+        <ion-input type="text", placeholder="Cerca..." (input)="filtraDettagli($event)" [ngStyle]="{'margin': '0 30px'}"></ion-input>"
         <ion-grid>
           <ion-row class="dettagliRow">
             <ion-col size="3" *ngFor="let dettaglio of dettagli">
