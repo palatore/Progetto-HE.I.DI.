@@ -150,7 +150,7 @@ db.serialize(() => {
             console.log('Tabella esercizi creata con successo.');
         }
     });
-
+ 
     //creazione della tabella degli allenamenti
     db.run(`CREATE TABLE IF NOT EXISTS allenamenti (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
