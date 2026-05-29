@@ -22,6 +22,17 @@ export class AllenamentiUtentePage implements OnInit{
         this.loadAllenamentiUtente();
     }
 
+    async eliminaAllenamento(id: number){
+        try{
+            const response = await this.workoutService.eliminaAllenamento(id).toPromise();
+            console.log('Allenamento eliminato con successo:', response);
+            //ricarica la lista degli allenamenti dopo l'eliminazione
+            this.loadAllenamentiUtente();
+        } catch(e){
+            console.error('Errore nell\'eliminazione dell\'allenamento:', e);
+        }
+    }
+    
     allenamentiUtente = [{name: 'Allenamento 1', data_creazione: '1/1/1000', data: '1/1/1000', id: 1},
                         {name: 'Allenamento 2', data_creazione: '1/1/1000', data: '1/1/1000', id: 2},
                         {name: 'Allenamento 3', data_creazione: '1/1/1000', data: '1/1/1000', id: 3}];
