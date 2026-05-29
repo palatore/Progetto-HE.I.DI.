@@ -1,0 +1,41 @@
+.infoContainer{
+    position: fixed; //con questo fisso il contenitore dove imposto
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 70vh;
+    background-color: lightblue;
+    border-radius: 20px;
+    z-index: 1000;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+
+
+    animation: slideUp 0.4s ease-out forwards;
+  
+    &.closing {
+        animation: slideDown 0.4s ease-in forwards;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+

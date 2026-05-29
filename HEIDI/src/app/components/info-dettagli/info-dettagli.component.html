@@ -1,17 +1,31 @@
-<ng-container *ngIf="dettaglio">
-    <ion-card>
-        <ion-card-header>
-        {{dettaglio.name}}
-        </ion-card-header>
-        <ion-card-content>
-        <p>Calorie: {{dettaglio.calorie}}</p>
-        <p>Carboidrati: {{dettaglio.carboidrati}}</p>
-        <p>Proteine: {{dettaglio.proteine}}</p>
-        <p>Grassi: {{dettaglio.grassi}}</p>
-        </ion-card-content>
-        <ion-input type="number" step="any" placeholder="Quantità" [(ngModel)]="quantita"></ion-input>
-        <ion-button (click)="mandaInLista()">Aggiungi al pasto</ion-button>
+<div *ngIf="dettaglio" [class.closing]="isClosing" class="infoContainer">
+        <ion-button class="closeBtn" (click)="chiudi()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+        </ion-button>
+
+    <ion-card class="infoContent" [ngStyle]="{display: 'flex', padding: '10px'}">
+        <ion-card>
+            <ion-card-header>
+            {{dettaglio.name}}
+            </ion-card-header>
+            <ion-card-content class = "infoDescription">
+            </ion-card-content>
+        </ion-card>
+        <ion-grid class = "listaInfo">
+            <ion-row>
+                <ion-col size="6">Calorie: {{dettaglio.calorie}}</ion-col>
+                <ion-col size="6">Carboidrati: {{dettaglio.carboidrati}}</ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="6">Proteine: {{dettaglio.proteine}}</ion-col>
+                <ion-col size="6">Grassi: {{dettaglio.grassi}}</ion-col>
+            </ion-row>
+            <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'gap': '10px', 'justify-content': 'left'}">
+                <ion-button (click)="quantita = quantita - 1" fill="outline" size="small">-</ion-button>
+                <ion-input type="number" step="any" placeholder="Quantità" [(ngModel)]="quantita" [ngStyle]="{'max-width': '20px'}"></ion-input>
+                <ion-button (click)="quantita = quantita + 1" fill="outline" size="small">+</ion-button>
+            </div>
+            <ion-button (click)="mandaInLista()">Aggiungi al pasto</ion-button>
+        </ion-grid>
     </ion-card>
-dettaglio: {{dettaglio.id}}
-<ion-button (click)="chiudi()"> CHIUDI</ion-button>
-</ng-container>
+</div>
