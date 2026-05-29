@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>I Miei Allenamenti</ion-title>
+    <ion-button [routerLink]='["/home"]' slot="end">Home</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-list>
+        <ion-item *ngFor="let allenamento of allenamentiUtente">
+            <ion-label>
+                <h2>{{ allenamento.name }}</h2>
+                <p>Giorno: {{ allenamento.data | date: 'dd/MM/yyyy' }}</p>
+                <p>Data creazione: {{ allenamento.data_creazione }}</p>
+            </ion-label>
+            <ion-button fill="outline" slot="end" disabled>Dettagli</ion-button>
+            <ion-button fill="outline" color="danger" slot="end" disabled>Elimna</ion-button>
+        </ion-item>
+    </ion-list>
+
+    <ion-button expand="full">Aggiungi allenamento</ion-button>
+</ion-content>
