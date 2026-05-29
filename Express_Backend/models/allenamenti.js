@@ -95,7 +95,7 @@ class Allenamenti {
     //metodo per evitare allenamenti duplicati
     static async checkAllenamento(user_id, giorno) {
         return new Promise((resolve, reject)=> {
-            db.all('SELECT * FROM allenamenti WHERE user_id = ? AND data = ?', [user_id, giorno], (err,rows)=>{
+            db.all('SELECT * FROM allenamenti WHERE user_id = ? AND data = ?', [user_id, giorno], (err, rows)=>{
                 if(err){
                     reject(err);
                 }else{

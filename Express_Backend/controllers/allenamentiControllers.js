@@ -58,8 +58,9 @@ class AllenamentiControllers {
     static checkAllenamento = async (req, res) =>{
         console.log('Controllo allenamento in corso...');
         try{
-            const giorno = req.params.giorno;
+            const giorno = req.body;
             const user_id = req.user.id;
+            console.log('Nel controller il giorno è di tipo:', typeof(giorno));
             console.log('I tuoi dati:', user_id, giorno);
             const exists = await AllenamentiServices.checkAllenamento(user_id, giorno);
             res.status(200).json({exists});

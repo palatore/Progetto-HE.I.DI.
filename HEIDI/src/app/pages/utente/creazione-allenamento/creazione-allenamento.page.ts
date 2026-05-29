@@ -34,11 +34,34 @@ public expiredSession:Boolean = false;
         this.allenamentoForm.reset();
     }
 
+    
     //INSERIMENTO ALLENAMENTO DEL DB
     async onSubmit(){
         const nomeAllenamento = this.allenamentoForm.value.nome;
         const giornoAllenamento = this.allenamentoForm.value.giorno;
-        // INSERISCI QUI IL CONTROLLO SULLA DATA
+        console.log('Giorno letto:', giornoAllenamento);
+        console.log('giorno è di tipo:', typeof(giornoAllenamento));
+
+        //ricava i dati inseriti nel form e quindi procede a controllare se esiste già un allenamento nello stesso giorno
+    //se esiste, ritorna con un messaggio di errore impostato dal flag true
+    //se non esiste, procede alla creazione dell'allenamento con i dati inseriti
+    try {
+        const response = await firstValueFrom(this.workoutService.checkAllenamento(giornoAllenamento));
+        if(response && response.exists){
+            this.showAlreadyExistent = true;
+            return;
+        }
+    } catch(e:any){
+        if(e instanceof Error){
+            console.log(e.message);
+            return;
+        }else if(e.status === 403){
+            this.expiredSession = true;
+        }else{
+            this.showAlreadyExistent = false;
+            this.expiredSession = false;
+        }
+    }
         //crea l'allenamento
         try{
             const response = await firstValueFrom(this.workoutService.creaAllenamenti(this.allenamentoForm.value.nome, this.allenamentoForm.value.giorno));
