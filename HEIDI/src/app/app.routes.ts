@@ -42,6 +42,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/utente/creazione-allenamento/creazione-allenamento.page').then( m => m.CreazioneAllenamentoPage),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'allenamentiUtente',
+    loadComponent: () => import('./pages/utente/allenamenti-utente/allenamenti-utente.page').then(m => m.AllenamentiUtentePage),
+    canActivate: [AuthGuard]
+  },
 
   //SOLO PER PREPARAZIONE DEL FORM DELL'ALLENAMENTO
   {

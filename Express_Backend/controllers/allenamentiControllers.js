@@ -72,7 +72,6 @@ class AllenamentiControllers {
         try{
             const {nome, giorno, data} = req.body;
             const user_id = req.user.id;
-            console.log('dati richiesta:', user_id, nome, giorno, data);
             const result = await AllenamentiServices.creaAllenamenti(user_id, nome, giorno, data);
             res.status(201).json({message: 'Allenamento creato con successo:', id: result.lastID});
         }catch(e){

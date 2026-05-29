@@ -16,4 +16,10 @@ export class GestioneAllenamentiService {
         const headers = { Authorization: `Bearer ${token}` };
         return this.http.post<any>(`${this.apiUrl}/api/allenamenti/creaAllenamenti`, { nome, giorno }, {headers, observe: 'response'});
     }
+
+    getAllenamentiUtente(): Observable<any[]> {
+        const token = localStorage.getItem('token');
+        const headers = { Authorization: `Bearer ${token}` };
+        return this.http.get<any>(`${this.apiUrl}/api/allenamenti/allenamentiUtente`, {headers});
+    }
 }
