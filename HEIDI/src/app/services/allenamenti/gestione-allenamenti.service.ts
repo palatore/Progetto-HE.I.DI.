@@ -7,11 +7,11 @@ import { HttpClient } from "@angular/common/http";
 })
 export class GestioneAllenamentiService {
 
-    private apiUrl:String = "http://localhost:3000"; //sostiturire con URL definitivo
+    private apiUrl:string = "http://localhost:3000"; //sostiturire con URL definitivo
 
     constructor(private http:HttpClient) { }
 
-    creaAllenamenti(nome:String, giorno:Date) {
+    creaAllenamenti(nome:string, giorno:Date) {
         const token = localStorage.getItem('token');
         const headers = { Authorization: `Bearer ${token}` };
         return this.http.post<any>(`${this.apiUrl}/api/allenamenti/creaAllenamenti`, { nome, giorno }, {headers, observe: 'response'});
