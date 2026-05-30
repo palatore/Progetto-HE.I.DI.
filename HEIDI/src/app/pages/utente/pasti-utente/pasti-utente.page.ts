@@ -15,8 +15,9 @@ import { RouterModule } from '@angular/router';
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonGrid, IonRow, IonCol, IonItem, IonCard, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule]
 })
 export class PastiUtentePage implements OnInit {
+  totZuccheri: number = 0;
 
-  constructor(private pastiService:GestionePastiService) { }
+  constructor(private foodService:GestionePastiService) { }
 
   ngOnInit() {
     this.loadPastiUtente();
@@ -43,10 +44,14 @@ export class PastiUtentePage implements OnInit {
     this.dettagliPasto = null; // Resetta i dettagli del pasto selezionato
     try {
       // Simula una chiamata al servizio per ottenere i dettagli del pasto
-      this.dettagliPasto = await firstValueFrom(this.pastiService.getDettagliPasto(pasto.id));
+      this.dettagliPasto = await firstValueFrom(this.foodService.getDettagliPasto(pasto.id));
       console.log('Dettagli del pasto:', this.dettagliPasto);
+      console.log('zuccheri_g del primo alimento:', this.dettagliPasto.alimenti[0]?.zuccheri_g);
     } catch (error) {
       console.error('Errore nel caricamento dei dettagli del pasto:', error);
+    }
+    for (let alimento of this.dettagliPasto.alimenti) {
+      this.totZuccheri += alimento.zuccheri_g * alimento.quantita / 100;
     }
   }
 
@@ -56,7 +61,7 @@ export class PastiUtentePage implements OnInit {
 
   async modificaPasto(id: number) {
     try {
-      const response = await this.pastiService.modificaPasto(id).toPromise();
+      const response = await firstValueFrom(this.foodService.modificaPasto(id));
       console.log('Pasto modificato con successo:', response);
       // Ricarica i pasti utente dopo la modifica
       this.loadPastiUtente();
@@ -67,7 +72,7 @@ export class PastiUtentePage implements OnInit {
 
   async eliminaPasto(id: number) {
     try {
-      const response = await this.pastiService.eliminaPasto(id).toPromise();
+      const response = await firstValueFrom(this.foodService.eliminaPasto(id));
       console.log('Pasto eliminato con successo:', response);
       // Ricarica i pasti utente dopo l'eliminazione
       this.loadPastiUtente();
@@ -91,7 +96,7 @@ export class PastiUtentePage implements OnInit {
 
   loadPastiUtente() {
     console.log('Caricamento pasti utente...');
-    this.pastiService.getPastiUtente().subscribe({
+    this.foodService.getPastiUtente().subscribe({
       next: (pasti) => {
         this.pastiUtente = pasti;
         console.log('Pasti caricati:', this.pastiUtente);

@@ -10,16 +10,23 @@ import { FormsModule } from '@angular/forms';
   imports: [IonIcon, IonGrid, IonRow, IonCol, IonIcon, IonContent, IonInput, IonCardContent, IonButton, IonCard, IonCardHeader, CommonModule, FormsModule],
 })
 export class InfoDettagliComponent  implements OnInit {
-  dettaglio_mostrato:any = null;
+  public dettaglio_mostrato:any = null;
   public quantita:number = 1
-  isClosing:Boolean = false;
+  public isClosing:Boolean = false;
 
   @Input() dettaglio:any = null;
+  @Input() dettaglio_img:string = '';
   @Output() inLista = new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit() {}
+
+  getImgPath(dettaglio:any): string {
+    const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
+    const imgPath = `assets/dettagli/${parametro}.png`;
+    return imgPath;
+  }
 
   mandaInLista() {
     console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'e quantità', this.quantita);

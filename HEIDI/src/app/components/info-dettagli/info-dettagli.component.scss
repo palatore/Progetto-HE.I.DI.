@@ -39,3 +39,17 @@
     }
 }
 
+.infoContent {
+    display: flex;
+    padding: 10px;
+}
+
+.infoDescription {
+    display: flex;
+    flex-direction: column;
+}
+
+.infoCard {
+    width: 35%;
+    height: 100%;
+}

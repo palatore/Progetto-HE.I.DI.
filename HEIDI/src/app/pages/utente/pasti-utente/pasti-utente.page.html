@@ -27,6 +27,7 @@
       <p>Data: {{ pastoSelezionato.data | date: 'dd/MM/yyyy' }}</p>
       <p>Tipo: {{ pastoSelezionato.tipo }}</p>
       <p><b>Totale Calorie:</b> {{ dettagliPasto?.totCalorie }}</p>
+      <p>Totale zuccheri: {{totZuccheri}}</p>
       <ul>
         <li *ngFor="let alimento of dettagliPasto?.alimenti">
           {{ alimento.name }} - {{ alimento.quantita }}g ({{ alimento.kcal }} kcal/100g)
@@ -38,5 +39,5 @@
   </ion-card>
 </div>
 
-  <ion-button expand="full">Aggiungi Pasto</ion-button>
+  <ion-button expand="full" [routerLink]='["/creazionePasto"]'>Aggiungi Pasto</ion-button>
 </ion-content>
