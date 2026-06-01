@@ -1,18 +1,18 @@
 const db = require('../db.js');
-const pastiModel = require('../models/pasti.js');
+const Pasti = require('../models/pasti');
 
 class PastiServices {
 
     static async getAllAlimenti() {
         console.log('Chiamo il model per ottenere tutti gli alimenti');
-        const alimenti = await pastiModel.getAllAlimenti();
+        const alimenti = await Pasti.getAllAlimenti();
         console.log('Alimenti ottenuti:', alimenti);
         return alimenti;
     };
 
     static async getAlimentoById(id_alimento) {
         console.log('Chiamo il model per ottenere un alimento dato il suo ID:', id_alimento);
-        const alimento = await pastiModel.getAlimentoById(id_alimento);
+        const alimento = await Pasti.getAlimentoById(id_alimento);
         if (alimento) {
             console.log('Alimento ottenuto:', alimento);
             return alimento;
@@ -24,27 +24,27 @@ class PastiServices {
 
     static async getAllPasti() {
         console.log('Chiamo il model per ottenere tutti i pasti');
-        const pasti = await pastiModel.getAllPasti();
+        const pasti = await Pasti.getAllPasti();
         console.log('Pasti ottenuti:', pasti);
         return pasti;
     };
 
     static async getAllAlimentiPasti() {
         console.log('Chiamo il model per ottenere tutti gli alimenti_pasti');
-        const alimentiPasti = await pastiModel.getAllAlimentiPasti();
+        const alimentiPasti = await Pasti.getAllAlimentiPasti();
         console.log('Alimenti_pasti ottenuti:', alimentiPasti);
         return alimentiPasti;
     };
 
     static async getDettagliPasto(id_pasto) {
         //Per prima cosa chiamo il model per controllare che il pasto esista
-        const pasto = await pastiModel.findPastoById(id_pasto);
+        const pasto = await Pasti.findPastoById(id_pasto);
         if (!pasto) {
             console.log('Pasto non trovato con ID:', id_pasto);
             return null;
         } else {
         //Procedo alla ricerca dei dettagli del pasto
-            const dettagliPasto = await pastiModel.getDettagliPasto(id_pasto, pasto);
+            const dettagliPasto = await Pasti.getDettagliPasto(id_pasto, pasto);
             console.log('Dettagli pasto ottenuti:', dettagliPasto);
             return dettagliPasto;
         }
@@ -52,7 +52,7 @@ class PastiServices {
 
     static async getPastiUtente(user_id) {
         //ottieni tutti i pasti appartenenti all'utente
-        const pastiUtente = await pastiModel.getPastiUtente(user_id);
+        const pastiUtente = await Pasti.getPastiUtente(user_id);
         if (pastiUtente && pastiUtente.length > 0) {
             console.log('Pasti utente ottenuti:', pastiUtente);
             return pastiUtente;
@@ -64,7 +64,7 @@ class PastiServices {
 
     static async checkPasto(user_id, nome, tipo) {
         //controlla se esiste già un pasto con lo stesso nome, data e tipo per l'utente
-        const pasto = await pastiModel.checkPasto(user_id, nome, tipo);
+        const pasto = await Pasti.checkPasto(user_id, nome, tipo);
         if (pasto) {
             console.log('Pasto già esistente:', pasto);
         } else {
@@ -75,7 +75,7 @@ class PastiServices {
 
     static async creaPasti(user_id, nome, tipo) {
         //crea un nuovo pasto per l'utente
-        const nuovoPasto = await pastiModel.creaPasti(user_id, nome, tipo);
+        const nuovoPasto = await Pasti.creaPasti(user_id, nome, tipo);
         if (nuovoPasto) {
             console.log('Pasto creato con successo:');
         } else {
@@ -87,7 +87,7 @@ class PastiServices {
     static async riempiPasto(id_pasto, alimenti, bevande) {
         //dopo la creazione di un pasto, riempi quel pasto con alimenti presi dal database
         console.log('RiempiPasto service chiamato');
-        const contenutoPasto = await pastiModel.riempiPasto(id_pasto, alimenti);
+        const contenutoPasto = await Pasti.riempiPasto(id_pasto, alimenti);
         if (contenutoPasto) {
             console.log('Pasto riempito con successo:', contenutoPasto);
         } else {
@@ -99,7 +99,7 @@ class PastiServices {
     static async eliminaPasto(id_pasto) {
         //elimina un pasto esistente, prima eliminando le relazioni con gli alimenti e poi eliminando il pasto stesso
         console.log('EliminaPasto service chiamato per ID pasto:', id_pasto);
-        const risultatoEliminazione = await pastiModel.eliminaPasto(id_pasto);
+        const risultatoEliminazione = await Pasti.eliminaPasto(id_pasto);
         if (risultatoEliminazione) {
             console.log('Pasto eliminato con successo:');
         } else {

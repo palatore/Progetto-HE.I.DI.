@@ -170,7 +170,8 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS esercizi_allenamento (
         allenamento_id INTEGER NOT NULL,
         esercizio_id INTEGER NOT NULL,
-        ripetizioni VARCHAR(255) NOT NULL,
+        serie INTEGER NOT NULL,
+        ripetizioni INTEGER NOT NULL,
         pesi_kg INTEGER NULL,
         riposo_minuti INTEGER NOT NULL,
         durata_minuti INTEGER NULL,

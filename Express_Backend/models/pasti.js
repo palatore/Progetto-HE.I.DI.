@@ -67,18 +67,12 @@ class Pasti {
 
     static async getDettagliPasto(id_pasto, pasto) {
         return new Promise((resolve, reject) => {
-            db.all('SELECT ap.*, a.name, a.kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, alimenti) => {
+            db.all('SELECT ap.*, a.* FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, alimenti) => {
                 if(err) {
                     reject(err);
                 } else {
-                    db.get('SELECT SUM(a.kcal * ap.quantita / 100) AS tot_kcal FROM alimenti_pasto ap JOIN alimenti a ON ap.alimento_id = a.id WHERE ap.pasto_id = ?', [id_pasto], (err, result) => {
-                        if(err) {
-                            reject(err);
-                        } else {
-                            const dettagliPasto = { ...pasto, alimenti, totCalorie: result.tot_kcal || 0 };
-                            resolve(dettagliPasto);
-                        }
-                    });
+                    const dettagliPasto = { ...pasto, alimenti};
+                    resolve(dettagliPasto);
                 }
             });
         });

@@ -15,7 +15,11 @@ import { RouterModule } from '@angular/router';
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonGrid, IonRow, IonCol, IonItem, IonCard, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule]
 })
 export class PastiUtentePage implements OnInit {
-  totZuccheri: number = 0;
+  totZuccheri:number = 0;
+  totCalorie:number = 0;
+  totGrassi:number = 0;
+  totCarboidrati:number = 0;
+  totVitamine:string = '';
 
   constructor(private foodService:GestionePastiService) { }
 
@@ -42,21 +46,34 @@ export class PastiUtentePage implements OnInit {
  async mostraDettagli(pasto: any) {
     this.pastoSelezionato = pasto;
     this.dettagliPasto = null; // Resetta i dettagli del pasto selezionato
+    //Effettua una chiamata al servizio per ottenere i dettagli del pasto selezionato
     try {
-      // Simula una chiamata al servizio per ottenere i dettagli del pasto
       this.dettagliPasto = await firstValueFrom(this.foodService.getDettagliPasto(pasto.id));
       console.log('Dettagli del pasto:', this.dettagliPasto);
-      console.log('zuccheri_g del primo alimento:', this.dettagliPasto.alimenti[0]?.zuccheri_g);
     } catch (error) {
       console.error('Errore nel caricamento dei dettagli del pasto:', error);
     }
-    for (let alimento of this.dettagliPasto.alimenti) {
+    this.calcolaDettagliPasto(this.dettagliPasto);
+  }
+
+  calcolaDettagliPasto(listaDettagli: any) {
+    for (let alimento of listaDettagli.alimenti) {
       this.totZuccheri += alimento.zuccheri_g * alimento.quantita / 100;
+      this.totCalorie += alimento.kcal * alimento.quantita / 100;
+      this.totGrassi += alimento.grassi_g * alimento.quantita / 100;
+      this.totCarboidrati += alimento.carboidrati_g * alimento.quantita / 100;
+    //  this.totVitamine += alimento.vitamine + ', ';
     }
+
   }
 
   chiudiDettagli() {
     this.pastoSelezionato = null;
+    this.totCalorie = 0;
+    this.totCarboidrati = 0;
+    this.totGrassi = 0;
+    this.totZuccheri = 0;
+    this.totVitamine = '';
   }
 
   async modificaPasto(id: number) {
