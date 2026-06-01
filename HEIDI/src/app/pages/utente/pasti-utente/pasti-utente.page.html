@@ -24,12 +24,12 @@
       <ion-card-title>{{ pastoSelezionato.nome }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>Data: {{ pastoSelezionato.data | date: 'dd/MM/yyyy' }}</p>
+      <p>Data creazione: {{ pastoSelezionato.data | date: 'dd/MM/yyyy' }}</p> <!-- Da implementare -->
       <p>Tipo: {{ pastoSelezionato.tipo }}</p>
-      <p><b>Totale Calorie:</b> {{ totCalorie }}</p>
-      <p>Totale carboidrati: {{totCarboidrati}}</p>
-      <p>Totale zuccheri: {{totZuccheri}}</p>
-      <p>Totale grassi: {{totGrassi}}</p>
+      <p><b>Totale Calorie:</b> {{ totCalorie }} kcal</p>
+      <p>Totale carboidrati: {{totCarboidrati}} g</p>
+      <p>Totale zuccheri: {{totZuccheri}} g</p>
+      <p>Totale grassi: {{totGrassi}} g</p>
       <!--
       <p>Vitamine: {{totVitamine}}</p> metti solo se riesci a far comparire le vitamine una sola volta
       -->

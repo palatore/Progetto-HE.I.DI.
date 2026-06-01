@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
+import { AlertController } from '@ionic/angular';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { firstValueFrom } from 'rxjs';
 import { RouterModule } from '@angular/router';
@@ -26,7 +27,7 @@ alimento_selezionato:any = null; //variabile per la gestione delle info
 alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   
 
-  constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService) {
+  constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService, private alertController: AlertController) {
     this.pastoForm = formbuilder.group({
       nome: ['', Validators.required],
       tipo: ['', Validators.required]
@@ -49,6 +50,7 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   //questo metodo fa sì che al refresh della pagina il form venga resettato
   ionViewWillEnter() {
     this.pastoForm.reset();
+    this.showRiempiPasto = false;
   }
 
 //INSERIMENTO PASTO NEL DATABASE
@@ -127,10 +129,11 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   //metodo per inviare un alimento di cui si è visualizzate le info e selezionato al component di riempimento pasto
   async mettiInLista(alimento: {id_alimento:number, qta:number}) {
     const cibo = await this.datiAlimento(alimento.id_alimento);
-    this.alimento_da_aggiungere = [{
-      alimento: cibo,
+    this.alimento_da_aggiungere = {
+      id: cibo.id,
+      name: cibo.name,
       qta: alimento.qta
-    }];
+    };
     console.log('Debug: alimento da aggiungere', this.alimento_da_aggiungere);
 
     this.alimento_selezionato = null;
@@ -143,7 +146,15 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
     try {
       const response = await firstValueFrom(this.foodService.riempiPasto(idPasto, alimenti));
       if(response && response.status === 201) {
-        this.pastoForm.reset();      }
+        const alert = await this.alertController.create({
+          header: 'Successo',
+          message: 'Pasto salvato con successo!',
+          buttons: ['OK']
+        });
+        await alert.present();
+        this.showRiempiPasto = false;
+        this.pastoForm.reset();      
+      }
     } catch(e:any) {
       if(e instanceof Error) {
         console.log(e.message);

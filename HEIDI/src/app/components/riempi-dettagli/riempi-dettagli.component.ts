@@ -1,20 +1,21 @@
 import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonInput, IonItem, IonRow, IonSelect, IonSelectOption} from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardHeader, IonCardContent, IonCol, IonContent, IonGrid, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonCardTitle } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-riempi-dettagli',
   templateUrl: './riempi-dettagli.component.html',
   styleUrls: ['./riempi-dettagli.component.scss'],
-  imports: [CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule]
+  imports: [CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, IonCardTitle]
 
 })
 export class RiempiDettagliComponent  implements OnInit, OnChanges {
   private id_attivita:number | undefined;
   public dettagli:any[] = [];
   private dettagli_completi:any[] = [];
+  public dettagli_inseriti:any[] = [];
 
   @Input()
     set miei_dettagli(value:any[]) {
@@ -29,10 +30,6 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
     //Quando riceve un nuovo id attività lo assegna nel form
     set new_id_attivita(value:number | undefined) {
       this.id_attivita = value;
-      if (value) {
-        this.riempiDettagliForm.patchValue({id_attivita: value});
-        console.log('id_attivita aggiornato in riempi dettagli:', this.riempiDettagliForm.value.id_attivita);
-      }
     }
     get new_id_attivita():number | undefined {
       return this.id_attivita;
@@ -42,34 +39,8 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   @Output() chiudi = new EventEmitter<void>();
   @Output() dettagliInseriti = new EventEmitter<any[]>();
 
-  public riempiDettagliForm:FormGroup;
 
-  constructor(private formbuilder:FormBuilder) {
-
-    this.riempiDettagliForm = this.formbuilder.group({
-      //per prima cosa passiamo l'id del pasto o dell'allenamento che vogliamo riempire
-      id_attivita: [null, Validators.required],
-      dettaglio_0: null, //questo può essere un alimento o un esercizio in base a cosa vuole costruire l'utente
-      qta_0: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-      dettaglio_1: null,
-      qta_1: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-      dettaglio_2: null,
-      qta_2: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-      dettaglio_3: null,
-      qta_3: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-      dettaglio_4: null,
-      qta_4: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-      dettaglio_5: null,
-      qta_5: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-      dettaglio_6: null,
-      qta_6: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-      dettaglio_7: null,
-      qta_7: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-      dettaglio_8: null,
-      qta_8: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-      dettaglio_9: null,
-      qta_9: [null, [Validators.pattern(/^\d{0,4}(\.\d{1,2})?$/)]],
-    });
+  constructor() {
   }
 
   ngOnInit() {
@@ -105,17 +76,7 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
       const nuovi_dettagli = changes['dettagli_aggiunti_da_info'].currentValue;
       console.log('Ricevuti nuovi dettagli da inserire dal component di info:', nuovi_dettagli);
       if(nuovi_dettagli) {
-        for (let i = 0; i <10; i++) {
-          if(this.riempiDettagliForm.value[`dettaglio_${i}`] === null) {
-            this.riempiDettagliForm.patchValue({
-              [`dettaglio_${i}`]: nuovi_dettagli[0]?.alimento.id || null,
-              [`qta_${i}`]: nuovi_dettagli[0]?.qta || null
-            });
-            break;
-          } else {
-            console.log('Debug: Campo già riempito, passo al successivo')
-          }
-        }
+        this.dettagli_inseriti.push(nuovi_dettagli);
       } else {
         console.log('Debug: nessun nuovo dettaglio o dettaglio vuoto');
       }
@@ -123,18 +84,8 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   }
 
   submitRiempi(){
-    const dettagli_inseriti = [];
-    for(let i = 0; i < 10; i++) {
-      const dettaglio = this.riempiDettagliForm.value[`dettaglio_${i}`];
-      const qta = this.riempiDettagliForm.value[`qta_${i}`];
-      if(dettaglio && qta) {
-        dettagli_inseriti.push({id: dettaglio, qta: qta});
-      }
-    }
-    this.dettagliInseriti.emit(dettagli_inseriti);
-    this.chiudi.emit();
-    this.riempiDettagliForm.reset();
-  }
+    this.dettagliInseriti.emit(this.dettagli_inseriti);
+    this.chiudi.emit();  }
   
 
 }

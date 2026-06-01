@@ -29,8 +29,8 @@ export class InfoDettagliComponent  implements OnInit {
   }
 
   mandaInLista() {
-    console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'e quantità', this.quantita);
-    this.inLista.emit({id_alimento: this.dettaglio.id, qta: this.quantita});
+    console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'nome', this.dettaglio.name, 'e quantità', this.quantita);
+    this.inLista.emit({id_alimento: this.dettaglio.id, name: this.dettaglio.name, qta: this.quantita});
     this.chiudi();
   }
 
