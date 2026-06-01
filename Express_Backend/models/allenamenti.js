@@ -18,6 +18,18 @@ class Allenamenti {
         });
     }
 
+    static async getEsercizioById(id_esercizio){
+        return new Promise((resolve, reject) => {
+            db.get('SELECT * FROM esercizi WHERE id = ?', [id_esercizio], (err, row) =>{
+                if (err){
+                    reject(err);
+                }else{
+                    resolve(row);
+                }
+            });
+        });
+    }
+
     //metodo per ottenere tutti gli allenamenti
     static async getAllAllenamenti(){
         return new Promise((resolve, reject) => {

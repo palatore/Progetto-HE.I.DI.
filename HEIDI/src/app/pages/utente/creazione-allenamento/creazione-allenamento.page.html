@@ -49,6 +49,18 @@
     </ion-card>
 
     <ng-container>
-       <!-- app-riempi-allenamento -->
+       <app-riempi-dettagli
+       [isShow]="showRiempiAllenamento"
+       [miei_dettagli]="esercizi"
+       [new_id_attivita]="id_allenamento_creato"
+       [dettagli_aggiunti_da_info]="esercizio_da_aggiungere"
+       (dettaglioSelezionato)="onEsercizioSelezionato($event)"
+       (chiudi)="onChiudi()"
+       (dettagliInseriti)="submitRiempi($event)">
+        </app-riempi-dettagli>
+
+        <app-info-dettagli
+        [dettaglio]="esercizio_selezionato"
+        (inLista)="mettiInLista($event)"></app-info-dettagli>
     </ng-container>
 </ion-content>

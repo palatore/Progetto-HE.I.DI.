@@ -4,6 +4,7 @@ const authenticateToken = require('../middlewares/authenticateToken.js');
 const AllenamentiControllers = require('../controllers/allenamentiControllers.js');
 
 router.get('/esercizi', AllenamentiControllers.getEsercizi);
+router.get('/esercizio/:id_esercizio', AllenamentiControllers.getEsercizioById);
 router.get('/allenamenti', AllenamentiControllers.getAllenamenti);
 router.get('/eserciziAllenamento', AllenamentiControllers.getEserciziAllenamenti);
 router.get('/dettagliAllenamento/:id_allenamento', authenticateToken, AllenamentiControllers.getDettagliAllenamento);

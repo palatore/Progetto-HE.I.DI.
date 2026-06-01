@@ -10,6 +10,18 @@ class AllenamentiServices {
         return esercizi;    
     };
 
+    static async getEsercizioById(id_esercizio){
+        console.log('Chiamo il model per ottenere un esercizio dato il suo ID:', id_esercizio);
+        const esercizio = await allenamentiModel.getEsercizioById(id_esercizio);
+        if(esercizio){
+            console.log('Esercizio ottenuto:', esercizio);
+            return esercizio;
+        }else{
+            console.log('Esercizio non trovato con ID:', id_esercizio);
+            return null;
+        }
+    };
+
     static async getAllAllenamenti(){
         console.log('Chiamo il model per ottenere tutti gli allenamenti');
         const allenamenti = await allenamentiModel.getAllAllenamenti();
