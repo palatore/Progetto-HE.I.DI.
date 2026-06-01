@@ -26,8 +26,13 @@
     <ion-card-content>
       <p>Data: {{ pastoSelezionato.data | date: 'dd/MM/yyyy' }}</p>
       <p>Tipo: {{ pastoSelezionato.tipo }}</p>
-      <p><b>Totale Calorie:</b> {{ dettagliPasto?.totCalorie }}</p>
+      <p><b>Totale Calorie:</b> {{ totCalorie }}</p>
+      <p>Totale carboidrati: {{totCarboidrati}}</p>
       <p>Totale zuccheri: {{totZuccheri}}</p>
+      <p>Totale grassi: {{totGrassi}}</p>
+      <!--
+      <p>Vitamine: {{totVitamine}}</p> metti solo se riesci a far comparire le vitamine una sola volta
+      -->
       <ul>
         <li *ngFor="let alimento of dettagliPasto?.alimenti">
           {{ alimento.name }} - {{ alimento.quantita }}g ({{ alimento.kcal }} kcal/100g)
