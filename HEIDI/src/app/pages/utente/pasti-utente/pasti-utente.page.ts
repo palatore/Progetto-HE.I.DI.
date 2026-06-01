@@ -103,7 +103,6 @@ export class PastiUtentePage implements OnInit {
                  {name: 'Pasto 3', data_creazione: '1/1/1000', tipo: 550, id: 3}];
 
   //DA IMPLEMENTARE:
-  // - Caricamento pasti utente a inizio pagina usando i onInit e token
   // - Filtri visualizzazione pasti
   // - Visualizzazione dettagli pasto
   // - Eliminazione pasto

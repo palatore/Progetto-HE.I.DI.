@@ -107,9 +107,9 @@ class PastiControllers {
     static riempiPasto = async (req, res) => {
         console.log('RiempiPasto controller chiamato');
         try {
-            const {id_pasto, alimenti, bevande} = req.body;
+            const {id_pasto, alimenti} = req.body;
             const user_id = req.user.id;
-            const result = await PastiServices.riempiPasto(id_pasto, alimenti, bevande);
+            const result = await PastiServices.riempiPasto(id_pasto, alimenti);
             res.status(201).json({message: 'Pasto riempito con successo', result});
         } catch (e) {
             res.status(500).json({error: e.message});
