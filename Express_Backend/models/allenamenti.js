@@ -106,6 +106,8 @@ class Allenamenti {
 
     //metodo per evitare allenamenti duplicati
     static async checkAllenamento(user_id, giorno) {
+        console.log('Model, giorno è:', giorno);
+        console.log('Model giorno è di tipo:', typeof(giorno));
         return new Promise((resolve, reject)=> {
             db.all('SELECT * FROM allenamenti WHERE user_id = ? AND data = ?', [user_id, giorno], (err, rows)=>{
                 if(err){

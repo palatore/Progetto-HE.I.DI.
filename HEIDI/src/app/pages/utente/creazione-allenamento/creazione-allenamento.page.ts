@@ -55,7 +55,9 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     //INSERIMENTO ALLENAMENTO DEL DB
     async onSubmit(){
         const nomeAllenamento = this.allenamentoForm.value.nome;
-        const giornoAllenamento = this.allenamentoForm.value.giorno;
+        const giornoAllenamento = this.allenamentoForm.value.giorno.split('T')[0];
+        //grazie al metodo split() posso trasformare il formato della data da YYYY-MM-dd T ore:minuti
+        //al formato YYYY-MM-DD, escludendo così l'informazione sull'orario
         console.log('Giorno letto:', giornoAllenamento);
         console.log('giorno è di tipo:', typeof(giornoAllenamento));
 
@@ -64,6 +66,7 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     //se non esiste, procede alla creazione dell'allenamento con i dati inseriti
     try {
         const response = await firstValueFrom(this.workoutService.checkAllenamento(giornoAllenamento));
+        console.log('Nel TS leggo:', giornoAllenamento);
         if(response && response.exists){
             this.showAlreadyExistent = true;
             return;
@@ -81,7 +84,9 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     }
         //se non esiste, crea l'allenamento
         try{
-            const response = await firstValueFrom(this.workoutService.creaAllenamenti(this.allenamentoForm.value.nome, this.allenamentoForm.value.giorno));
+            const response = await firstValueFrom(this.workoutService.creaAllenamenti(this.allenamentoForm.value.nome, this.allenamentoForm.value.giorno.split('T')[0]));
+            //anche qui si è fatto uso del metodo .split() per restituire una stringa coerente con il dato da passare al database
+            //rendendolo anche più facile da leggere 
             if(response === null){
                 console.log('errore di nullità');
                 return

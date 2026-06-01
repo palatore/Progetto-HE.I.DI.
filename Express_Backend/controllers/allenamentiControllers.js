@@ -15,10 +15,10 @@ class AllenamentiControllers {
     static getEsercizioById = async (req, res) => {
         try{
             const id_esercizio = req.params.id_esercizio;
-            console.log('ID esercizio:', id_esercizio);
+            console.log('Sono il Controller, ID esercizio:', id_esercizio);
             const esercizio = await AllenamentiServices.getEsercizioById(id_esercizio);
             if(esercizio){
-                console.log('Esercizio trovato:', esercizio);
+                console.log('Da Controller, Esercizio trovato:', esercizio);
                 res.json(esercizio);
             }else{
                 res.status(404).json({error: 'Esercizio non trovato'})

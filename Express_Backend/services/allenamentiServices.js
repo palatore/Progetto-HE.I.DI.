@@ -63,8 +63,10 @@ class AllenamentiServices {
     };
 
     static async checkAllenamento(user_id, giorno){
+        console.log('Nel Service risulta:', giorno);
         //controlla se esiste un allenamento in quel giorno
         const allenamento = await allenamentiModel.checkAllenamento(user_id, giorno);
+        console.log('Nel Service il check risulta:', allenamento);
         if(allenamento){
             console.log('Esiste già un allenamento in questo giorno', allenamento);
         }else{
