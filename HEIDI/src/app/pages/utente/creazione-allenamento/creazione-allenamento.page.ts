@@ -84,9 +84,7 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     }
         //se non esiste, crea l'allenamento
         try{
-            const response = await firstValueFrom(this.workoutService.creaAllenamenti(this.allenamentoForm.value.nome, this.allenamentoForm.value.giorno.split('T')[0]));
-            //anche qui si è fatto uso del metodo .split() per restituire una stringa coerente con il dato da passare al database
-            //rendendolo anche più facile da leggere 
+            const response = await firstValueFrom(this.workoutService.creaAllenamenti(nomeAllenamento, giornoAllenamento));
             if(response === null){
                 console.log('errore di nullità');
                 return
