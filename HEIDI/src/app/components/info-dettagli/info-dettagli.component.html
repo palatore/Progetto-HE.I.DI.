@@ -13,7 +13,9 @@
                 <p>descrizione</p>
             </ion-card-content>
         </ion-card>
-        <ion-grid class = "listaInfo">
+
+        <!--Sezione info alimenti-->
+        <ion-grid class = "listaInfo" *ngIf="foodBool">
             <ion-row [ngStyle]="{'marginBottom': '10px'}">
                 Info per 100g:
             </ion-row>
@@ -33,5 +35,7 @@
             </div>
             <ion-button (click)="mandaInLista()">Aggiungi al pasto</ion-button>
         </ion-grid>
+
+        <!--Sezione info esercizi-->
     </ion-card>
 </div>

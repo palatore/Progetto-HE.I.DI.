@@ -25,7 +25,8 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
     get miei_dettagli():any[] {
       return this.dettagli;
     }
-  @Input() isShow:Boolean = false;
+  @Input() isShow:boolean = false; //flag per mostrare o nascondere il componente
+  @Input() foodBool:boolean = false  //flag per distinguere se mostrare la parte relataiva agli alimenti o, se falsa, quella relativa agli esercizi
   @Input() 
     //Quando riceve un nuovo id attività lo assegna nel form
     set new_id_attivita(value:number | undefined) {

@@ -20,9 +20,9 @@ export class CreazionePastoPage implements OnInit {
 public alimenti:any[] = [];
 public pastoForm:FormGroup;
 public id_pasto_creato:number = 0;
-public showAlreadyExistent:Boolean = false;
-public showRiempiPasto:Boolean = false;
-public expiredSession:Boolean = false;
+public showAlreadyExistent:boolean = false;
+public showRiempiPasto:boolean = false;
+public expiredSession:boolean = false;
 alimento_selezionato:any = null; //variabile per la gestione delle info
 alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   
@@ -127,8 +127,8 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   }
 
   //metodo per inviare un alimento di cui si è visualizzate le info e selezionato al component di riempimento pasto
-  async mettiInLista(alimento: {id_alimento:number, qta:number}) {
-    const cibo = await this.datiAlimento(alimento.id_alimento);
+  async mettiInLista(alimento: {id_dettaglio:number, qta:number}) {
+    const cibo = await this.datiAlimento(alimento.id_dettaglio);
     this.alimento_da_aggiungere = {
       id: cibo.id,
       name: cibo.name,

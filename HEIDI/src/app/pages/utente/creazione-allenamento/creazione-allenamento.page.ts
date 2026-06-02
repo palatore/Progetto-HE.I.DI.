@@ -20,9 +20,9 @@ export class CreazioneAllenamentoPage implements OnInit{
 public esercizi: any[] = [];
 public allenamentoForm:FormGroup;
 public id_allenamento_creato:number = 0;
-public showAlreadyExistent:Boolean = false;
-public showRiempiAllenamento:Boolean = false;
-public expiredSession:Boolean = false;
+public showAlreadyExistent:boolean = false;
+public showRiempiAllenamento:boolean = false;
+public expiredSession:boolean = false;
 esercizio_selezionato:any = null //variabile per la gestione delle info
 esercizio_da_aggiungere:any = null //variabile per la gestione delle info
 

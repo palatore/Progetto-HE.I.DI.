@@ -41,6 +41,7 @@
   <ng-container>
     <app-riempi-dettagli 
       [isShow]="showRiempiPasto"
+      [foodBool]="true"
       [miei_dettagli]="alimenti"
       [new_id_attivita]="id_pasto_creato"
       [dettagli_aggiunti_da_info]="alimento_da_aggiungere"
@@ -51,6 +52,7 @@
 
     <app-info-dettagli
       [dettaglio]="alimento_selezionato"
+      [foodBool]="true"
       (inLista)="mettiInLista($event)"></app-info-dettagli>
   </ng-container>
 </ion-content>

@@ -4,28 +4,71 @@
     <ion-card class="detailCard">
       <ion-card-header>
         <ion-card-title>Qual è il piano?</ion-card-title>
-        <ion-card-content class="detailCardContent">
-          <ion-grid>
-            <ion-row>
-              <ion-col size="6">
-                Dettagli inseriti
-              </ion-col>
-              <ion-col size="6">
-                Quantità
-              </ion-col>
-            </ion-row>
-            <ion-row *ngFor="let dettaglio of dettagli_inseriti">
-              <ion-col size = "6">
-                <p>{{dettaglio.name}}</p>
-              </ion-col>
-              <ion-col size = "6">
-                <p>{{dettaglio.qta}} g</p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-          <ion-button (click)="submitRiempi()">Riempi Attività</ion-button>
-        </ion-card-content>
       </ion-card-header>
+
+      <!--Sezione cibo-->
+      <ion-card-content class="foodCardContent" *ngIf="foodBool">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              Alimenti inseriti
+            </ion-col>
+            <ion-col size="6">
+              Quantità in grammi
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let dettaglio of dettagli_inseriti">
+            <ion-col size = "6">
+              <p><b>{{dettaglio.name}}</b></p>
+            </ion-col>
+            <ion-col size = "6">
+              <p><b>{{dettaglio.qta}} g</b></p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button (click)="submitRiempi()">Riempi Pasto</ion-button>
+      </ion-card-content>
+
+      <!--Sezione esercizi-->
+      <ion-card-content class="exerciseCardContent" *ngIf="!foodBool">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="2">
+              Esercizi inseriti
+            </ion-col>
+            <ion-col size="2">
+              Durata in minuti
+            </ion-col>
+            <ion-col size="2">
+              Serie
+            </ion-col>
+            <ion-col size="2">
+              Ripetizioni
+            </ion-col>
+            <ion-col size="2">
+              Pesi in kg
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let dettaglio of dettagli_inseriti">
+            <ion-col size = "2">
+              <p><b>{{dettaglio.name}}</b></p>
+            </ion-col>
+            <ion-col size = "2">
+              <p><b>{{dettaglio.durata}} min</b></p>
+            </ion-col>
+            <ion-col size = "2">
+              <p><b>{{dettaglio.serie}}</b></p>
+            </ion-col>
+            <ion-col size = "2">
+              <p><b>{{dettaglio.ripetizioni}}</b></p>
+            </ion-col>
+            <ion-col size = "2">
+              <p><b>{{dettaglio.pesi}} kg</b></p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button (click)="submitRiempi()">Riempi Allenamento</ion-button>
+      </ion-card-content>
     </ion-card>
 
   <!--Sezione icone quadrate-->
