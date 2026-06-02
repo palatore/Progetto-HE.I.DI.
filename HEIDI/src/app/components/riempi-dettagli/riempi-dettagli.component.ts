@@ -26,7 +26,7 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
       return this.dettagli;
     }
   @Input() isShow:boolean = false; //flag per mostrare o nascondere il componente
-  @Input() foodBool:boolean = false  //flag per distinguere se mostrare la parte relataiva agli alimenti o, se falsa, quella relativa agli esercizi
+  @Input() foodBool:boolean = false;  //flag per distinguere se mostrare la parte relataiva agli alimenti o, se falsa, quella relativa agli esercizi
   @Input() 
     //Quando riceve un nuovo id attività lo assegna nel form
     set new_id_attivita(value:number | undefined) {
@@ -48,12 +48,26 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   }
 
   getImgPath(dettaglio:any): string {
-    const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
-    const imgPath = `assets/dettagli/${parametro}.png`;
-    return imgPath;
+    if(this.foodBool == true){
+      const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
+      const imgPath = `assets/dettagli/${parametro}.png`;
+      return imgPath;
+    }else{
+      const parametro = dettaglio.fase.toLowerCase();
+      console.log('il parametro dentro getImg è:', parametro);
+      const imgPath = `assets/dettagli/${parametro}.png`;
+      return imgPath;
+    };
+      
+    
   }
   onImgError(event: any) {
-  event.target.src = 'assets/dettagli/default.png';
+    if (this.foodBool == true){
+      event.target.src = 'assets/dettagli/default.png';
+    } else {
+      event.target.src = 'assets/dettagli/defaultWorkout.png';
+    };
+  
   }
 
   filtraDettagli(event: any) {
