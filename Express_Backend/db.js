@@ -411,7 +411,6 @@ db.serialize(() => {
             comando.run('Panca piana', 'Petto', 'Centrale');
             comando.run('Panca inclinata', 'Petto', 'Centrale');
             comando.run('Panca stretta', 'Petto', 'Centrale');
-            comando.run('Panca piana', 'Petto', 'Centrale');
             comando.run('Croci coi manubri', 'Petto', 'Centrale');
             comando.run('Croci ai cavi', 'Petto', 'Centrale');
             comando.run('Chest press', 'Petto', 'Centrale');
