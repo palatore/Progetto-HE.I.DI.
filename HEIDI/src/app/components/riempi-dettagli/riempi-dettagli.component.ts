@@ -48,26 +48,23 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   }
 
   getImgPath(dettaglio:any): string {
-    if(this.foodBool == true){
+    if(this.foodBool){
       const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
       const imgPath = `assets/dettagli/${parametro}.png`;
       return imgPath;
-    }else{
-      const parametro = dettaglio.fase.toLowerCase();
-      console.log('il parametro dentro getImg è:', parametro);
+    } else {
+      const parametro = dettaglio.fase.toLowerCase().replace(/\s/g, '_');
       const imgPath = `assets/dettagli/${parametro}.png`;
       return imgPath;
-    };
-      
-    
+    }   
   }
+
   onImgError(event: any) {
-    if (this.foodBool == true){
+    if (this.foodBool) {
       event.target.src = 'assets/dettagli/default.png';
     } else {
       event.target.src = 'assets/dettagli/defaultWorkout.png';
-    };
-  
+    }
   }
 
   filtraDettagli(event: any) {
