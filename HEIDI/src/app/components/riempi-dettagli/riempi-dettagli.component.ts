@@ -53,17 +53,6 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
       const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
       const imgPath = `assets/dettagli/${parametro}.png`;
       return imgPath;
-<<<<<<< HEAD
-    }else{
-      const parametro = dettaglio.fase.toLowerCase();
-      const imgPath = `assets/dettagli/${parametro}.png`;
-      return imgPath;
-    }
-  }
-
-  onImgError(event: any) {
-    if (this.foodBool){
-=======
     } else {
       const parametro = dettaglio.fase.toLowerCase().replace(/\s/g, '_');
       const imgPath = `assets/dettagli/${parametro}.png`;
@@ -73,15 +62,10 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
 
   onImgError(event: any) {
     if (this.foodBool) {
->>>>>>> 193772d36fb8abc499ddc172c7b3997a9f8b3e74
       event.target.src = 'assets/dettagli/default.png';
     } else {
       event.target.src = 'assets/dettagli/defaultWorkout.png';
     }
-<<<<<<< HEAD
-  
-=======
->>>>>>> 193772d36fb8abc499ddc172c7b3997a9f8b3e74
   }
 
   filtraDettagli(event: any) {

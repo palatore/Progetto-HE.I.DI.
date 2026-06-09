@@ -42,19 +42,11 @@ export class InfoDettagliComponent  implements OnInit {
       const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
       const imgPath = `assets/dettagli/${parametro}.png`;
       return imgPath;
-<<<<<<< HEAD
-    }else{
-      const parametro = dettaglio.fase.toLowerCase();
-      const imgPath = `assets/dettagli/${parametro}.png`;
-      return imgPath;
-    }
-=======
     } else {
       const parametro = dettaglio.fase.toLowerCase().replace(/\s/g, '_');
       const imgPath = `assets/dettagli/${parametro}.png`;
       return imgPath;
     }  
->>>>>>> 193772d36fb8abc499ddc172c7b3997a9f8b3e74
   }
 
   mandaInLista() {
@@ -69,14 +61,7 @@ export class InfoDettagliComponent  implements OnInit {
       this.dettaglio = null;
       this.quantita = 1;
       this.n_serie = 1;
-<<<<<<< HEAD
-      this.n_ripetizioni = 1;
-      this.min_riposo = 1;
-      this.n_pesi_kg = 1;
-=======
       this.n_pesi_kg = 0;
-      this.durata_min = 1;
->>>>>>> 193772d36fb8abc499ddc172c7b3997a9f8b3e74
       this.isClosing = false;
     }, 400); // Durata dell'animazione in millisecondi
   }
