@@ -37,13 +37,13 @@
               Esercizi inseriti
             </ion-col>
             <ion-col size="2">
-              Durata in minuti
-            </ion-col>
-            <ion-col size="2">
               Serie
             </ion-col>
             <ion-col size="2">
-              Ripetizioni
+              Ripetizioni o secondi
+            </ion-col>
+            <ion-col size="2">
+              Riposo
             </ion-col>
             <ion-col size="2">
               Pesi in kg
@@ -54,20 +54,26 @@
               <p><b>{{dettaglio.name}}</b></p>
             </ion-col>
             <ion-col size = "2">
-              <p><b>{{dettaglio.durata}} min</b></p>
-            </ion-col>
-            <ion-col size = "2">
               <p><b>{{dettaglio.serie}}</b></p>
             </ion-col>
             <ion-col size = "2">
               <p><b>{{dettaglio.ripetizioni}}</b></p>
             </ion-col>
             <ion-col size = "2">
-              <p><b>{{dettaglio.pesi}} kg</b></p>
+              <p><b>{{dettaglio.riposo}} minuti</b></p>
+            </ion-col>
+            <ion-col size = "2">
+              <p><b>{{dettaglio.pesi_kg}} kg</b></p>
             </ion-col>
           </ion-row>
         </ion-grid>
-        <ion-button (click)="submitRiempi()">Riempi Allenamento</ion-button>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="submitRiempi()">Riempi Allenamento</ion-button>
+          </ion-col>
+        </ion-row>
+        
+
       </ion-card-content>
     </ion-card>
 

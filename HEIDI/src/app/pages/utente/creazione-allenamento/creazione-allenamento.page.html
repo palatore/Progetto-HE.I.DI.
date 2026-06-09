@@ -38,6 +38,17 @@
                             
                        </ion-modal>
                     </ion-col>
+                    <ion-col>
+                        <ion-row>
+                            durata allenamento prevista:
+                        </ion-row>
+                        <ion-row>
+                            <ion-button (click)="durata_allenamento = durata_allenamento - 1" fill="outline" size="small">-</ion-button>
+                            <ion-input type="number" step="any" placeholder="Durata" [(ngModel)]="durata_allenamento" [ngStyle]="{'max-width': '20px'}" formControlName="durata"></ion-input>
+                            <ion-button (click)="durata_allenamento = durata_allenamento + 1" fill="outline" size="small">+</ion-button>
+                            Ore
+                        </ion-row>
+                    </ion-col>
                 </ion-row>
             </ion-grid>
             <ion-button type="submit" [disabled]="!allenamentoForm.valid"> Crea </ion-button>
@@ -60,7 +71,9 @@
         </app-riempi-dettagli>
 
         <app-info-dettagli
-        [dettaglio]="esercizio_selezionato"
-        (inLista)="mettiInLista($event)"></app-info-dettagli>
+        [mio_dettaglio]="esercizio_selezionato"
+        
+        (inLista)="mettiInLista($event)">
+        </app-info-dettagli>
     </ng-container>
 </ion-content>

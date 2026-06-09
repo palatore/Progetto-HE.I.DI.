@@ -10,31 +10,48 @@ import { FormsModule } from '@angular/forms';
   imports: [IonIcon, IonGrid, IonRow, IonCol, IonIcon, IonContent, IonInput, IonCardContent, IonButton, IonCard, IonCardHeader, CommonModule, FormsModule],
 })
 export class InfoDettagliComponent  implements OnInit {
+  public dettaglio:any = null;
   public dettaglio_mostrato:any = null;
-  public quantita:number = 1
+  public quantita:number = 1;
+  public tipo_fase:string = '';
   public n_serie:number = 1;
+  public n_ripetizioni:number = 1;
+  public min_riposo:number = 1;
   public n_pesi_kg:number = 1;
-  public durata_min:number = 1;
   public isClosing:Boolean = false;
 
-  @Input() dettaglio:any = null;
+  @Input() 
+  set mio_dettaglio(value:any){
+    this.dettaglio = value;
+    if(value){
+      this.tipo_fase = value.fase == 'Centrale' ?  'Ripetizioni'  : 'Secondi';
+    }
+  };
+
   @Input() dettaglio_img:string = '';
   @Input() foodBool:boolean = false;
   @Output() inLista = new EventEmitter<any>();
+
 
   constructor() { }
 
   ngOnInit() {}
 
   getImgPath(dettaglio:any): string {
-    const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
-    const imgPath = `assets/dettagli/${parametro}.png`;
-    return imgPath;
+    if(this.foodBool){
+      const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
+      const imgPath = `assets/dettagli/${parametro}.png`;
+      return imgPath;
+    }else{
+      const parametro = dettaglio.fase.toLowerCase();
+      const imgPath = `assets/dettagli/${parametro}.png`;
+      return imgPath;
+    }
   }
 
   mandaInLista() {
-    console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'nome', this.dettaglio.name, 'e quantità', this.quantita);
-    this.inLista.emit({id_dettaglio: this.dettaglio.id, name: this.dettaglio.name, qta: this.quantita, serie: this.n_serie, pesi_kg: this.n_pesi_kg, durata: this.durata_min}); //anche se mandi oggetti con proprietà in più rispetto a quelle accettate dal componente padre non preoccuparti, verranno ignorate
+    console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'nome', this.dettaglio.name);
+    this.inLista.emit({id_dettaglio: this.dettaglio.id, name: this.dettaglio.name, qta: this.quantita, serie: this.n_serie, pesi_kg: this.n_pesi_kg, ripetizioni: this.n_ripetizioni, riposo: this.min_riposo}); //anche se mandi oggetti con proprietà in più rispetto a quelle accettate dal componente padre non preoccuparti, verranno ignorate
     this.chiudi();
   }
 
@@ -44,8 +61,9 @@ export class InfoDettagliComponent  implements OnInit {
       this.dettaglio = null;
       this.quantita = 1;
       this.n_serie = 1;
+      this.n_ripetizioni = 1;
+      this.min_riposo = 1;
       this.n_pesi_kg = 1;
-      this.durata_min = 1;
       this.isClosing = false;
     }, 400); // Durata dell'animazione in millisecondi
   }

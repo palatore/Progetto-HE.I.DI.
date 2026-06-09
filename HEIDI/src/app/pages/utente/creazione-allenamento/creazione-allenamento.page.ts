@@ -23,13 +23,16 @@ public id_allenamento_creato:number = 0;
 public showAlreadyExistent:boolean = false;
 public showRiempiAllenamento:boolean = false;
 public expiredSession:boolean = false;
+public durata_allenamento:number = 0;
 esercizio_selezionato:any = null //variabile per la gestione delle info
 esercizio_da_aggiungere:any = null //variabile per la gestione delle info
+//fase_esercizio:boolean = false;
 
     constructor(private formbuilder:FormBuilder, private workoutService:GestioneAllenamentiService){
         this.allenamentoForm = formbuilder.group({
             nome: ['', Validators.required],
-            giorno: ['', Validators.required]
+            giorno: ['', Validators.required],
+            durata: ['', Validators.required]
         });
     }
 
@@ -56,6 +59,7 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     async onSubmit(){
         const nomeAllenamento = this.allenamentoForm.value.nome;
         const giornoAllenamento = this.allenamentoForm.value.giorno.split('T')[0];
+        const durataAllenamento = this.allenamentoForm.value.durata;
         //grazie al metodo split() posso trasformare il formato della data da YYYY-MM-dd T ore:minuti
         //al formato YYYY-MM-DD, escludendo così l'informazione sull'orario
         console.log('Giorno letto:', giornoAllenamento);
@@ -84,7 +88,7 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     }
         //se non esiste, crea l'allenamento
         try{
-            const response = await firstValueFrom(this.workoutService.creaAllenamenti(nomeAllenamento, giornoAllenamento));
+            const response = await firstValueFrom(this.workoutService.creaAllenamenti(nomeAllenamento, giornoAllenamento, durataAllenamento));
             if(response === null){
                 console.log('errore di nullità');
                 return
@@ -115,7 +119,16 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     async datiEsercizio(id_esercizio:number): Promise<any> {
         try {
             const response = await firstValueFrom(this.workoutService.getEsercizioById(id_esercizio));
+            const faseEsercizio = response.fase;
+            console.log('datiEsercizio ha mandato:', faseEsercizio);
             if(response) {
+                /*if(faseEsercizio == 'Centrale'){
+                this.fase_esercizio = true;
+                console.log('Flag fase esercizio è:', this.fase_esercizio);
+                }else{
+                    this.fase_esercizio = false;
+                    console.log('Flag fase esercizio è:', this.fase_esercizio);
+                }*/
                 return response;
             } else {
                 console.log('Esercizio non trovato con id:', id_esercizio);
@@ -123,14 +136,16 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
         }catch (error){
             console.error('Errore nel recupero delle info:', error);
         }
-    } 
+    }
 
-    //metodo per inviare un esercizio al component di riempi pasto
-    async mettiInLista(esercizio: {id_esercizio:number, serie:number}) {
+
+
+    //metodo per inviare un esercizio al component di riempi allenamento
+    async mettiInLista(esercizio: {id_esercizio:number}) {
         const workout = await this.datiEsercizio(esercizio.id_esercizio);
         this.esercizio_da_aggiungere = [{
-            esercizio: workout,
-            serie: esercizio.serie
+            id: workout.id,
+            esercizio: workout.name
         }];
         console.log('Debug: esercizio da aggiungere:', this.esercizio_da_aggiungere);
 
@@ -140,7 +155,7 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     //metodo per inserire i dettagli allenamento nel db, richiede come parametro l'insieme degli esercizi impostati tramite il component
     async submitRiempi(esercizi:any[]){
         const idAllenamento = this.id_allenamento_creato;
-        //id allenamento ricavato, ora inseriamolo
+        //id allenamento ricavato, ora inseriamo gli esercizi
         try {
             const response = await firstValueFrom(this.workoutService.riempiAllenamento(idAllenamento, esercizi));
             if (response && response.status === 201){

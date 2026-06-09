@@ -16,6 +16,7 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   public dettagli:any[] = [];
   private dettagli_completi:any[] = [];
   public dettagli_inseriti:any[] = [];
+  public durata_allenamento:number = 0;
 
   @Input()
     set miei_dettagli(value:any[]) {
@@ -48,25 +49,23 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   }
 
   getImgPath(dettaglio:any): string {
-    if(this.foodBool == true){
+    if(this.foodBool){
       const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
       const imgPath = `assets/dettagli/${parametro}.png`;
       return imgPath;
     }else{
       const parametro = dettaglio.fase.toLowerCase();
-      console.log('il parametro dentro getImg è:', parametro);
       const imgPath = `assets/dettagli/${parametro}.png`;
       return imgPath;
-    };
-      
-    
+    }
   }
+
   onImgError(event: any) {
-    if (this.foodBool == true){
+    if (this.foodBool){
       event.target.src = 'assets/dettagli/default.png';
     } else {
       event.target.src = 'assets/dettagli/defaultWorkout.png';
-    };
+    }
   
   }
 
@@ -100,7 +99,8 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
 
   submitRiempi(){
     this.dettagliInseriti.emit(this.dettagli_inseriti);
-    this.chiudi.emit();  }
+    this.chiudi.emit(); 
+  }
   
 
 }
