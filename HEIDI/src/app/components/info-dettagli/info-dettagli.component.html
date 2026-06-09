@@ -14,27 +14,29 @@
             </ion-card-content>
         </ion-card>
 
-        <!--Sezione info alimenti-->
-        <ion-grid class = "listaInfo" *ngIf="foodBool">
-            <ion-row [ngStyle]="{'marginBottom': '10px'}">
-                Info per 100g:
-            </ion-row>
-            <ion-row>
-                <ion-col size="6">Calorie: {{dettaglio.kcal}} kcal</ion-col>
-                <ion-col size="6">Carboidrati: {{dettaglio.carboidrati_g}}g</ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col size="6">Grassi: {{dettaglio.grassi_g}}g</ion-col>
-                <ion-col size="6">Zuccheri: {{dettaglio.zuccheri_g}}g</ion-col>
-                <ion-col size="6">Vitamine: {{dettaglio.vitamine}}</ion-col>
-            </ion-row>
-            <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'gap': '10px', 'justify-content': 'left'}">
-                <ion-button (click)="quantita = quantita - 1" fill="outline" size="small">-</ion-button>
-                <ion-input type="number" step="any" placeholder="Quantità" [(ngModel)]="quantita" [ngStyle]="{'max-width': '20px'}"></ion-input>
-                <ion-button (click)="quantita = quantita + 1" fill="outline" size="small">+</ion-button>
-            </div>
-            <ion-button (click)="mandaInLista()">Aggiungi al pasto</ion-button>
-        </ion-grid>
+        @if(foodBool) {
+            <!--Sezione info alimenti-->
+            <ion-grid class = "listaInfo">
+                <ion-row [ngStyle]="{'marginBottom': '10px'}">
+                    Info per 100g:
+                </ion-row>
+                <ion-row>
+                    <ion-col size="6">Calorie: {{dettaglio.kcal}} kcal</ion-col>
+                    <ion-col size="6">Carboidrati: {{dettaglio.carboidrati_g}}g</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="6">Grassi: {{dettaglio.grassi_g}}g</ion-col>
+                    <ion-col size="6">Zuccheri: {{dettaglio.zuccheri_g}}g</ion-col>
+                    <ion-col size="6">Vitamine: {{dettaglio.vitamine}}</ion-col>
+                </ion-row>
+                <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'gap': '10px', 'justify-content': 'left'}">
+                    <ion-button (click)="quantita = quantita - 1" fill="outline" size="small">-</ion-button>
+                    <ion-input type="number" step="any" placeholder="Quantità" [(ngModel)]="quantita" [ngStyle]="{'max-width': '20px'}"></ion-input>
+                    <ion-button (click)="quantita = quantita + 1" fill="outline" size="small">+</ion-button>
+                </div>
+                <ion-button (click)="mandaInLista()">Aggiungi al pasto</ion-button>
+            </ion-grid>
+        }
 
         <!--Sezione info esercizi-->
         <ion-grid class="listaInfo" *ngIf="!foodBool">
