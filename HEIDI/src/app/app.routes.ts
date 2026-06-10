@@ -35,7 +35,7 @@ export const routes: Routes = [
   },
   {
     path: 'creazioneAllenamento',
-    loadComponent: () => import('./pages/utente/creazione-allenamento/creazione-allenamento.page').then( m => m.CreazioneAllenamentoPage),
+    loadComponent: () => import('./pages/allenamenti/creazione-allenamento/creazione-allenamento.page').then( m => m.CreazioneAllenamentoPage),
     canActivate: [AuthGuard]
   },
   {
