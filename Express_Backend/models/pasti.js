@@ -117,9 +117,9 @@ class Pasti {
     static async riempiPasto(id_pasto, alimenti) {
     return new Promise((resolve, reject) => {
             const insertAlimenti = alimenti.map(alimento => {
-                console.log('sto inserendo alimento:', alimento, alimento.id, 'con quantità:', alimento.qta);
+                console.log('sto inserendo alimento:', alimento, alimento.id_dettaglio, 'con quantità:', alimento.qta);
                 return new Promise((res, rej) => {
-                    db.run('INSERT INTO alimenti_pasto (pasto_id, alimento_id, quantita) VALUES (?, ?, ?)', [id_pasto, alimento.id, alimento.qta], function(err) {
+                    db.run('INSERT INTO alimenti_pasto (pasto_id, alimento_id, quantita) VALUES (?, ?, ?)', [id_pasto, alimento.id_dettaglio, alimento.qta], function(err) {
                         if(err) {
                             rej(err);
                         } else {

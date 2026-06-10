@@ -84,7 +84,7 @@ class PastiServices {
         return nuovoPasto;
     };
 
-    static async riempiPasto(id_pasto, alimenti, bevande) {
+    static async riempiPasto(id_pasto, alimenti) {
         //dopo la creazione di un pasto, riempi quel pasto con alimenti presi dal database
         console.log('RiempiPasto service chiamato');
         const contenutoPasto = await Pasti.riempiPasto(id_pasto, alimenti);

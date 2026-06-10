@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonButton, IonCardContent, IonCard, IonCardHeader, IonInput, IonContent, IonGrid, IonRow, IonCol, IonIcon } from "@ionic/angular/standalone";
+import { IonButton, IonCardContent, IonCard, IonCardHeader, IonInput, IonGrid, IonRow, IonCol, IonIcon } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-info-dettagli',
   templateUrl: './info-dettagli.component.html',
   styleUrls: ['./info-dettagli.component.scss'],
-  imports: [IonIcon, IonGrid, IonRow, IonCol, IonIcon, IonContent, IonInput, IonCardContent, IonButton, IonCard, IonCardHeader, CommonModule, FormsModule],
+  imports: [IonIcon, IonGrid, IonRow, IonCol, IonIcon, IonInput, IonCardContent, IonButton, IonCard, IonCardHeader, CommonModule, FormsModule],
 })
 export class InfoDettagliComponent  implements OnInit {
   public dettaglio:any = null;
@@ -50,8 +50,8 @@ export class InfoDettagliComponent  implements OnInit {
   }
 
   mandaInLista() {
-    console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'nome', this.dettaglio.name);
-    this.inLista.emit({id_dettaglio: this.dettaglio.id, name: this.dettaglio.name, qta: this.quantita, serie: this.n_serie, pesi_kg: this.n_pesi_kg, ripetizioni: this.n_ripetizioni, riposo: this.min_riposo}); //anche se mandi oggetti con proprietà in più rispetto a quelle accettate dal componente padre non preoccuparti, verranno ignorate
+    console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'nome', this.dettaglio.name, 'quantità', this.quantita, 'serie', this.n_serie, 'ripetizioni', this.n_ripetizioni, 'riposo', this.min_riposo, 'pesi_kg', this.n_pesi_kg);
+    this.inLista.emit({id_dettaglio: this.dettaglio.id, name: this.dettaglio.name, qta: this.quantita, serie: this.n_serie, ripetizioni: this.n_ripetizioni, riposo: this.min_riposo, pesi_kg: this.n_pesi_kg}); //anche se mandi oggetti con proprietà in più rispetto a quelle accettate dal componente padre non preoccuparti, verranno ignorate
     this.chiudi();
   }
 

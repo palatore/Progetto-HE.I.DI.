@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
 import { AlertController } from '@ionic/angular';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { firstValueFrom } from 'rxjs';
@@ -14,7 +14,7 @@ import { InfoDettagliComponent } from "src/app/components/info-dettagli/info-det
   templateUrl: './creazione-pasto.page.html',
   styleUrls: ['./creazione-pasto.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent]
 })
 export class CreazionePastoPage implements OnInit {
 public alimenti:any[] = [];
@@ -87,7 +87,7 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
         console.log('errore di nullità');
         return
       } else if(response.status === 201) {
-  //dopo aer creato il pasto, imposta il flag per mostrare il component di inserimento dettagli a true
+  //dopo aver creato il pasto, imposta il flag per mostrare il component di inserimento dettagli a true
   //il component si attiva tramite il decorator @Input
   //successivamente il metodo conserva l'id del pasto appena creato per poi passarlo successivamente al component
         this.showRiempiPasto = true;
@@ -127,13 +127,8 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   }
 
   //metodo per inviare un alimento di cui si è visualizzate le info e selezionato al component di riempimento pasto
-  async mettiInLista(alimento: {id_dettaglio:number, qta:number}) {
-    const cibo = await this.datiAlimento(alimento.id_dettaglio);
-    this.alimento_da_aggiungere = {
-      id: cibo.id,
-      name: cibo.name,
-      qta: alimento.qta
-    };
+  async mettiInLista(alimento: {id_dettaglio:number, name:string, qta:number}) {
+    this.alimento_da_aggiungere = alimento;
     console.log('Debug: alimento da aggiungere', this.alimento_da_aggiungere);
 
     this.alimento_selezionato = null;

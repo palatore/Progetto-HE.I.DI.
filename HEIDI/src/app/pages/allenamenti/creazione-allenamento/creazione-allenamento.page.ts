@@ -13,7 +13,7 @@ import { InfoDettagliComponent } from "src/app/components/info-dettagli/info-det
     templateUrl: './creazione-allenamento.page.html',
     styleUrls: ['./creazione-allenamento.page.scss'],
     standalone: true,
-    imports: [IonCardTitle, IonModal, IonDatetimeButton, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, RouterModule, IonCard, IonCardHeader, IonCardContent, FormsModule, ReactiveFormsModule, CommonModule, IonGrid, IonRow, IonCol, IonInput, IonDatetime, IonButtons, RiempiDettagliComponent, InfoDettagliComponent]
+    imports: [IonCardTitle, IonModal, IonDatetimeButton, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, RouterModule, IonCard, IonCardHeader, IonCardContent, FormsModule, ReactiveFormsModule, CommonModule, IonGrid, IonRow, IonCol, IonInput, IonDatetime, IonButton, RiempiDettagliComponent, InfoDettagliComponent]
 })
 
 export class CreazioneAllenamentoPage implements OnInit{
@@ -75,6 +75,7 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
             this.showAlreadyExistent = true;
             return;
         }
+        this.showAlreadyExistent = false;
     } catch(e:any){
         if(e instanceof Error){
             console.log(e.message);
@@ -107,12 +108,15 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
             }
         }
     }
+
 //INSERIMENTO DETTAGLI ALLENAMENTO
+
     //metodo per ricevere un esercizio dal component di riempimento per mostrarne le info
     async onEsercizioSelezionato(id_esercizio:number){
         console.log('Ho ricevuto un esercizio da selezionare:', id_esercizio);
         this.esercizio_selezionato = await this.datiEsercizio(id_esercizio);
     }
+
     //metodo per ricavare i dati di un esercizio passato dal component di riempimento
     //il component passa l'id e si cercano i dati corrispondenti
     //le info ottenute vengono inviate al component di visualizzazione info tramite @Input
@@ -120,15 +124,7 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
         try {
             const response = await firstValueFrom(this.workoutService.getEsercizioById(id_esercizio));
             const faseEsercizio = response.fase;
-            console.log('datiEsercizio ha mandato:', faseEsercizio);
             if(response) {
-                /*if(faseEsercizio == 'Centrale'){
-                this.fase_esercizio = true;
-                console.log('Flag fase esercizio è:', this.fase_esercizio);
-                }else{
-                    this.fase_esercizio = false;
-                    console.log('Flag fase esercizio è:', this.fase_esercizio);
-                }*/
                 return response;
             } else {
                 console.log('Esercizio non trovato con id:', id_esercizio);
@@ -141,12 +137,8 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
 
 
     //metodo per inviare un esercizio al component di riempi allenamento
-    async mettiInLista(esercizio: {id_esercizio:number}) {
-        const workout = await this.datiEsercizio(esercizio.id_esercizio);
-        this.esercizio_da_aggiungere = [{
-            id: workout.id,
-            esercizio: workout.name
-        }];
+    async mettiInLista(esercizio: any) {
+        this.esercizio_da_aggiungere = esercizio;
         console.log('Debug: esercizio da aggiungere:', this.esercizio_da_aggiungere);
 
         this.esercizio_selezionato = null;

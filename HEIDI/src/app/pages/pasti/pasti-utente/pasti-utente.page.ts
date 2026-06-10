@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonRow, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar} from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 
 
@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './pasti-utente.page.html',
   styleUrls: ['./pasti-utente.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonGrid, IonRow, IonCol, IonItem, IonCard, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule]
 })
 export class PastiUtentePage implements OnInit {
   totZuccheri:number = 0;
@@ -62,7 +62,6 @@ export class PastiUtentePage implements OnInit {
       this.totCalorie += alimento.kcal * alimento.quantita / 100;
       this.totGrassi += alimento.grassi_g * alimento.quantita / 100;
       this.totCarboidrati += alimento.carboidrati_g * alimento.quantita / 100;
-    //  this.totVitamine += alimento.vitamine + ', ';
     }
 
   }
