@@ -26,7 +26,7 @@ export const routes: Routes = [
   },
   {
     path: 'creazionePasto',
-    loadComponent: () => import('./pages/utente/creazione-pasto/creazione-pasto.page').then( m => m.CreazionePastoPage),
+    loadComponent: () => import('./pages/pasti/creazione-pasto/creazione-pasto.page').then( m => m.CreazionePastoPage),
     canActivate: [AuthGuard]
   },
   {
