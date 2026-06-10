@@ -13,7 +13,7 @@ export class InfoDettagliComponent  implements OnInit {
   public dettaglio:any = null;
   public dettaglio_mostrato:any = null;
   public quantita:number = 1;
-  public tipo_fase:string = '';
+  public tipo_fase:string = ''; //variabile utile alla corretta visualizzazione della misura (secondi o ripetizioni) degli esercizi visualizzati
   public n_serie:number = 1;
   public n_ripetizioni:number = 1;
   public min_riposo:number = 1;
@@ -23,7 +23,7 @@ export class InfoDettagliComponent  implements OnInit {
   @Input() 
   set mio_dettaglio(value:any){
     this.dettaglio = value;
-    if(value){
+    if(value){ //a priori dal dettaglio ricevuto valuta questa condizione. Anche se arriva un alimento non importa, perché non viene utilizzata la variabile tipo_fase
       this.tipo_fase = value.fase == 'Centrale' ?  'Ripetizioni'  : 'Secondi';
     }
   };

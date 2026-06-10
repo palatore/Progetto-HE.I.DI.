@@ -40,7 +40,7 @@ export const routes: Routes = [
   },
   {
     path: 'allenamentiUtente',
-    loadComponent: () => import('./pages/utente/allenamenti-utente/allenamenti-utente.page').then(m => m.AllenamentiUtentePage),
+    loadComponent: () => import('./pages/allenamenti/allenamenti-utente/allenamenti-utente.page').then(m => m.AllenamentiUtentePage),
     canActivate: [AuthGuard]
   },
 
