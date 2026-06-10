@@ -31,7 +31,7 @@ export const routes: Routes = [
   },
   {
     path: 'pastiUtente',
-    loadComponent: () => import('./pages/utente/pasti-utente/pasti-utente.page').then( m => m.PastiUtentePage)
+    loadComponent: () => import('./pages/pasti/pasti-utente/pasti-utente.page').then( m => m.PastiUtentePage)
   },
   {
     path: 'creazioneAllenamento',
