@@ -77,6 +77,7 @@ TO-DO:
 - I pasti e gli allenamenti non contengono una data da impostare, semplicemente verrà impostata quando li inserirranno nel calendario dal menù calendario.
 - Migliorare la creazione dei pasti e la visualizzazione dei dettagli pasti (PIU' DETTAGLI!)
 - Fare un Header o un Footer component che rimangono fissi e rispondono al tipo di utente così da sganciare le altre pagine da caricamenti dinamici più pesanti
+- capire che fa authguard e implementarlo meglio
 
 
 NOTE:

@@ -5,6 +5,14 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
+import { addIcons } from 'ionicons';
+import { close, trash } from 'ionicons/icons';
+
+addIcons({
+  close,
+  trash,
+  'a': 'assets/icon/mountain_line_art.svg'
+});
 
 bootstrapApplication(AppComponent, {
   providers: [

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonButton, IonCardContent, IonCard, IonCardHeader, IonInput, IonGrid, IonRow, IonCol, IonIcon } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
+import { addIcons } from 'ionicons';
 
 @Component({
   selector: 'app-info-dettagli',
@@ -10,6 +11,7 @@ import { FormsModule } from '@angular/forms';
   imports: [IonIcon, IonGrid, IonRow, IonCol, IonIcon, IonInput, IonCardContent, IonButton, IonCard, IonCardHeader, CommonModule, FormsModule],
 })
 export class InfoDettagliComponent  implements OnInit {
+
   public dettaglio:any = null;
   public dettaglio_mostrato:any = null;
   public quantita:number = 1;
@@ -33,7 +35,7 @@ export class InfoDettagliComponent  implements OnInit {
   @Output() inLista = new EventEmitter<any>();
 
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 

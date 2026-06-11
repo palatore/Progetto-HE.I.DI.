@@ -27,9 +27,6 @@ export class LoginPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
-     addIcons({
-      'a': 'assets/icon/mountain_line_art.svg',
-    });
    }
 
   ngOnInit() {
