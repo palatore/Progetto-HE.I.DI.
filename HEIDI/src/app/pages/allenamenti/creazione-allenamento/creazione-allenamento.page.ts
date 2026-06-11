@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
 import { IonButtons, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter, IonDatetimeButton, IonModal, IonDatetime, AlertController } from '@ionic/angular/standalone';
 import { firstValueFrom } from 'rxjs';
 import { RouterModule } from "@angular/router";
@@ -28,9 +28,9 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
 
     constructor(private formbuilder:FormBuilder, private workoutService:GestioneAllenamentiService, private alertController: AlertController) {
         this.allenamentoForm = formbuilder.group({
-            nome: ['', Validators.required],
-            giorno: ['', Validators.required],
-            durata: ['', Validators.required]
+            nome: new FormControl({value: '', disabled: false}, Validators.required),
+            giorno: new FormControl({value: '', disabled: false}, Validators.required),
+            durata: new FormControl({value: '', disabled: false}, Validators.required)
         });
     }
 
@@ -91,9 +91,6 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
             return;
         }else if(e.status === 403){
             this.expiredSession = true;
-        }else{
-            this.showAlreadyExistent = false;
-            this.expiredSession = false;
         }
     }
         //se non esiste, crea l'allenamento
@@ -110,12 +107,43 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
                 this.showRiempiAllenamento = true;
                 const allenamentoId = response.body.id;
                 this.id_allenamento_creato = allenamentoId;
+                this.allenamentoForm.get('nome')?.disable();
+                this.allenamentoForm.get('giorno')?.disable();
+                this.allenamentoForm.get('durata')?.disable();
             }
         } catch(e:any){
             if(e instanceof Error){
                 console.log(e.message);
             }
         }
+    }
+
+    async annullaCreazione() {
+        try {
+            const response = await firstValueFrom(this.workoutService.eliminaAllenamento(this.id_allenamento_creato));
+            if (response && response.status === 201) {
+                const alert = await this.alertController.create({
+                    header: 'Successo',
+                    message: 'Creazione allenamento annullata con successo!',
+                    buttons: ['OK']
+                });
+                await alert.present();
+                this.allenamentoForm.get('nome')?.enable();
+                this.allenamentoForm.get('giorno')?.enable();
+                this.allenamentoForm.get('durata')?.enable();
+            }
+        } catch(e:any) {
+            if(e instanceof Error) {
+                console.log(e.message);
+            } else if(e.status === 403) {
+                this.expiredSession = true;
+            }
+        }
+
+
+        this.showRiempiAllenamento = false;
+        this.allenamentoForm.reset();
+
     }
 
 //INSERIMENTO DETTAGLI ALLENAMENTO

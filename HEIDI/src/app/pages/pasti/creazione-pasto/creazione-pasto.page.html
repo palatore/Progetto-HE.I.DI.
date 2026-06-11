@@ -31,6 +31,9 @@
           </ion-row>
         </ion-grid>
         <ion-button type="submit" [disabled]="!pastoForm.valid">Crea</ion-button>
+        @if(showRiempiPasto){
+          <ion-button color="danger" (click)="annullaCreazione()">Annulla</ion-button>
+        } 
         @if(showAlreadyExistent){
           <div style="color: red; background-color: transparent">
           Pasto già esistente

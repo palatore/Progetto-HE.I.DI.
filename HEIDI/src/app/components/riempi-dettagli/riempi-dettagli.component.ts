@@ -88,6 +88,10 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    //ogni volta che non viene più mostrato, resetta la tabella
+    if(changes['isShow'] && !changes['isShow'].currentValue) {
+      this.dettagli_inseriti = [];
+    }
     //se riceve nuovi dettagli da info li aggiunge alla lista dei dettagli insieriti nel pasto o allenamento
     if(changes['dettagli_aggiunti_da_info']) {
       const nuovi_dettagli = changes['dettagli_aggiunti_da_info'].currentValue;

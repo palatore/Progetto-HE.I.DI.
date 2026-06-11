@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
 import { AlertController } from '@ionic/angular';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
@@ -29,8 +29,8 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
 
   constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService, private alertController: AlertController) {
     this.pastoForm = formbuilder.group({
-      nome: ['', Validators.required],
-      tipo: ['', Validators.required]
+      nome: new FormControl({value: '', disabled: false}, Validators.required),
+      tipo: new FormControl({value: '', disabled: false}, Validators.required)
     });
   }
 
@@ -75,9 +75,6 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
         return;
       } else if(e.status === 403) {
         this.expiredSession = true;
-      } else {
-        this.showAlreadyExistent = false;
-        this.expiredSession = false;
       }
     }
   //Se non esiste, crea il pasto
@@ -90,15 +87,41 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   //dopo aver creato il pasto, imposta il flag per mostrare il component di inserimento dettagli a true
   //il component si attiva tramite il decorator @Input
   //successivamente il metodo conserva l'id del pasto appena creato per poi passarlo successivamente al component
-        this.showRiempiPasto = true;
-        const pastoId = response.body.id;
-        this.id_pasto_creato = pastoId;
+      const pastoId = response.body.id;
+      this.id_pasto_creato = pastoId;
+      this.showRiempiPasto = true;
+      this.pastoForm.get('nome')?.disable();
+      this.pastoForm.get('tipo')?.disable();
       }
     } catch(e:any) {
       if(e instanceof Error) {
         console.log(e.message);
       }
     }
+  }
+
+  async annullaCreazione() {
+    try {
+      const response = await firstValueFrom(this.foodService.eliminaPasto(this.id_pasto_creato));
+      if(response && response.status === 201) {
+        const alert = await this.alertController.create({
+          header: 'Pasto eliminato',
+          message: 'La creazione del pasto è stata annullata.',
+          buttons: ['OK']
+        });
+        await alert.present();
+        this.pastoForm.get('nome')?.enable();
+        this.pastoForm.get('tipo')?.enable();
+      }
+    } catch(e:any) {
+      if(e instanceof Error) {
+        console.log(e.message);
+      } else if(e.status === 403) {
+        this.expiredSession = true;
+      }
+    }
+    this.showRiempiPasto = false;
+    this.pastoForm.reset();
   }
 
 //INSERIMENTO DETTAGLI PASTO

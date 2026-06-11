@@ -34,10 +34,10 @@
                             cancelText="Annulla"
                             formControlName="giorno">
                             </ion-datetime>
-                        </ng-template>
-                            
-                       </ion-modal>
+                        </ng-template>                            
+                       </ion-modal>                       
                     </ion-col>
+
                     <ion-col>
                         <ion-row>
                             durata allenamento prevista:
@@ -52,6 +52,9 @@
                 </ion-row>
             </ion-grid>
             <ion-button type="submit" [disabled]="!allenamentoForm.valid"> Crea </ion-button>
+            @if(showRiempiAllenamento){
+                <ion-button color="danger" (click)="annullaCreazione()">Annulla</ion-button>
+            } 
             @if(showAlreadyExistent){
                 <div style="color: red; background-color: transparent">
                 Allenamento già esistente
