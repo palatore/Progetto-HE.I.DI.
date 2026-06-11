@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { IonButtons, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter, IonDatetimeButton, IonModal, IonDatetime } from '@ionic/angular/standalone';
+import { IonButtons, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter, IonDatetimeButton, IonModal, IonDatetime, AlertController } from '@ionic/angular/standalone';
 import { firstValueFrom } from 'rxjs';
 import { RouterModule } from "@angular/router";
 import { GestioneAllenamentiService } from "src/app/services/allenamenti/gestione-allenamenti.service";
@@ -26,7 +26,7 @@ public expiredSession:boolean = false;
 esercizio_selezionato:any = null //variabile per la gestione delle info
 esercizio_da_aggiungere:any = null //variabile per la gestione delle info
 
-    constructor(private formbuilder:FormBuilder, private workoutService:GestioneAllenamentiService){
+    constructor(private formbuilder:FormBuilder, private workoutService:GestioneAllenamentiService, private alertController: AlertController) {
         this.allenamentoForm = formbuilder.group({
             nome: ['', Validators.required],
             giorno: ['', Validators.required],
@@ -160,6 +160,13 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
         try {
             const response = await firstValueFrom(this.workoutService.riempiAllenamento(idAllenamento, esercizi));
             if (response && response.status === 201){
+                const alert = await this.alertController.create({
+                    header: 'Successo',
+                    message: 'Esercizi inseriti con successo!',
+                    buttons: ['OK']
+                });
+                await alert.present();
+                this.showRiempiAllenamento = false;
                 this.allenamentoForm.reset();
             }
         }catch(e:any){

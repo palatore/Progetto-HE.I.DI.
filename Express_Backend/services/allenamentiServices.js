@@ -89,6 +89,7 @@ class AllenamentiServices {
     static async riempiAllenamento(id_allenamento, esercizi){
         //dopo la creazione dell'allenamento si riempie con elementi presenti nel db
         console.log('RiempiAllenamento service chiamato');
+        console.log('Service: Dati ricevuti per riempire allenamento:', id_allenamento, esercizi);
         const contenutoAllenamento = await allenamentiModel.riempiAllenamento(id_allenamento, esercizi);
         if(contenutoAllenamento){
             console.log('Allenamento riempito con successo', contenutoAllenamento);

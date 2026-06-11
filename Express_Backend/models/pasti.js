@@ -121,9 +121,9 @@ class Pasti {
                 return new Promise((res, rej) => {
                     db.run('INSERT INTO alimenti_pasto (pasto_id, alimento_id, quantita) VALUES (?, ?, ?)', [id_pasto, alimento.id_dettaglio, alimento.qta], function(err) {
                         if(err) {
-                            rej(err);
+                            reject(err);
                         } else {
-                            res(this.lastID);
+                            resolve(this.lastID);
                         }
                     });
                 });

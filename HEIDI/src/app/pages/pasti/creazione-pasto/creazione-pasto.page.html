@@ -31,9 +31,11 @@
           </ion-row>
         </ion-grid>
         <ion-button type="submit" [disabled]="!pastoForm.valid">Crea</ion-button>
-        <div *ngIf="showAlreadyExistent" style="color: red; background-color: transparent">
+        @if(showAlreadyExistent){
+          <div style="color: red; background-color: transparent">
           Pasto già esistente
-        </div>
+          </div>
+        }
       </form>
     </ion-card-content>
   </ion-card>

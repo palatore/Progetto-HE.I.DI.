@@ -135,14 +135,14 @@ class Allenamenti {
     //metodo per riempire un allenamento
     static async riempiAllenamento(id_allenamento, esercizi){
         return new Promise((resolve, reject)=> {
-            const insertAllenamenti = allenamenti.map(allenamento =>{
-                console.log('sto inserendo allenamento:', esercizio, esercizio.id, 'con:', esercizio.reps, 'ripetizioni,', esercizio.kg, 'kg, e', esercizio.rest, 'minuti di riposo');
-                return new Promise((res, rej)=>{
-                    db.run('INSERT INTO esercizi_allenamento (allenamento_id, esercizio_id, ripetizioni, pesi_kg, riposo_minuti) VALUES (?, ?, ?, ?, ?)', [id_allenamento, esercizio.id, esercizio.reps, esercizio.kg, esercizio.rest], function(err){
+            const insertAllenamenti = esercizi.map(esercizio =>{
+                console.log('sto inserendo allenamento:', esercizio.id_dettaglio, 'con:', esercizio.serie, 'x', esercizio.ripetizioni, 'ripetizioni,', esercizio.pesi_kg, 'kg, e', esercizio.riposo, 'minuti di riposo');
+                return new Promise((res, reject)=>{
+                    db.run('INSERT INTO esercizi_allenamento (allenamento_id, esercizio_id, serie, ripetizioni, pesi_kg, riposo_minuti) VALUES (?, ?, ?, ?, ?, ?)', [id_allenamento, esercizio.id_dettaglio, esercizio.serie, esercizio.ripetizioni, esercizio.pesi_kg, esercizio.riposo], function(err){
                         if(err){
-                            rej(err);
+                            reject(err);
                         } else {
-                            res(this.lastID);
+                            resolve(this.lastID);
                         }
                     });
                 });

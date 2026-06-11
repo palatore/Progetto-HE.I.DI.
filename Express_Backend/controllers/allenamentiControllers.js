@@ -103,6 +103,7 @@ class AllenamentiControllers {
         try{
             const {id_allenamento, esercizi} = req.body;
             const user_id = req.user.id;
+            console.log('Controlller: Dati ricevuti per riempire allenamento:', id_allenamento, esercizi);
             const result = await AllenamentiServices.riempiAllenamento(id_allenamento, esercizi);
             res.status(201).json({message: 'Allenamento riempito con successo', result});
         }catch(e){
