@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar} from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonIcon } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
+import { ModificaDettagliComponent } from 'src/app/components/modifica-dettagli/modifica-dettagli.component';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './pasti-utente.page.html',
   styleUrls: ['./pasti-utente.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule]
+  imports: [IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent]
 })
 export class PastiUtentePage implements OnInit {
   totZuccheri:number = 0;
@@ -20,6 +21,8 @@ export class PastiUtentePage implements OnInit {
   totGrassi:number = 0;
   totCarboidrati:number = 0;
   totVitamine:string = '';
+
+  public viewModifica:boolean = false;
 
   constructor(private foodService:GestionePastiService) { }
 
@@ -66,6 +69,14 @@ export class PastiUtentePage implements OnInit {
 
   }
 
+  pastoTrack(index: number, pasto: any):string {
+    return `${pasto.name}-${pasto.data_creazione}-${pasto.tipo}`;
+  }
+
+  alimentoTrack(index: number, alimento: any):string {
+    return `${alimento.name}-${alimento.quantita}-${alimento.kcal}`;
+  }
+
   chiudiDettagli() {
     this.pastoSelezionato = null;
     this.totCalorie = 0;
@@ -75,7 +86,11 @@ export class PastiUtentePage implements OnInit {
     this.totVitamine = '';
   }
 
-  async modificaPasto(id: number) {
+  modificaPasto(id:number) {
+    this.viewModifica = true;
+  }
+
+  async confermaModificaPasto(id: number) {
     try {
       const response = await firstValueFrom(this.foodService.modificaPasto(id));
       console.log('Pasto modificato con successo:', response);
@@ -103,8 +118,6 @@ export class PastiUtentePage implements OnInit {
 
   //DA IMPLEMENTARE:
   // - Filtri visualizzazione pasti
-  // - Visualizzazione dettagli pasto
-  // - Eliminazione pasto
   // - Modifica pasto
   // - Visualizzazione per lista/griglia
   // - Visualizzazione per data

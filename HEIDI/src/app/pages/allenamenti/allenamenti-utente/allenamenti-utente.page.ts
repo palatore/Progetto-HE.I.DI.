@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { GestioneAllenamentiService } from "src/app/services/allenamenti/gestione-allenamenti.service";
-import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonList, IonLabel, IonItem } from "@ionic/angular/standalone";
+import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonList, IonLabel, IonItem, IonIcon } from "@ionic/angular/standalone";
 import { RouterModule } from "@angular/router";
 
 @Component({
@@ -9,7 +9,7 @@ import { RouterModule } from "@angular/router";
     templateUrl: './allenamenti-utente.page.html',
     styleUrls: ['./allenamenti-utente.page.scss'],
     standalone: true,
-    imports: [IonItem, IonLabel, IonList, IonContent, IonButton, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule ]
+    imports: [IonIcon, IonItem, IonLabel, IonList, IonContent, IonButton, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule ]
 })
 export class AllenamentiUtentePage implements OnInit{
     constructor(private workoutService:GestioneAllenamentiService){ }

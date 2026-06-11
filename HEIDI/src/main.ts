@@ -6,11 +6,12 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
 import { addIcons } from 'ionicons';
-import { close, trash } from 'ionicons/icons';
+import { close, trash, eyeOutline } from 'ionicons/icons';
 
 addIcons({
   close,
   trash,
+  eyeOutline,
   'a': 'assets/icon/mountain_line_art.svg'
 });
 

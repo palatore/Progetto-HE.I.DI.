@@ -14,7 +14,9 @@
                 <p>Data creazione: {{ allenamento.data_creazione }}</p>
             </ion-label>
             <ion-button fill="outline" slot="end" disabled>Dettagli</ion-button>
-            <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">Elimna</ion-button>
+            <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">
+                <ion-icon name="trash"></ion-icon>
+            </ion-button>
         </ion-item>
     </ion-list>
 
