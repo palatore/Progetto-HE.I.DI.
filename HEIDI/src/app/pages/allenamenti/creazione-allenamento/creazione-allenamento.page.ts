@@ -59,8 +59,9 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
 
     decrementoDurata() {
         const currentDurata = this.allenamentoForm.get('durata')?.value || 0;
-        this.allenamentoForm.get('durata')?.setValue(currentDurata - 1);
-
+        if (currentDurata > 0) {
+            this.allenamentoForm.get('durata')?.setValue(currentDurata - 1);
+        }
     }
 
     
@@ -123,8 +124,8 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
             const response = await firstValueFrom(this.workoutService.eliminaAllenamento(this.id_allenamento_creato));
             if (response && response.status === 201) {
                 const alert = await this.alertController.create({
-                    header: 'Successo',
-                    message: 'Creazione allenamento annullata con successo!',
+                    header: 'Allenamento annullato',
+                    message: 'Hai annullato questo allenamento',
                     buttons: ['OK']
                 });
                 await alert.present();

@@ -40,13 +40,12 @@
 
                     <ion-col>
                         <ion-row>
-                            durata allenamento prevista:
+                            Quante ore ti alleni?
                         </ion-row>
                         <ion-row>
                             <ion-button (click)="decrementoDurata()" fill="outline" size="small">-</ion-button>
-                            <ion-input type="number" step="any" placeholder="Durata" [ngStyle]="{'max-width': '20px'}" formControlName="durata"></ion-input>
+                            <ion-input type="number" step="any" placeholder="Durata" [ngStyle]="{'max-width': '50px', 'text-align': 'center'}" formControlName="durata"></ion-input>
                             <ion-button (click)="incrementoDurata()" fill="outline" size="small">+</ion-button>
-                            Ore
                         </ion-row>
                     </ion-col>
                 </ion-row>

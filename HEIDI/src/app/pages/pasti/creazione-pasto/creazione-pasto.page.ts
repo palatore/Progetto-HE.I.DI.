@@ -105,8 +105,8 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
       const response = await firstValueFrom(this.foodService.eliminaPasto(this.id_pasto_creato));
       if(response && response.status === 201) {
         const alert = await this.alertController.create({
-          header: 'Pasto eliminato',
-          message: 'La creazione del pasto è stata annullata.',
+          header: 'Pasto annullato',
+          message: 'Hai annullato questo pasto',
           buttons: ['OK']
         });
         await alert.present();

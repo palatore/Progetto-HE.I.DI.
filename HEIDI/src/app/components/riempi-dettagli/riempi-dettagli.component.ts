@@ -1,14 +1,14 @@
 import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { IonButton, IonCard, IonCardHeader, IonCardContent, IonCol, IonGrid, IonInput, IonRow, IonCardTitle } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardHeader, IonCardContent, IonCol, IonGrid, IonInput, IonRow, IonCardTitle, IonIcon } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-riempi-dettagli',
   templateUrl: './riempi-dettagli.component.html',
   styleUrls: ['./riempi-dettagli.component.scss'],
-  imports: [CommonModule, FormsModule, IonButton, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, RouterModule, IonCardTitle]
+  imports: [CommonModule, FormsModule, IonButton, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, RouterModule, IonCardTitle, IonIcon]
 
 })
 export class RiempiDettagliComponent  implements OnInit, OnChanges {
@@ -42,11 +42,9 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   @Output() dettagliInseriti = new EventEmitter<any[]>();
 
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   dettaglioTrack(index: number, dettaglio: any):string {
     return `${index}-${dettaglio.id_dettaglio}-${dettaglio.name}-${dettaglio.pesi_kg}-${dettaglio.qta}-${dettaglio.ripetizioni}-${dettaglio.riposo}-${dettaglio.serie}`;
@@ -102,6 +100,11 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
         console.log('Debug: nessun nuovo dettaglio o dettaglio vuoto');
       }
     }
+  }
+
+  rimuoviDettaglio(index:number) {
+    console.log('Rimuovo dettaglio all\'indice:', index);
+    this.dettagli_inseriti.splice(index, 1);
   }
 
   submitRiempi(){
