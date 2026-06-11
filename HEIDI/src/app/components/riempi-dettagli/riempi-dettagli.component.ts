@@ -48,6 +48,10 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
   ngOnInit() {
   }
 
+  dettaglioTrack(index: number, dettaglio: any):string {
+    return `${index}-${dettaglio.id_dettaglio}-${dettaglio.name}-${dettaglio.pesi_kg}-${dettaglio.qta}-${dettaglio.ripetizioni}-${dettaglio.riposo}-${dettaglio.serie}`;
+  }
+
   getImgPath(dettaglio:any): string {
     if(this.foodBool){
       const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
@@ -98,6 +102,7 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
 
   submitRiempi(){
     this.dettagliInseriti.emit(this.dettagli_inseriti);
+    this.dettagli_inseriti = [];
     this.chiudi.emit(); 
   }
   

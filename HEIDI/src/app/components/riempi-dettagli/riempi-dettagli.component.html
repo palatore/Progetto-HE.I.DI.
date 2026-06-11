@@ -17,13 +17,15 @@
               Quantità in grammi
             </ion-col>
           </ion-row>
-          <ion-row *ngFor="let dettaglio of dettagli_inseriti">
-            <ion-col size = "6">
-              <p><b>{{dettaglio.name}}</b></p>
-            </ion-col>
-            <ion-col size = "6">
-              <p><b>{{dettaglio.qta}} g</b></p>
-            </ion-col>
+          <ion-row>
+            @for(dettaglio of dettagli_inseriti; track dettaglioTrack($index, dettaglio)) {
+              <ion-col size = "6">
+                <p><b>{{dettaglio.name}}</b></p>
+              </ion-col>
+              <ion-col size = "6">
+                <p><b>{{dettaglio.qta}} g</b></p>
+              </ion-col>
+            }
           </ion-row>
         </ion-grid>
         <ion-button (click)="submitRiempi()">Riempi Pasto</ion-button>
@@ -50,22 +52,24 @@
               Pesi in kg
             </ion-col>
           </ion-row>
-          <ion-row *ngFor="let dettaglio of dettagli_inseriti">
-            <ion-col size = "2">
-              <p><b>{{dettaglio.name}}</b></p>
-            </ion-col>
-            <ion-col size = "2">
-              <p><b>{{dettaglio.serie}}</b></p>
-            </ion-col>
-            <ion-col size = "2">
-              <p><b>{{dettaglio.ripetizioni}}</b></p>
-            </ion-col>
-            <ion-col size = "2">
-              <p><b>{{dettaglio.riposo}} minuti</b></p>
-            </ion-col>
-            <ion-col size = "2">
-              <p><b>{{dettaglio.pesi_kg}} kg</b></p>
-            </ion-col>
+          <ion-row>
+            @for(dettaglio of dettagli_inseriti; track dettaglioTrack($index, dettaglio)) {
+              <ion-col size = "2">
+                <p><b>{{dettaglio.name}}</b></p>
+              </ion-col>
+              <ion-col size = "2">
+                <p><b>{{dettaglio.serie}}</b></p>
+              </ion-col>
+              <ion-col size = "2">
+                <p><b>{{dettaglio.ripetizioni}}</b></p>
+              </ion-col>
+              <ion-col size = "2">
+                <p><b>{{dettaglio.riposo}} minuti</b></p>
+              </ion-col>
+              <ion-col size = "2">
+                <p><b>{{dettaglio.pesi_kg}} kg</b></p>
+              </ion-col>
+            }
           </ion-row>
         </ion-grid>
         <ion-row>
