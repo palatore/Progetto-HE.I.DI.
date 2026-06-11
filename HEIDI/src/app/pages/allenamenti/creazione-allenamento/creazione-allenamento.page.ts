@@ -23,10 +23,8 @@ public id_allenamento_creato:number = 0;
 public showAlreadyExistent:boolean = false;
 public showRiempiAllenamento:boolean = false;
 public expiredSession:boolean = false;
-public durata_allenamento:number = 0;
 esercizio_selezionato:any = null //variabile per la gestione delle info
 esercizio_da_aggiungere:any = null //variabile per la gestione delle info
-//fase_esercizio:boolean = false;
 
     constructor(private formbuilder:FormBuilder, private workoutService:GestioneAllenamentiService){
         this.allenamentoForm = formbuilder.group({
@@ -52,6 +50,17 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     //questo metodo fa sì che al refresh della pagina il form venga resettato
     ionViewWillEnter() {
         this.allenamentoForm.reset();
+    }
+
+    incrementoDurata() {
+        const currentDurata = this.allenamentoForm.get('durata')?.value || 0;
+        this.allenamentoForm.get('durata')?.setValue(currentDurata + 1);
+    }
+
+    decrementoDurata() {
+        const currentDurata = this.allenamentoForm.get('durata')?.value || 0;
+        this.allenamentoForm.get('durata')?.setValue(currentDurata - 1);
+
     }
 
     

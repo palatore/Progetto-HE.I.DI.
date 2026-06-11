@@ -26,3 +26,13 @@
 ion-card-title {
     color:black;
 }
+
+ion-button {
+  --focus-background: #0056b3;  // Blu scuro
+  --focus-color: white;          // Testo bianco
+  
+  &:focus-within {
+    border: 2px solid #0056b3;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.8);
+  }
+}
