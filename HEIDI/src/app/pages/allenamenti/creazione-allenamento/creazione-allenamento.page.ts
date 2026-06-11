@@ -139,11 +139,8 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
                 this.expiredSession = true;
             }
         }
-
-
         this.showRiempiAllenamento = false;
         this.allenamentoForm.reset();
-
     }
 
 //INSERIMENTO DETTAGLI ALLENAMENTO

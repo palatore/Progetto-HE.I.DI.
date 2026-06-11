@@ -171,6 +171,7 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
         });
         await alert.present();
         this.showRiempiPasto = false;
+        this.id_pasto_creato = 0;
         this.pastoForm.reset();      
       }
     } catch(e:any) {
