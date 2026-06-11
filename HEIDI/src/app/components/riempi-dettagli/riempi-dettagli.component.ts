@@ -1,14 +1,14 @@
 import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { IonButton, IonCard, IonCardHeader, IonCardContent, IonCol, IonContent, IonGrid, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonCardTitle } from '@ionic/angular/standalone';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { IonButton, IonCard, IonCardHeader, IonCardContent, IonCol, IonGrid, IonInput, IonRow, IonCardTitle } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-riempi-dettagli',
   templateUrl: './riempi-dettagli.component.html',
   styleUrls: ['./riempi-dettagli.component.scss'],
-  imports: [CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, IonCardTitle]
+  imports: [CommonModule, FormsModule, IonButton, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, RouterModule, IonCardTitle]
 
 })
 export class RiempiDettagliComponent  implements OnInit, OnChanges {
