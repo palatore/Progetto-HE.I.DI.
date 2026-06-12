@@ -23,10 +23,10 @@ export class GestionePastiService {
     return this.http.post<any>(`${this.apiUrl}/api/pasti/riempiPasto`, { id_pasto, alimenti}, {headers, observe: 'response'});
   }
 
-  modificaPasto(id_pasto:number) {
+  modificaPasto(id_pasto:number, modifiche_pasto: any[]) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
-    return this.http.put<any>(`${this.apiUrl}/api/pasti/modificaPasto/${id_pasto}`, {}, {headers, observe: 'response'});
+    return this.http.put<any>(`${this.apiUrl}/api/pasti/modificaPasto`, {id_pasto, modifiche_pasto}, {headers, observe: 'response'});
   }
 
   eliminaPasto(id_pasto:number) {

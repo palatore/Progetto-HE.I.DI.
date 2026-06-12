@@ -116,6 +116,19 @@ class PastiControllers {
         }
     }
 
+    //POST modifica i dettagli di un determinato pasto nel database
+    static modificaPasto = async (req, res) => {
+        console.log('ModificaPasto controller chiamato');
+        try {
+            const {id_pasto, modifiche_pasto} = req.body;
+            const user_id = req.user.id;
+            const result = await PastiServices.modificaPasto(id_pasto, modifiche_pasto);
+            res-status(201).json({message: 'Pasto modificat con successo', result});
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    }
+
     //DELETE elimina un pasto dato il suo ID
     static eliminaPasto = async (req, res) => {
         try {

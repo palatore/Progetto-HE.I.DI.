@@ -121,15 +121,16 @@ export class PastiUtentePage implements OnInit {
     this.viewModifica = true;
   }
 
-  async confermaModificaPasto(value: any) {
-    /*try {
-      const response = await firstValueFrom(this.foodService.modificaPasto(value));
+  async confermaModificaPasto(modifiche: any[]) {
+    try {
+      const id_pasto_modificato = this.pasto_da_modificare.id;
+      const response = await firstValueFrom(this.foodService.modificaPasto(id_pasto_modificato, modifiche));
       console.log('Pasto modificato con successo:', response);
       // Ricarica i pasti utente dopo la modifica
       this.loadPastiUtente();
     } catch (e) {
       console.error('Errore nella modifica del pasto:', e);
-    } */
+    }
   }
 
   async eliminaPasto(id: number) {

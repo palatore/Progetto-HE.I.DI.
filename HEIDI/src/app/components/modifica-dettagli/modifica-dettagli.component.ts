@@ -26,7 +26,8 @@ export class ModificaDettagliComponent {
   */
 
   //DA RISOLVERE, RIMANE APERTO INFO DETTAGLI SUL DETTAGLIO PRECEDENTE
-  
+  //DA RISOLVERE, CHIUSURA COMPONENTI NON RISPETTA IL TIMER DI ANIMAZIONE
+
   constructor() { }
 
   attivita_da_modificare: any;

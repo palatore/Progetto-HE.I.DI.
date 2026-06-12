@@ -12,6 +12,7 @@ router.get('/pastiUtente', authenticateToken, PastiControllers.getPastiUtente);
 router.post('/checkPasto', authenticateToken, PastiControllers.checkPasto);
 router.post('/creaPasti', authenticateToken, PastiControllers.creaPasti);
 router.post('/riempiPasto', authenticateToken, PastiControllers.riempiPasto);
+router.post('/modificaPasto', authenticateToken, PastiControllers.modificaPasto);
 router.delete('/eliminaPasto/:id_pasto', authenticateToken, PastiControllers.eliminaPasto);
 
 module.exports = router;
