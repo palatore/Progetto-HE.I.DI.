@@ -7,48 +7,54 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ng-container *ngIf="(ruoloUtente | async) as ruolo">
 
   <!--Homepage per il ruolo utente-->
-  <ng-container *ngIf="ruolo === '0'">
-    <ion-content [fullscreen]="true">
-      <ion-card class="laTuaGiornata">
-        La tua giornata | La tua settimana
-        <ion-card-content class="pasti">
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <ion-card class ="pasto">colazione</ion-card>
-              </ion-col>
-              <ion-col>
-                <ion-card class ="pasto">pranzo</ion-card>
-              </ion-col>
-              <ion-col>
-                <ion-card class ="pasto">cena</ion-card>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button>
-      <ion-button [routerLink]="['/pastiUtente']">I miei Pasti</ion-button>
-      <ion-button [routerLink]="['/creazioneAllenamento']">Crea Allenamento</ion-button>
-      <ion-button [routerLink]="['/allenamentiUtente']">I miei allenamenti</ion-button>
-    </ion-content>
-  </ng-container>
-
-  <!--Homepage per il ruolo professionista-->
-  <ng-container *ngIf="ruolo !== '0'">
+  @if(ruolo === '0') {
+    <ng-container>
       <ion-content [fullscreen]="true">
-        <ion-card class="iTuoiPazienti">
-          I tuoi Pazienti
+        <ion-card class="laTuaGiornata">
+          La tua giornata | La tua settimana
           <ion-card-content class="pasti">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-card class ="pasto">colazione</ion-card>
+                </ion-col>
+                <ion-col>
+                  <ion-card class ="pasto">pranzo</ion-card>
+                </ion-col>
+                <ion-col>
+                  <ion-card class ="pasto">cena</ion-card>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-card-content>
         </ion-card>
-      
-        <ion-button [routerLink]="['/gestioneRichieste']">Le mie Richieste</ion-button>
-        <ion-button [routerLink]="['/pazientiDietologo']">I miei Pazienti</ion-button>
+
+        <ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button>
+        <ion-button [routerLink]="['/pastiUtente']">I miei Pasti</ion-button>
+        <ion-button [routerLink]="['/creazioneAllenamento']">Crea Allenamento</ion-button>
+        <ion-button [routerLink]="['/allenamentiUtente']">I miei allenamenti</ion-button>
+        <ion-button [routerLink]="['/gestioneProfessionisti']">Professionisti</ion-button>
       </ion-content>
-  </ng-container>
+    </ng-container>
+
+  } @else {
+    <!--Homepage per il ruolo professionista-->
+    <ng-container>
+        <ion-content [fullscreen]="true">
+          <ion-card class="iTuoiPazienti">
+            I tuoi Pazienti
+            <ion-card-content class="pasti">
+            </ion-card-content>
+          </ion-card>
+        
+          <ion-button [routerLink]="['/gestioneRichieste']">Le mie Richieste</ion-button>
+          <ion-button [routerLink]="['/pazientiDietologo']">I miei Pazienti</ion-button>
+        </ion-content>
+    </ng-container>
+  }
+
 </ng-container>

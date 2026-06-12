@@ -17,6 +17,7 @@ import { InfoDettagliComponent } from "src/app/components/info-dettagli/info-det
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent]
 })
 export class CreazionePastoPage implements OnInit {
+public page_title:string = 'Creazione Pasto';
 public alimenti:any[] = [];
 public pastoForm:FormGroup;
 public id_pasto_creato:number = 0;

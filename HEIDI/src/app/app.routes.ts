@@ -43,6 +43,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/allenamenti/allenamenti-utente/allenamenti-utente.page').then(m => m.AllenamentiUtentePage),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'gestioneProfessionisti',
+    loadComponent: () => import('./pages/utente/gestione-professionisti/gestione-professionisti.page').then( m => m.GestioneProfessionistiPage)
+  },
+
 
   /*SOLO PER PREPARAZIONE DEL FORM DELL'ALLENAMENTO
   {
