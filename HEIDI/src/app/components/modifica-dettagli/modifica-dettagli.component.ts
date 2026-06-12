@@ -27,7 +27,7 @@ export class ModificaDettagliComponent {
 
   //DA RISOLVERE, RIMANE APERTO INFO DETTAGLI SUL DETTAGLIO PRECEDENTE
 
-  constructor() { }
+  constructor() {}
 
   attivita_da_modificare: any;
   dettagli_da_db: any[] = [];
