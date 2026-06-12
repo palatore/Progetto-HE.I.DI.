@@ -154,6 +154,18 @@ class Pasti {
             });
         });
     }
+
+    static async eliminaDettagliPasto(id_pasto) {
+        return new Promise((resolve, reject) => {
+            db.run('DELETE FROM alimenti_pasto WHERE pasto_id = ?', [id_pasto], function(err) {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve({message: 'Dettagli pasto eliminati con successo.'});
+                }
+            });
+        });
+    }
 } 
 
 module.exports = Pasti;

@@ -26,7 +26,6 @@ export class ModificaDettagliComponent {
   */
 
   //DA RISOLVERE, RIMANE APERTO INFO DETTAGLI SUL DETTAGLIO PRECEDENTE
-  //DA RISOLVERE, CHIUSURA COMPONENTI NON RISPETTA IL TIMER DI ANIMAZIONE
 
   constructor() { }
 
@@ -70,14 +69,29 @@ export class ModificaDettagliComponent {
   }
 
   onDettagliInseriti(dettagli:any[]){
-    this.inviaModifiche.emit(dettagli);
-    console.log('dettagli mandati sopra:', dettagli);
+    const dettagli_sistemati:any[] = dettagli.map((dettaglio) => {
+      if(this.foodBool) {
+        return {
+          id_dettaglio: dettaglio.id ? dettaglio.id : dettaglio.id_dettaglio,
+          quantita: dettaglio.quantita
+        }
+      } else {
+        return {
+          id_dettaglio: dettaglio.id ? dettaglio.id : dettaglio.id_dettaglio,
+          serie: dettaglio.serie,
+          ripetizioni: dettaglio.ripetizioni,
+          pesi_kg: dettaglio.pesi_kg,
+          riposo: dettaglio.riposo
+        }
+      }
+    });
+    this.inviaModifiche.emit(dettagli_sistemati);
+    console.log('dettagli mandati sopra:', dettagli_sistemati);
     this.clickChiudi();
   }
 
   mettiInLista(dettaglio: any) {
     this.dettaglio_da_aggiungere = dettaglio;
-    this.dettaglio_selezionato = null;
   }
 
   clickChiudi() {

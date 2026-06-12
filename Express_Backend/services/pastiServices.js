@@ -95,6 +95,32 @@ class PastiServices {
         }
         return contenutoPasto;
     }
+
+    static async modificaPasto(id_pasto, modifiche_pasto) {
+        //per prima cosa controllo che il pasto esista
+        const pasto = await Pasti.findPastoById(id_pasto);
+        if (!pasto) {
+            console.log('Pasto non trovato con ID:', id_pasto);
+            return null;
+        }
+        //in seguito, cancello i dettagli già esistenti del pasto
+        const risultatoElimanzione = await Pasti.eliminaDettagliPasto(id_pasto);
+        if(risultatoElimanzione) {
+            console.log('Dettagli pasto con id:', id_pasto, 'eliminati con successo');
+        } else {
+            console.log('Errore nell\'eliminazione del pasto con id:', id_pasto);
+            return risultatoElimanzione;
+        }
+        //infine, inserisco i nuovi dettagli del pasto nel db
+        const result = await Pasti.riempiPasto(id_pasto, modifiche_pasto);
+        if (result) {
+            console.log('Pasto modificato con successo:', result);
+        } else {
+            console.log('Errore nella modifica del pasto con id:', id_pasto, 'e modifiche:', modifiche_pasto);
+        }
+        return result;
+
+    }
     
     static async eliminaPasto(id_pasto) {
         //elimina un pasto esistente, prima eliminando le relazioni con gli alimenti e poi eliminando il pasto stesso

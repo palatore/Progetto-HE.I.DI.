@@ -153,8 +153,6 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   mettiInLista(alimento: {id_dettaglio:number, name:string, quantita:number}) {
     this.alimento_da_aggiungere = alimento;
     console.log('Debug: alimento da aggiungere', this.alimento_da_aggiungere);
-
-    this.alimento_selezionato = null;
   }
 
   //metodo per inserire i dettagli pasto nel database, richiede come parametro l'insieme degli alimenti impostati tramite il component

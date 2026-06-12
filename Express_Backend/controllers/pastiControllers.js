@@ -123,7 +123,7 @@ class PastiControllers {
             const {id_pasto, modifiche_pasto} = req.body;
             const user_id = req.user.id;
             const result = await PastiServices.modificaPasto(id_pasto, modifiche_pasto);
-            res-status(201).json({message: 'Pasto modificat con successo', result});
+            res.status(201).json({message: 'Pasto modificato con successo', result});
         } catch(e) {
             res.status(500).json({error: e.message});
         }
