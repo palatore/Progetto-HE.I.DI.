@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { IonButton, IonCard, IonCardHeader, IonCardContent, IonCol, IonGrid, IonInput, IonRow, IonCardTitle, IonIcon } from '@ionic/angular/standalone';
@@ -11,12 +11,14 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, FormsModule, IonButton, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, RouterModule, IonCardTitle, IonIcon]
 
 })
-export class RiempiDettagliComponent  implements OnInit, OnChanges {
+export class RiempiDettagliComponent  implements OnChanges {
   private id_attivita:number | undefined;
   public dettagli:any[] = [];
   private dettagli_completi:any[] = [];
   public dettagli_inseriti:any[] = [];
   public durata_allenamento:number = 0;
+
+  constructor() {}
 
   @Input()
     set miei_dettagli(value:any[]) {
@@ -25,6 +27,10 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
     }
     get miei_dettagli():any[] {
       return this.dettagli;
+    }
+  @Input()
+    set dettagli_aggiunti_da_modifica(value:any[]) {
+      this.dettagli_inseriti = value;
     }
   @Input() isShow:boolean = false; //flag per mostrare o nascondere il componente
   @Input() foodBool:boolean = false;  //flag per distinguere se mostrare la parte relataiva agli alimenti o, se falsa, quella relativa agli esercizi
@@ -36,18 +42,14 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
     get new_id_attivita():number | undefined {
       return this.id_attivita;
     }
+
   @Input() dettagli_aggiunti_da_info:any;
   @Output() dettaglioSelezionato = new EventEmitter<number>();
   @Output() chiudi = new EventEmitter<void>();
   @Output() dettagliInseriti = new EventEmitter<any[]>();
 
-
-  constructor() {}
-
-  ngOnInit() {}
-
   dettaglioTrack(index: number, dettaglio: any):string {
-    return `${index}-${dettaglio.id_dettaglio}-${dettaglio.name}-${dettaglio.pesi_kg}-${dettaglio.qta}-${dettaglio.ripetizioni}-${dettaglio.riposo}-${dettaglio.serie}`;
+    return `${index}-${dettaglio.id_dettaglio}-${dettaglio.name}-${dettaglio.pesi_kg}-${dettaglio.quantita}-${dettaglio.ripetizioni}-${dettaglio.riposo}-${dettaglio.serie}`;
   }
 
   getImgPath(dettaglio:any): string {
@@ -112,6 +114,4 @@ export class RiempiDettagliComponent  implements OnInit, OnChanges {
     this.dettagli_inseriti = [];
     this.chiudi.emit(); 
   }
-  
-
 }

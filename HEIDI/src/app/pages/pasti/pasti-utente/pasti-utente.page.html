@@ -17,7 +17,7 @@
         <ion-button fill="outline" (click)="mostraDettagli(pasto)" slot="end">
           <ion-icon name="eye-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="outline" (click)="modificaPasto(pasto.id)" slot="end">
+        <ion-button fill="outline" (click)="modificaPasto(pasto)" slot="end">
           <ion-icon name="create"></ion-icon>
         </ion-button>
         <ion-button fill="outline" color="danger" (click)="eliminaPasto(pasto.id)" slot="end">
@@ -50,7 +50,6 @@
               </li>
               }
           </ul>
-          <!-- Qui puoi aggiungere altri dettagli -->
           <ion-button (click)="chiudiDettagli()">Chiudi</ion-button>
         </ion-card-content>
       </ion-card>
@@ -61,7 +60,11 @@
 
   <app-modifica-dettagli
     [isShow]="viewModifica"
-    [foodBool]="true">
+    [foodBool]="true"
+    [miaAttivita]="pasto_da_modificare"
+    [mioDettaglio]="dettagliPasto"
+    [listaDettagli]="alimenti"
+    (chiudi)="onChiudi()">
   </app-modifica-dettagli>
 
 </ion-content>

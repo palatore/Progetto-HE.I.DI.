@@ -1,13 +1,37 @@
 @if(isShow) {
+  <div [class.closing]="isClosing" class="modificheContainer">
+    <ion-button class="closeBtn" (click)="clickChiudi()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+    <ion-card class="dettaglioInfoCard">
+      <ion-card-header>
+        <ion-title>Stai modificando</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <h1>{{attivita_da_modificare.name}}</h1>
+            </ion-col>
+            <ion-col>
+              <h2>{{attivita_da_modificare.tipo}}</h2>
+            </ion-col>
+            <ion-col>
+              del {{attivita_da_modificare.data_creazione}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
 
-  @if(foodBool) {
-    cibo
-  } @else {
-    esercizi
-  }
-
-  <p>
-  modifica-dettagli works!
-</p>
-
+    <app-riempi-dettagli
+    [foodBool]="foodBool"
+    [miei_dettagli]="dettagli_da_db"
+    [isShow]="true"
+    [new_id_attivita]="attivita_da_modificare.id"
+    [dettagli_aggiunti_da_modifica]="dettagli_attivita_da_modificare">
+    </app-riempi-dettagli>
+    
+    <!-- spazio per i component figli -->
+  </div>
 }

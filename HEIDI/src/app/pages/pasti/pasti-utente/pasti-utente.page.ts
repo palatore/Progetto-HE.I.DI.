@@ -22,12 +22,14 @@ export class PastiUtentePage implements OnInit {
   totCarboidrati:number = 0;
   totVitamine:string = '';
 
+  public alimenti:any[] = [];
   public viewModifica:boolean = false;
 
   constructor(private foodService:GestionePastiService) { }
 
   ngOnInit() {
     this.loadPastiUtente();
+    this.loadAlimenti();
   }
 
   ionViewWillEnter() {
@@ -35,6 +37,7 @@ export class PastiUtentePage implements OnInit {
   }
 
   public pastoSelezionato: any = null;
+  public pasto_da_modificare: any = null;
   public dettagliPasto: any = null; // Variabile per i dettagli del pasto selezionato
   public visualizzaLista: boolean = false; // Variabile per gestire la visualizzazione a lista o griglia
   public visualizzaGriglia: boolean = true; // Variabile per gestire la visualizzazione a griglia o lista
@@ -86,7 +89,13 @@ export class PastiUtentePage implements OnInit {
     this.totVitamine = '';
   }
 
-  modificaPasto(id:number) {
+  async modificaPasto(pasto: any) {
+    try {
+      this.dettagliPasto = await firstValueFrom(this.foodService.getDettagliPasto(pasto.id));
+    } catch(err) {
+      console.log(err);
+    }
+    this.pasto_da_modificare = pasto;
     this.viewModifica = true;
   }
 
@@ -112,6 +121,10 @@ export class PastiUtentePage implements OnInit {
     }
   }
 
+  onChiudi() {
+    this.viewModifica = false;
+  }
+
   pastiUtente = [{name: 'Pasto 1', data_creazione: '1/1/1000', tipo: 500, id: 1},
                  {name: 'Pasto 2', data_creazione: '1/1/1000', tipo: 600, id: 2},
                  {name: 'Pasto 3', data_creazione: '1/1/1000', tipo: 550, id: 3}];
@@ -126,12 +139,17 @@ export class PastiUtentePage implements OnInit {
     console.log('Caricamento pasti utente...');
     this.foodService.getPastiUtente().subscribe({
       next: (pasti) => {
-        this.pastiUtente = pasti;
-        console.log('Pasti caricati:', this.pastiUtente);
-      },
+        this.pastiUtente = pasti;      },
       error: (err) => {
-        console.error('Errore nel caricamento dei pasti:', err);
+        console.error(err);
       }
+    });
+  }
+
+  loadAlimenti() {
+    this.foodService.getAlimenti().subscribe({
+      next: (data) => {this.alimenti = data;},
+      error: (err) => {console.error(err)}
     });
   }
 
