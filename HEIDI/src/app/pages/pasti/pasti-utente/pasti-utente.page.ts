@@ -38,6 +38,7 @@ export class PastiUtentePage implements OnInit {
 
   public pastoSelezionato: any = null;
   public pasto_da_modificare: any = null;
+  public alimentoSelezionato:any = null;
   public dettagliPasto: any = null; // Variabile per i dettagli del pasto selezionato
   public visualizzaLista: boolean = false; // Variabile per gestire la visualizzazione a lista o griglia
   public visualizzaGriglia: boolean = true; // Variabile per gestire la visualizzazione a griglia o lista
@@ -80,6 +81,27 @@ export class PastiUtentePage implements OnInit {
     return `${alimento.name}-${alimento.quantita}-${alimento.kcal}`;
   }
 
+  async getAlimento(id_alimento:number) {
+    console.log('Ricevuto id da cercare:', id_alimento);
+    this.alimentoSelezionato = await this.datiAlimento(id_alimento);
+    console.log('Modifico alimento selezionato:', this.alimentoSelezionato);
+  }
+
+  async datiAlimento(id_alimento:number): Promise<any> {
+    try {
+      const response = await firstValueFrom(this.foodService.getAlimentoById(id_alimento));
+      if(response) {
+        console.log('trovato:', response)
+        return response;
+      } else {
+        console.log('Alimento non trovato per id:', id_alimento);
+      }
+    } catch (error) {
+      console.error('Errore nel recupero dellw info:', error);
+    }
+
+  }
+
   chiudiDettagli() {
     this.pastoSelezionato = null;
     this.totCalorie = 0;
@@ -99,15 +121,15 @@ export class PastiUtentePage implements OnInit {
     this.viewModifica = true;
   }
 
-  async confermaModificaPasto(id: number) {
-    try {
-      const response = await firstValueFrom(this.foodService.modificaPasto(id));
+  async confermaModificaPasto(value: any) {
+    /*try {
+      const response = await firstValueFrom(this.foodService.modificaPasto(value));
       console.log('Pasto modificato con successo:', response);
       // Ricarica i pasti utente dopo la modifica
       this.loadPastiUtente();
     } catch (e) {
       console.error('Errore nella modifica del pasto:', e);
-    }
+    } */
   }
 
   async eliminaPasto(id: number) {

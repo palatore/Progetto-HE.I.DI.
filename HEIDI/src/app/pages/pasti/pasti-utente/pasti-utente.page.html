@@ -58,13 +58,18 @@
 
   <ion-button expand="full" [routerLink]='["/creazionePasto"]'>Aggiungi Pasto</ion-button>
 
-  <app-modifica-dettagli
-    [isShow]="viewModifica"
-    [foodBool]="true"
-    [miaAttivita]="pasto_da_modificare"
-    [mioDettaglio]="dettagliPasto"
-    [listaDettagli]="alimenti"
-    (chiudi)="onChiudi()">
-  </app-modifica-dettagli>
+  @if(viewModifica) {
+    <app-modifica-dettagli
+      [isShow]="viewModifica"
+      [foodBool]="true"
+      [miaAttivita]="pasto_da_modificare"
+      [mioDettaglio]="dettagliPasto"
+      [dettaglio_selezionato]="alimentoSelezionato"
+      [listaDettagli]="alimenti"
+      (dettaglio_selezionato_in_attesa)="getAlimento($event)"
+      (inviaModifiche)="confermaModificaPasto($event)"
+      (chiudi)="onChiudi()">
+    </app-modifica-dettagli>
+  }
 
 </ion-content>

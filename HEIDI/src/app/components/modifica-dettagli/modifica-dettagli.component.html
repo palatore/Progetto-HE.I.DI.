@@ -29,9 +29,16 @@
     [miei_dettagli]="dettagli_da_db"
     [isShow]="true"
     [new_id_attivita]="attivita_da_modificare.id"
-    [dettagli_aggiunti_da_modifica]="dettagli_attivita_da_modificare">
+    [dettagli_aggiunti_da_modifica]="dettagli_attivita_da_modificare"
+    [dettagli_aggiunti_da_info]="dettaglio_da_aggiungere"
+    (dettagliInseriti)="onDettagliInseriti($event)"
+    (dettaglioSelezionato)="onDettaglioSelezionato($event)">
     </app-riempi-dettagli>
-    
-    <!-- spazio per i component figli -->
+
+    <app-info-dettagli
+    [foodBool]="foodBool"
+    [mio_dettaglio]="dettaglio_selezionato"
+    (inLista)="mettiInLista($event)">
+    </app-info-dettagli>
   </div>
 }
