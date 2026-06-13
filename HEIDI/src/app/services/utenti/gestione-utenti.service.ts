@@ -11,6 +11,12 @@ export class GestioneUtentiService {
 
   constructor(private http:HttpClient) {}
 
-  
+  getUtenteById(id_utente:number) {
+    return this.http.get<any[]>(`${this.apiUrl}/api/users/utente/${id_utente}`);
+  }
+
+  getUtentiByRuolo(ruolo:number) {
+    return this.http.get<any[]>(`${this.apiUrl}/api/users/ruoli/${ruolo}`);
+  }
   
 }

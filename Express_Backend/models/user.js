@@ -12,8 +12,6 @@ class User {
     // genSalt genera un seed casuale per l'hashing della password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
-    
     
     return new Promise((resolve, reject) => {
       db.run(
@@ -46,6 +44,30 @@ class User {
       db.get('SELECT id, name, surname, email FROM utenti WHERE id = ?', [id], (err, row) => {
         if (err) reject(err);
         else resolve(row);
+      });
+    });
+  }
+
+  //ricerca per ruolo
+  static async getUtentiByRuolo(ruolo){
+    return new Promise((resolve, reject) => {
+      db.get('SELECT id, name, surname, email, ruolo FROM utenti WHERE ruolo = ?', [ruolo], (err, rows) => {
+        if(err) reject(err);
+        else resolve(rows);
+      });
+    });
+
+  }
+
+  static async getProfessionisti() {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT id, name, surname, email, ruolo FROM utenti WHERE ruolo > 0', (err, rows) => {
+        if(err){
+          reject(err);
+        } else {
+          console.log('ecco cosa ho trovato: ', rows);
+          resolve(rows);
+        }
       });
     });
   }
