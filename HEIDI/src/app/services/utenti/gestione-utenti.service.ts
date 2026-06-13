@@ -10,5 +10,7 @@ export class GestioneUtentiService {
   private apiUrl:string = "http://localhost:3000"; //sostituire con l'url corretto poi
 
   constructor(private http:HttpClient) {}
+
+  
   
 }

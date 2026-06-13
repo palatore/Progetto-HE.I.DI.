@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { IonButton, IonCard, IonCardHeader, IonCardContent, IonCol, IonGrid, IonInput, IonRow, IonCardTitle, IonIcon } from '@ionic/angular/standalone';
@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, FormsModule, IonButton, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, RouterModule, IonCardTitle, IonIcon]
 
 })
-export class RiempiDettagliComponent  implements OnChanges {
+export class RiempiDettagliComponent  implements OnChanges, OnDestroy{
   private id_attivita:number | undefined;
   public dettagli:any[] = [];
   private dettagli_completi:any[] = [];
@@ -113,5 +113,9 @@ export class RiempiDettagliComponent  implements OnChanges {
     this.dettagliInseriti.emit(this.dettagli_inseriti);
     this.dettagli_inseriti = [];
     this.chiudi.emit(); 
+  }
+
+  ngOnDestroy() {
+    this.dettaglioSelezionato.emit(0);
   }
 }

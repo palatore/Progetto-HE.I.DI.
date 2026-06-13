@@ -1,16 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonButton, IonCardContent, IonCard, IonCardHeader, IonInput, IonGrid, IonRow, IonCol, IonIcon } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
-import { addIcons } from 'ionicons';
-
 @Component({
   selector: 'app-info-dettagli',
   templateUrl: './info-dettagli.component.html',
   styleUrls: ['./info-dettagli.component.scss'],
   imports: [IonIcon, IonGrid, IonRow, IonCol, IonIcon, IonInput, IonCardContent, IonButton, IonCard, IonCardHeader, CommonModule, FormsModule],
 })
-export class InfoDettagliComponent  implements OnInit {
+export class InfoDettagliComponent implements OnDestroy {
 
   public dettaglio:any = null;
   public dettaglio_mostrato:any = null;
@@ -37,8 +35,6 @@ export class InfoDettagliComponent  implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
-
   getImgPath(dettaglio:any): string {
     if(this.foodBool){
       const parametro = dettaglio.name.toLowerCase().replace(/\s/g, '_');
@@ -55,6 +51,14 @@ export class InfoDettagliComponent  implements OnInit {
     console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'nome', this.dettaglio.name, 'quantità', this.quantita, 'serie', this.n_serie, 'ripetizioni', this.n_ripetizioni, 'riposo', this.min_riposo, 'pesi_kg', this.n_pesi_kg);
     this.inLista.emit({id_dettaglio: this.dettaglio.id, name: this.dettaglio.name, quantita: this.quantita, serie: this.n_serie, ripetizioni: this.n_ripetizioni, riposo: this.min_riposo, pesi_kg: this.n_pesi_kg}); //anche se mandi oggetti con proprietà in più rispetto a quelle accettate dal componente padre non preoccuparti, verranno ignorate
     this.chiudi();
+  }
+
+  ngOnDestroy() {
+    console.log('OnDestroy chiamato')
+    this.dettaglio = null;
+    this.quantita = 1;
+    this.n_serie = 1;
+    this.n_pesi_kg = 0;
   }
 
   chiudi() {

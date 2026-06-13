@@ -15,10 +15,18 @@ export class GestioneProfessionistiPage implements OnInit {
 
   constructor() { }
 
+  public professionisti:any[] = [];
+
   ngOnInit() {
     this.loadProfessionisti();
   }
 
-  loadProfessionisti() {}
+ async loadProfessionisti() {
+    try {
+
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
 }

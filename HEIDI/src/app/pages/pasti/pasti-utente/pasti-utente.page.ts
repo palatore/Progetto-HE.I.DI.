@@ -84,7 +84,6 @@ export class PastiUtentePage implements OnInit {
   async getAlimento(id_alimento:number) {
     console.log('Ricevuto id da cercare:', id_alimento);
     this.alimentoSelezionato = await this.datiAlimento(id_alimento);
-    console.log('Modifico alimento selezionato:', this.alimentoSelezionato);
   }
 
   async datiAlimento(id_alimento:number): Promise<any> {
@@ -93,11 +92,14 @@ export class PastiUtentePage implements OnInit {
       if(response) {
         console.log('trovato:', response)
         return response;
-      } else {
-        console.log('Alimento non trovato per id:', id_alimento);
       }
-    } catch (error) {
-      console.error('Errore nel recupero dellw info:', error);
+    } catch (error:any) {
+      if(error instanceof Error) {
+        console.error(error.message);
+        return;
+      } else if(error.status == 404)
+       console.log('Alimento non trovato per id:', id_alimento);
+       this.alimentoSelezionato =  null;
     }
 
   }
