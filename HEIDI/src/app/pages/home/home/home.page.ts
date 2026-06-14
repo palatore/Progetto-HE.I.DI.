@@ -5,13 +5,14 @@ import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonHea
 import { LoginService } from 'src/app/services/auth/login.service';
 import { map, Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { CalendarioComponent } from "src/app/components/calendario/calendario.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, RouterModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, RouterModule, CalendarioComponent]
 })
 export class HomePage implements OnInit {
 

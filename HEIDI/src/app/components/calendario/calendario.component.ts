@@ -1,14 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, IonHeader, IonInput, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonText, IonBadge, IonSearchbar, IonIcon, IonThumbnail, IonCardTitle } from '@ionic/angular/standalone';
+import { Observable } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { LoginService } from 'src/app/services/auth/login.service';
+import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
+import { GestioneAllenamentiService } from 'src/app/services/allenamenti/gestione-allenamenti.service';
+import { CalendarioService } from 'src/app/services/calendario/calendario.service';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { CalendarOptions } from '@fullcalendar/core';
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FullCalendarModule, IonCardTitle, IonButton, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, IonHeader, IonInput, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonText, IonBadge, IonSearchbar, IonIcon, IonThumbnail, IonCardTitle]
 })
-export class CalendarioComponent  implements OnInit {
+export class CalendarioComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 
+  calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin],
+    initialView: 'dayGridMonth',
+    locale: 'it', // Lo imposta automaticamente in italiano!
+    headerToolbar: {
+      left: 'prev,next today', // Crea da solo i bottoni per scorrere!
+      center: 'title',
+      right: ''
+    },
+    height: 'auto'
+  };
 }

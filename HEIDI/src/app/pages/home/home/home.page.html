@@ -15,22 +15,11 @@
     <ng-container>
       <ion-content [fullscreen]="true">
         <ion-card class="laTuaGiornata">
-          La tua giornata | La tua settimana
-          <ion-card-content class="pasti">
-            <ion-grid>
-              <ion-row>
-                <ion-col>
-                  <ion-card class ="pasto">colazione</ion-card>
-                </ion-col>
-                <ion-col>
-                  <ion-card class ="pasto">pranzo</ion-card>
-                </ion-col>
-                <ion-col>
-                  <ion-card class ="pasto">cena</ion-card>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
+
+          <ion-card-content class="calendario">
+            <app-calendario></app-calendario>
           </ion-card-content>
+          
         </ion-card>
 
         <ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button>

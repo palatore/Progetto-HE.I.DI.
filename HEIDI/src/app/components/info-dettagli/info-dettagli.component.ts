@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-info-dettagli',
   templateUrl: './info-dettagli.component.html',
   styleUrls: ['./info-dettagli.component.scss'],
+  standalone: true,
   imports: [IonIcon, IonGrid, IonRow, IonCol, IonIcon, IonInput, IonCardContent, IonButton, IonCard, IonCardHeader, CommonModule, FormsModule],
 })
 export class InfoDettagliComponent implements OnDestroy {
