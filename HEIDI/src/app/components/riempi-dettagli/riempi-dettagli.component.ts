@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-riempi-dettagli',
   templateUrl: './riempi-dettagli.component.html',
   styleUrls: ['./riempi-dettagli.component.scss'],
+  standalone: true,
   imports: [CommonModule, FormsModule, IonButton, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, RouterModule, IonCardTitle, IonIcon]
 
 })

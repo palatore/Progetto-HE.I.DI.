@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
   styleUrls: ['./default-header.component.scss'],
+  standalone: true,
   imports: [IonHeader, IonToolbar, IonTitle, IonButton, RouterModule]
 })
 export class DefaultHeaderComponent {
