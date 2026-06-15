@@ -73,9 +73,9 @@ class PastiServices {
         return pasto;
     };
 
-    static async creaPasti(user_id, nome, tipo) {
+    static async creaPasti(user_id, nome, tipo, data_creazione) {
         //crea un nuovo pasto per l'utente
-        const nuovoPasto = await Pasti.creaPasti(user_id, nome, tipo);
+        const nuovoPasto = await Pasti.creaPasti(user_id, nome, tipo, data_creazione);
         if (nuovoPasto) {
             console.log('Pasto creato con successo:');
         } else {

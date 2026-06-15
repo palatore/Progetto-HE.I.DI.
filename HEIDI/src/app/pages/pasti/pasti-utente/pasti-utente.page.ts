@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
+import { Pasto } from 'src/app/models/pasto.model';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonIcon } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
@@ -73,7 +74,7 @@ export class PastiUtentePage implements OnInit {
 
   }
 
-  pastoTrack(index: number, pasto: any):string {
+  pastoTrack(index: number, pasto: Pasto):string {
     return `${pasto.name}-${pasto.data_creazione}-${pasto.tipo}`;
   }
 
@@ -113,7 +114,7 @@ export class PastiUtentePage implements OnInit {
     this.totVitamine = '';
   }
 
-  async modificaPasto(pasto: any) {
+  async modificaPasto(pasto: Pasto) {
     try {
       this.dettagliPasto = await firstValueFrom(this.foodService.getDettagliPasto(pasto.id));
     } catch(err) {
@@ -150,9 +151,9 @@ export class PastiUtentePage implements OnInit {
     this.viewModifica = false;
   }
 
-  pastiUtente = [{name: 'Pasto 1', data_creazione: '1/1/1000', tipo: 500, id: 1},
-                 {name: 'Pasto 2', data_creazione: '1/1/1000', tipo: 600, id: 2},
-                 {name: 'Pasto 3', data_creazione: '1/1/1000', tipo: 550, id: 3}];
+  pastiUtente:Pasto[] = [{name: 'Pasto 1', data_creazione: '1/1/1000', tipo: '', id: 1, data_calendario:'1/1/1000'},
+                 {name: 'Pasto 2', data_creazione: '1/1/1000', tipo: '', id: 2, data_calendario:'1/1/1000'},
+                 {name: 'Pasto 3', data_creazione: '1/1/1000', tipo: '550', id: 3, data_calendario:'1/1/1000'}];
 
   //DA IMPLEMENTARE:
   // - Filtri visualizzazione pasti
@@ -164,7 +165,8 @@ export class PastiUtentePage implements OnInit {
     console.log('Caricamento pasti utente...');
     this.foodService.getPastiUtente().subscribe({
       next: (pasti) => {
-        this.pastiUtente = pasti;      },
+        this.pastiUtente = pasti;      
+      },
       error: (err) => {
         console.error(err);
       }

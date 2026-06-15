@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Pasto } from 'src/app/models/pasto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,10 @@ export class GestionePastiService {
 
   constructor(private http:HttpClient) {}
 
-  creaPasti(nome:string, tipo:string) {
+  creaPasti(nome:string, tipo:string, data_creazione:string) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
-    return this.http.post<any>(`${this.apiUrl}/api/pasti/creaPasti`, { nome, tipo }, {headers, observe: 'response'});
+    return this.http.post<any>(`${this.apiUrl}/api/pasti/creaPasti`, { nome, tipo, data_creazione}, {headers, observe: 'response'});
   }
 
   riempiPasto(id_pasto:number, alimenti:any[]) {
@@ -41,7 +42,7 @@ export class GestionePastiService {
     return this.http.post<any>(`${this.apiUrl}/api/pasti/checkPasto`, { nome, tipo }, {headers});
   }
 
-  getPastiUtente(): Observable<any[]> {
+  getPastiUtente(): Observable<Pasto[]> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.get<any[]>(`${this.apiUrl}/api/pasti/pastiUtente`, {headers});

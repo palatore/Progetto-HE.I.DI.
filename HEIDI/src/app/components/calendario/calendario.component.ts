@@ -10,6 +10,7 @@ import { GestioneAllenamentiService } from 'src/app/services/allenamenti/gestion
 import { CalendarioService } from 'src/app/services/calendario/calendario.service';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarOptions } from '@fullcalendar/core';
 @Component({
   selector: 'app-calendario',
@@ -20,12 +21,14 @@ import { CalendarOptions } from '@fullcalendar/core';
 })
 export class CalendarioComponent implements OnInit {
 
-  constructor() {}
+  constructor(private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
 
   calendarOptions: CalendarOptions = {
-    plugins: [dayGridPlugin],
+    plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
     locale: 'it', // Lingua italiana
     headerToolbar: {
@@ -33,10 +36,19 @@ export class CalendarioComponent implements OnInit {
       center: 'title',
       right: ''
     },
-    height: 'auto'
+    height: 'auto',
+
+    dateClick: (info) => this.handleDateClick(info.dateStr),
+
+    events: []
   };
 
   public isShow:boolean = false;
   
   public data_selezionata:string = '';
+
+  handleDateClick(dateStr:string) {
+    this.data_selezionata = dateStr;
+    this.isShow = true;
+  }
 }

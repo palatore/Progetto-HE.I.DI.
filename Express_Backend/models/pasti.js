@@ -102,9 +102,9 @@ class Pasti {
         });
     }
 
-    static async creaPasti(user_id, nome, tipo) {
+    static async creaPasti(user_id, nome, tipo, data_creazione) {
         return new Promise((resolve, reject) => {
-            db.run('INSERT INTO pasti (user_id, name, tipo) VALUES (?, ?, ?)', [user_id, nome, tipo], function(err) {
+            db.run('INSERT INTO pasti (user_id, name, tipo, data_creazione) VALUES (?, ?, ?, ?)', [user_id, nome, tipo, data_creazione], function(err) {
                 if(err) {
                     reject(err);
                 } else {

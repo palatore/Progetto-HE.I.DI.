@@ -108,8 +108,8 @@ db.serialize(() => {
         user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
         tipo TEXT NOT NULL,
-        data_creazione DATE NULL,
-        FOREIGN KEY(user_id) REFERENCES utenti(id)
+        data_creazione TEXT NULL,
+        FOREIGN KEY(user_id) REFERENCES utenti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella pasti ' + err.message);
@@ -124,13 +124,27 @@ db.serialize(() => {
         pasto_id INTEGER NOT NULL,
         alimento_id INTEGER NOT NULL,
         quantita decimal(6,2) NOT NULL,
-        FOREIGN KEY(pasto_id) REFERENCES pasti(id),
-        FOREIGN KEY(alimento_id) REFERENCES alimenti(id)
+        FOREIGN KEY(pasto_id) REFERENCES pasti(id) ON DELETE CASCADE,
+        FOREIGN KEY(alimento_id) REFERENCES alimenti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella alimenti_pasto ' + err.message);
         } else {
             console.log('Tabella alimenti_pasto creata con successo.');
+        }
+    });
+
+    //creazione della tabella dei pasti_programmati
+    db.run(`CREATE TABLE IF NOT EXISTS pasti_programmati (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        pasto_id INTEGER NOT NULL,
+        data_calendario TEXT NOT NULL,
+        FOREIGN KEY(pasto_id) REFERENCES pasti(id) ON DELETE CASCADE
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella pasti_programmati' + err.message);
+        } else {
+            console.log('Tabella pasti_programmati creata con successo.');
         }
     });
 

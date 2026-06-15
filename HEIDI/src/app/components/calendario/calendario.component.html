@@ -9,13 +9,15 @@
     <ng-template>
         <ion-header>
             <ion-toolbar>
-                <ion-title>Impegni del {{data_selezionata}}</ion-title>
+                <ion-title>{{data_selezionata}}</ion-title>
                 <ion-button (click)="isShow = false" slot="end"><ion-icon name="close"></ion-icon></ion-button>
             </ion-toolbar>
         </ion-header>
 
         <ion-content class="ion-padding">
-            
+            <div class="placeholder">
+                Qui ci vanno gli eventi
+            </div>
         </ion-content>
     </ng-template>
 

@@ -80,7 +80,8 @@ alimento_da_aggiungere:any = null; //variabile per la gestione delle info
     }
   //Se non esiste, crea il pasto
     try {
-      const response = await firstValueFrom(this.foodService.creaPasti(this.pastoForm.value.nome, this.pastoForm.value.tipo));
+      const data_creazione:string = new Date().toISOString();
+      const response = await firstValueFrom(this.foodService.creaPasti(this.pastoForm.value.nome, this.pastoForm.value.tipo, data_creazione));
       if (response === null) {
         console.log('errore di nullità');
         return

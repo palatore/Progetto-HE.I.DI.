@@ -94,9 +94,9 @@ class PastiControllers {
     //POST salva un nuovo pasto nel database
     static creaPasti = async (req, res) => {
         try {
-            const {nome, tipo} = req.body;
+            const {nome, tipo, data_creazione} = req.body;
             const user_id = req.user.id;
-            const result = await PastiServices.creaPasti(user_id, nome, tipo);
+            const result = await PastiServices.creaPasti(user_id, nome, tipo, data_creazione);
             res.status(201).json({message: 'Pasto creato con successo', id: result.lastID});
         } catch (e) {
             res.status(500).json({error: e.message});

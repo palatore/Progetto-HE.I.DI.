@@ -34,7 +34,7 @@
           <ion-card-title>{{ pastoSelezionato.nome }}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <p>Data creazione: {{ pastoSelezionato.data | date: 'dd/MM/yyyy' }}</p> <!-- Da implementare -->
+          <p>Data creazione: {{ pastoSelezionato.data_creazione.split('T')[0]}}</p>
           <p>Tipo: {{ pastoSelezionato.tipo }}</p>
           <p><b>Totale Calorie:</b> {{ totCalorie }} kcal</p>
           <p>Totale carboidrati: {{totCarboidrati}} g</p>
