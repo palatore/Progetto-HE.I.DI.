@@ -7,18 +7,63 @@
 
 <ion-content [fullscreen]="true">
     <ion-list>
-        <ion-item *ngFor="let allenamento of allenamentiUtente">
+        @for(allenamento of allenamentiUtente; track allenamentoTrack($index, allenamento)) {
+        <ion-item>
             <ion-label>
                 <h2>{{ allenamento.name }}</h2>
                 <p>Giorno: {{ allenamento.data | date: 'dd/MM/yyyy' }}</p>
                 <p>Data creazione: {{ allenamento.data_creazione }}</p>
             </ion-label>
-            <ion-button fill="outline" slot="end" disabled>Dettagli</ion-button>
+            <ion-button fill="outline" (click)="mostraDettagli(allenamento)" slot="end">
+                <ion-icon name="eye-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="outline" (click)="modificaAllenamento(allenamento)" slot="end">
+                <ion-icon name="create"></ion-icon>
+            </ion-button>
             <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">
                 <ion-icon name="trash"></ion-icon>
             </ion-button>
         </ion-item>
+    }
     </ion-list>
 
+    @if(allenamentoSelezionato) {
+        <div class="overlay-dettagli" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+            <ion-card>
+                <ion-card-header>
+                    <ion-card-title>{{ allenamentoSelezionato.name }}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <p>Giorno: {{ allenamentoSelezionato.data | date: 'dd/MM/yyyy' }}</p>
+                    <p>Durata: {{ allenamentoSelezionato.durata }} {{tipo_durata}}</p>
+                    <p>Data creazione: {{ allenamentoSelezionato.data_creazione }}</p>
+                    <ul>
+                        @for(esercizio of dettagliAllenamento?.esercizi; track esercizioTrack($index, esercizio)) {
+                            <li>
+                                {{ esercizio.name }} - serie: {{ esercizio.serie }} x {{ esercizio.ripetizioni }} - {{ esercizio.pesi_kg }}kg - Riposo: {{ esercizio.riposo_minuti }} minuti
+                            </li>
+                        }
+                    </ul>
+                    <ion-button (click)="chiudiDettagli()">Chiudi</ion-button>
+                </ion-card-content>
+            </ion-card>
+        </div>
+    }
+
     <ion-button expand="full" [routerLink]='["/creazioneAllenamento"]'>Aggiungi allenamento</ion-button>
+
+    @if(viewModifica) {
+        <app-modifica-dettagli 
+        [isShow]="viewModifica"
+        [foodBool]="false"
+        [miaAttivita]="allenamento_da_modificare"
+        [mioDettaglio]="dettagliAllenamento"
+        [dettaglio_selezionato]="esercizioSelezionato"
+        [listaDettagli]="esercizi"
+        (dettaglio_selezionato_in_attesa)="getEsercizio($event)"
+        (inviaModifiche)="confermaModificaAllenamento($event)"
+        (chiudi)="onChiudi()">
+        </app-modifica-dettagli>
+    }
+
 </ion-content>

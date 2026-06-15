@@ -23,6 +23,12 @@ export class GestioneAllenamentiService {
         return this.http.post<any>(`${this.apiUrl}/api/allenamenti/riempiAllenamento`, {id_allenamento, esercizi}, {headers, observe: 'response'});
     }
 
+    modificaAllenamento(id_allenamento:number, modifiche_allenamento: any[]) {
+        const token = localStorage.getItem('token');
+        const headers = { Authorization: `Bearer ${token}` };
+        return this.http.post<any>(`${this.apiUrl}/api/allenamenti/modificaAllenamento`, {id_allenamento, modifiche_allenamento}, {headers, observe: 'response'});
+    }
+    
     eliminaAllenamento(id_allenamento:number){
         const token = localStorage.getItem('token');
         const headers = { Authorization: `Bearer ${token}` };
@@ -40,6 +46,12 @@ export class GestioneAllenamentiService {
         const token = localStorage.getItem('token');
         const headers = { Authorization: `Bearer ${token}` };
         return this.http.get<any>(`${this.apiUrl}/api/allenamenti/allenamentiUtente`, {headers});
+    }
+
+    getDettagliAllenamento(id_allenamento:number): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = { Authorization: `Bearer ${token}` };
+        return this.http.get<any>(`${this.apiUrl}/api/allenamenti/dettagliAllenamento/${id_allenamento}`, {headers});
     }
 
     getEsercizi() {

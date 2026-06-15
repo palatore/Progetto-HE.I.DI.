@@ -48,11 +48,4 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/utente/gestione-professionisti/gestione-professionisti.page').then( m => m.GestioneProfessionistiPage)
   },
 
-
-  /*SOLO PER PREPARAZIONE DEL FORM DELL'ALLENAMENTO
-  {
-    path: 'testRiempiAllenamento',
-    loadComponent: () => import('./pages/utente/creazione-allenamento/riempi-allenamento/riempi-allenamento.component').then(m => m.RiempiAllenamentoComponent)
-  }, */
-
 ];

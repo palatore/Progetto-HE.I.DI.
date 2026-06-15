@@ -12,6 +12,7 @@ router.get('/allenamentiUtente', authenticateToken, AllenamentiControllers.getAl
 router.post('/checkAllenamento', authenticateToken, AllenamentiControllers.checkAllenamento);
 router.post('/creaAllenamenti', authenticateToken, AllenamentiControllers.creaAllenamenti);
 router.post('/riempiAllenamento', authenticateToken, AllenamentiControllers.riempiAllenamento);
+router.post('/modificaAllenamento', authenticateToken, AllenamentiControllers.modificaAllenamento);
 router.delete('/eliminaAllenamento/:id_allenamento', authenticateToken, AllenamentiControllers.eliminaAllenamento);
 
 module.exports = router;

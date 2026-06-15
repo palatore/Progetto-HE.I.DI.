@@ -49,7 +49,7 @@ class AllenamentiControllers {
     static getDettagliAllenamento = async (req, res) =>{
         try{
             const id_allenamento = req.params.id_allenamento;
-            console.log('ID allenamento:', id_allenamento);
+            console.log('Da Controller: ID allenamento:', id_allenamento);
             const dettagliAllenamento = await AllenamentiServices.getDettagliAllenamento(id_allenamento);
             if(dettagliAllenamento){
                 res.json(dettagliAllenamento);
@@ -110,6 +110,18 @@ class AllenamentiControllers {
             res.status(500).json({error: e.message});
         }
     };
+
+    static modificaAllenamento = async (req, res) =>{
+        console.log('ModificaAllenamento controller chiamato');
+        try{
+            const {id_allenamento, modifiche_allenamento} = req.body;
+            const user_id = req.user.id;
+            const result = await AllenamentiServices.modificaAllenamento(id_allenamento, modifiche_allenamento);
+            res.status(201).json({message: 'Allenamento modificato con successo', result});
+        }catch(e){
+            res.status(500).json({error: e.message});
+        }
+    }
 
     static eliminaAllenamento = async (req, res) =>{
         try{

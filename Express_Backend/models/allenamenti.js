@@ -46,9 +46,10 @@ class Allenamenti {
 
 
     //metodo per trovare gli allenamenti grazie al loro ID
-    static async findAllenamentiById(id_allenamento){
+    static async findAllenamentoById(id_allenamento){
+        console.log('Model, ID allenamento:', id_allenamento);
         return new Promise((resolve, reject) =>{
-            db.all('SELECT * FROM allenamenti WHERE id = ?', [allenamento], (err, rows) =>{
+            db.all('SELECT * FROM allenamenti WHERE id = ?', [id_allenamento], (err, rows) =>{
                 if(err){
                     reject(err);
                 } else {
@@ -74,19 +75,14 @@ class Allenamenti {
     //metodo per ottenere i dettagli di un allenamento
     static async getDettagliAllenamento(id_allenamento, allenamento){
         return new Promise((resolve, reject) => {
-            db.all('SELECT ea.*, a.name FROM esercizi_allenamento ea JOIN esercizi e ON ea.esercizio_id = e.id WHERE ea.allenamento_id = ?', [id_allenamento], (err, esercizi)=>{
+            db.all('SELECT ea.*, e.* FROM esercizi_allenamento ea JOIN esercizi e ON ea.esercizio_id = e.id WHERE ea.allenamento_id = ?', [id_allenamento], (err, esercizi)=>{
                 if(err){
                     reject(err);
                 } else {
-                    db.get('SELECT * FROM esercizi_allenamento ea JOIN esercizi e ON ea.esercizio_id = e.id WHERE ea.allenamento_id = ?', [id_allenamento], (err, rows)=>{
-                        if(err){
-                            reject(err);
-                        } else {
-                            resolve(rows);
-                        }
-                    });
+                    const dettagliAllenamento = { ...allenamento, esercizi};
+                    resolve(dettagliAllenamento);
                 }
-            });
+            });    
         });
     }
 
@@ -170,6 +166,18 @@ class Allenamenti {
                             resolve({message: 'Allenamento eliminato con successo'});
                         }
                     });
+                }
+            });
+        });
+    }
+
+    static async eliminaDettagliAllenamento(id_allenamento){
+        return new Promise((resolve, reject) => {
+            db.run('DELETE FROM esercizi_allenamento WHERE allenamento_id = ?', [id_allenamento], function(err) {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve({message: 'Dettagli allenamento eliminati con successo'});
                 }
             });
         });
