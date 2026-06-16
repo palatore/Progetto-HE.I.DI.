@@ -30,6 +30,12 @@ export class GestionePastiService {
     return this.http.post<any>(`${this.apiUrl}/api/pasti/modificaPasto`, {id_pasto, modifiche_pasto}, {headers, observe: 'response'});
   }
 
+  programmaPasto(id_pasto:number, data_calendario:string) {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post<any>(`${this.apiUrl}/api/pasti/programmaPasto`, {id_pasto, data_calendario }, {headers, observe: 'response'});
+  }
+
   eliminaPasto(id_pasto:number) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
@@ -45,7 +51,13 @@ export class GestionePastiService {
   getPastiUtente(): Observable<Pasto[]> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
-    return this.http.get<any[]>(`${this.apiUrl}/api/pasti/pastiUtente`, {headers});
+    return this.http.get<Pasto[]>(`${this.apiUrl}/api/pasti/pastiUtente`, {headers});
+  }
+
+  getPastiProgrammati():Observable<Pasto[]> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<Pasto[]>(`${this.apiUrl}/api/pasti/pastiProgrammati`, {headers});
   }
 
   getDettagliPasto(id_pasto:number): Observable<any> {

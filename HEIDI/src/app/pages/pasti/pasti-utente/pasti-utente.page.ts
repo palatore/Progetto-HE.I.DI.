@@ -176,7 +176,7 @@ export class PastiUtentePage implements OnInit {
   loadAlimenti() {
     this.foodService.getAlimenti().subscribe({
       next: (data) => {this.alimenti = data;},
-      error: (err) => {console.error(err)}
+      error: (err) => {console.error(err);}
     });
   }
 

@@ -8,7 +8,7 @@ class PastiServices {
         const alimenti = await Pasti.getAllAlimenti();
         console.log('Alimenti ottenuti:', alimenti);
         return alimenti;
-    };
+    }
 
     static async getAlimentoById(id_alimento) {
         console.log('Chiamo il model per ottenere un alimento dato il suo ID:', id_alimento);
@@ -20,21 +20,21 @@ class PastiServices {
             console.log('Alimento non trovato con ID:', id_alimento);
             return null;
         }
-    };
+    }
 
     static async getAllPasti() {
         console.log('Chiamo il model per ottenere tutti i pasti');
         const pasti = await Pasti.getAllPasti();
         console.log('Pasti ottenuti:', pasti);
         return pasti;
-    };
+    }
 
     static async getAllAlimentiPasti() {
         console.log('Chiamo il model per ottenere tutti gli alimenti_pasti');
         const alimentiPasti = await Pasti.getAllAlimentiPasti();
         console.log('Alimenti_pasti ottenuti:', alimentiPasti);
         return alimentiPasti;
-    };
+    }
 
     static async getDettagliPasto(id_pasto) {
         //Per prima cosa chiamo il model per controllare che il pasto esista
@@ -48,7 +48,7 @@ class PastiServices {
             console.log('Dettagli pasto ottenuti:', dettagliPasto);
             return dettagliPasto;
         }
-    };
+    }
 
     static async getPastiUtente(user_id) {
         //ottieni tutti i pasti appartenenti all'utente
@@ -60,7 +60,19 @@ class PastiServices {
             console.log('Nessun pasto trovato per l\'utente con ID:', user_id);
             return [];
         };
-    };
+    }
+
+    static async getPastiProgrammati(user_id) {
+        //ottieni tutti i pasti programmati nel calendario appartenenti all'utente
+        const pastiProgrammati = await Pasti.getPastiProgrammati(user_id);
+        if (pastiProgrammati && pastiProgrammati.length > 0) {
+            console.log('Pasti utente programmati ottenuti:', pastiProgrammati);
+            return pastiProgrammati;
+        } else {
+            console.log('Nessun pasto programmato trovato per l\'utente con ID:', user_id);
+            return [];
+        };
+    }
 
     static async checkPasto(user_id, nome, tipo) {
         //controlla se esiste già un pasto con lo stesso nome, data e tipo per l'utente
@@ -71,7 +83,7 @@ class PastiServices {
             console.log('Nessun risultato trovato con questi dati');
         }
         return pasto;
-    };
+    }
 
     static async creaPasti(user_id, nome, tipo, data_creazione) {
         //crea un nuovo pasto per l'utente
@@ -82,7 +94,7 @@ class PastiServices {
             console.log('Errore nella creazione del pasto');
         }
         return nuovoPasto;
-    };
+    }
 
     static async riempiPasto(id_pasto, alimenti) {
         //dopo la creazione di un pasto, riempi quel pasto con alimenti presi dal database
@@ -119,7 +131,17 @@ class PastiServices {
             console.log('Errore nella modifica del pasto con id:', id_pasto, 'e modifiche:', modifiche_pasto);
         }
         return result;
+    }
 
+    static async programmaPasto(id_pasto, data_calendario) {
+        console.log('ProgrammaPasto service chiamato per ID pasto:', id_pasto, 'e data', data_calendario);
+        const programmato = await Pasti.programmaPasto(id_pasto, data_calendario);
+         if (programmato) {
+            console.log('Pasto programmato con successo:', result);
+        } else {
+            console.log('Errore nella programmazione del pasto con id:', id_pasto, 'e data', data_calendario);
+        }
+        return programmato;
     }
     
     static async eliminaPasto(id_pasto) {
