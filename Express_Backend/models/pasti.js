@@ -90,6 +90,18 @@ class Pasti {
         });
     }
 
+    static async getPastiProgrammati(user_id) {
+        return new Promise((resolve, reject) => {
+            db.all('SELECT pp.data_calendario, p.id, p.name, p.tipo, p.data_creazione FROM pasti_programmati pp JOIN pasti p ON pp.pasto_id = p.id WHERE p.user_id = ?', [user_id], (err, rows) => {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
+        });
+    }
+
     static async checkPasto(user_id, nome, tipo) {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM pasti WHERE user_id = ? AND name = ? AND tipo = ?', [user_id, nome, tipo], (err, rows) => {
@@ -132,6 +144,20 @@ class Pasti {
             Promise.all([insertAlimenti])
                 .then(results => resolve({message: 'Pasto riempito con successo', id_pasto, alimenti}))
                 .catch(err => reject(err));
+        });
+    }
+
+    static async programmaPasto(id_pasto, data_calendario) {
+        console.log('model chiamato per dati:', id_pasto, data_calendario);
+        return new Promise((resolve, reject) => {
+            db.run('INSERT INTO pasti_programmati (pasto_id, data_calendario) VALUES (?, ?)', [id_pasto, data_calendario], function(err) {
+                if(err) {
+                    reject(err);
+                } else {
+                    console.log('successo');
+                    resolve({message: 'Pasto programmato con successo'});
+                }
+            });
         });
     }
 

@@ -14,10 +14,50 @@
             </ion-toolbar>
         </ion-header>
 
-        <ion-content class="ion-padding">
-            <div class="placeholder">
-                Qui ci vanno gli eventi
-            </div>
+        <ion-content>
+            @if(!aggiuntaAttivita) {
+                <div>
+                    <ion-list>
+                        <ion-list-header>
+                            <ion-label>Attività in programma</ion-label>
+                        </ion-list-header>
+                        @for(attivita of attivita_giornaliere; track attivita.id) {
+                            <ion-item class="itemAttivita">
+                                <h2>{{attivita.name}}</h2>
+                                <p>{{attivita.tipo}}</p>
+                            </ion-item>
+                        }
+                        @if(attivita_giornaliere.length === 0) {
+                            <ion-item lines="none">
+                                <ion-label class="ion-text-center text-muted">Nessuna attività in programma</ion-label>
+                            </ion-item>
+                        }
+                    </ion-list>
+
+                    <ion-footer class="ion-no-border">
+                        <ion-toolbar>
+                            <ion-button expand="block" (click)="aggiungiAttivita()" >
+                                <ion-icon name="add"></ion-icon>
+                            </ion-button>
+                        </ion-toolbar>
+                    </ion-footer>
+                </div>
+            } @else {
+                <ion-list>
+                    <ion-list-header>
+                        <ion-label>Seleziona un pasto da aggiungere</ion-label>
+                        <ion-button fill="clear" (click)="aggiuntaAttivita = false">Indietro</ion-button>
+                    </ion-list-header>
+                    @for(pasto of pasti_utente; track pasto.id) {
+                        <ion-item button (click)="fissaAttivita(pasto.id)">
+                            <ion-label>
+                            <h2>{{ pasto.name }}</h2>
+                            <p>{{ pasto.tipo }} kcal</p>
+                            </ion-label>
+                        </ion-item>
+                    }
+                </ion-list>
+            }
         </ion-content>
     </ng-template>
 
