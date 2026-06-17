@@ -52,7 +52,7 @@ export class AllenamentiUtentePage implements OnInit{
     }
 
     esercizioTrack(index: number, esercizio: any):string {
-        return `${esercizio.name} - ${esercizio.serie} - ${esercizio.ripetizioni} - ${esercizio.pesi_kg} - ${esercizio.riposo}`;
+        return `${esercizio.name} - ${esercizio.serie} - ${esercizio.ripetizioni} - ${esercizio.pesi_kg} - ${esercizio.riposo_minuti}`;
     }
 
     async getEsercizio(id_esercizio:number){
@@ -85,10 +85,12 @@ export class AllenamentiUtentePage implements OnInit{
     async modificaAllenamento(allenamento: any) {
         try {
             this.dettagliAllenamento = await firstValueFrom(this.workoutService.getDettagliAllenamento(allenamento.id));
+            console.log('Dettagli dell\'allenamento da modificare:', this.dettagliAllenamento);
         } catch (err){
             console.log(err);
         }
         this.allenamento_da_modificare = allenamento;
+        console.log('Allenamento da modificare:', this.allenamento_da_modificare);
         this.viewModifica = true;
     }
 

@@ -82,7 +82,7 @@ export class ModificaDettagliComponent {
           serie: dettaglio.serie,
           ripetizioni: dettaglio.ripetizioni,
           pesi_kg: dettaglio.pesi_kg,
-          riposo: dettaglio.riposo
+          riposo_minuti: dettaglio.riposo_minuti
         }
       }
     });

@@ -132,9 +132,9 @@ class Allenamenti {
     static async riempiAllenamento(id_allenamento, esercizi){
         return new Promise((resolve, reject)=> {
             const insertAllenamenti = esercizi.map(esercizio =>{
-                console.log('Model: sto inserendo allenamento:', esercizio.id_dettaglio, 'con:', esercizio.serie, 'x', esercizio.ripetizioni, 'ripetizioni,', esercizio.pesi_kg, 'kg, e', esercizio.riposo, 'minuti di riposo');
+                console.log('Model: sto inserendo allenamento:', esercizio.id_dettaglio, 'con:', esercizio.serie, 'x', esercizio.ripetizioni, 'ripetizioni,', esercizio.pesi_kg, 'kg, e', esercizio.riposo_minuti, 'minuti di riposo');
                 return new Promise((res, reject)=>{
-                    db.run('INSERT INTO esercizi_allenamento (allenamento_id, esercizio_id, serie, ripetizioni, pesi_kg, riposo_minuti) VALUES (?, ?, ?, ?, ?, ?)', [id_allenamento, esercizio.id_dettaglio, esercizio.serie, esercizio.ripetizioni, esercizio.pesi_kg, esercizio.riposo], function(err){
+                    db.run('INSERT INTO esercizi_allenamento (allenamento_id, esercizio_id, serie, ripetizioni, pesi_kg, riposo_minuti) VALUES (?, ?, ?, ?, ?, ?)', [id_allenamento, esercizio.id_dettaglio, esercizio.serie, esercizio.ripetizioni, esercizio.pesi_kg, esercizio.riposo_minuti], function(err){
                         if(err){
                             reject(err);
                         } else {

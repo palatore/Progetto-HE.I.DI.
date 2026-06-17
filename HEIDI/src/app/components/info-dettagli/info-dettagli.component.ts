@@ -46,7 +46,7 @@ export class InfoDettagliComponent implements OnDestroy {
 
   mandaInLista() {
     console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'nome', this.dettaglio.name, 'quantità', this.quantita, 'serie', this.n_serie, 'ripetizioni', this.n_ripetizioni, 'riposo', this.min_riposo, 'pesi_kg', this.n_pesi_kg);
-    this.inLista.emit({id_dettaglio: this.dettaglio.id, name: this.dettaglio.name, quantita: this.quantita, serie: this.n_serie, ripetizioni: this.n_ripetizioni, riposo: this.min_riposo, pesi_kg: this.n_pesi_kg}); //anche se mandi oggetti con proprietà in più rispetto a quelle accettate dal componente padre non preoccuparti, verranno ignorate
+    this.inLista.emit({id_dettaglio: this.dettaglio.id, name: this.dettaglio.name, quantita: this.quantita, serie: this.n_serie, ripetizioni: this.n_ripetizioni, riposo_minuti: this.min_riposo, pesi_kg: this.n_pesi_kg}); //anche se mandi oggetti con proprietà in più rispetto a quelle accettate dal componente padre non preoccuparti, verranno ignorate
     this.chiudi();
   }
 
