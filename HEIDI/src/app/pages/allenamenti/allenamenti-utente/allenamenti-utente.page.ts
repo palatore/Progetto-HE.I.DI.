@@ -33,13 +33,11 @@ export class AllenamentiUtentePage implements OnInit{
     public allenamento_da_modificare: any = null;
     public esercizioSelezionato:any = null;
     public dettagliAllenamento: any = null; // Variabile per i dettagli dell'allenamento selezionato
-    public tipo_durata:string = ""; //variabile che serve a visualizzare correttamente la durata degli allenamenti (ora o ore) in base alla durata totale dell'allenamento
 
 
     async mostraDettagli(allenamento: any) {
         this.allenamentoSelezionato = allenamento;
         this.dettagliAllenamento = null; // Resetta i dettagli dell'allenamento selezionato
-        this.tipo_durata = this.allenamentoSelezionato.durata !== 1 ? "Ore" : "Ora"; // Aggiorna la variabile per la visualizzazione della durata
         //Effettua una chiamata al servizio per ottenere i dettagli dell'allenamento selezionato
         try {
             this.dettagliAllenamento = await firstValueFrom(this.workoutService.getDettagliAllenamento(allenamento.id));
@@ -54,7 +52,7 @@ export class AllenamentiUtentePage implements OnInit{
     }
 
     esercizioTrack(index: number, esercizio: any):string {
-        return `${esercizio.name} - ${esercizio.serie} - ${esercizio.ripetizioni} - ${esercizio.pesi_kg} - ${esercizio.riposo}`;
+        return `${esercizio.name} - ${esercizio.serie} - ${esercizio.ripetizioni} - ${esercizio.pesi_kg} - ${esercizio.riposo_minuti}`;
     }
 
     async getEsercizio(id_esercizio:number){
@@ -87,10 +85,12 @@ export class AllenamentiUtentePage implements OnInit{
     async modificaAllenamento(allenamento: any) {
         try {
             this.dettagliAllenamento = await firstValueFrom(this.workoutService.getDettagliAllenamento(allenamento.id));
+            console.log('Dettagli dell\'allenamento da modificare:', this.dettagliAllenamento);
         } catch (err){
             console.log(err);
         }
         this.allenamento_da_modificare = allenamento;
+        console.log('Allenamento da modificare:', this.allenamento_da_modificare);
         this.viewModifica = true;
     }
 

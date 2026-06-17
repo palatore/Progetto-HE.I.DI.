@@ -35,12 +35,12 @@
                 </ion-card-header>
                 <ion-card-content>
                     <p>Giorno: {{ allenamentoSelezionato.data | date: 'dd/MM/yyyy' }}</p>
-                    <p>Durata: {{ allenamentoSelezionato.durata }} {{tipo_durata}}</p>
+                    <p>Durata: {{ allenamentoSelezionato.durata }} {{allenamentoSelezionato.durata !== 1 ? 'Ore' : 'Ora'}}</p>
                     <p>Data creazione: {{ allenamentoSelezionato.data_creazione }}</p>
                     <ul>
                         @for(esercizio of dettagliAllenamento?.esercizi; track esercizioTrack($index, esercizio)) {
                             <li>
-                                {{ esercizio.name }} - serie: {{ esercizio.serie }} x {{ esercizio.ripetizioni }} - {{ esercizio.pesi_kg }}kg - Riposo: {{ esercizio.riposo_minuti }} minuti
+                                {{ esercizio.name }} - serie: {{ esercizio.serie }} x {{ esercizio.ripetizioni }} - {{ esercizio.pesi_kg }}kg - Riposo: {{ esercizio.riposo_minuti }} {{ esercizio.riposo_minuti === 1 ? 'minuto' : 'minuti' }}
                             </li>
                         }
                     </ul>

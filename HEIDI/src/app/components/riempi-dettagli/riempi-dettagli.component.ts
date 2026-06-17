@@ -50,7 +50,7 @@ export class RiempiDettagliComponent  implements OnChanges, OnDestroy{
   @Output() dettagliInseriti = new EventEmitter<any[]>();
 
   dettaglioTrack(index: number, dettaglio: any):string {
-    return `${index}-${dettaglio.id_dettaglio}-${dettaglio.name}-${dettaglio.pesi_kg}-${dettaglio.quantita}-${dettaglio.ripetizioni}-${dettaglio.riposo}-${dettaglio.serie}`;
+    return `${index}-${dettaglio.id_dettaglio}-${dettaglio.name}-${dettaglio.pesi_kg}-${dettaglio.quantita}-${dettaglio.ripetizioni}-${dettaglio.riposo_minuti}-${dettaglio.serie}`;
   }
 
   getImgPath(dettaglio:any): string {

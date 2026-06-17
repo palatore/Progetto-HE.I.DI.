@@ -14,7 +14,6 @@ export class InfoDettagliComponent implements OnDestroy {
   public dettaglio:any = null;
   public dettaglio_mostrato:any = null;
   public quantita:number = 1;
-  public tipo_fase:string = ''; //variabile utile alla corretta visualizzazione della misura (secondi o ripetizioni) degli esercizi visualizzati
   public n_serie:number = 1;
   public n_ripetizioni:number = 1;
   public min_riposo:number = 1;
@@ -24,9 +23,6 @@ export class InfoDettagliComponent implements OnDestroy {
   @Input() 
   set mio_dettaglio(value:any){
     this.dettaglio = value;
-    if(value){ //a priori dal dettaglio ricevuto valuta questa condizione. Anche se arriva un alimento non importa, perché non viene utilizzata la variabile tipo_fase
-      this.tipo_fase = value.fase == 'Centrale' ?  'Ripetizioni'  : 'Secondi';
-    }
   };
 
   @Input() dettaglio_img:string = '';
@@ -50,7 +46,7 @@ export class InfoDettagliComponent implements OnDestroy {
 
   mandaInLista() {
     console.log('Debug: sto inviando alla lista il dettaglio con id', this.dettaglio.id, 'nome', this.dettaglio.name, 'quantità', this.quantita, 'serie', this.n_serie, 'ripetizioni', this.n_ripetizioni, 'riposo', this.min_riposo, 'pesi_kg', this.n_pesi_kg);
-    this.inLista.emit({id_dettaglio: this.dettaglio.id, name: this.dettaglio.name, quantita: this.quantita, serie: this.n_serie, ripetizioni: this.n_ripetizioni, riposo: this.min_riposo, pesi_kg: this.n_pesi_kg}); //anche se mandi oggetti con proprietà in più rispetto a quelle accettate dal componente padre non preoccuparti, verranno ignorate
+    this.inLista.emit({id_dettaglio: this.dettaglio.id, name: this.dettaglio.name, quantita: this.quantita, serie: this.n_serie, ripetizioni: this.n_ripetizioni, riposo_minuti: this.min_riposo, pesi_kg: this.n_pesi_kg}); //anche se mandi oggetti con proprietà in più rispetto a quelle accettate dal componente padre non preoccuparti, verranno ignorate
     this.chiudi();
   }
 
@@ -59,6 +55,8 @@ export class InfoDettagliComponent implements OnDestroy {
     this.dettaglio = null;
     this.quantita = 1;
     this.n_serie = 1;
+    this.n_ripetizioni = 1;
+    this.min_riposo = 1;
     this.n_pesi_kg = 0;
   }
 
@@ -68,6 +66,8 @@ export class InfoDettagliComponent implements OnDestroy {
       this.dettaglio = null;
       this.quantita = 1;
       this.n_serie = 1;
+      this.n_ripetizioni = 1;
+      this.min_riposo = 1;
       this.n_pesi_kg = 0;
       this.isClosing = false;
     }, 400); // Durata dell'animazione in millisecondi
