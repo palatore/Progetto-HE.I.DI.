@@ -1,4 +1,4 @@
-import { Component, OnInit, viewChild, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, IonHeader, IonInput, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonText, IonBadge, IonSearchbar, IonIcon, IonThumbnail, IonCardTitle, IonButtons, IonFabButton, IonFab, IonFooter } from '@ionic/angular/standalone';
@@ -23,7 +23,7 @@ import { Allenamento } from 'src/app/models/allenamento.model';
 })
 export class CalendarioComponent implements OnInit {
 
-  constructor(private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService, private aggiornatore: ChangeDetectorRef) {}
+  constructor(private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {}
 
   ngOnInit() {
     this.loadAllEvents();
@@ -51,6 +51,7 @@ export class CalendarioComponent implements OnInit {
   public aggiuntaAttivita:boolean = false;
   
   public data_selezionata:string = '';
+  public attivita_calendario:any[] = [];
   public pasti_giornalieri:Pasto[] = [];
   public allenamenti_giornalieri:Allenamento[] = [];
   public pasti_utente:Pasto[] = [];
@@ -64,8 +65,7 @@ export class CalendarioComponent implements OnInit {
   }
 
   loadAttivitaGiornaliere() {
-    const tutte_le_attivita = (this.calendarOptions.events as any[]) || [];
-    const attivita_giornaliere = tutte_le_attivita.filter(attivita => attivita.start === this.data_selezionata);
+    const attivita_giornaliere = this.attivita_calendario.filter(attivita => attivita.start === this.data_selezionata);
 
     this.pasti_giornalieri = attivita_giornaliere.filter(a => a.extendedProps.tipo === 'pasto').map(a => a.extendedProps.dati);
     this.allenamenti_giornalieri = attivita_giornaliere.filter(a => a.extendedProps.tipo === 'allenamento').map(a => a.extendedProps.dati);
@@ -105,6 +105,7 @@ export class CalendarioComponent implements OnInit {
   }
 
   async fissaAllenamento(id_allenamento:number) {
+    //metodo per cambiare la data all'allenamento
 
   }
 
@@ -133,7 +134,7 @@ export class CalendarioComponent implements OnInit {
         console.log('Pasti ricevuti dal DB:', pasti.length);
         console.log('Allenamenti ricevuti dal DB:', allenamenti.length);
 
-        const tutte_le_attivita:any[] = [];
+        const tutte_le_attivita:any[] = []; 
 
         pasti.forEach(p => {
             tutte_le_attivita.push({
@@ -167,16 +168,18 @@ export class CalendarioComponent implements OnInit {
           });
         });
 
-        if(this.calendar_component) {
-          const calendar_api = this.calendar_component.getApi();
+        this.attivita_calendario = tutte_le_attivita;
 
+        if(this.calendar_component) {
+          console.log(this.calendar_component);
+          const calendar_api = this.calendar_component.getApi();
+          console.log('calendario già esistente')
           calendar_api.removeAllEvents();
           calendar_api.addEventSource(tutte_le_attivita);
+          console.log('attivit', this.calendarOptions.events);
         } else {
           this.calendarOptions.events = tutte_le_attivita;
         }
-
-        this.aggiornatore.detectChanges() //perché sta cosa? perché così a ogni refresh di attività ricarica graficamente tutto
       },
       error: (err) => {
         console.error('Errore nel caricamento e nell\'unione degli eventi:', err);
