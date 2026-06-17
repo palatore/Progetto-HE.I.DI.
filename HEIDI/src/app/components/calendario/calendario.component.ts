@@ -1,17 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, viewChild, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, IonHeader, IonInput, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonText, IonBadge, IonSearchbar, IonIcon, IonThumbnail, IonCardTitle, IonButtons, IonFabButton, IonFab, IonFooter } from '@ionic/angular/standalone';
-import { filter, firstValueFrom, map, Observable } from 'rxjs';
+import { filter, firstValueFrom, forkJoin, map, Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { GestioneAllenamentiService } from 'src/app/services/allenamenti/gestione-allenamenti.service';
 import { CalendarioService } from 'src/app/services/calendario/calendario.service';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarOptions } from '@fullcalendar/core';
 import { Pasto } from 'src/app/models/pasto.model';
+import { Allenamento } from 'src/app/models/allenamento.model';
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
@@ -21,29 +23,13 @@ import { Pasto } from 'src/app/models/pasto.model';
 })
 export class CalendarioComponent implements OnInit {
 
-  constructor(private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {}
+  constructor(private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService, private aggiornatore: ChangeDetectorRef) {}
 
   ngOnInit() {
-
-    //per ora sto provando a fare solo con i pasti per vedere se funziona. In seguito caricherò tutto
-    this.foodService.getPastiProgrammati().subscribe({
-      next: (pasti_pianificati) => {
-        const eventi_calendario = pasti_pianificati.map(item => {
-          return {
-            id: `${item.id}`,
-            title: `🍲`,
-            start: item.data_calendario!,
-            color: '#ffc409'
-          };
-        });
-
-        this.calendarOptions.events = eventi_calendario;
-      },
-      error: (err) => {
-        console.error('Errore nel caricamento dei pasti programmati:', err);
-      }
-    });
+    this.loadAllEvents();
   }
+
+  @ViewChild('calendario') calendar_component!: FullCalendarComponent;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -65,53 +51,136 @@ export class CalendarioComponent implements OnInit {
   public aggiuntaAttivita:boolean = false;
   
   public data_selezionata:string = '';
-  attivita_giornaliere:any[] = [];
-  pasti_utente:Pasto[] = [];
+  public pasti_giornalieri:Pasto[] = [];
+  public allenamenti_giornalieri:Allenamento[] = [];
+  public pasti_utente:Pasto[] = [];
+  public allenamenti_utente:Allenamento[] = [];
 
   handleDateClick(dateStr:string) {
     this.data_selezionata = dateStr;
     this.isShow = true;
     this.aggiuntaAttivita = false;
-    this.loadPastiGiornalieri();
+    this.loadAttivitaGiornaliere();
   }
 
-  loadPastiGiornalieri() {
-    this.foodService.getPastiProgrammati().subscribe(pasti => {
-      if(pasti && pasti.length > 0) {
-        this.attivita_giornaliere = pasti.filter(p => p.data_calendario === this.data_selezionata);
-      }
-    });
+  loadAttivitaGiornaliere() {
+    const tutte_le_attivita = (this.calendarOptions.events as any[]) || [];
+    const attivita_giornaliere = tutte_le_attivita.filter(attivita => attivita.start === this.data_selezionata);
+
+    this.pasti_giornalieri = attivita_giornaliere.filter(a => a.extendedProps.tipo === 'pasto').map(a => a.extendedProps.dati);
+    this.allenamenti_giornalieri = attivita_giornaliere.filter(a => a.extendedProps.tipo === 'allenamento').map(a => a.extendedProps.dati);
   }
 
   aggiungiAttivita() {
-    this.foodService.getPastiUtente().subscribe({
-      next: (data) => {this.pasti_utente = data;},
-      error: (err) => {console.error(err);}
-    })
+    forkJoin({
+      all_pasti: this.foodService.getPastiUtente(),
+      all_allenamenti: this.workoutService.getAllenamentiUtente()
+    }).subscribe({
+      next: ({all_pasti, all_allenamenti}) => {
+        this.pasti_utente = all_pasti;
+        this.allenamenti_utente = all_allenamenti;
+      },
+      error: (err) => {
+        console.error('Errore nel caricamento e nell\'unione dei dati:', err);
+      }
+    });
 
     this.aggiuntaAttivita = true;
 
   }
 
-  async fissaAttivita(id_attivita:number) {
+  async fissaPasto(id_attivita:number) {
     try {
       const response = await firstValueFrom(this.foodService.programmaPasto(id_attivita, this.data_selezionata));
       if(response && response.status === 201) {
         this.aggiuntaAttivita = false;
-        this.loadPastiGiornalieri();
       }
     } catch(e:any) {
       if(e instanceof Error) {
         console.log(e.message);
       }
     }
+    this.loadAllEvents();
+    this.loadAttivitaGiornaliere();
+  }
+
+  async fissaAllenamento(id_allenamento:number) {
 
   }
 
   chiudiModal() {
-    this.attivita_giornaliere = [];
+    console.log('chiudiModal chiamato');
+    this.loadAllEvents();
+    this.pasti_giornalieri = [];
+    this.allenamenti_giornalieri = [];
     this.pasti_utente = [];
+    this.allenamenti_utente = [];
     this.isShow = false;
     this.aggiuntaAttivita = false;
+  }
+
+  loadAllEvents() {
+    forkJoin({
+      pasti: this.foodService.getPastiProgrammati(),
+      allenamenti: this.workoutService.getAllenamentiUtente().pipe(
+        map(allenamenti_totali => {
+          return allenamenti_totali.filter(allenamento => allenamento.data !== null && allenamento.data !== undefined);
+        })
+      )
+    }).subscribe({
+      next: ({pasti, allenamenti}) => {
+
+        console.log('Pasti ricevuti dal DB:', pasti.length);
+        console.log('Allenamenti ricevuti dal DB:', allenamenti.length);
+
+        const tutte_le_attivita:any[] = [];
+
+        pasti.forEach(p => {
+            tutte_le_attivita.push({
+              id: `pasto_${p.id}`,
+              title: `🍲`,
+              start: p.data_calendario!,
+              color: '#ffc409',
+              extendedProps: {tipo: 'pasto', dati: p}
+            });
+          });
+
+        allenamenti.forEach(a => {
+          if(!a.data) {
+            return;
+          }
+
+          const converti_data_allenamento = new Date(a.data);
+
+          const anno = converti_data_allenamento.getFullYear();
+          const mese = String(converti_data_allenamento.getMonth() + 1).padStart(2, '0');
+          const giorno = String(converti_data_allenamento.getDate()).padStart(2, '0');
+
+          const data_alleamento = `${anno}-${mese}-${giorno}`;
+
+          tutte_le_attivita.push({
+            id: `allenamento_${a.id}`,
+            title: '',
+            start: data_alleamento,
+            color:'#3880ff',
+            extendedProps: {tipo: 'allenamento', dati: a}
+          });
+        });
+
+        if(this.calendar_component) {
+          const calendar_api = this.calendar_component.getApi();
+
+          calendar_api.removeAllEvents();
+          calendar_api.addEventSource(tutte_le_attivita);
+        } else {
+          this.calendarOptions.events = tutte_le_attivita;
+        }
+
+        this.aggiornatore.detectChanges() //perché sta cosa? perché così a ogni refresh di attività ricarica graficamente tutto
+      },
+      error: (err) => {
+        console.error('Errore nel caricamento e nell\'unione degli eventi:', err);
+      }
+    });
   }
 }

@@ -5,6 +5,7 @@ import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonList, IonLab
 import { RouterModule } from "@angular/router";
 import { ModificaDettagliComponent } from "src/app/components/modifica-dettagli/modifica-dettagli.component";
 import { firstValueFrom } from "rxjs/internal/firstValueFrom";
+import { Allenamento } from "src/app/models/allenamento.model";
 
 @Component({
     selector: 'app-allenamenti-utente',
@@ -121,9 +122,7 @@ export class AllenamentiUtentePage implements OnInit{
         this.viewModifica = false;
     }
 
-    allenamentiUtente = [{name: 'Allenamento 1', data_creazione: '1/1/1000', data: '1/1/1000', id: 1},
-                        {name: 'Allenamento 2', data_creazione: '1/1/1000', data: '1/1/1000', id: 2},
-                        {name: 'Allenamento 3', data_creazione: '1/1/1000', data: '1/1/1000', id: 3}];
+    allenamentiUtente:Allenamento[] = [];
     loadAllenamentiUtente(){
         console.log('Caricamento allenamenti utente...');
         this.workoutService.getAllenamentiUtente().subscribe({
