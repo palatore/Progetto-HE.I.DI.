@@ -148,7 +148,8 @@ class PastiControllers {
             const {id_pasto, data_calendario} = req.body;
             const user_id = req.user.id;
             const result = await PastiServices.programmaPasto(id_pasto, data_calendario);
-            res.status(201).json({message: 'Pasto programmato con successo', result});
+            console.log(result);
+            res.status(201).json({result});
         } catch(e) {
             res.status(500).json({error: e.message});
         }

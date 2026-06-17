@@ -31,7 +31,7 @@ export class CalendarioComponent implements OnInit {
         const eventi_calendario = pasti_pianificati.map(item => {
           return {
             id: `${item.id}`,
-            title: `${item.tipo}: ${item.name}`,
+            title: `🍲`,
             start: item.data_calendario!,
             color: '#ffc409'
           };
@@ -78,7 +78,7 @@ export class CalendarioComponent implements OnInit {
   loadPastiGiornalieri() {
     this.foodService.getPastiProgrammati().subscribe(pasti => {
       if(pasti && pasti.length > 0) {
-        this.attivita_giornaliere.push(pasti.filter(p => p.data_calendario === this.data_selezionata));
+        this.attivita_giornaliere = pasti.filter(p => p.data_calendario === this.data_selezionata);
       }
     });
   }

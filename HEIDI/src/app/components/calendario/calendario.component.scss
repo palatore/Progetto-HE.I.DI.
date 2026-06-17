@@ -1,0 +1,19 @@
+.itemAttivita {
+    display: flex;
+    justify-content: space-around;
+}
+
+:host ::ng-deep {
+  .fc-event {
+    border-radius: 50% !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin: 2px auto !important;
+    padding: 0 !important;
+    font-size: 0 !important;
+  }
+
+  .fc-event-main {
+    display: none !important;
+  }
+}
