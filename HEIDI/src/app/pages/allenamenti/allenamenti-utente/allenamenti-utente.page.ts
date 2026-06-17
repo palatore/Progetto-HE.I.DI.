@@ -33,13 +33,11 @@ export class AllenamentiUtentePage implements OnInit{
     public allenamento_da_modificare: any = null;
     public esercizioSelezionato:any = null;
     public dettagliAllenamento: any = null; // Variabile per i dettagli dell'allenamento selezionato
-    public tipo_durata:string = ""; //variabile che serve a visualizzare correttamente la durata degli allenamenti (ora o ore) in base alla durata totale dell'allenamento
 
 
     async mostraDettagli(allenamento: any) {
         this.allenamentoSelezionato = allenamento;
         this.dettagliAllenamento = null; // Resetta i dettagli dell'allenamento selezionato
-        this.tipo_durata = this.allenamentoSelezionato.durata !== 1 ? "Ore" : "Ora"; // Aggiorna la variabile per la visualizzazione della durata
         //Effettua una chiamata al servizio per ottenere i dettagli dell'allenamento selezionato
         try {
             this.dettagliAllenamento = await firstValueFrom(this.workoutService.getDettagliAllenamento(allenamento.id));

@@ -119,7 +119,7 @@ class AllenamentiServices {
         //infine, inserisco i nuovi dettagli dell'allenamento nel db
         const result = await Allenamenti.riempiAllenamento(id_allenamento, modifiche_allenamento);
         if(result){
-            console.log('Allenamento modificato con successo:', result);
+            console.log('Sono il Service,Allenamento modificato con successo:', result);
         }else{
             console.log('Errore nella modifica dell\'allenamento con id:', id_allenamento);
         }

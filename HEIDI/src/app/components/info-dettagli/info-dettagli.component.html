@@ -59,12 +59,7 @@
                         </div>
                     </ion-col>
                     <ion-col>
-                        
-                            <ion-row>{{tipo_fase}}</ion-row>
-                    
-                            
-                        
-                        
+                            <ion-row>{{dettaglio.fase == 'Centrale' ?  'Ripetizioni'  : 'Secondi'}}</ion-row>
                         <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'gap': '10px', 'justify-content': 'left'}">
                             <ion-button (click)="n_ripetizioni = n_ripetizioni - 1" fill="outline" size="small">-</ion-button>
                             <ion-input type="number" step="any" placeholder="Ripetizioni" [(ngModel)]="n_ripetizioni" [ngStyle]="{'max-width': '20px'}"></ion-input>

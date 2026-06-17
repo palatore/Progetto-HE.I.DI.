@@ -14,7 +14,6 @@ export class InfoDettagliComponent implements OnDestroy {
   public dettaglio:any = null;
   public dettaglio_mostrato:any = null;
   public quantita:number = 1;
-  public tipo_fase:string = ''; //variabile utile alla corretta visualizzazione della misura (secondi o ripetizioni) degli esercizi visualizzati
   public n_serie:number = 1;
   public n_ripetizioni:number = 1;
   public min_riposo:number = 1;
@@ -24,9 +23,6 @@ export class InfoDettagliComponent implements OnDestroy {
   @Input() 
   set mio_dettaglio(value:any){
     this.dettaglio = value;
-    if(value){ //a priori dal dettaglio ricevuto valuta questa condizione. Anche se arriva un alimento non importa, perché non viene utilizzata la variabile tipo_fase
-      this.tipo_fase = value.fase == 'Centrale' ?  'Ripetizioni'  : 'Secondi';
-    }
   };
 
   @Input() dettaglio_img:string = '';
@@ -59,6 +55,8 @@ export class InfoDettagliComponent implements OnDestroy {
     this.dettaglio = null;
     this.quantita = 1;
     this.n_serie = 1;
+    this.n_ripetizioni = 1;
+    this.min_riposo = 1;
     this.n_pesi_kg = 0;
   }
 
@@ -68,6 +66,8 @@ export class InfoDettagliComponent implements OnDestroy {
       this.dettaglio = null;
       this.quantita = 1;
       this.n_serie = 1;
+      this.n_ripetizioni = 1;
+      this.min_riposo = 1;
       this.n_pesi_kg = 0;
       this.isClosing = false;
     }, 400); // Durata dell'animazione in millisecondi
