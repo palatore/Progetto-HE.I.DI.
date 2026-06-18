@@ -121,7 +121,18 @@ class AllenamentiControllers {
         }catch(e){
             res.status(500).json({error: e.message});
         }
-    }
+    };
+
+    static programmaAllenamento = async (req, res) =>{
+        try {
+            const {id_allenamento, data_calendario} = req.body;
+            const user_id = req.user_id;
+            const result = await AllenamentiServices.programmaAllenamento(id_allenamento, data_calendario);
+            res.status(201).json({message: 'Allenamento programmato con successo', result});
+        } catch (e) {
+            res.status(500).json({error: e.message});            
+        }
+    };
 
     static eliminaAllenamento = async (req, res) =>{
         try{

@@ -106,6 +106,15 @@ export class CalendarioComponent implements OnInit {
 
   async fissaAllenamento(id_allenamento:number) {
     //metodo per cambiare la data all'allenamento
+    const nuova_data = new Date(this.data_selezionata);
+    try {
+      const allenamentoFissato = await firstValueFrom(this.workoutService.programmaAllenamento(id_allenamento, nuova_data));
+
+    } catch(e) {
+      if(e instanceof Error) {
+        console.log(e.message);
+      }
+    }
 
   }
 

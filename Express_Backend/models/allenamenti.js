@@ -150,6 +150,20 @@ class Allenamenti {
         });
     }
 
+    //metodo per programmare un allenamento cambiandone la data
+    static async programmaAllenamento(id_allenamento, data_calendario) {
+        return new Promise((resolve, reject) => {
+            db.run('UPDATE TABLE allenamenti SET data = ? WHERE id = ?', [data_calendario, id_allenamento], function(err) {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(this.lastID);
+                }
+            });
+        });
+
+    }
+
     //metodo per eliminare un allenamento
     static async eliminaAllenamento(id_allenamento){
         return new Promise((resolve, reject) => {
