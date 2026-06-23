@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { Allenamento } from "src/app/models/allenamento.model";
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +29,12 @@ export class GestioneAllenamentiService {
         const headers = { Authorization: `Bearer ${token}` };
         return this.http.post<any>(`${this.apiUrl}/api/allenamenti/modificaAllenamento`, {id_allenamento, modifiche_allenamento}, {headers, observe: 'response'});
     }
+
+    programmaAllenamento(id_allenamento:number, data_calendario:Date) {
+        const token = localStorage.getItem('token');
+        const headers = { Authorization: `Bearer ${token}` };
+        return this.http.post<any>(`${this.apiUrl}/api/allenamenti/programmaAllenamento`, {id_allenamento, data_calendario}, {headers, observe: 'response'}); 
+    }
     
     eliminaAllenamento(id_allenamento:number){
         const token = localStorage.getItem('token');
@@ -42,7 +49,7 @@ export class GestioneAllenamentiService {
         return this.http.post<any>(`${this.apiUrl}/api/allenamenti/checkAllenamento`, { giorno }, {headers});
     }
 
-    getAllenamentiUtente(): Observable<any[]> {
+    getAllenamentiUtente(): Observable<Allenamento[]> {
         const token = localStorage.getItem('token');
         const headers = { Authorization: `Bearer ${token}` };
         return this.http.get<any>(`${this.apiUrl}/api/allenamenti/allenamentiUtente`, {headers});

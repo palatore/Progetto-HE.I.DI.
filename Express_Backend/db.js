@@ -135,13 +135,6 @@ db.serialize(() => {
     });
 
     //creazione della tabella dei pasti_programmati
-    db.run(`DROP TABLE IF EXISTS pasti_programmati`, (err) => {
-        if (err) {
-            console.error('Errore nella cancellazione della tabella pasti_programmati' + err.message);
-        } else {
-            console.log('Tabella pasti_programmati cancellazta con successo.');
-        }
-    });
     db.run(`CREATE TABLE IF NOT EXISTS pasti_programmati (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         pasto_id INTEGER NOT NULL,

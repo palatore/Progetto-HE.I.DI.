@@ -137,7 +137,7 @@ class PastiServices {
         console.log('ProgrammaPasto service chiamato per ID pasto:', id_pasto, 'e data', data_calendario);
         const programmato = await Pasti.programmaPasto(id_pasto, data_calendario);
          if (programmato) {
-            console.log('Pasto programmato con successo:', result);
+            console.log('Pasto programmato con successo:', programmato);
         } else {
             console.log('Errore nella programmazione del pasto con id:', id_pasto, 'e data', data_calendario);
         }

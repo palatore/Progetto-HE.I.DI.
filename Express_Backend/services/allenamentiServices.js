@@ -126,6 +126,17 @@ class AllenamentiServices {
         return result;
     }
 
+    static async programmaAllenamento(id_allenamento, data_calendario) {
+        //programma nel calendario un allenamento esistente
+        const risultatoProgrammazione = await Allenamenti.programmaAllenamento(id_allenamento, data_calendario);
+        if(risultatoProgrammazione) {
+            console.log('Allenamento programmato con successo');
+        } else {
+            console.log('Errore nella programmazione dell\'allenamento con ID:', id_allenamento, 'per la data', data_calendario);
+        }
+        return risultatoProgrammazione;
+    }
+
     static async eliminaAllenamento(id_allenamento){
         //elimina un allenamento esistente
         console.log('EliminaAllenamento service chiamato su ID:', id_allenamento);
