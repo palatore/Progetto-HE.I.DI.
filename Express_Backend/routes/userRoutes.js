@@ -2,9 +2,15 @@ const express = require('express');
 const router = express.Router();
 const authenticateToken = require('../middlewares/authenticateToken.js');
 const UserControllers = require('../controllers/userControllers');
+const User = require('../models/user.js');
 
 router.get('/utenti', UserControllers.getUsers);
 router.get('/utente/:id_utente', authenticateToken, UserControllers.getUtenteById);
+router.get('/infoUtente/:id_utente', authenticateToken, UserControllers.getInfoUtenteById);
 router.get('/ruoli/:ruolo', UserControllers.getUtentiByRuolo);
+router.post('/utente/creaInfo', authenticateToken, UserControllers.creaInfo);
+router.post('/utente/riempiInfo', authenticateToken, UserControllers.riempiInfo);
+router.post('/utente/aggiornaEta', authenticateToken, UserControllers.aggiornaEta);
+router.delete('/eliminaEta/:id_utente', authenticateToken, UserControllers.eliminaEta);
 
 module.exports = router;

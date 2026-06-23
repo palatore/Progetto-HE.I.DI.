@@ -39,13 +39,23 @@ class User {
   }
 
 // ricerca per id
-  static async findById(id) {
+  static async findById(id_utente) {
     return new Promise((resolve, reject) => {
-      db.get('SELECT id, name, surname, email FROM utenti WHERE id = ?', [id], (err, row) => {
+      db.get('SELECT id, name, surname, email FROM utenti WHERE id = ?', [id_utente], (err, row) => {
         if (err) reject(err);
         else resolve(row);
       });
     });
+  }
+
+  static async findInfo(id_utente){
+    console.log('MODEL: cerco con id:', id_utente);
+    return new Promise((resolve, reject)=>{
+      db.get('SELECT id_utente, eta, altezza_cm, peso_kg, condizioni_mediche, id_P1, professionista1, id_P2, professionista2 FROM profilo_utente WHERE id_utente = ?', [id_utente], (err, row) =>{
+        if(err) reject(err);
+        else resolve(row);
+      });
+    })
   }
 
   //ricerca per ruolo
@@ -77,6 +87,62 @@ class User {
   static async comparePassword(candidatePassword, hash) {
     return bcrypt.compare(candidatePassword, hash);
   }
+
+
+  static async creaInfo(id_utente){
+    console.log('MODEL: proviamo a fare spazio per l\'utente con id:', id_utente);
+      return new Promise((resolve, reject) =>{
+        db.run('INSERT INTO profilo_utente (id_utente) VALUES (?)', [id_utente], function(err){
+          if(err){
+            reject(err);
+          } else {
+            resolve({lastID: this.lastID});
+          }
+        });
+      });
+  }
+
+  static async riempiInfo(info){
+    console.log('MODEL: e vabbè inserisco sti dati:', info);
+    return new Promise((resolve, reject)=>{
+      console.log('MODEL: prima che me lo chiedi, sto inserendo in', info.id_utente, 'età:', info.eta, 'altezza:', info.altezza_cm, 'peso:', info.peso_kg, 'e condizioni mediche:', info.condizioni_mediche);
+        db.run('UPDATE profilo_utente SET eta = ?, altezza_cm = ?, peso_kg = ?, condizioni_mediche = ? WHERE id_utente = ?', [info.eta, info.altezza_cm, info.peso_kg, info.condizioni_mediche, info.id_utente], function(err) {
+        if(err){
+          reject(err);
+        }else{
+          resolve({lastID: this.lastID});
+        }
+      });
+    });
+  }
+
+  static async aggiornaEta(id_utente, eta){
+    console.log('MODEL cerca di aggiungere:', id_utente, eta);
+    return new Promise((resolve, reject)=>{
+      db.run('UPDATE profilo_utente SET eta = ? WHERE id_utente = ?', [eta, id_utente], function(err){
+        if(err){
+          reject(err);
+        }else{
+          resolve({lastID: this.lastID});
+        }
+      });
+    });
+  }
+
+  static async eliminaEta(id_utente){
+    console.log('MODEL ricevuto bersaglio', id_utente);
+    return new Promise((resolve, reject)=>{
+      db.run('UPDATE profilo_utente SET eta = NULL WHERE id_utente = ?', [id_utente], function(err){
+        if(err){
+          reject(err);
+        }else{
+          resolve({message: 'MODEL bersaglio abbattuto'});
+        }
+      });
+    });
+  }
+
+
 }
 
 module.exports = User;

@@ -47,5 +47,10 @@ export const routes: Routes = [
     path: 'gestioneProfessionisti',
     loadComponent: () => import('./pages/utente/gestione-professionisti/gestione-professionisti.page').then( m => m.GestioneProfessionistiPage)
   },
+  {
+    path: 'profilo',
+    loadComponent: () => import('./pages/utente/profilo/profilo.page').then( m => m.ProfiloPage),
+    canActivate: [AuthGuard]
+  }
 
 ];

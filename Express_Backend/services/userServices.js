@@ -3,6 +3,29 @@ const User = require('../models/user');
 
 class UserServices {
 
+    static async getUtenteById(id_utente){
+        const dati = await User.findById(id_utente);
+        if(!dati){
+            console.log('Da Service: nessun utente con ID:', id_utente);
+            return null;
+        }else{
+            console.log('Da Service: Dati trovati:', dati);
+        }
+        return dati;
+    };
+
+    static async getInfoUtenteById(id_utente){
+        console.log('SERVICE: ricevo e passo:',id_utente);
+        const info = await User.findInfo(id_utente);
+        if(!info){
+            console.log('SERVICE: nessuna info con id:', id_utente);
+            return null;
+        }else{
+            console.log('SERVICE: Info recuperate:', info);
+        }
+        return info;
+    }
+
     static async getAllUsers() {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM utenti', [], (err, rows) => {
@@ -39,6 +62,50 @@ class UserServices {
         } else {
             console.log('Ruolo non valido.');
         }
+    };
+
+    static async creaInfo(id_utente){
+        console.log('SERVICE: ricevo e invio id:', id_utente);
+        const info = await User.creaInfo(id_utente);
+        if(info){
+            console.log('SERVICE: Info create con successo');
+        }else{
+            console.log('SERVICE: Errore nella creazione delle indfo');
+        }
+        return info;
+    }
+
+    static async riempiInfo(info){
+        console.log('SERVICE: e da me che voi? io te posso invià:', info);
+        const nuoveInfo = await User.riempiInfo(info);
+        if(nuoveInfo){
+            console.log('SERVICE: Info aggiornate con successo');
+        }else{
+            console.log('SERVICE: Nope... niente da fare');
+        }
+        return nuoveInfo;
+    }
+
+    static async aggiornaEta(id_utente, eta){
+        console.log('SERVICE aggiorna età riceve e manda:', id_utente, eta);
+        const nuovaEta = await User.aggiornaEta(id_utente, eta);
+        if(nuovaEta){
+            console.log('SERVICE: aggiornamento completato:', nuovaEta);
+        }else{
+            console.log('SERVICE: errore');
+        }
+        return nuovaEta;
+    }
+
+    static async eliminaEta(id_utente){
+        console.log('SERVICE elimina età riceve e manda:', id_utente);
+        const eliminato = await User.eliminaEta(id_utente);
+        if(eliminato){
+            console.log('SERVICE obiettivo eliminato');
+        }else{
+            console.log('SERVICE obiettivo ancora in vita');
+        }
+        return eliminato;
     };
 }
 
