@@ -89,8 +89,7 @@ class User {
   }
 
 
-  static async creaInfo(id_utente){
-    console.log('MODEL: proviamo a fare spazio per l\'utente con id:', id_utente);
+  static async creaInfo(id_utente){   
       return new Promise((resolve, reject) =>{
         db.run('INSERT INTO profilo_utente (id_utente) VALUES (?)', [id_utente], function(err){
           if(err){
@@ -103,9 +102,7 @@ class User {
   }
 
   static async riempiInfo(info){
-    console.log('MODEL: e vabbè inserisco sti dati:', info);
     return new Promise((resolve, reject)=>{
-      console.log('MODEL: prima che me lo chiedi, sto inserendo in', info.id_utente, 'età:', info.eta, 'altezza:', info.altezza_cm, 'peso:', info.peso_kg, 'e condizioni mediche:', info.condizioni_mediche);
         db.run('UPDATE profilo_utente SET eta = ?, altezza_cm = ?, peso_kg = ?, condizioni_mediche = ? WHERE id_utente = ?', [info.eta, info.altezza_cm, info.peso_kg, info.condizioni_mediche, info.id_utente], function(err) {
         if(err){
           reject(err);

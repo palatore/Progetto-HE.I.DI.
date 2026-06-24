@@ -15,7 +15,6 @@ export class GestioneUtentiService {
   creaInfo(){
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
-    console.log('GESTIONE UTENTI: cerco di gestire:', token, headers);
     return this.http.post<any>(`${this.apiUrl}/api/users/utente/creaInfo`, {token}, {headers, observe: 'response'});
   }
 
@@ -23,12 +22,6 @@ export class GestioneUtentiService {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.post<any>(`${this.apiUrl}/api/users/utente/riempiInfo`, {info}, {headers, observe: 'response'});
-  }
-
-  aggiornaEta(eta:number){
-    const token = localStorage.getItem('token');
-    const headers = { Authorization: `Bearer ${token}` };
-    return this.http.post<any>(`${this.apiUrl}/api/users/utente/aggiornaEta`, {eta}, {headers, observe: 'response'});
   }
 
   getUtenteById(id_utente:number): Observable<any> {

@@ -10,7 +10,6 @@ router.get('/infoUtente/:id_utente', authenticateToken, UserControllers.getInfoU
 router.get('/ruoli/:ruolo', UserControllers.getUtentiByRuolo);
 router.post('/utente/creaInfo', authenticateToken, UserControllers.creaInfo);
 router.post('/utente/riempiInfo', authenticateToken, UserControllers.riempiInfo);
-router.post('/utente/aggiornaEta', authenticateToken, UserControllers.aggiornaEta);
 router.delete('/eliminaEta/:id_utente', authenticateToken, UserControllers.eliminaEta);
 
 module.exports = router;
