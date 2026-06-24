@@ -27,6 +27,10 @@ export class HomePage implements OnInit {
 
   public sidebar:boolean = false;
 
+  ionViewWillEnter() {
+    this.sidebar = false;
+  }
+
   isLoggedIn(): Observable<boolean> {
     return this.ruoloUtente.pipe(map(role => role !== null));
   }

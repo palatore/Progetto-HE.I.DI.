@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IonList, IonListHeader, IonItem, IonLabel, IonIcon , IonButton} from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 
@@ -16,5 +16,11 @@ export class SidebarComponent  implements OnInit {
   ngOnInit() {}
 
   @Input() isShow:boolean = false;
+  @Output() logoutEvent = new EventEmitter<boolean>;
+
+  logout() {
+    this.logoutEvent.emit(true);
+    this.isShow = false;
+  }
 
 }

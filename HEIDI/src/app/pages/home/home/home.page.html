@@ -5,7 +5,6 @@
       <ion-button slot="start" (click)="toggleSidebar()" >
         <ion-icon name="menu-outline"></ion-icon>
       </ion-button>
-      <ion-button slot="end" (click) ="logout()">Logout</ion-button>
     </ion-item>
   </ion-toolbar>
 </ion-header>
@@ -19,7 +18,7 @@
 
       <ion-content [fullscreen]="true">
 
-        <app-sidebar [isShow]="sidebar"></app-sidebar>
+        <app-sidebar [isShow]="sidebar" (logoutEvent)="logout()"></app-sidebar>
 
         <ion-card class="laTuaGiornata">
           <ion-card-content class="calendario">
