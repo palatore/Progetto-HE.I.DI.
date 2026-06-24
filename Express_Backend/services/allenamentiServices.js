@@ -129,6 +129,7 @@ class AllenamentiServices {
     static async programmaAllenamento(id_allenamento, data_calendario) {
         //programma nel calendario un allenamento esistente
         const risultatoProgrammazione = await Allenamenti.programmaAllenamento(id_allenamento, data_calendario);
+        console.log("SERVIZIO SPAMMMONE ECCO IL MIO ALLENAMENTO", risultatoProgrammazione);
         if(risultatoProgrammazione) {
             console.log('Allenamento programmato con successo');
         } else {

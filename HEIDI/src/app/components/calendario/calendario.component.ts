@@ -109,7 +109,9 @@ export class CalendarioComponent implements OnInit {
     const nuova_data = new Date(this.data_selezionata);
     try {
       const allenamentoFissato = await firstValueFrom(this.workoutService.programmaAllenamento(id_allenamento, nuova_data));
-
+      if(allenamentoFissato && allenamentoFissato.status === 201) {
+        this.aggiuntaAttivita = false;
+      }
     } catch(e) {
       if(e instanceof Error) {
         console.log(e.message);
