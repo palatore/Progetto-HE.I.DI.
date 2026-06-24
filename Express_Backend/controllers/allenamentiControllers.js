@@ -128,6 +128,7 @@ class AllenamentiControllers {
             const {id_allenamento, data_calendario} = req.body;
             const user_id = req.user_id;
             const result = await AllenamentiServices.programmaAllenamento(id_allenamento, data_calendario);
+            console.log("IL MIO RESULT SPAMS ASMAOSFDFIDKOFJIO", result);
             res.status(201).json({message: 'Allenamento programmato con successo', result});
         } catch (e) {
             res.status(500).json({error: e.message});            

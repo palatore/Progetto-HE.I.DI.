@@ -153,8 +153,9 @@ class Allenamenti {
     //metodo per programmare un allenamento cambiandone la data
     static async programmaAllenamento(id_allenamento, data_calendario) {
         return new Promise((resolve, reject) => {
-            db.run('UPDATE TABLE allenamenti SET data = ? WHERE id = ?', [data_calendario, id_allenamento], function(err) {
+            db.run('UPDATE allenamenti SET data = ? WHERE id = ?', [data_calendario, id_allenamento], function(err) {
                 if(err) {
+                    console.log(err);
                     reject(err);
                 } else {
                     resolve(this.lastID);
