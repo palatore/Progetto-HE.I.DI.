@@ -51,6 +51,10 @@ export const routes: Routes = [
     path: 'profilo',
     loadComponent: () => import('./pages/utente/profilo/profilo.page').then( m => m.ProfiloPage),
     canActivate: [AuthGuard]
+  },  {
+    path: 'calendario',
+    loadComponent: () => import('./pages/calendario/calendario.page').then( m => m.CalendarioPage)
   }
+
 
 ];

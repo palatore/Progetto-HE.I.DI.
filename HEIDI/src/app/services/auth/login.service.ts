@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,13 @@ export class LoginService {
 
   getUserRole(): Observable<string | null> {
     return this.ruoloUtente.asObservable();
+  }
+
+  getUserId():number {
+    const token = localStorage.getItem('token');
+    const decoded:any = jwtDecode(token!);
+    const userId = decoded.id;
+    return userId;
   }
 
   register(ruolo:string, nome:string, cognome:string, email:string, password:string): Observable<any> {

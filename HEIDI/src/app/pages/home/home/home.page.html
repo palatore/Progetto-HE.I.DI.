@@ -15,11 +15,73 @@
 
       <ion-content [fullscreen]="true">
 
-        <ion-card class="laTuaGiornata">
+        <!-- <ion-card class="laTuaGiornata">
           <ion-card-content class="calendario">
             <app-calendario></app-calendario>
           </ion-card-content>
-          
+        </ion-card> -->
+
+        <ion-card class="laTuaGiornata">
+          <ion-card-header>
+            <ion-card-title>La tua giornata</ion-card-title>
+            <ion-segment [(ngModel)]="visualizzazione">
+              <ion-segment-button value="pasti">
+                <ion-label>Pasti</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="allenamenti">
+                <ion-label>Allenamenti</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-card-header>
+
+          <ion-card-content>
+            @if(visualizzazione == 'pasti') {
+              <ion-grid>
+                <ion-row class="pastiPrincipali">
+                  <ion-col>
+                    <h3>☕ Colazione</h3>
+                    <ion-card class="miniPastoCard">
+                      <p>{{pasti_odierni.Colazione ? pasti_odierni.Colazione.name : 'Niente'}}</p>
+                    </ion-card>
+                  </ion-col>
+                  <ion-col>
+                    <h3>🍝 Pranzo</h3>
+                    <ion-card class="miniPastoCard">
+                      <p>{{pasti_odierni.Pranzo ? pasti_odierni.Pranzo.name : 'Niente'}}</p>
+                    </ion-card>
+                  </ion-col>
+                  <ion-col>
+                    <h3>🥩 Cena</h3>
+                    <ion-card class="miniPastoCard">
+                      <p>{{pasti_odierni.Cena ? pasti_odierni.Cena.name : 'Niente'}}</p>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="pastiSecondari">
+                  <ion-col>
+                    <h3>🍎 Merenda</h3>
+                    <ion-card class="miniPastoCard">
+                      <p>{{pasti_odierni.Merenda ? pasti_odierni.Merenda.name : 'Niente'}}</p>
+                    </ion-card>
+                  </ion-col>
+                  <ion-col>
+                    <h3>🍌 Spuntino</h3>
+                    <ion-card class="miniPastoCard">
+                      <p>{{pasti_odierni.Spuntino ? pasti_odierni.Spuntino.name : 'Niente'}}</p>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            } @else {
+              <h3>🏋️ Allenamento di oggi:</h3>
+              <ion-card>
+                <p>{{allenamento_odierno ? allenamento_odierno.name : 'Oggi riposo'}}</p>
+              </ion-card>
+
+
+            }
+            <ion-button [routerLink]="['/calendario']">Vai al calendario completo</ion-button>
+          </ion-card-content>
         </ion-card>
 
         <ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button>

@@ -139,7 +139,6 @@ export class AllenamentiUtentePage implements OnInit{
     loadEsercizi() {
         this.workoutService.getEsercizi().subscribe({
             next: (data) => {this.esercizi = data;
-                console.log('Esercizi caricati:', this.esercizi);
             },
             error: (err) => {console.error(err);}
         });
