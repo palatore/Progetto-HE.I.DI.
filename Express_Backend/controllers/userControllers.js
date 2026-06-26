@@ -61,7 +61,6 @@ class UserControllers {
     static creaInfo = async (req, res) =>{
         try{
             const id_utente = req.user.id;
-            console.log('CONTROLLER: ricevo e mando id:', id_utente);
             const result = await UserServices.creaInfo(id_utente);
            res.status(201).json({message: 'Info create con successo', id: result.lastID});
         }catch(e){
@@ -70,28 +69,14 @@ class UserControllers {
     }
 
     static riempiInfo = async (req, res) =>{
-        console.log('CONTROLLER: wake the fuck up');
         try{
             const {info} = req.body;
-            console.log('CONTROLLER: ricevo e mando:', info);
             const result = await UserServices.riempiInfo(info);
             res.status(201).json({message: 'Info riempite con successo', result});
         }catch(e){
             res.status(500).json({error: e.message});
         }
     }
-
-    static aggiornaEta = async (req, res) =>{
-        try{
-            const eta = req.body.eta;
-            const id_utente = req.user.id;
-            console.log('CONTROLLER aggiornaEta riceve e passa:', id_utente, eta);
-            const result = await UserServices.aggiornaEta(id_utente, eta);
-            res.status(201).json({message: 'Età aggiornata con successo:', result});
-        }catch(e){
-            res.status(500).json({error: e.message});
-        }
-    };
 
     static eliminaEta = async (req, res) =>{
         console.log('elimina età chiamato');

@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { AlertController, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonTextarea, IonText, IonInput, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
+=======
+import { Component, OnInit } from '@angular/core';
+import { AlertController, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonInput } from '@ionic/angular/standalone';
+>>>>>>> ac4e4376bd6d6d5c91968db3146ecf573bf0d9fa
 import { RouterLink } from '@angular/router';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { firstValueFrom } from 'rxjs';
@@ -12,7 +17,11 @@ import { create, close, checkmark } from 'ionicons/icons';
   templateUrl: './profilo.page.html',
   styleUrls: ['./profilo.page.scss'],
   standalone: true,
+<<<<<<< HEAD
   imports: [IonInput, IonButtons, IonMenuButton, IonText, IonTextarea, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, IonTitle, IonToolbar, IonHeader, RouterLink, IonCol]
+=======
+  imports: [IonInput, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, IonTitle, IonToolbar, IonHeader, RouterLink, IonCol]
+>>>>>>> ac4e4376bd6d6d5c91968db3146ecf573bf0d9fa
 })
 export class ProfiloPage implements OnInit{
 public dati_utente:{id:number, name:string, surname:string, email:string} = {id:-1, name:"", surname:"", email:""};
@@ -42,15 +51,12 @@ public eta:number = 0;
         this.id_utente = decoded.id;
         this.dati_utente = await firstValueFrom(this.utenteService.getUtenteById(this.id_utente));
         this.info_utente = await firstValueFrom(this.utenteService.getInfoUtenteById(this.id_utente));
-        console.log('DATI UTENTE:', this.dati_utente);
-        console.log('INFO UTENTE:', this.info_utente);
    }
 
    modificaEta(){
     this.flag_eta = true;
    }
    modificaPeso(){
-    console.log('flag peso chiamato');
     this.flag_peso = true;
    }
    modificaAltezza(){
@@ -78,21 +84,18 @@ public eta:number = 0;
         return;
     }
     try{
-        console.log('Ok Submit chiamato FASE1: creo la riga in profilo_utente nel db');
         const creato = await firstValueFrom(this.utenteService.creaInfo());
         if(creato === null){
             console.log('errore di nullità');
             return
         }else if(creato.status === 201){
-            console.log('FASE1 riuscita... strano ma vero', creato.body.id);
+            console.log('Info inserite con successo');
         }
-        console.log('Ok FASE2: Riempiamo sto profilo_utente', this.info_utente );
         const riempito = await firstValueFrom(this.utenteService.riempiInfo(this.info_utente));
         if(riempito === null){
             console.log('errore di nullità');
             return
         }else if(riempito.status === 201){
-            console.log('FASE2 completata? ricontrolla che è meglio', riempito.body.id_utente);
             const alert = await this.alertController.create({
                 header: 'Informazione aggiornata',
                 message: 'Le tue informazioni sono state aggiornate',

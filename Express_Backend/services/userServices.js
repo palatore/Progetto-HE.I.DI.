@@ -65,36 +65,23 @@ class UserServices {
     };
 
     static async creaInfo(id_utente){
-        console.log('SERVICE: ricevo e invio id:', id_utente);
         const info = await User.creaInfo(id_utente);
         if(info){
-            console.log('SERVICE: Info create con successo');
+            console.log('Info create con successo');
         }else{
-            console.log('SERVICE: Errore nella creazione delle indfo');
+            console.log('Errore nella creazione delle indfo');
         }
         return info;
     }
 
     static async riempiInfo(info){
-        console.log('SERVICE: e da me che voi? io te posso invià:', info);
         const nuoveInfo = await User.riempiInfo(info);
         if(nuoveInfo){
-            console.log('SERVICE: Info aggiornate con successo');
+            console.log('Info aggiornate con successo');
         }else{
-            console.log('SERVICE: Nope... niente da fare');
+            console.log('Errore nell\'inserimento delle info');
         }
         return nuoveInfo;
-    }
-
-    static async aggiornaEta(id_utente, eta){
-        console.log('SERVICE aggiorna età riceve e manda:', id_utente, eta);
-        const nuovaEta = await User.aggiornaEta(id_utente, eta);
-        if(nuovaEta){
-            console.log('SERVICE: aggiornamento completato:', nuovaEta);
-        }else{
-            console.log('SERVICE: errore');
-        }
-        return nuovaEta;
     }
 
     static async eliminaEta(id_utente){
