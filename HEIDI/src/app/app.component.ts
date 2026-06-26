@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet, IonMenu, IonItem, IonList, IonHeader, IonButton, IonIcon, IonLabel, IonToolbar, IonContent, IonTitle, IonMenuToggle } from '@ionic/angular/standalone';
 import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { LoginService } from './services/auth/login.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { filter } from 'rxjs/operators';
   imports: [IonApp, IonRouterOutlet, IonMenu, IonMenuToggle,IonItem, IonList, IonHeader, IonButton, IonIcon, IonLabel, IonToolbar, IonContent, IonTitle, RouterLink],
 })
 export class AppComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService:LoginService) {}
 
   ngOnInit() {
     // Monitora i cambi di rotta
@@ -47,5 +48,9 @@ export class AppComponent implements OnInit {
         }
       }
     });
+  }
+
+  async onLogout() {
+   await this.authService.onLogoutSuccess();
   }
 }

@@ -40,10 +40,5 @@ export class HomePage implements OnInit {
     } else {
       this.sidebar = true;
     }
-  }
-
-  async logout() {
-    await this.loginService.onLogoutSuccess();
-  }
-  
+  }  
 }
