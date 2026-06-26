@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { Router, NavigationEnd } from '@angular/router';
+import { IonApp, IonRouterOutlet, IonMenu, IonItem, IonList, IonHeader, IonButton, IonIcon, IonLabel, IonToolbar, IonContent, IonTitle, IonMenuToggle } from '@ionic/angular/standalone';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet],
+  imports: [IonApp, IonRouterOutlet, IonMenu, IonMenuToggle,IonItem, IonList, IonHeader, IonButton, IonIcon, IonLabel, IonToolbar, IonContent, IonTitle, RouterLink],
 })
 export class AppComponent implements OnInit {
   constructor(private router: Router) {}

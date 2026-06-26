@@ -1,11 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Home</ion-title>
-    <ion-item>
-      <ion-button slot="start" (click)="toggleSidebar()" >
-        <ion-icon name="menu-outline"></ion-icon>
-      </ion-button>
-    </ion-item>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-button slot="end" (click)="logout()"><ion-icon name="log-out-outline"></ion-icon></ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -17,8 +16,6 @@
     <ng-container>
 
       <ion-content [fullscreen]="true">
-
-        <app-sidebar [isShow]="sidebar" (logoutEvent)="logout()"></app-sidebar>
 
         <ion-card class="laTuaGiornata">
           <ion-card-content class="calendario">

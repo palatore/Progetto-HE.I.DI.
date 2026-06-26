@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
 import { AlertController } from '@ionic/angular';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { firstValueFrom } from 'rxjs';
@@ -14,7 +14,7 @@ import { InfoDettagliComponent } from "src/app/components/info-dettagli/info-det
   templateUrl: './creazione-pasto.page.html',
   styleUrls: ['./creazione-pasto.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent]
+  imports: [IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent]
 })
 export class CreazionePastoPage implements OnInit {
 public page_title:string = 'Creazione Pasto';

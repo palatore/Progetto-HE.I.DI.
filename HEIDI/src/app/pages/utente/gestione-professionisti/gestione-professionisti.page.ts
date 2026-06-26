@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
 import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 
@@ -10,7 +10,7 @@ import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.s
   templateUrl: './gestione-professionisti.page.html',
   styleUrls: ['./gestione-professionisti.page.scss'],
   standalone: true,
-  imports: [IonButton, IonCardTitle, IonCardHeader, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, DefaultHeaderComponent, IonCardContent]
+  imports: [IonButton, IonButtons, IonMenuButton,IonCardTitle, IonCardHeader, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, DefaultHeaderComponent, IonCardContent]
 })
 export class GestioneProfessionistiPage implements OnInit {
 

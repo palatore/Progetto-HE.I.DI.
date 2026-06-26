@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonRow, IonTitle, IonToolbar, IonIcon } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonItem, IonTitle, IonToolbar, IonIcon, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { map, Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
-import { SidebarComponent } from 'src/app/components/sidebar/sidebar.component';
 import { CalendarioComponent } from "src/app/components/calendario/calendario.component";
 
 @Component({
@@ -13,7 +12,7 @@ import { CalendarioComponent } from "src/app/components/calendario/calendario.co
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonGrid, IonRow, IonCol, ReactiveFormsModule, RouterModule, CalendarioComponent, SidebarComponent]
+  imports: [IonButtons, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, CalendarioComponent]
 })
 export class HomePage implements OnInit {
 

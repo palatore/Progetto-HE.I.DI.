@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { GestioneAllenamentiService } from "src/app/services/allenamenti/gestione-allenamenti.service";
-import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardTitle, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
+import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonMenuButton } from "@ionic/angular/standalone";
 import { RouterModule } from "@angular/router";
 import { ModificaDettagliComponent } from "src/app/components/modifica-dettagli/modifica-dettagli.component";
 import { firstValueFrom } from "rxjs/internal/firstValueFrom";
@@ -12,7 +12,7 @@ import { Allenamento } from "src/app/models/allenamento.model";
     templateUrl: './allenamenti-utente.page.html',
     styleUrls: ['./allenamenti-utente.page.scss'],
     standalone: true,
-    imports: [IonCardContent, IonCardHeader, IonCardTitle, IonCard, IonIcon, IonItem, IonLabel, IonList, IonContent, IonButton, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule, ModificaDettagliComponent ]
+    imports: [IonCardContent, IonCardHeader, IonCardTitle, IonCard, IonIcon, IonItem, IonLabel, IonList, IonContent, IonButton, IonButtons, IonMenuButton, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule, ModificaDettagliComponent ]
 })
 export class AllenamentiUtentePage implements OnInit{
 

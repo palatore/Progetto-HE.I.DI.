@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { Pasto } from 'src/app/models/pasto.model';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonIcon } from '@ionic/angular/standalone';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonIcon, IonMenuButton } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { ModificaDettagliComponent } from 'src/app/components/modifica-dettagli/modifica-dettagli.component';
 
@@ -14,7 +14,7 @@ import { ModificaDettagliComponent } from 'src/app/components/modifica-dettagli/
   templateUrl: './pasti-utente.page.html',
   styleUrls: ['./pasti-utente.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent]
+  imports: [IonButtons, IonMenuButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent]
 })
 export class PastiUtentePage implements OnInit {
   totZuccheri:number = 0;

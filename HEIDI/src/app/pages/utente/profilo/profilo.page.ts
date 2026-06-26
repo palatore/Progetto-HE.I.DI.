@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
-import { AlertController, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonTextarea, IonText, IonInput } from '@ionic/angular/standalone';
+import { AlertController, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonTextarea, IonText, IonInput, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { firstValueFrom } from 'rxjs';
@@ -12,7 +12,7 @@ import { create, close, checkmark } from 'ionicons/icons';
   templateUrl: './profilo.page.html',
   styleUrls: ['./profilo.page.scss'],
   standalone: true,
-  imports: [IonInput,  IonText, IonTextarea, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, IonTitle, IonToolbar, IonHeader, RouterLink, IonCol]
+  imports: [IonInput, IonButtons, IonMenuButton, IonText, IonTextarea, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, IonTitle, IonToolbar, IonHeader, RouterLink, IonCol]
 })
 export class ProfiloPage implements OnInit{
 public dati_utente:{id:number, name:string, surname:string, email:string} = {id:-1, name:"", surname:"", email:""};

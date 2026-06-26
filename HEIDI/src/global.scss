@@ -35,3 +35,15 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+ion-content {
+    --ion-background-color: lightblue;
+}
+
+ion-menu {
+    --width: 45vw;
+}
+
+.sidebar {
+    --background: #1e1e1e;
+}
