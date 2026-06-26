@@ -7,7 +7,7 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
 import { addIcons } from 'ionicons';
-import { close, trash, eyeOutline, create, add, logOutOutline, personOutline, menuOutline} from 'ionicons/icons';
+import { close, trash, eyeOutline, create, add, logOutOutline, personOutline, menuOutline, homeOutline} from 'ionicons/icons';
 
 addIcons({
   close,
@@ -18,6 +18,7 @@ addIcons({
   logOutOutline,
   personOutline,
   menuOutline,
+  homeOutline,
   'a': 'assets/icon/mountain_line_art.svg'
 });
 
