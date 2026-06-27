@@ -3,7 +3,8 @@
     <ion-title>Home</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-    </ion-buttons>  </ion-toolbar>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 
@@ -42,6 +43,7 @@
                     <h3>☕ Colazione</h3>
                     <ion-card class="miniPastoCard">
                       <p>{{pasti_odierni.Colazione ? pasti_odierni.Colazione.name : 'Niente'}}</p>
+                      <p>{{dettagli_pasti_odierni.Colazione ? dettagli_pasti_odierni.Colazione.alimenti : ''}}</p>
                     </ion-card>
                   </ion-col>
                   <ion-col>
