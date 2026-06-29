@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
-import { LoginService } from 'src/app/services/auth/login.service';
 import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { LoginService } from 'src/app/services/auth/login.service';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { GestioneAllenamentiService } from 'src/app/services/allenamenti/gestione-allenamenti.service';
 import { Allenamento } from 'src/app/models/allenamento.model';
@@ -20,10 +20,13 @@ import { Pasto } from 'src/app/models/pasto.model';
 export class HomePage implements OnInit {
 
   constructor(private authService:LoginService, private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {
-    this.ruoloUtente = this.authService.getUserRole();
+    this.authService.ruoloUtente.subscribe({
+      next: (data) => this.ruoloUtente = data,
+      error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
+    });
   }
  
-  ruoloUtente: Observable<string | null>; ;
+  ruoloUtente: string | null = null;
 
   ngOnInit() {
     this.caricaAttivitaGiornaliere();
@@ -97,7 +100,7 @@ export class HomePage implements OnInit {
     });
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.ruoloUtente.pipe(map(role => role !== null));
+  isLoggedIn(): boolean {
+    return this.ruoloUtente != null;
   }
 }

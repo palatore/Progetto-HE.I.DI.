@@ -8,10 +8,10 @@
 </ion-header>
 
 
-<ng-container *ngIf="(ruoloUtente | async) as ruolo">
+<ng-container>
 
   <!--Homepage per il ruolo utente-->
-  @if(ruolo === '0') {
+  @if(ruoloUtente === '0') {
     <ng-container>
 
       <ion-content [fullscreen]="true">

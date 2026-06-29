@@ -11,8 +11,8 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class LoginService {
 
-  private apiUrl:String = "http://localhost:3000"; //sostituire con l'url corretto poi
-  private ruoloUtente = new BehaviorSubject<string | null>(null);
+  private apiUrl:String = "http://localhost:3000";
+  public ruoloUtente = new BehaviorSubject<string | null>(null);
 
   constructor(private router:Router, private http:HttpClient) {
     this.inizializzaRuoloUtente();
