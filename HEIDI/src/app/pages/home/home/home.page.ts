@@ -84,11 +84,8 @@ export class HomePage implements OnInit {
       next: ({pasti_con_dettaglio, allenamenti}) => {
         pasti_con_dettaglio.forEach(({pasto, dettagli}) => {
           const tipologia = pasto.tipo;
-
           this.pasti_odierni[tipologia] = pasto;
           this.dettagli_pasti_odierni[tipologia] = dettagli.alimenti;
-          console.log(this.pasti_odierni);
-          console.log(this.dettagli_pasti_odierni);
         });
 
         this.allenamento_odierno = allenamenti.find((allenamento:Allenamento) => {

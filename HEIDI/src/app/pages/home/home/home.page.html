@@ -42,20 +42,40 @@
                   <ion-col>
                     <h3>☕ Colazione</h3>
                     <ion-card class="miniPastoCard">
-                      <p>{{pasti_odierni.Colazione ? pasti_odierni.Colazione.name : 'Niente'}}</p>
-                      <p>{{dettagli_pasti_odierni.Colazione ? dettagli_pasti_odierni.Colazione.alimenti : ''}}</p>
+                      @if(pasti_odierni.Colazione) {
+                        <b>{{pasti_odierni.Colazione.name}}</b>
+                        @for(alimento of dettagli_pasti_odierni.Colazione; track alimento.id) {
+                          <p>{{alimento.name}}, {{alimento.quantita}}g</p>
+                        }
+                      } @else {
+                        <p>Niente</p>
+                      }
                     </ion-card>
                   </ion-col>
                   <ion-col>
                     <h3>🍝 Pranzo</h3>
                     <ion-card class="miniPastoCard">
-                      <p>{{pasti_odierni.Pranzo ? pasti_odierni.Pranzo.name : 'Niente'}}</p>
+                      @if(pasti_odierni.Pranzo) {
+                        <b>{{pasti_odierni.Pranzo.name}}</b>
+                        @for(alimento of dettagli_pasti_odierni.Pranzo; track alimento.id) {
+                          <p>{{alimento.name}}, {{alimento.quantita}}g</p>
+                        }
+                      } @else {
+                        <p>Niente</p>
+                      }
                     </ion-card>
                   </ion-col>
                   <ion-col>
                     <h3>🥩 Cena</h3>
                     <ion-card class="miniPastoCard">
-                      <p>{{pasti_odierni.Cena ? pasti_odierni.Cena.name : 'Niente'}}</p>
+                      @if(pasti_odierni.Cena) {
+                        <b>{{pasti_odierni.Cena.name}}</b>
+                        @for(alimento of dettagli_pasti_odierni.Cena; track alimento.id) {
+                          <p>{{alimento.name}}, {{alimento.quantita}}g</p>
+                        }
+                      } @else {
+                        <p>Niente</p>
+                      }
                     </ion-card>
                   </ion-col>
                 </ion-row>
@@ -63,13 +83,27 @@
                   <ion-col>
                     <h3>🍎 Merenda</h3>
                     <ion-card class="miniPastoCard">
-                      <p>{{pasti_odierni.Merenda ? pasti_odierni.Merenda.name : 'Niente'}}</p>
+                      @if(pasti_odierni.Merenda) {
+                        <b>{{pasti_odierni.Merenda.name}}</b>
+                        @for(alimento of dettagli_pasti_odierni.Merenda; track alimento.id) {
+                          <p>{{alimento.name}}, {{alimento.quantita}}g</p>
+                        }
+                      } @else {
+                        <p>Niente</p>
+                      }
                     </ion-card>
                   </ion-col>
                   <ion-col>
                     <h3>🍌 Spuntino</h3>
                     <ion-card class="miniPastoCard">
-                      <p>{{pasti_odierni.Spuntino ? pasti_odierni.Spuntino.name : 'Niente'}}</p>
+                      @if(pasti_odierni.Spuntino) {
+                        <b>{{pasti_odierni.Spuntino.name}}</b>
+                        @for(alimento of dettagli_pasti_odierni.Spuntino; track alimento.id) {
+                          <p>{{alimento.name}}, {{alimento.quantita}}g</p>
+                        }
+                      } @else {
+                        <p>Niente</p>
+                      }
                     </ion-card>
                   </ion-col>
                 </ion-row>
