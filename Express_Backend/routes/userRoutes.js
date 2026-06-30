@@ -8,6 +8,7 @@ router.get('/utenti', UserControllers.getUsers);
 router.get('/utente/:id_utente', authenticateToken, UserControllers.getUtenteById);
 router.get('/infoUtente/:id_utente', authenticateToken, UserControllers.getInfoUtenteById);
 router.get('/ruoli/:ruolo', UserControllers.getUtentiByRuolo);
+router.get('/associazioniUtente', authenticateToken, UserControllers.getAssociazioniUtente);
 router.post('/utente/creaInfo', authenticateToken, UserControllers.creaInfo);
 router.post('/utente/riempiInfo', authenticateToken, UserControllers.riempiInfo);
 router.delete('/eliminaEta/:id_utente', authenticateToken, UserControllers.eliminaEta);

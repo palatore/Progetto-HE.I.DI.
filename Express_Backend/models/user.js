@@ -82,6 +82,19 @@ class User {
     });
   }
 
+  //PER IL FUTURO: IMPLEMENTARE CON JOIN AD ALBO COSI' DA PRENDERE ANCHE IL RUOLO
+  static async getAssociazioniUtente(id_utente) {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT a.id_professionista, u.name AS nome_P, u.surname AS cognome_P FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_paziente = ?', [id_utente], (err, rows) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
 
 // confronta la password inserita con quella salvata nel db
   static async comparePassword(candidatePassword, hash) {

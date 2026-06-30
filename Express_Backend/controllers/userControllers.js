@@ -40,7 +40,7 @@ class UserControllers {
         }catch(e){
             res.status(500).json({error: e.message});
         }
-    }
+    };
 
     static getUtentiByRuolo = async (req, res) => {
         try {
@@ -57,6 +57,22 @@ class UserControllers {
         }
     };
 
+    static getAssociazioniUtente = async (req, res) => {
+        try {
+            const id_utente = req.user.id;
+            console.log(id_utente);
+            const result = await UserServices.getAssociazioniUtente(id_utente);
+            if(result){
+                console.log('Arrivano le associazioni');
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Associazioi non trovate'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
 
     static creaInfo = async (req, res) =>{
         try{
@@ -66,7 +82,7 @@ class UserControllers {
         }catch(e){
             res.status(500).json({error: e.message});
         }
-    }
+    };
 
     static riempiInfo = async (req, res) =>{
         try{
@@ -76,7 +92,7 @@ class UserControllers {
         }catch(e){
             res.status(500).json({error: e.message});
         }
-    }
+    };
 
     static eliminaEta = async (req, res) =>{
         console.log('elimina età chiamato');

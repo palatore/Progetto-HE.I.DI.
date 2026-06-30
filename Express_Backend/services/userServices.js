@@ -64,6 +64,17 @@ class UserServices {
         }
     };
 
+    static async getAssociazioniUtente(id_utente) {
+        const associazioni = await User.getAssociazioniUtente(id_utente);
+        if(associazioni && associazioni.lenght > 0) {
+            console.log('Lista ottentuta:', associazioni);
+            return associazioni;
+        } else {
+            console.log('Nessuna associazione con utenti trovata');
+            return [];
+        }
+    }
+
     static async creaInfo(id_utente){
         const info = await User.creaInfo(id_utente);
         if(info){

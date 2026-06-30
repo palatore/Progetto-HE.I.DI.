@@ -160,6 +160,7 @@ class PastiControllers {
         try {
             const id_pasto = req.body.id_pasto;
             const data_calendario = req.body.data_calendario;
+            const user_id = req.user.id;
             await PastiServices.disdiciPasto(id_pasto, data_calendario);
             res.status(201).json({message: 'Pasto disdetto con successo'});
         } catch (e) {

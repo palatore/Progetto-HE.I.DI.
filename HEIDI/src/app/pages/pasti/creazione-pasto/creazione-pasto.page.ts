@@ -24,8 +24,8 @@ public id_pasto_creato:number = 0;
 public showAlreadyExistent:boolean = false;
 public showRiempiPasto:boolean = false;
 public expiredSession:boolean = false;
-alimento_selezionato:any = null; //variabile per la gestione delle info
-alimento_da_aggiungere:any = null; //variabile per la gestione delle info
+public alimento_selezionato:any = null; //variabile per la gestione delle info
+public alimento_da_aggiungere:any = null; //variabile per la gestione delle info
   
 
   constructor(private formbuilder:FormBuilder, private foodService:GestionePastiService, private alertController: AlertController) {
