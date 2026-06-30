@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
-import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol, IonItem } from '@ionic/angular/standalone';
+import { forkJoin, map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
@@ -15,18 +15,15 @@ import { Pasto } from 'src/app/models/pasto.model';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, IonCardHeader, IonCardTitle]
+  imports: [IonItem, IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, IonCardHeader, IonCardTitle]
 })
 export class HomePage implements OnInit {
 
   constructor(private authService:LoginService, private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {
-    this.authService.ruoloUtente.subscribe({
-      next: (data) => this.ruoloUtente = data,
-      error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
-    });
   }
  
   ruoloUtente: string | null = null;
+  private destroy$ = new Subject<void>();
 
   ngOnInit() {
     this.caricaAttivitaGiornaliere();
@@ -52,6 +49,11 @@ export class HomePage implements OnInit {
 
 
   ionViewWillEnter() {
+    this.authService.ruoloUtente.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => this.ruoloUtente = data,
+      error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
+    });
+
     this.caricaAttivitaGiornaliere();
   }
 
@@ -82,7 +84,7 @@ export class HomePage implements OnInit {
           map(pasti_con_dettaglio => ({pasti_con_dettaglio, allenamenti}))
         );
       })
-    ).subscribe({
+    ).pipe(takeUntil(this.destroy$)).subscribe({
       next: ({pasti_con_dettaglio, allenamenti}) => {
         pasti_con_dettaglio.forEach(({pasto, dettagli}) => {
           const tipologia = pasto.tipo;
@@ -102,5 +104,9 @@ export class HomePage implements OnInit {
 
   isLoggedIn(): boolean {
     return this.ruoloUtente != null;
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
   }
 }

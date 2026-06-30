@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Richieste</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="statusRichieste">
+    @if(nuova_richiesta_pending) {
+
+    }
+
+    <app-richieste-utente></app-richieste-utente>
+
+  </ion-card>
+</ion-content>

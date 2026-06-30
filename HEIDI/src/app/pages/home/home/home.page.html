@@ -138,9 +138,34 @@
             <ion-card-content class="pasti">
             </ion-card-content>
           </ion-card>
-        
-          <ion-button [routerLink]="['/gestioneRichieste']">Le mie Richieste</ion-button>
           <ion-button [routerLink]="['/pazientiDietologo']">I miei Pazienti</ion-button>
+          
+          <ion-card class="menuProfessionista">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-item button class="opzioniProfessionista">1: Richieste associazione</ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item button class="opzioniProfessionista">2: Richieste modifica</ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item button class="opzioniProfessionista">3: Richieste voto</ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item button class="opzioniProfessionista">4</ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item button class="opzioniProfessionista">5</ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item button class="opzioniProfessionista">6</ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
         </ion-content>
     </ng-container>
   }

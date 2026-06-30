@@ -82,6 +82,22 @@ db.serialize(() => {
         }
     });
 
+    //creazione della tabella delle associazioni paziente-professionista
+    db.run(`CREATE TABLE IF NOT EXISTS associazioni (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_professionista INTEGER NOT NULL,
+        id_paziente INTEGER NOT NULL,
+        stato VARCHAR(255),
+        FOREIGN KEY(id_professionista) REFERENCES utenti(id),
+        FOREIGN KEY(id_paziente) REFERENCES utenti(id)
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella associazioni ' + err.message);
+        } else {
+            console.log('Tabella associazioni creata con successo.');
+        }
+    });
+
 //SEZIONE ALIMENTARE
 
   //creazione della tabella degli alimenti
