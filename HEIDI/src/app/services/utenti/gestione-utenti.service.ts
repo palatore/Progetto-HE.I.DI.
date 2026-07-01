@@ -41,14 +41,22 @@ export class GestioneUtentiService {
     return this.http.get<any[]>(`${this.apiUrl}/api/users/ruoli/${ruolo}`);
   }
 
+  getRuoloProfessionista(id_professionista:number):Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<any>(`${this.apiUrl}/api/users/ruoloProfessionista/${id_professionista}`, {headers});
+  }
+
   getAssociazioniUtente():Observable<any[]> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.get<any[]>(`${this.apiUrl}/api/users/associazioniUtente`, {headers});
   }
 
-  nuovaAssociazione(id_persona:number):Observable<any> {
-    return new Observable<any>;
+  creaAssociazione(id_persona:number):Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post<any>(`${this.apiUrl}/api/users/creaAssociazione`, {id_persona}, {headers, observe: 'response'});
   }
 
   eliminaEta(id_utente:number){

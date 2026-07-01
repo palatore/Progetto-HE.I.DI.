@@ -42,7 +42,7 @@ class UserServices {
         if(ruolo >= 0 && ruolo < 3) {
             console.log('Chiamo il Model per ottenere gli utenti con un determinato ruolo');
             const utenti = await User.getUtentiByRuolo(ruolo);
-            if(utenti && utenti.lenght > 0) {
+            if(utenti && utenti.length > 0) {
                 console.log('Lista utenti ottenuta:', utenti);
                 return utenti;
             } else {
@@ -50,7 +50,7 @@ class UserServices {
                 return [];
             }
         } else if(ruolo == 3) {
-            console.log('Chiamo il Model per ottenere tutti gli utenti professionsti');
+            console.log('Chiamo il Model per ottenere tutti gli utenti professionisti');
             const professionisti = await User.getProfessionisti();
             if(professionisti) {
                 console.log('Lista professionisti ottenuta:', professionisti);
@@ -64,16 +64,37 @@ class UserServices {
         }
     };
 
+    static async getRuoloProfessionista(id_professionista) {
+        const ruolo = await User.getRuoloProfessionista(id_professionista);
+        if(ruolo) {
+            console.log('Ruolo ottenuto:', ruolo);
+            return ruolo;
+        } else {
+            console.log('Nessun ruolo trovato per il professionista con ID:', id_professionista);
+            return null;
+        }
+    };
+
     static async getAssociazioniUtente(id_utente) {
         const associazioni = await User.getAssociazioniUtente(id_utente);
-        if(associazioni && associazioni.lenght > 0) {
-            console.log('Lista ottentuta:', associazioni);
+        if(associazioni && associazioni.length > 0) {
+            console.log('Lista ottenuta:', associazioni);
             return associazioni;
         } else {
             console.log('Nessuna associazione con utenti trovata');
             return [];
         }
-    }
+    };
+
+    static async creaAssociazione(id_utente, id_persona) {
+        const associazione = await User.creaAssociazione(id_utente, id_persona);
+        if(associazione) {
+            console.log('Associazione creata con successo');
+        } else {
+            console.log('Errore nella creazione dell\'associazione');
+        }
+        return associazione;
+    };
 
     static async creaInfo(id_utente){
         const info = await User.creaInfo(id_utente);

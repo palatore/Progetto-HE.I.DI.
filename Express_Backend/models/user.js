@@ -82,7 +82,18 @@ class User {
     });
   }
 
-  //PER IL FUTURO: IMPLEMENTARE CON JOIN AD ALBO COSI' DA PRENDERE ANCHE IL RUOLO
+  static async getRuoloProfessionista(id_professionista) {
+    return new Promise((resolve, reject) => {
+      db.get('SELECT rp.ruolo FROM albo_professionisti ap JOIN ruoli_professionisti rp ON ap.id_ruolo = rp.id WHERE ap.id_professionista = ?', [id_professionista], (err, row) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(row);
+        }
+      });
+    });
+  }
+
   static async getAssociazioniUtente(id_utente) {
     return new Promise((resolve, reject) => {
       db.all('SELECT a.id_professionista, u.name AS nome_P, u.surname AS cognome_P FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_paziente = ?', [id_utente], (err, rows) => {
@@ -90,6 +101,18 @@ class User {
           reject(err);
         } else {
           resolve(rows);
+        }
+      });
+    });
+  }
+  
+  static async creaAssociazione(id_utente, id_persona) {
+    return new Promise((resolve, reject) => {
+      db.run('INSERT INTO associazioni (id_paziente, id_professionista) VALUES (?, ?)', [id_utente, id_persona], function(err) {
+        if(err) {
+          reject(err);
+        } else {
+          resolve({lastID: this.lastID});
         }
       });
     });

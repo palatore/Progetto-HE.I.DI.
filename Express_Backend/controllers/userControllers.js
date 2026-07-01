@@ -57,6 +57,21 @@ class UserControllers {
         }
     };
 
+    static getRuoloProfessionista = async (req, res) => {
+        try {
+            const id_professionista = req.params.id_professionista;
+            const result = await UserServices.getRuoloProfessionista(id_professionista);
+            if(result){
+                console.log('Ruolo in arrivo:', result);
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Ruolo non trovato'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
     static getAssociazioniUtente = async (req, res) => {
         try {
             const id_utente = req.user.id;
@@ -68,6 +83,17 @@ class UserControllers {
             } else {
                 res.status(404).json({error: 'Associazioi non trovate'});
             }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static creaAssociazione = async (req, res) => {
+        try {
+            const id_utente = req.user.id;
+            const { id_persona } = req.body;
+            const result = await UserServices.creaAssociazione(id_utente, id_persona);
+            res.status(201).json({message: 'Associazione creata con successo', result});
         } catch(e) {
             res.status(500).json({error: e.message});
         }

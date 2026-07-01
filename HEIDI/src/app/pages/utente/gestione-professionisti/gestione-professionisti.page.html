@@ -17,8 +17,11 @@
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    Alimentare:
-    Allenamenti:
+    @for(associazione of lista_associazioni; track associazione.id) {
+      <ion-item>
+        <ion-label>{{associazione.name_p}} {{associazione.surname_p}}, {{associazione.info_ruolo}}</ion-label>
+      </ion-item>
+    }
   </ion-card-content>
 </ion-card>
 

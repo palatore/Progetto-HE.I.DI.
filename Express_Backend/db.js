@@ -87,7 +87,7 @@ db.serialize(() => {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_professionista INTEGER NOT NULL,
         id_paziente INTEGER NOT NULL,
-        stato VARCHAR(255),
+        stato VARCHAR(255) NOT NULL DEFAULT 'PENDING',
         FOREIGN KEY(id_professionista) REFERENCES utenti(id),
         FOREIGN KEY(id_paziente) REFERENCES utenti(id)
     )`, (err) => {
@@ -231,6 +231,37 @@ db.serialize(() => {
         comando.run('Shauna', 'Vayne', 'nighthunter@runeterra.rt', 'Demoni', '1');
         comando.run('Dendra', 'Kihada', 'dendra.kihada@mesapoli.sp', 'Miriam', '2');
       }
+    });
+
+    //popolazione della tabella ruoli_professionisti se non è già popolata
+    db.get('SELECT COUNT(*) AS count FROM ruoli_professionisti', (err, row) => {
+        if (err) {
+            console.error('Errore nella selezione dei ruoli_professionisti ' + err.message);
+        } else if (row.count === 0) {
+            const comando = db.prepare('INSERT INTO ruoli_professionisti (ruolo) VALUES (?)');
+            comando.run('Nutrizionista');
+            comando.run('Personal Trainer');
+            comando.run('Dietologo');
+            comando.run('Fisioterapista');
+            comando.run('Osteopata');
+            comando.run('Diabetologo');
+            comando.run('Chiropratico');
+            comando.run('Dietista');
+        }
+    });
+
+    //popolazione della tabella albo_professionisti se non è già popolata
+    //la tabella albo_professionisti va continuata a popolare tramite registrazione o modifica profilo professionista
+    db.get('SELECT COUNT(*) AS count FROM albo_professionisti', (err, row) => {
+        if (err) {
+            console.error('Errore nella selezione degli albo_professionisti ' + err.message);
+        } else if (row.count === 0) {
+            const comando = db.prepare('INSERT INTO albo_professionisti (id_professionista, id_ruolo, tipo) VALUES (?, ?, ?)');
+            comando.run(5, 2, 'Allenamenti');
+            comando.run(6, 1, 'Alimentazione');
+            comando.run(7, 7, 'Allenamenti');
+            comando.run(8, 3, 'Alimentazione');
+        }
     });
 
     //popolazione della tabella alimenti se non è già popolata

@@ -9,6 +9,8 @@ router.get('/utente/:id_utente', authenticateToken, UserControllers.getUtenteByI
 router.get('/infoUtente/:id_utente', authenticateToken, UserControllers.getInfoUtenteById);
 router.get('/ruoli/:ruolo', UserControllers.getUtentiByRuolo);
 router.get('/associazioniUtente', authenticateToken, UserControllers.getAssociazioniUtente);
+router.get('/ruoloProfessionista/:id_professionista', authenticateToken, UserControllers.getRuoloProfessionista);
+router.post('/utente/creaAssociazione', authenticateToken, UserControllers.creaAssociazione);
 router.post('/utente/creaInfo', authenticateToken, UserControllers.creaInfo);
 router.post('/utente/riempiInfo', authenticateToken, UserControllers.riempiInfo);
 router.delete('/eliminaEta/:id_utente', authenticateToken, UserControllers.eliminaEta);
