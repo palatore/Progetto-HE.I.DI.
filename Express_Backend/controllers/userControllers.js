@@ -57,6 +57,20 @@ class UserControllers {
         }
     };
 
+    static getAlbo = async (req, res) => {
+        try {
+            const result = await UserServices.getAlbo();
+            if(result){
+                console.log('Albo in arrivo:', result);
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Albo non trovato'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
     static getRuoloProfessionista = async (req, res) => {
         try {
             const id_professionista = req.params.id_professionista;
@@ -82,6 +96,21 @@ class UserControllers {
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Associazioi non trovate'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static getRichiestePending = async (req, res) => {
+        try {
+            const id_utente = req.user.id;
+            const result = await UserServices.getRichiestePending(id_utente);
+            if(result){
+                console.log('Arrivano le richieste pending');
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Richieste pending non trovate'});
             }
         } catch(e) {
             res.status(500).json({error: e.message});

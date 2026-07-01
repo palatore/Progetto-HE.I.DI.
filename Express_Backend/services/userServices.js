@@ -64,6 +64,17 @@ class UserServices {
         }
     };
 
+    static async getAlbo() {
+        const albo = await User.getAlbo();
+        if(albo && albo.length > 0) {
+            console.log('Lista albo ottenuta:', albo);
+            return albo;
+        } else {
+            console.log('Nessun albo trovato');
+            return [];
+        }
+    };
+
     static async getRuoloProfessionista(id_professionista) {
         const ruolo = await User.getRuoloProfessionista(id_professionista);
         if(ruolo) {
@@ -82,6 +93,17 @@ class UserServices {
             return associazioni;
         } else {
             console.log('Nessuna associazione con utenti trovata');
+            return [];
+        }
+    };
+
+    static async getRichiestePending(id_utente) {
+        const richieste = await User.getRichiestePending(id_utente);
+        if(richieste && richieste.length > 0) {
+            console.log('Lista ottenuta:', richieste);
+            return richieste;
+        } else {
+            console.log('Nessuna richiesta pending trovata');
             return [];
         }
     };

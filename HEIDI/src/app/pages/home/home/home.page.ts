@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol, IonItem } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol, IonItem, IonIcon, IonBadge } from '@ionic/angular/standalone';
 import { forkJoin, map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { LoginService } from 'src/app/services/auth/login.service';
+import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { GestioneAllenamentiService } from 'src/app/services/allenamenti/gestione-allenamenti.service';
 import { Allenamento } from 'src/app/models/allenamento.model';
@@ -15,18 +16,21 @@ import { Pasto } from 'src/app/models/pasto.model';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonItem, IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, IonCardHeader, IonCardTitle]
+  imports: [IonBadge, IonIcon, IonItem, IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, IonCardHeader, IonCardTitle]
 })
 export class HomePage implements OnInit {
 
-  constructor(private authService:LoginService, private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {
+  constructor(private authService:LoginService, private userService:GestioneUtentiService, private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {
   }
  
-  ruoloUtente: string | null = null;
+  public ruoloUtente: string | null = null;
+  public richieste_pending:number = 0;
   private destroy$ = new Subject<void>();
 
   ngOnInit() {
+    if(this.ruoloUtente === '0') {
     this.caricaAttivitaGiornaliere();
+    }
   }
 
   public visualizzazione: 'pasti' | 'allenamenti' = 'pasti';
@@ -54,7 +58,11 @@ export class HomePage implements OnInit {
       error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
     });
 
-    this.caricaAttivitaGiornaliere();
+    if(this.ruoloUtente === '0') {
+      this.caricaAttivitaGiornaliere();
+    } else {
+      this.getRichiestePending();
+    }
   }
 
   async caricaAttivitaGiornaliere() {
@@ -100,6 +108,19 @@ export class HomePage implements OnInit {
       },
       error: (err) => console.error('Errore nel caricamento delle attività giornalieree', err)
     });
+  }
+
+  async getRichiestePending() {
+    try {
+      this.userService.getRichiestePending().pipe(takeUntil(this.destroy$)).subscribe({
+        next: (data) => {this.richieste_pending = data.length;},
+        error: (err) => {console.error(err);}
+      }); 
+    } catch(e) {
+      if(e instanceof Error) {
+        console.log(e.message);
+      }
+    }
   }
 
   isLoggedIn(): boolean {

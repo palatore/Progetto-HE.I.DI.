@@ -16,12 +16,6 @@
 
       <ion-content [fullscreen]="true">
 
-        <!-- <ion-card class="laTuaGiornata">
-          <ion-card-content class="calendario">
-            <app-calendario></app-calendario>
-          </ion-card-content>
-        </ion-card> -->
-
         <ion-card class="laTuaGiornata">
           <ion-card-header>
             <ion-card-title>La tua giornata</ion-card-title>
@@ -144,7 +138,12 @@
             <ion-grid>
               <ion-row>
                 <ion-col>
-                  <ion-item button class="opzioniProfessionista">1: Richieste associazione</ion-item>
+                  <ion-item button class="opzioniProfessionista">
+                    <ion-icon slot="start" name="mail-outline"></ion-icon> Richieste associazione
+                    @if(richieste_pending > 0) {
+                      <ion-badge color="danger" slot="end">{{richieste_pending}}</ion-badge>
+                    }
+                  </ion-item>
                 </ion-col>
                 <ion-col>
                   <ion-item button class="opzioniProfessionista">2: Richieste modifica</ion-item>

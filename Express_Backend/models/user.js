@@ -66,7 +66,18 @@ class User {
         else resolve(rows);
       });
     });
+  }
 
+  static async getAlbo() {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT * FROM albo_professionisti', (err, rows) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
   }
 
   static async getProfessionisti() {
@@ -96,7 +107,19 @@ class User {
 
   static async getAssociazioniUtente(id_utente) {
     return new Promise((resolve, reject) => {
-      db.all('SELECT a.id_professionista, u.name AS nome_P, u.surname AS cognome_P FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_paziente = ?', [id_utente], (err, rows) => {
+      db.all('SELECT a.id_professionista, u.name AS nome_P, u.surname AS cognome_P, a.stato FROM associazioni a JOIN utenti u ON a.id_professionista = u.id WHERE a.id_paziente = ?', [id_utente], (err, rows) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
+  static async getRichiestePending(id_professionista) {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT a.id, u.name, u.surname, u.email, a.stato FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_professionista = ? AND stato = "PENDING"', [id_professionista], (err, rows) => {
         if(err) {
           reject(err);
         } else {
