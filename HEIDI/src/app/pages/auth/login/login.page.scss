@@ -1,3 +1,158 @@
+//VARIABILI
+$orange-primary:  #F57C00;
+$orange-light:    #FFA726;
+$orange-dark:     #E65100;
+$orange-pale:     #2C1A00;
+
+$bg-page:         #1A1A1A;
+$bg-card:         #232323;
+$bg-input:        #2C2C2C;
+
+$text-white:      #ffffff;
+$text-muted:      #888888;
+$text-hint:       #666666;
+$border-color:    #333333;
+$border-input:    #444444;
+
+
+
+// TOOLBAR
+ion-toolbar {
+  --background: #{$orange-primary};
+  --color: #{$text-white};
+}
+
+// SFONDO PAGINA
+.loginBackground {
+  --background: #{$bg-page};
+}
+
+// GRIGLIA
+ion-grid {
+  height: 100%;
+
+  ion-row {
+    height: 100%;
+    align-items: center;
+
+    @media (max-width: 480px) {
+      align-items: flex-start;
+    }
+  }
+}
+
+// CARD
+.loginCard {
+  background: $bg-card;
+  border-radius: 16px;
+  border: 0.5px solid $border-color;
+  box-shadow: none;
+  margin: 1.5rem auto;
+
+  @media (max-width: 480px) {
+    border-radius: 12px;
+    margin: 1rem 0;
+  }
+
+  // HEADER CARD
+  ion-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 0;
+
+    ion-card-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: $text-white;
+      text-align: center;
+
+      @media (max-width: 480px) {
+        font-size: 18px;
+      }
+    }
+  }
+
+  // ICONA FIAMMA
+  .iconContainer {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: $orange-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 28px;
+      color: $text-white;
+    }
+  }
+
+  // CONTENUTO CARD
+  ion-card-content {
+    padding-top: 1.25rem;
+  }
+}
+
+// CAMPI INPUT
+.loginCamp {
+  --background: #{$bg-input};
+  --color: #{$text-white};
+  --border-color: #{$border-input};
+  --border-radius: 8px;
+  --highlight-color-focused: #{$orange-primary};
+  --padding-start: 12px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+
+  ion-label {
+    --color: #{$text-hint} !important;
+  }
+
+  ion-input {
+    --color: #{$text-white};
+    --placeholder-color: #{$text-hint};
+  }
+}
+
+// BOTTONE ACCEDI
+.buttonContainer {
+  margin-top: 1.25rem;
+
+  ion-button {
+    --background: #{$orange-primary};
+    --background-hover: #{$orange-dark};
+    --background-activated: #{$orange-dark};
+    --color: #{$text-white};
+    --border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+}
+
+// LINK
+.registerLink,
+.forgotPasswordLink {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 13px;
+  color: $text-muted;
+
+  a {
+    color: $orange-light;
+    text-decoration: none;
+    font-weight: 500;
+  }
+}
+
+
+
+
+
+/*  VECCHIO STILE LOGIN PAGE
 .loginBackground {
     --ion-background-color: lightblue;
 }
@@ -36,3 +191,4 @@ ion-button {
     box-shadow: 0 0 5px rgba(0, 86, 179, 0.8);
   }
 }
+  */

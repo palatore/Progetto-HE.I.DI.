@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonRow, IonGrid, IonCol, IonCardTitle, IonCardHeader, IonCard, IonLabel, IonInput, IonButton, IonItem, IonCardContent} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
+import { flame, logInOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { RouterModule } from '@angular/router';
@@ -27,6 +28,7 @@ export class LoginPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
+    addIcons({flame, logInOutline});
    }
 
   ngOnInit() {
