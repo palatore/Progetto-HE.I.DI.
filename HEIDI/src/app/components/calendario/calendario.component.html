@@ -47,6 +47,9 @@
                                 <h2>{{allenamento.name}}</h2>
                                 <hr>  
                                 <p>{{allenamento.durata}}</p>
+                                <ion-button class="ion-padding" color="danger" (click)="eliminaAllenamento(allenamento.id)">
+                                    <ion-icon name="trash"></ion-icon>
+                                </ion-button>
                             </ion-item>
                         }
                         @if(allenamenti_giornalieri.length === 0) {
