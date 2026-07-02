@@ -130,6 +130,19 @@ export class CalendarioComponent implements OnInit {
 
   }
 
+  async eliminaAllenamento(id_allenamento:number) {
+    try {
+      const response = await firstValueFrom(this.workoutService.eliminaAllenamento(id_allenamento));
+      if(response && response.status === 201) {
+        this.isShow = false;
+      }
+    } catch (e:any) {
+      if(e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+  }
+
   chiudiModal() {
     console.log('chiudiModal chiamato');
     this.loadAllEvents();

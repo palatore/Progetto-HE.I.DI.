@@ -25,7 +25,6 @@ public flag_eta:boolean = false;
 public flag_peso:boolean = false;
 public flag_altezza:boolean = false;
 public flag_condizioni:boolean = false;
-public eta:number = 0;
 public passwordForm:FormGroup;
 public modalOpen:boolean = false;
 public controlloVecchiaPassword:boolean = false;

@@ -35,7 +35,7 @@ export class GestioneAllenamentiService {
         const headers = { Authorization: `Bearer ${token}` };
         return this.http.post<any>(`${this.apiUrl}/api/allenamenti/programmaAllenamento`, {id_allenamento, data_calendario}, {headers, observe: 'response'}); 
     }
-    
+ 
     eliminaAllenamento(id_allenamento:number){
         const token = localStorage.getItem('token');
         const headers = { Authorization: `Bearer ${token}` };
