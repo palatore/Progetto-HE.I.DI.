@@ -153,7 +153,20 @@ class PastiControllers {
         } catch(e) {
             res.status(500).json({error: e.message});
         }
-    }
+    };
+
+    //DELETE cancella un pasto dalla programmazione del calendario
+    static disdiciPasto = async (req, res) => {
+        try {
+            const id_pasto = req.body.id_pasto;
+            const data_calendario = req.body.data_calendario;
+            const user_id = req.user.id;
+            await PastiServices.disdiciPasto(id_pasto, data_calendario);
+            res.status(201).json({message: 'Pasto disdetto con successo'});
+        } catch (e) {
+            res.status(500).json({error: e.message});
+        }
+    };
 
     //DELETE elimina un pasto dato il suo ID
     static eliminaPasto = async (req, res) => {

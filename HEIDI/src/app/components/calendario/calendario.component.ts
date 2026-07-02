@@ -104,6 +104,16 @@ export class CalendarioComponent implements OnInit {
     this.loadAttivitaGiornaliere();
   }
 
+  async disdiciPasto(id_pasto:number) {
+    try {
+      const response = await firstValueFrom(this.foodService.disdiciPasto(id_pasto, this.data_selezionata));
+    } catch (e:any) {
+      if(e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+  }
+
   async fissaAllenamento(id_allenamento:number) {
     //metodo per cambiare la data all'allenamento
     const nuova_data = new Date(this.data_selezionata);

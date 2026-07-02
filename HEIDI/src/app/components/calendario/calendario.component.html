@@ -26,6 +26,9 @@
                                 <h2>{{pasto.name}}</h2>
                                 <hr>  
                                 <p>{{pasto.tipo}}</p>
+                                <ion-button class="ion-padding" color="danger" (click)="disdiciPasto(pasto.id)">
+                                    <ion-icon name="trash"></ion-icon>
+                                </ion-button>
                             </ion-item>
                         }
                         @if(pasti_giornalieri.length === 0) {

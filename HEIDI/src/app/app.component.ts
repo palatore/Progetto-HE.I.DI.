@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet, IonMenu, IonItem, IonList, IonHeader, IonButton, IonIcon, IonLabel, IonToolbar, IonContent, IonTitle, IonMenuToggle } from '@ionic/angular/standalone';
 import { Router, NavigationEnd, RouterLink } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { LoginService } from './services/auth/login.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet, IonMenu, IonMenuToggle,IonItem, IonList, IonHeader, IonIcon, IonLabel, IonToolbar, IonContent, IonTitle, RouterLink],
+  imports: [AsyncPipe, IonApp, IonRouterOutlet, IonMenu, IonMenuToggle,IonItem, IonList, IonHeader, IonIcon, IonLabel, IonToolbar, IonContent, IonTitle, RouterLink],
 })
 export class AppComponent implements OnInit {
+
+  public ruolo$ = this.authService.ruoloUtente;
+
   constructor(private router: Router, private authService:LoginService) {}
 
   ngOnInit() {

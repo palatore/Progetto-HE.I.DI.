@@ -161,6 +161,19 @@ class Pasti {
         });
     }
 
+    static async disdiciPasto(id_pasto, data_calendario) {
+        console.log('model chiamato per disdire');
+        return new Promise((resolve, reject) => {
+            db.run('DELETE FROM pasti_programmati WHERE pasto_id = ? AND data_calendario = ?', [id_pasto, data_calendario], function(err) {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve({message: 'Pasto disdetto con successo'});
+                }
+            });
+        });
+    }
+
     static async eliminaPasto(id_pasto) {
         return new Promise((resolve, reject) => {
             db.run('DELETE FROM alimenti_pasto WHERE pasto_id = ?', [id_pasto], function(err) {

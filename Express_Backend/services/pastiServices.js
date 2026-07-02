@@ -143,6 +143,17 @@ class PastiServices {
         }
         return programmato;
     }
+
+    static async disdiciPasto(id_pasto, data_calendario) {
+        console.log('DisdiciPasto service chiamato per ID pasto:', id_pasto, 'e data', data_calendario);
+        const disdetto = await Pasti.disdiciPasto(id_pasto, data_calendario);
+        if (disdetto) {
+            console.log('Pasto disdetto con successo');
+        } else {
+            console.log("Errore nella disdetta del pasto o pasto non trovato");
+        }
+        return disdetto;
+    }
     
     static async eliminaPasto(id_pasto) {
         //elimina un pasto esistente, prima eliminando le relazioni con gli alimenti e poi eliminando il pasto stesso

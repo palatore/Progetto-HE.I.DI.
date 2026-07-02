@@ -17,8 +17,16 @@
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    Alimentare:
-    Allenamenti:
+    @for(associazione of lista_associazioni; track associazione.id) {
+      <ion-item [ngStyle]="{'display': 'flex', 'justify-content':'space-between'}">
+        <ion-label>{{associazione.nome_P}} {{associazione.cognome_P}}, {{associazione.ruolo}}</ion-label>
+        @if(associazione.stato === 'PENDING') {
+        <ion-badge color="warning">{{associazione.stato}}</ion-badge>
+        } @else if(associazione.stato === "ACCETTATA"){
+        <ion-badge color="success">{{associazione.stato}}</ion-badge>
+        }
+      </ion-item>
+    }
   </ion-card-content>
 </ion-card>
 
@@ -40,7 +48,7 @@
         } @else {
          <ion-card-content>Allenatore</ion-card-content>
         }
-        <ion-button >Richiedi</ion-button>
+        <ion-button [disabled]="checkRichieste(professionista.id)" (click)="inviaRichiesta(professionista.id)">Richiedi</ion-button>
       </ion-card>
     }
   </ion-card-content>

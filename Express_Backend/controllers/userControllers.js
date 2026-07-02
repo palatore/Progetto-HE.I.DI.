@@ -40,7 +40,7 @@ class UserControllers {
         }catch(e){
             res.status(500).json({error: e.message});
         }
-    }
+    };
 
     static getUtentiByRuolo = async (req, res) => {
         try {
@@ -57,6 +57,77 @@ class UserControllers {
         }
     };
 
+    static getAlbo = async (req, res) => {
+        try {
+            const result = await UserServices.getAlbo();
+            if(result){
+                console.log('Albo in arrivo:', result);
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Albo non trovato'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static getRuoloProfessionista = async (req, res) => {
+        try {
+            const id_professionista = req.params.id_professionista;
+            const result = await UserServices.getRuoloProfessionista(id_professionista);
+            if(result){
+                console.log('Ruolo in arrivo:', result);
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Ruolo non trovato'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static getAssociazioniUtente = async (req, res) => {
+        try {
+            const id_utente = req.user.id;
+            console.log(id_utente);
+            const result = await UserServices.getAssociazioniUtente(id_utente);
+            if(result){
+                console.log('Arrivano le associazioni');
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Associazioi non trovate'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static getRichiestePending = async (req, res) => {
+        try {
+            const id_utente = req.user.id;
+            const result = await UserServices.getRichiestePending(id_utente);
+            if(result){
+                console.log('Arrivano le richieste pending');
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Richieste pending non trovate'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static creaAssociazione = async (req, res) => {
+        try {
+            const id_utente = req.user.id;
+            const { id_persona } = req.body;
+            const result = await UserServices.creaAssociazione(id_utente, id_persona);
+            res.status(201).json({message: 'Associazione creata con successo', result});
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
 
     static creaInfo = async (req, res) =>{
         try{
@@ -66,7 +137,7 @@ class UserControllers {
         }catch(e){
             res.status(500).json({error: e.message});
         }
-    }
+    };
 
     static riempiInfo = async (req, res) =>{
         try{
@@ -76,7 +147,7 @@ class UserControllers {
         }catch(e){
             res.status(500).json({error: e.message});
         }
-    }
+    };
 
     static aggiornaPassword = async (req, res) =>{
         try{

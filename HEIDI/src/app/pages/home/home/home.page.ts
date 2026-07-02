@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonItem, IonTitle, IonToolbar, IonIcon, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
-import { LoginService } from 'src/app/services/auth/login.service';
-import { forkJoin, map, Observable } from 'rxjs';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol, IonItem, IonIcon, IonBadge } from '@ionic/angular/standalone';
+import { forkJoin, map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
-import { CalendarioComponent } from "src/app/components/calendario/calendario.component";
+import { LoginService } from 'src/app/services/auth/login.service';
+import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { GestioneAllenamentiService } from 'src/app/services/allenamenti/gestione-allenamenti.service';
 import { Allenamento } from 'src/app/models/allenamento.model';
@@ -16,18 +16,21 @@ import { Pasto } from 'src/app/models/pasto.model';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonButtons, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, CalendarioComponent, IonCardHeader, IonCardTitle]
+  imports: [IonBadge, IonIcon, IonItem, IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, IonCardHeader, IonCardTitle]
 })
 export class HomePage implements OnInit {
 
-  constructor(private authService:LoginService, private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {
-    this.ruoloUtente = this.authService.getUserRole();
+  constructor(private authService:LoginService, private userService:GestioneUtentiService, private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {
   }
  
-  ruoloUtente: Observable<string | null>; ;
+  public ruoloUtente: string | null = null;
+  public richieste_pending:number = 0;
+  private destroy$ = new Subject<void>();
 
   ngOnInit() {
+    if(this.ruoloUtente === '0') {
     this.caricaAttivitaGiornaliere();
+    }
   }
 
   public visualizzazione: 'pasti' | 'allenamenti' = 'pasti';
@@ -39,39 +42,92 @@ export class HomePage implements OnInit {
     Spuntino: null,
     Cena: null
   };
+  dettagli_pasti_odierni:any = {
+    Colazione: null,
+    Merenda: null,
+    Pranzo: null,
+    Spuntino: null,
+    Cena: null,
+  };
   allenamento_odierno:Allenamento | null = null;
 
 
   ionViewWillEnter() {
-    this.caricaAttivitaGiornaliere();
+    this.authService.ruoloUtente.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => this.ruoloUtente = data,
+      error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
+    });
+
+    if(this.ruoloUtente === '0') {
+      this.caricaAttivitaGiornaliere();
+    } else {
+      this.getRichiestePending();
+    }
   }
 
   async caricaAttivitaGiornaliere() {
     const oggi = new Date().toISOString().split('T')[0];
     const oggi_a = new Date();
+    oggi_a.setHours(0, 0, 0, 0);
 
     forkJoin({
       pasti: this.foodService.getPastiProgrammati(),
       allenamenti: this.workoutService.getAllenamentiUtente()
-    }).subscribe({
-      next: ({pasti, allenamenti}) => {
+    }).pipe(
+      switchMap(({pasti, allenamenti}) => {
         const pasti_filtrati = pasti.filter((p:Pasto) => p.data_calendario === oggi);
         console.log('ho filtrato i pasti:', pasti_filtrati);
-        pasti_filtrati.forEach((pasto:Pasto) => {
-            console.log('funziona e ho assegnato');
-            const tipologia = pasto.tipo;
-            this.pasti_odierni[tipologia] = pasto;
-            console.log(this.pasti_odierni);
+
+        if(pasti_filtrati.length === 0) {
+          return of({pasti_con_dettaglio: [], allenamenti});
+        }
+
+        const chiamate_dettagli = pasti_filtrati.map((pasto:Pasto) =>
+          this.foodService.getDettagliPasto(pasto.id).pipe(
+            map(dettagli => ({pasto, dettagli}))
+          )
+        );
+
+        return forkJoin(chiamate_dettagli).pipe(
+          map(pasti_con_dettaglio => ({pasti_con_dettaglio, allenamenti}))
+        );
+      })
+    ).pipe(takeUntil(this.destroy$)).subscribe({
+      next: ({pasti_con_dettaglio, allenamenti}) => {
+        pasti_con_dettaglio.forEach(({pasto, dettagli}) => {
+          const tipologia = pasto.tipo;
+          this.pasti_odierni[tipologia] = pasto;
+          this.dettagli_pasti_odierni[tipologia] = dettagli.alimenti;
         });
 
-        this.allenamento_odierno = allenamenti.find((allenamento:Allenamento) => allenamento.data === oggi_a) || null;
+        this.allenamento_odierno = allenamenti.find((allenamento:Allenamento) => {
+          const data_cmp = new Date(allenamento.data);
+          data_cmp.setHours(0, 0, 0, 0);
+          return data_cmp.getTime() === oggi_a.getTime();
+        }) || null;
       },
       error: (err) => console.error('Errore nel caricamento delle attività giornalieree', err)
     });
-
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.ruoloUtente.pipe(map(role => role !== null));
+  async getRichiestePending() {
+    try {
+      this.userService.getRichiestePending().pipe(takeUntil(this.destroy$)).subscribe({
+        next: (data) => {this.richieste_pending = data.length;},
+        error: (err) => {console.error(err);}
+      }); 
+    } catch(e) {
+      if(e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+  }
+
+  isLoggedIn(): boolean {
+    return this.ruoloUtente != null;
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
   }
 }
