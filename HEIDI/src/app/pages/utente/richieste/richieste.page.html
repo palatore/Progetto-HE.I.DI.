@@ -10,9 +10,10 @@
 <ion-content [fullscreen]="true">
   <ion-card class="statusRichieste">
     @if(nuova_richiesta_pending) {
-
+      <!-- qui metto in evidenza le richieste in attesa di approvazione -->
     }
 
+    <!--  qui metto tutte le richieste ordinandole per status, l'ideale sarebbe inserire dei flag per visualizzare le diverse tipologie -->
     <app-richieste-utente></app-richieste-utente>
 
   </ion-card>
