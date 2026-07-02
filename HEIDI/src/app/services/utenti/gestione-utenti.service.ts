@@ -11,6 +11,11 @@ export class GestioneUtentiService {
 
   constructor(private http:HttpClient) {}
 
+  aggiornaPassword(id_utente:number, nuovaPassword:string) {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post<any>(`${this.apiUrl}/api/users/utente/aggiornaPassword/${id_utente}`, {nuovaPassword}, {headers, observe: 'response'});
+  }
 
   creaInfo(){
     const token = localStorage.getItem('token');

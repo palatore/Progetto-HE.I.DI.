@@ -14,7 +14,7 @@
             <ion-label>
                 <h2>{{ allenamento.name }}</h2>
                 <p>Giorno: {{ allenamento.data | date: 'dd/MM/yyyy' }}</p>
-                <p>Data creazione: {{ allenamento.data_creazione }}</p>
+                <p>Data creazione: {{ allenamento.data_creazione | date: 'dd/MM/yyyy' }}</p>
             </ion-label>
             <ion-button fill="outline" (click)="mostraDettagli(allenamento)" slot="end">
                 <ion-icon name="eye-outline"></ion-icon>
@@ -38,7 +38,7 @@
                 <ion-card-content>
                     <p>Giorno: {{ allenamentoSelezionato.data | date: 'dd/MM/yyyy' }}</p>
                     <p>Durata: {{ allenamentoSelezionato.durata }} {{allenamentoSelezionato.durata !== 1 ? 'Ore' : 'Ora'}}</p>
-                    <p>Data creazione: {{ allenamentoSelezionato.data_creazione }}</p>
+                    <p>Data creazione: {{ allenamentoSelezionato.data_creazione.split('T')[0] }}</p>
                     <ul>
                         @for(esercizio of dettagliAllenamento?.esercizi; track esercizioTrack($index, esercizio)) {
                             <li>

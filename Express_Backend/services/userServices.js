@@ -84,6 +84,16 @@ class UserServices {
         return nuoveInfo;
     }
 
+    static async aggiornaPassword(id_utente, nuovaPassword){
+        const password = await User.aggiornaPassword(id_utente, nuovaPassword);
+        if(password){
+            console.log('Password aggiornata con successo');
+        }else{
+            console.log('Errore nell\'aggiornamento della password');
+        }
+        return password;
+    }
+
     static async eliminaEta(id_utente){
         console.log('SERVICE elimina età riceve e manda:', id_utente);
         const eliminato = await User.eliminaEta(id_utente);

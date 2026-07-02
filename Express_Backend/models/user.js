@@ -41,7 +41,7 @@ class User {
 // ricerca per id
   static async findById(id_utente) {
     return new Promise((resolve, reject) => {
-      db.get('SELECT id, name, surname, email FROM utenti WHERE id = ?', [id_utente], (err, row) => {
+      db.get('SELECT id, name, surname, email, password, ruolo FROM utenti WHERE id = ?', [id_utente], (err, row) => {
         if (err) reject(err);
         else resolve(row);
       });
@@ -126,18 +126,20 @@ class User {
     });
   }
 
-  static async eliminaEta(id_utente){
-    console.log('MODEL ricevuto bersaglio', id_utente);
-    return new Promise((resolve, reject)=>{
-      db.run('UPDATE profilo_utente SET eta = NULL WHERE id_utente = ?', [id_utente], function(err){
+  static async aggiornaPassword(id_utente, nuovaPassword){
+    console.log('MODEL cerca di aggiornare la password per utente con id:', id_utente);
+    return new Promise(async (resolve, reject)=>{
+      db.run('UPDATE utenti SET password = ? WHERE id = ?', [nuovaPassword, id_utente], function(err){
         if(err){
           reject(err);
         }else{
-          resolve({message: 'MODEL bersaglio abbattuto'});
+          resolve({lastID: this.lastID});
         }
       });
     });
   }
+
+
 
 
 }

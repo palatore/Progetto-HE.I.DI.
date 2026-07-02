@@ -88,9 +88,10 @@ class AllenamentiControllers {
 
     static creaAllenamenti = async (req, res) =>{
         try{
-            const {nome, giorno, durata, data} = req.body;
+            const {nome, giorno, durata, data_creazione} = req.body;
             const user_id = req.user.id;
-            const result = await AllenamentiServices.creaAllenamenti(user_id, nome, giorno, durata, data);
+            console.log('CONTROLLER: ottengo e mando:', user_id, data_creazione);
+            const result = await AllenamentiServices.creaAllenamenti(user_id, nome, giorno, durata, data_creazione);
             res.status(201).json({message: 'Allenamento creato con successo:', id: result.lastID});
         }catch(e){
             res.status(500).json({error: e.message});

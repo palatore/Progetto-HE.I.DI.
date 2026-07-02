@@ -12,10 +12,10 @@ export class GestioneAllenamentiService {
 
     constructor(private http:HttpClient) { }
 
-    creaAllenamenti(nome:string, giorno:string, durata:number) {
+    creaAllenamenti(nome:string, giorno:string, durata:number, data_creazione:string) {
         const token = localStorage.getItem('token');
         const headers = { Authorization: `Bearer ${token}` };
-        return this.http.post<any>(`${this.apiUrl}/api/allenamenti/creaAllenamenti`, { nome, giorno, durata }, {headers, observe: 'response'});
+        return this.http.post<any>(`${this.apiUrl}/api/allenamenti/creaAllenamenti`, { nome, giorno, durata, data_creazione }, {headers, observe: 'response'});
     }
 
     riempiAllenamento(id_allenamento:number, esercizi:any[]){

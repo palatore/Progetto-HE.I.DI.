@@ -96,7 +96,8 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     }
         //se non esiste, crea l'allenamento
         try{
-            const response = await firstValueFrom(this.workoutService.creaAllenamenti(nomeAllenamento, giornoAllenamento, durataAllenamento));
+            const data_creazione:string = new Date().toISOString();
+            const response = await firstValueFrom(this.workoutService.creaAllenamenti(nomeAllenamento, giornoAllenamento, durataAllenamento, data_creazione));
             if(response === null){
                 console.log('errore di nullità');
                 return

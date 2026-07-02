@@ -78,6 +78,17 @@ class UserControllers {
         }
     }
 
+    static aggiornaPassword = async (req, res) =>{
+        try{
+            const id_utente = req.user.id;
+            const { nuovaPassword } = req.body;
+            const result = await UserServices.aggiornaPassword(id_utente, nuovaPassword);
+            res.status(201).json({message: 'Password aggiornata con successo', result});
+        }catch(e){
+            res.status(500).json({error: e.message});
+        }
+    }
+
     static eliminaEta = async (req, res) =>{
         console.log('elimina età chiamato');
         try{
