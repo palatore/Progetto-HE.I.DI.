@@ -127,14 +127,14 @@
                                     <ion-label>e-mail: {{dati_esperto_alimentare.email}}</ion-label>
                                 </ion-item>
                                 <div class="buttonContainer">
-                                    <ion-button [disabled]="true">Disassocia esperto</ion-button>
+                                    <ion-button [routerLink]="['/gestioneProfessionisti']">Gestisci esperto</ion-button>
                                 </div>
                             }@else {
                                 <ion-item class="dataCamp">
                                     <ion-label>Ancora nessun professionista</ion-label>
                                 </ion-item>
                                 <div class="buttonContainer">
-                                    <ion-button [disabled]="true">Scegli un esperto</ion-button>
+                                    <ion-button [routerLink]="['/gestioneProfessionisti']">Scegli un esperto</ion-button>
                                 </div>
                             }
                         </ion-col>
@@ -153,14 +153,14 @@
                                     <ion-label>e-mail: {{dati_esperto_allenamenti.email}}</ion-label>
                                 </ion-item>
                                 <div class="buttonContainer">
-                                    <ion-button [disabled]="true">Disassocia esperto</ion-button>
+                                    <ion-button [routerLink]="['/gestioneProfessionisti']">Gestisci esperto</ion-button>
                                 </div>
                             }@else {
                                 <ion-item class="dataCamp">
                                     <ion-label>Ancora nessun professionista</ion-label>
                                 </ion-item>
                                 <div class="buttonContainer">
-                                    <ion-button [disabled]="true">Scegli un esperto</ion-button>
+                                    <ion-button [routerLink]="['/gestioneProfessionisti']">Scegli un esperto</ion-button>
                                 </div>
                             }
                         </ion-col>
