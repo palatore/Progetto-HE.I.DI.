@@ -108,7 +108,7 @@ class UserControllers {
             console.log(id_professionista);
             const result = await UserServices.getAssociazioniProfessionista(id_professionista);
             if(result){
-                console.log('Arrivano le associazioni del professionista');
+                console.log('Arrivano le associazioni del professionista', result);
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Associazioni non trovate'});
@@ -139,6 +139,17 @@ class UserControllers {
             const { id_persona } = req.body;
             const result = await UserServices.creaAssociazione(id_utente, id_persona);
             res.status(201).json({message: 'Associazione creata con successo', result});
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static accettaAssociazione = async (req, res) => {
+        try {
+            const { id_associazione } = req.body;
+            console.log('Controller: id_associazione ricevuto:', id_associazione);
+            const result = await UserServices.accettaAssociazione(id_associazione);
+            res.status(201).json({message: 'Associazione accettata con successo', result});
         } catch(e) {
             res.status(500).json({error: e.message});
         }

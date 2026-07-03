@@ -153,6 +153,17 @@ class User {
     });
   }
 
+  static async accettaAssociazione(id_associazione) {
+    return new Promise((resolve, reject) => {
+      db.run('UPDATE associazioni SET stato = "ACCETTATA" WHERE id = ?', [id_associazione], function(err) {
+        if(err) {
+          reject(err);
+        } else {
+          resolve({lastID: this.lastID});
+        }
+      });
+    });
+  }
 
 // confronta la password inserita con quella salvata nel db
   static async comparePassword(candidatePassword, hash) {

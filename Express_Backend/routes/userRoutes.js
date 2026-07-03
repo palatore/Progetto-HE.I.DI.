@@ -14,6 +14,7 @@ router.get('/associazioniProfessionista', authenticateToken, UserControllers.get
 router.get('/richiestePending', authenticateToken, UserControllers.getRichiestePending);
 router.get('/ruoloProfessionista/:id_professionista', authenticateToken, UserControllers.getRuoloProfessionista);
 router.post('/creaAssociazione', authenticateToken, UserControllers.creaAssociazione);
+router.patch('/accettaAssociazione', authenticateToken, UserControllers.accettaAssociazione);
 router.post('/utente/creaInfo', authenticateToken, UserControllers.creaInfo);
 router.post('/utente/riempiInfo', authenticateToken, UserControllers.riempiInfo);
 router.post('/utente/aggiornaPassword/:id_utente', authenticateToken, UserControllers.aggiornaPassword);

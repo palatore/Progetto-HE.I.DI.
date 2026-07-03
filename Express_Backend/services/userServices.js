@@ -100,7 +100,7 @@ class UserServices {
     static async getAssociazioniProfessionista(id_professionista) {
         const associazioni = await User.getAssociazioniProfessionista(id_professionista);
         if(associazioni && associazioni.length > 0) {
-            console.log('Lista ottenuta:', associazioni);
+            console.log('Lista ottenutaaaaaaa:', associazioni);
             return associazioni;
         } else {
             console.log('Nessuna associazione con professionisti trovata');
@@ -127,6 +127,16 @@ class UserServices {
             console.log('Errore nella creazione dell\'associazione');
         }
         return associazione;
+    };
+
+    static async accettaAssociazione(id_associazione) {
+        const accettata = await User.accettaAssociazione(id_associazione);
+        if(accettata) {
+            console.log('Associazione accettata con successo');
+        } else {
+            console.log('Errore nell\'accettazione dell\'associazione');
+        }
+        return accettata;
     };
 
     static async creaInfo(id_utente){
