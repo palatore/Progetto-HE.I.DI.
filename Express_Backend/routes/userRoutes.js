@@ -10,6 +10,7 @@ router.get('/infoUtente/:id_utente', authenticateToken, UserControllers.getInfoU
 router.get('/ruoli/:ruolo', UserControllers.getUtentiByRuolo);
 router.get('/albo', UserControllers.getAlbo);
 router.get('/associazioniUtente', authenticateToken, UserControllers.getAssociazioniUtente);
+router.get('/associazioniProfessionista', authenticateToken, UserControllers.getAssociazioniProfessionista);
 router.get('/richiestePending', authenticateToken, UserControllers.getRichiestePending);
 router.get('/ruoloProfessionista/:id_professionista', authenticateToken, UserControllers.getRuoloProfessionista);
 router.post('/creaAssociazione', authenticateToken, UserControllers.creaAssociazione);

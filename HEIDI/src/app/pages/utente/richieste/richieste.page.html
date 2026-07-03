@@ -11,6 +11,31 @@
   <ion-card class="statusRichieste">
     @if(nuova_richiesta_pending) {
       <!-- qui metto in evidenza le richieste in attesa di approvazione -->
+       <ion-card class="richiestePending">
+        <ion-card-header>
+          <ion-card-title>Hai richieste in attesa di approvazione</ion-card-title>
+          <ion-card-content>
+            <ion-list>
+              @for(richiesta of richieste_associazioni; track richiesta.id) {
+                <ion-item>
+                  <ion-label class="ion-display-flex ion-justify-content-between">
+                    <h2 class="ion-no-margin">{{richiesta.nome_p}} {{richiesta.cognome_p}}</h2>
+                    <p class="ion-no-margin">Richiesta associazione</p>
+                    <ion-badge color="warning" class="badge-pending">PENDING</ion-badge>
+                  </ion-label>
+
+                  <ion-button slot="end" color="success">
+                    <ion-icon name="checkmark-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button slot="end" color="danger">
+                    <ion-icon name="trash"></ion-icon>
+                  </ion-button>
+                </ion-item>
+              }
+            </ion-list>
+          </ion-card-content>
+        </ion-card-header>
+       </ion-card>
     }
 
     <!--  qui metto tutte le richieste ordinandole per status, l'ideale sarebbe inserire dei flag per visualizzare le diverse tipologie -->

@@ -58,6 +58,12 @@ export class GestioneUtentiService {
     return this.http.get<any[]>(`${this.apiUrl}/api/users/associazioniUtente`, {headers});
   }
 
+  getAssociazioniProfessionista():Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<any[]>(`${this.apiUrl}/api/users/associazioniProfessionista`, {headers});
+  }
+
   getRichiestePending():Observable<any[]> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };

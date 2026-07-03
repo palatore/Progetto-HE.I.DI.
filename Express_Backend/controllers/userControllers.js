@@ -102,6 +102,22 @@ class UserControllers {
         }
     };
 
+    static getAssociazioniProfessionista = async (req, res) => {
+        try {
+            const id_professionista = req.user.id;
+            console.log(id_professionista);
+            const result = await UserServices.getAssociazioniProfessionista(id_professionista);
+            if(result){
+                console.log('Arrivano le associazioni del professionista');
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Associazioni non trovate'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
     static getRichiestePending = async (req, res) => {
         try {
             const id_utente = req.user.id;

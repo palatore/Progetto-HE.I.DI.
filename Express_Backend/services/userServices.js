@@ -97,6 +97,17 @@ class UserServices {
         }
     };
 
+    static async getAssociazioniProfessionista(id_professionista) {
+        const associazioni = await User.getAssociazioniProfessionista(id_professionista);
+        if(associazioni && associazioni.length > 0) {
+            console.log('Lista ottenuta:', associazioni);
+            return associazioni;
+        } else {
+            console.log('Nessuna associazione con professionisti trovata');
+            return [];
+        }
+    };
+
     static async getRichiestePending(id_utente) {
         const richieste = await User.getRichiestePending(id_utente);
         if(richieste && richieste.length > 0) {
