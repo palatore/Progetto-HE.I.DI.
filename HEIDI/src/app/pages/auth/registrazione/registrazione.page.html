@@ -1,13 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>registrazione</ion-title>
+    <ion-title class="ion-text-center">Registrati
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="signupBackground">
   <ion-grid>
-    <ion-row>
-      <ion-col size="9" size-md="6">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="9" size-md="6" class="ion-text-center">
         <ion-card class="registrationCard">
           <ion-card-header class="ion-justify-content-center">
             <div class="iconContainer"><ion-icon name="a" size="large"></ion-icon></div>
@@ -47,7 +48,10 @@
               <ion-label color="danger">Le password non coincidono</ion-label>
               </ion-item>
               <div class="buttonContainer">
-                <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Registrati</ion-button>
+                <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">
+                  Registrati
+                  <ion-icon slot="end" name="enter-outline"></ion-icon>
+                </ion-button>
               </div>
             </form>
              <div class="loginLink">

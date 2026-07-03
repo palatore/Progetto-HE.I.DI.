@@ -7,6 +7,7 @@ $orange-pale:     #2C1A00;
 $bg-page:         #1A1A1A;
 $bg-card:         #232323;
 $bg-input:        #2C2C2C;
+$bg-subtitle:     #2C1A00;
 
 $text-white:      #ffffff;
 $text-muted:      #888888;
@@ -72,9 +73,25 @@ ion-grid {
         font-size: 18px;
       }
     }
+
+    .subtitle {
+        display: inline-flex;
+        align-items:center;
+        gap: 4px;
+        background: $bg-subtitle;
+        color: $orange-light;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 3px 10px;
+        border-radius: 999px;
+
+        ion-icon {
+            font-size: 13px;
+        }
+    }
   }
 
-  // ICONA FIAMMA
+  // ICONA HEIDI
   .iconContainer {
     width: 52px;
     height: 52px;
@@ -86,7 +103,6 @@ ion-grid {
 
     ion-icon {
       font-size: 28px;
-      color: $text-white;
     }
   }
 
@@ -106,6 +122,7 @@ ion-grid {
   --padding-start: 12px;
   border-radius: 8px;
   margin-bottom: 1rem;
+  caret-color: $orange-primary;
 
   ion-label {
     --color: #{$text-hint} !important;

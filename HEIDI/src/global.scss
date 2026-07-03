@@ -36,6 +36,14 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+ion-input {
+  caret-color: #F57C00 !important;
+  
+  input {
+    caret-color: #F57C00 !important;
+  }
+}
+
 ion-content {
     --ion-background-color: lightblue;
 }

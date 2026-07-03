@@ -5,6 +5,8 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonRow, IonGrid, 
 import { RouterModule } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/login.service';
+import { addIcons } from 'ionicons';
+import { enterOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-registrazione',
@@ -37,6 +39,7 @@ export class RegistrazionePage implements OnInit {
     this.registerForm.get('repeatpw')?.valueChanges.subscribe(() => {
       this.registerForm.updateValueAndValidity();
     });
+    addIcons({enterOutline});
   }
 
   ngOnInit() {

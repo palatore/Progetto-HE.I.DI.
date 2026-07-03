@@ -11,8 +11,12 @@
       <ion-col size="12" size-md="6" class="ion-text-center">
         <ion-card class="loginCard">
           <ion-card-header class="ion-justify-content-center">
-            <div class="iconContainer"><ion-icon name="flame" size="large"></ion-icon></div>
+            <div class="iconContainer"><ion-icon name="a" size="large"></ion-icon></div>
             <ion-card-title>Accedi a HEIDI</ion-card-title>
+            <div class="subtitle">
+              <ion-icon name="flash-outline"></ion-icon>
+              HEalthy Interactive DIet
+            </div>
           </ion-card-header>
           <ion-card-content>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -25,7 +29,8 @@
                 <ion-input type="password" formControlName="password"></ion-input>
               </ion-item>
               <div class="buttonContainer">
-                <ion-button expand="full" type="submit" [disabled]="!loginForm.valid">Accedi
+                <ion-button expand="full" type="submit" [disabled]="!loginForm.valid">
+                  Accedi
                   <ion-icon slot="end" name="log-in-outline"></ion-icon>
                 </ion-button>
               </div>
