@@ -98,6 +98,10 @@ ion-grid {
         color: $text-white;
     }
 
+    h1{
+        text-align: center;
+    }
+
     .dataCamp {
      ion-textarea {
         --overflow: auto;
@@ -145,15 +149,13 @@ ion-grid {
 //SEZIONE MODAL
 ion-modal {
     --height: 49%;
-    --border-radius: 16px;
+    --border-radius: 13px;
 
     //SFONDO MODAL
   .modalBackground {
     --background: #{$orange-primary};
 
-    ion-card {
-        --border-radius: 16px;
-    }
+
 
 
     ion-card-header {

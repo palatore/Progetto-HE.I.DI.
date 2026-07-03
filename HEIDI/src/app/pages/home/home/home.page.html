@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Home</ion-title>
+    <ion-title class="ion-text-center">Home</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -14,7 +14,7 @@
   @if(ruoloUtente === '0') {
     <ng-container>
 
-      <ion-content [fullscreen]="true">
+      <ion-content [fullscreen]="true" class="homeBackground">
 
         <ion-card class="laTuaGiornata">
           <ion-card-header>
@@ -101,23 +101,30 @@
                     </ion-card>
                   </ion-col>
                 </ion-row>
+                 <ion-row class="rigaBottoniPasti">
+                    <ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button>
+                    <ion-button [routerLink]="['/pastiUtente']">I miei Pasti</ion-button>
+                    <ion-button [routerLink]="['/calendario']">Vai al calendario completo</ion-button>
+                  </ion-row>
               </ion-grid>
             } @else {
-              <h3>🏋️ Allenamento di oggi:</h3>
-              <ion-card>
-                <p>{{allenamento_odierno ? allenamento_odierno.name : 'Oggi riposo'}}</p>
-              </ion-card>
-
-
+              <ion-row class="allenamenti">
+                <ion-col>
+                  <h3>🏋️ Allenamento di oggi:</h3>
+                  <ion-card class="miniAllenamentoCard">
+                    <p>{{allenamento_odierno ? allenamento_odierno.name : 'Oggi riposo'}}</p>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+              <ion-row class="rigaBottoniAllenamenti">
+                    <ion-button [routerLink]="['/creazioneAllenamento']">Crea Allenamento</ion-button>
+                    <ion-button [routerLink]="['/allenamentiUtente']">I miei allenamenti</ion-button>
+                    <ion-button [routerLink]="['/calendario']">Vai al calendario completo</ion-button>
+                  </ion-row>
             }
-            <ion-button [routerLink]="['/calendario']">Vai al calendario completo</ion-button>
           </ion-card-content>
         </ion-card>
 
-        <ion-button [routerLink]="['/creazionePasto']">Crea Pasto</ion-button>
-        <ion-button [routerLink]="['/pastiUtente']">I miei Pasti</ion-button>
-        <ion-button [routerLink]="['/creazioneAllenamento']">Crea Allenamento</ion-button>
-        <ion-button [routerLink]="['/allenamentiUtente']">I miei allenamenti</ion-button>
         <ion-button [routerLink]="['/gestioneProfessionisti']">Professionisti</ion-button>
       </ion-content>
     </ng-container>
@@ -125,9 +132,11 @@
   } @else {
     <!--Homepage per il ruolo professionista-->
     <ng-container>
-        <ion-content [fullscreen]="true">
+        <ion-content [fullscreen]="true" class="homeBackground">
           <ion-card class="iTuoiPazienti">
-            I tuoi Pazienti
+            <ion-card-header>
+               <ion-card-title>I tuoi Pazienti</ion-card-title>
+            </ion-card-header>
             <ion-card-content class="pasti">
             </ion-card-content>
           </ion-card>

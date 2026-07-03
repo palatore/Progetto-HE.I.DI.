@@ -59,7 +59,7 @@
                                 <ion-label>
                                     <span class="staticLabel">Età:</span>
                                 </ion-label>
-                                <ion-input #etaInput type="number" [readonly]="!flag_eta" (keypress)="numeriEta($event)" [placeholder]="info_utente.eta"></ion-input>
+                                <ion-input #etaInput type="number" [readonly]="!flag_eta" (keypress)="numeriEta($event)" [placeholder]="info_utente.eta + ' anni' "></ion-input>
                                 @if(!flag_eta){
                                     <ion-button (click)="modificaEta()">
                                         <ion-icon name="create"></ion-icon>
@@ -74,7 +74,7 @@
                                     <ion-label>
                                         <span class="staticLabel">Peso:</span>
                                     </ion-label>
-                                    <ion-input #pesoInput type="number" [readonly]="!flag_peso" (keypress)="numeriPesoAltezza($event)" [placeholder]="info_utente.peso_kg"></ion-input>
+                                    <ion-input #pesoInput type="number" [readonly]="!flag_peso" (keypress)="numeriPesoAltezza($event)" [placeholder]="info_utente.peso_kg + ' kg' "></ion-input>
                                     @if(!flag_peso){
                                         <ion-button (click)="modificaPeso()">
                                         <ion-icon name="create"></ion-icon>
@@ -89,7 +89,7 @@
                                     <ion-label>
                                         <span class="staticLabel">Altezza:</span>
                                     </ion-label>
-                                     <ion-input #altezzaInput type="number" [readonly]="!flag_altezza" (keypress)="numeriPesoAltezza($event)" [placeholder]="info_utente.altezza_cm"></ion-input>
+                                     <ion-input #altezzaInput type="number" [readonly]="!flag_altezza" (keypress)="numeriPesoAltezza($event)" [placeholder]="info_utente.altezza_cm + ' cm' "></ion-input>
                                     @if(!flag_altezza){
                                         <ion-button (click)="modificaAltezza()">
                                             <ion-icon name="create"></ion-icon>
