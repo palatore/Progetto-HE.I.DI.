@@ -187,6 +187,16 @@ class UserControllers {
         }
     }
 
+    static annullaAssociazione = async (req, res) => {
+        try {
+            const id_associazione = req.params.id_associazione;
+            const result = await UserServices.annullaAssociazione(id_associazione);
+            res.status(201).json({message: 'Associazione annullata con successo', result});
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
     static eliminaEta = async (req, res) =>{
         console.log('elimina età chiamato');
         try{

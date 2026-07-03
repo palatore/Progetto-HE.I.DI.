@@ -1,34 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonButtons, IonMenuButton, AlertController, IonItem, IonLabel, IonBadge } from '@ionic/angular/standalone';
 import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
-import { firstValueFrom, forkJoin, map, of, switchMap } from 'rxjs';
+import { firstValueFrom, forkJoin, map, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { UtentiAssociatiComponent } from 'src/app/components/utenti-associati/utenti-associati.component';
 
 @Component({
   selector: 'app-gestione-professionisti',
   templateUrl: './gestione-professionisti.page.html',
   styleUrls: ['./gestione-professionisti.page.scss'],
   standalone: true,
-  imports: [IonBadge, IonLabel, IonItem, IonButton, IonButtons, IonMenuButton,IonCardTitle, IonCardHeader, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, DefaultHeaderComponent, IonCardContent]
+  imports: [IonBadge, IonLabel, IonItem, IonButton, IonButtons, IonMenuButton, IonCardTitle, IonCardHeader, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, DefaultHeaderComponent, IonCardContent, UtentiAssociatiComponent]
 })
-export class GestioneProfessionistiPage implements OnInit {
+export class GestioneProfessionistiPage implements OnInit, OnDestroy {
 
   constructor(private userService:GestioneUtentiService, private alertController:AlertController) { }
 
   public professionisti:any[] = [];
+  public professionisti_associati:any[] = [];
   public lista_associazioni:any[] = [];
+  public destroy$ = new Subject<void>;
 
   ngOnInit() {
     this.loadProfessionisti();
     this.loadAssociazioni();
   }
 
+
   //da implementare il caricamento dei ruoli esatti in modo simile al loadAssociazioni
   async loadProfessionisti() {
     try {
-      this.userService.getUtentiByRuolo(3).subscribe({
+      this.userService.getUtentiByRuolo(3).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {this.professionisti = data;},
       error: (err) => {console.error(err)}
     });
@@ -54,7 +58,10 @@ export class GestioneProfessionistiPage implements OnInit {
         return forkJoin(chiamateRuoli$);
       })
     ).subscribe({
-      next: (risultato) => {this.lista_associazioni = risultato;},
+      next: (risultato) => {
+        this.lista_associazioni = risultato;
+        this.professionisti_associati = this.lista_associazioni.filter(associazione => associazione.stato === 'ACCETTATA');
+      },
       error: (err) => {console.error(err);}
     });
     } catch (e:any) {
@@ -76,7 +83,6 @@ export class GestioneProfessionistiPage implements OnInit {
   }
 
 
-  //DA IMPLEMENTARE: ELIMINA RICHIESTA E PULSANTE NON VALIDO SE ESISTE GIA' UNA RICHIESTA IN PENDING O ACCETTATA
   async inviaRichiesta(id_professionista:number) {
     //prima controlla che non ci siano richieste già in pending o accettate per questo professionista
     if(this.checkRichieste(id_professionista)) {
@@ -92,13 +98,34 @@ export class GestioneProfessionistiPage implements OnInit {
           buttons: ['OK']
         });
         await alert.present();
+        this.loadAssociazioni();
       }
     } catch(e:any) {
       if(e instanceof Error) {
         console.log(e.message);
       }
     }
+  }
 
+  async annullaAssociazione(id_associazione:number) {
+    try {
+      const response = await firstValueFrom(this.userService.annullaAssociazione(id_associazione));
+      if(response && response.status === 201) {
+        console.log('Associazione annullata con successo');
+        this.loadAssociazioni();
+      } else {
+        console.log('Errore annullamento dell\'associazione');
+      }
+    } catch(e) {
+      if(e instanceof Error) {
+        console.log('Errore annullamento dell\'associazione', e.message);
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();    
   }
 
 }

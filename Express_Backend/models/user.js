@@ -107,7 +107,7 @@ class User {
 
   static async getAssociazioniUtente(id_utente) {
     return new Promise((resolve, reject) => {
-      db.all('SELECT a.id_professionista, u.name AS nome_P, u.surname AS cognome_P, a.stato FROM associazioni a JOIN utenti u ON a.id_professionista = u.id WHERE a.id_paziente = ?', [id_utente], (err, rows) => {
+      db.all('SELECT a.id AS id_associazione, a.id_professionista, u.name AS nome_P, u.surname AS cognome_P, a.stato FROM associazioni a JOIN utenti u ON a.id_professionista = u.id WHERE a.id_paziente = ?', [id_utente], (err, rows) => {
         if(err) {
           reject(err);
         } else {
@@ -119,7 +119,7 @@ class User {
 
   static async getAssociazioniProfessionista(id_professionista) {
     return new Promise((resolve, reject) => {
-      db.all('SELECT a.id_paziente, u.name AS nome_p, u.surname AS cognome_p, a.stato FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_professionista = ?', [id_professionista], (err, rows) => {
+      db.all('SELECT a.id AS id_associazione, a.id_paziente, u.name AS nome_p, u.surname AS cognome_p, a.stato FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_professionista = ?', [id_professionista], (err, rows) => {
         if(err) {
           reject(err);
         } else {
@@ -221,8 +221,17 @@ class User {
     });
   }
 
-
-
+  static async annullaAssociazione(id_associazione) {
+    return new Promise((resolve, reject) => {
+      db.run('DELETE FROM associazioni WHERE id = ?', [id_associazione], function(err) {
+        if(err) {
+          reject(err);
+        } else {
+          resolve({lastID: this.lastID});
+        }
+      });
+    });
+  }
 
 }
 

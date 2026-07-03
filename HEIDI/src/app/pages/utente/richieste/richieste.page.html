@@ -19,15 +19,15 @@
               @for(richiesta of richieste_associazioni; track richiesta.id) {
                 <ion-item>
                   <ion-label class="ion-display-flex ion-justify-content-between">
-                    <h2 class="ion-no-margin">{{richiesta.nome_p}} {{richiesta.cognome_p}}</h2>
+                    <h2 class="ion-no-margin">{{richiesta.id}} {{richiesta.nome_p}} {{richiesta.cognome_p}}</h2>
                     <p class="ion-no-margin">Richiesta associazione</p>
                     <ion-badge color="warning" class="badge-pending">PENDING</ion-badge>
                   </ion-label>
 
-                  <ion-button slot="end" color="success">
+                  <ion-button slot="end" color="success" (click)="accettaAssociazione(richiesta.id_associazione)">
                     <ion-icon name="checkmark-outline"></ion-icon>
                   </ion-button>
-                  <ion-button slot="end" color="danger">
+                  <ion-button slot="end" color="danger" (click)="rifiutaAssociazione(richiesta.id_associazione)">
                     <ion-icon name="trash"></ion-icon>
                   </ion-button>
                 </ion-item>
@@ -40,6 +40,11 @@
 
     <!--  qui metto tutte le richieste ordinandole per status, l'ideale sarebbe inserire dei flag per visualizzare le diverse tipologie -->
     <app-richieste-utente></app-richieste-utente>
+
+    <app-utenti-associati
+      [utenti_associati]="associazioni_in_corso"
+      [flag_utenti]="true"
+      (cancella_associazione)="rifiutaAssociazione($event)"></app-utenti-associati>
 
   </ion-card>
 </ion-content>

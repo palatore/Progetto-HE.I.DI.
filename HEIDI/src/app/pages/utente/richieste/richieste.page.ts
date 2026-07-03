@@ -5,18 +5,20 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton,
 import { RichiesteUtenteComponent } from './richieste-utente/richieste-utente.component';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { firstValueFrom, map, Subject, takeUntil } from 'rxjs';
+import { UtentiAssociatiComponent } from 'src/app/components/utenti-associati/utenti-associati.component';
 
 @Component({
   selector: 'app-richieste',
   templateUrl: './richieste.page.html',
   styleUrls: ['./richieste.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonButton, IonBadge, IonLabel, IonItem, IonList, IonCardContent, RichiesteUtenteComponent, IonCard, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonMenuButton, CommonModule, FormsModule, IonCardHeader, IonCardTitle]
+  imports: [IonIcon, IonButton, IonBadge, IonLabel, IonItem, IonList, IonCardContent, RichiesteUtenteComponent, IonCard, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonMenuButton, CommonModule, FormsModule, IonCardHeader, IonCardTitle, UtentiAssociatiComponent]
 })
 export class RichiestePage implements OnInit, OnDestroy{
 
   public nuova_richiesta_pending:boolean = false;
   public associazioni:any[] = [];
+  public associazioni_in_corso:any[] = [];
   public richieste_associazioni:any[] = [];
   public richieste_voto:any[] = [];
   public richieste_modifica:any[] = [];
@@ -46,7 +48,8 @@ export class RichiestePage implements OnInit, OnDestroy{
         this.associazioni = data;
 
         this.richieste_associazioni = this.associazioni.filter(associazione => associazione.stato === 'PENDING');
-        console.log('Richieste associazioni filtrate:', this.richieste_associazioni);
+        this.associazioni_in_corso = this.associazioni.filter(associazione => associazione.stato === 'ACCETTATA');
+        console.log(this.richieste_associazioni);
 
         if(this.richieste_associazioni.length > 0 || this.richieste_voto.length > 0 || this.richieste_modifica.length > 0) {
           this.nuova_richiesta_pending = true;
@@ -58,6 +61,7 @@ export class RichiestePage implements OnInit, OnDestroy{
 
   async accettaAssociazione(id_associazione:number) {
     try {
+      console.log('id accettazione:', id_associazione);
       const response = await firstValueFrom(this.userService.accettaAssociazione(id_associazione));
       if(response && response.status === 201) {
         console.log('Associazione accettata con successo');
@@ -68,6 +72,22 @@ export class RichiestePage implements OnInit, OnDestroy{
     } catch(e) {
       if(e instanceof Error) {
         console.log('Errore nell\'accettazione dell\'associazione', e.message);
+      }
+    }
+  }
+
+  async rifiutaAssociazione(id_associazione:number) {
+    try {
+      const response = await firstValueFrom(this.userService.annullaAssociazione(id_associazione));
+      if(response && response.status === 201) {
+        console.log('Associazione rifiutata con successo');
+        this.loadAllAssociazioni();
+      } else {
+        console.log('Errore nel rifiuto dell\'associazione');
+      }
+    } catch(e) {
+      if(e instanceof Error) {
+        console.log('Errore nel rifiuto dell\'associazione', e.message);
       }
     }
   }
