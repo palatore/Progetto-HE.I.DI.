@@ -1,12 +1,12 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-        <ion-title>Il mio profilo</ion-title>
+        <ion-title class="ion-text-center">Il mio profilo</ion-title>
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="profiloBackground">
     <ion-grid>
         <ion-row class="ion-justify-content-center">
             <ion-col size="12" size-md="6" class="ion-text-center">
@@ -18,20 +18,32 @@
                     <ion-row>
                         <ion-col class="colonnaDati">
                             <ion-label class="ion-text-start">
-                             <h1>I tuoi dati:</h1>
+                             <h1 class="staticLabel">I tuoi dati:</h1>
                             </ion-label>
                             <ion-item class="dataCamp">
-                                <ion-label>Nome: {{dati_utente.name}}</ion-label>
+                                <ion-label>
+                                    <span class="staticLabel">Nome:</span>
+                                    <span class="dicamicLabel"> {{dati_utente.name}}</span> 
+                                </ion-label>
                             </ion-item>
                             <ion-item class="dataCamp">
-                                <ion-label>Cognome: {{dati_utente.surname}}</ion-label>
+                                <ion-label>
+                                    <span class="staticLabel">Cognome: </span>
+                                    <span class="dicamicLabel"> {{dati_utente.surname}}</span> 
+                                </ion-label>
                             </ion-item>
                             <ion-item class="dataCamp">
-                                <ion-label>e-mail: {{dati_utente.email}}</ion-label>
+                                <ion-label>
+                                    <span class="staticLabel">e-mail:</span>
+                                    <span class="dicamicLabel"> {{dati_utente.email}}</span>
+                                </ion-label>
                             </ion-item>
                             @if(dati_utente.ruolo != 0){
                                 <ion-item class="dataCamp">
-                                    <ion-label>Campo specializzazione: {{dati_utente.ruolo == 1 ? 'Alimentazione' : 'Allenamenti'}}</ion-label>
+                                    <ion-label>
+                                        <span class="staticLabel">Campo specializzazione:</span>
+                                        <span class="dicamicLabel">{{dati_utente.ruolo == 1 ? 'Alimentazione' : 'Allenamenti'}}</span> 
+                                    </ion-label>
                                 </ion-item>
                             }
                             <div class="buttonContainer">
@@ -41,58 +53,64 @@
                             @if(dati_utente.ruolo === 0){
                                 <ion-col class="colonnaDati">
                             <ion-label class="ion-text-start">
-                             <h1>Le tue informazioni:</h1>
+                             <h1 class="staticLabel">Le tue informazioni:</h1>
                             </ion-label>
                             <ion-item class="dataCamp">
-                                <ion-label>Età:</ion-label>
+                                <ion-label>
+                                    <span class="staticLabel">Età:</span>
+                                </ion-label>
                                 <ion-input #etaInput type="number" [readonly]="!flag_eta" (keypress)="numeriEta($event)" [placeholder]="info_utente.eta"></ion-input>
                                 @if(!flag_eta){
                                     <ion-button (click)="modificaEta()">
                                         <ion-icon name="create"></ion-icon>
                                     </ion-button>
                                 }@else{
-                                    <ion-button color="success" (click)="Submit(etaInput.value ?? '', 0, 0, '')">
+                                    <ion-button color="tertiary" (click)="Submit(etaInput.value ?? '', 0, 0, '')">
                                         <ion-icon name="checkmark"></ion-icon>
                                     </ion-button>
                                 }
                             </ion-item>
                                 <ion-item class="dataCamp">
-                                    <ion-label>Peso: </ion-label>
+                                    <ion-label>
+                                        <span class="staticLabel">Peso:</span>
+                                    </ion-label>
                                     <ion-input #pesoInput type="number" [readonly]="!flag_peso" (keypress)="numeriPesoAltezza($event)" [placeholder]="info_utente.peso_kg"></ion-input>
                                     @if(!flag_peso){
                                         <ion-button (click)="modificaPeso()">
                                         <ion-icon name="create"></ion-icon>
                                     </ion-button>
                                     }@else{
-                                        <ion-button color="success" (click)="Submit(0,pesoInput.value ?? '', 0, '')">
+                                        <ion-button color="tertiary" (click)="Submit(0,pesoInput.value ?? '', 0, '')">
                                             <ion-icon name="checkmark"></ion-icon>
                                         </ion-button>
                                     }
                                 </ion-item>
                                 <ion-item class="dataCamp">
-                                    <ion-label>Altezza: </ion-label>
+                                    <ion-label>
+                                        <span class="staticLabel">Altezza:</span>
+                                    </ion-label>
                                      <ion-input #altezzaInput type="number" [readonly]="!flag_altezza" (keypress)="numeriPesoAltezza($event)" [placeholder]="info_utente.altezza_cm"></ion-input>
                                     @if(!flag_altezza){
                                         <ion-button (click)="modificaAltezza()">
                                             <ion-icon name="create"></ion-icon>
                                         </ion-button>
                                     }@else{
-                                        <ion-button color="success" (click)="Submit(0, 0, altezzaInput.value ?? '', '')">
+                                        <ion-button color="tertiary" (click)="Submit(0, 0, altezzaInput.value ?? '', '')">
                                             <ion-icon name="checkmark"></ion-icon>
                                         </ion-button>
                                 }
                             </ion-item>
                             <ion-item class="dataCamp">
                                 <ion-col>
-                                    <ion-label>Condizioni mediche:</ion-label>
+                                    <ion-label class="staticLabel">Condizioni mediche:</ion-label>
                                     <div class="textArea">
-                                        <ion-input #CondizioniInput type="text" [readonly]="!flag_condizioni" [placeholder]="info_utente.condizioni_mediche"></ion-input>
+                                        <ion-textarea #CondizioniInput type="text" [readonly]="!flag_condizioni" [placeholder]="info_utente.condizioni_mediche"></ion-textarea>
                                         @if(!flag_condizioni){
                                             <ion-button (click)="modificaCondizioni()">
                                                 <ion-icon name="create"></ion-icon>
                                             </ion-button>
                                         }@else{
-                                            <ion-button color="success" (click)="Submit(0, 0, 0, CondizioniInput.value ?? '')">
+                                            <ion-button color="tertiary" (click)="Submit(0, 0, 0, CondizioniInput.value ?? '')">
                                                 <ion-icon name="checkmark"></ion-icon>
                                             </ion-button>
                                         }
@@ -114,7 +132,7 @@
                         }@else {
                             <ion-col class="colonnaDati">
                             <ion-label class="ion-text-start">
-                             <h1>Per la tua alimentazione:</h1>
+                             <h1 class="staticLabel">Per la tua alimentazione:</h1>
                             </ion-label>
                             @if((dati_utente.id_P1 ?? -1) !== -1 && dati_utente.id_P1 !== null){
                                 <ion-item class="dataCamp">
@@ -140,7 +158,7 @@
                         </ion-col>
                         <ion-col class="colonnaDati">
                             <ion-label class="ion-text-start">
-                             <h1>Per i tuoi allenamenti:</h1>
+                             <h1 class="staticLabel">Per i tuoi allenamenti:</h1>
                             </ion-label>
                             @if((dati_utente.id_P2 ?? -1) !== -1 && dati_utente.id_P2 !== null){
                                 <ion-item class="dataCamp">
@@ -173,7 +191,7 @@
 
     <ion-modal [isOpen]="modalOpen" (ionModalDidDismiss)="modalOpen = false">
         <ng-template>
-            <ion-content>
+            <ion-content class="modalBackground">
                 <ion-card>
                     <ion-card-header>
                         MODIFICA PASSWORD
@@ -198,7 +216,7 @@
                                 </ion-row>
                             </ion-grid>
                             <div class="buttonContainer">
-                                <ion-button color="danger" (click)="chiudiModal()">Annulla</ion-button>
+                                <ion-button class="dangerButton" (click)="chiudiModal()">Annulla</ion-button>
                                 <ion-button type="submit" [disabled]="!passwordForm.valid"> Conferma </ion-button>
                                 @if(controlloVecchiaPassword){
                                     <div style="color: red; background-color: transparent">

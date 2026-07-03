@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonInput, IonButtons, IonMenuButton, IonModal, IonCardContent } from '@ionic/angular/standalone';
+import { AlertController, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonInput, IonButtons, IonMenuButton, IonModal, IonCardContent, IonText, IonTextarea } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { firstValueFrom } from 'rxjs';
@@ -13,7 +13,7 @@ import { FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormControl, F
   templateUrl: './profilo.page.html',
   styleUrls: ['./profilo.page.scss'],
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, IonCardContent, IonModal, IonButtons, IonMenuButton,IonInput, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, IonTitle, IonToolbar, IonHeader, RouterLink, IonCol]
+  imports: [IonTextarea, IonText, FormsModule, ReactiveFormsModule, IonCardContent, IonModal, IonButtons, IonMenuButton,IonInput, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, IonTitle, IonToolbar, IonHeader, RouterLink, IonCol]
 })
 export class ProfiloPage implements OnInit{
 public dati_utente:{id:number, name:string, surname:string, email:string, password:string, ruolo:number, id_P1:number, id_P2:number} = {id:-1, name:"", surname:"", email:"", password:"", ruolo:0, id_P1:-1, id_P2:-1};
