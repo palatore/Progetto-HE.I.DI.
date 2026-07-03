@@ -58,6 +58,12 @@ export class GestioneUtentiService {
     return this.http.get<any[]>(`${this.apiUrl}/api/users/associazioniUtente`, {headers});
   }
 
+  getAssociazioniProfessionista():Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<any[]>(`${this.apiUrl}/api/users/associazioniProfessionista`, {headers});
+  }
+
   getRichiestePending():Observable<any[]> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
@@ -68,6 +74,12 @@ export class GestioneUtentiService {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.post<any>(`${this.apiUrl}/api/users/creaAssociazione`, {id_persona}, {headers, observe: 'response'});
+  }
+
+  accettaAssociazione(id_associazione:number):Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.patch<any>(`${this.apiUrl}/api/users/accettaAssociazione`, {id_associazione}, {headers, observe: 'response'});
   }
 
   eliminaEta(id_utente:number){

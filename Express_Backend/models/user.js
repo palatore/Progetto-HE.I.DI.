@@ -117,6 +117,18 @@ class User {
     });
   }
 
+  static async getAssociazioniProfessionista(id_professionista) {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT a.id_paziente, u.name AS nome_p, u.surname AS cognome_p, a.stato FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_professionista = ?', [id_professionista], (err, rows) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
   static async getRichiestePending(id_professionista) {
     return new Promise((resolve, reject) => {
       db.all('SELECT a.id, u.name, u.surname, u.email, a.stato FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_professionista = ? AND stato = "PENDING"', [id_professionista], (err, rows) => {
@@ -141,6 +153,17 @@ class User {
     });
   }
 
+  static async accettaAssociazione(id_associazione) {
+    return new Promise((resolve, reject) => {
+      db.run('UPDATE associazioni SET stato = "ACCETTATA" WHERE id = ?', [id_associazione], function(err) {
+        if(err) {
+          reject(err);
+        } else {
+          resolve({lastID: this.lastID});
+        }
+      });
+    });
+  }
 
 // confronta la password inserita con quella salvata nel db
   static async comparePassword(candidatePassword, hash) {

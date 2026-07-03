@@ -98,6 +98,25 @@ db.serialize(() => {
         }
     });
 
+    //creazione della tabella delle richieste di modifica/voto di un pasto o allenamento da parte di un paziente a un professionista
+    db.run(`CREATE TABLE IF NOT EXISTS richieste (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_professionista INTEGER NOT NULL,
+        id_paziente INTEGER NOT NULL,
+        id_attivita INTEGER NOT NULL,
+        tipologia_attivita INTEGER NOT NULL,
+        tipo_richiesta VARCHAR(255) NOT NULL,
+        stato VARCHAR(255) NOT NULL DEFAULT 'PENDING',
+        FOREIGN KEY(id_professionista) REFERENCES utenti(id),
+        FOREIGN KEY(id_paziente) REFERENCES utenti(id)
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella richieste ' + err.message);
+        } else {
+            console.log('Tabella richieste creata con successo.');
+        }
+    });
+
 //SEZIONE ALIMENTARE
 
   //creazione della tabella degli alimenti

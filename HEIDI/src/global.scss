@@ -55,3 +55,11 @@ ion-menu {
 .sidebar {
     --background: #1e1e1e;
 }
+
+.badge-pending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: normal; /* Resetta l'altezza della riga ereditata */
+  padding: 4px 12px;    /* Dà un po' di spazio interno per non soffocare le lettere */
+}

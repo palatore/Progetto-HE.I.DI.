@@ -131,13 +131,12 @@
             <ion-card-content class="pasti">
             </ion-card-content>
           </ion-card>
-          <ion-button [routerLink]="['/richieste']">I miei Pazienti</ion-button>
-          
+
           <ion-card class="menuProfessionista">
             <ion-grid>
               <ion-row>
                 <ion-col>
-                  <ion-item button class="opzioniProfessionista">
+                  <ion-item button [routerLink]="['/richieste']" class="opzioniProfessionista">
                     <ion-icon slot="start" name="mail-outline"></ion-icon> Richieste associazione
                     @if(richieste_pending > 0) {
                       <ion-badge color="danger" slot="end">{{richieste_pending}}</ion-badge>
