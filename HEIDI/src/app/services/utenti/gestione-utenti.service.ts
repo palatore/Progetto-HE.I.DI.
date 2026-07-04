@@ -82,6 +82,12 @@ export class GestioneUtentiService {
     return this.http.patch<any>(`${this.apiUrl}/api/users/accettaAssociazione`, {id_associazione}, {headers, observe: 'response'});
   }
 
+  annullaAssociazione(id_associazione:number):Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.delete<any>(`${this.apiUrl}/api/users/annullaAssociazione/${id_associazione}`, {headers, observe: 'response'});
+  }
+
   eliminaEta(id_utente:number){
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };

@@ -179,6 +179,16 @@ class UserServices {
         }
         return eliminato;
     };
+
+    static async annullaAssociazione(id_associazione) {
+        const annullata = await User.annullaAssociazione(id_associazione);
+        if(annullata) {
+            console.log('Associazione annullata con successo');
+        } else {
+            console.log('Errore nell\'annullamento dell\'associazione');
+        }
+        return annullata;
+    };
 }
 
 module.exports = UserServices;

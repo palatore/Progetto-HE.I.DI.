@@ -1,0 +1,36 @@
+<div class="utentiAssociati">
+  <ion-card>
+    <ion-card-header>
+      @if(flag_utenti === false) {
+        <ion-card-title>Professionisti associati</ion-card-title>
+      } @else {
+        <ion-card-title>Utenti Associati</ion-card-title>
+      }
+    </ion-card-header>
+    <ion-card-content>
+      @if(flag_utenti === false) {
+        <ion-list>
+          @for(professionista of utenti_associati; track professionista.id) {
+            <ion-item lines ="none" class="ion-display-flex ion-justify-content-around">
+              <ion-label>{{professionista.id_associazione}}: {{professionista.nome_P}} {{professionista.cognome_P}}, {{professionista.ruolo}}</ion-label>
+              <ion-button color="danger" (click)="richiediAnnullamento(professionista.id_associazione)">
+                <ion-icon name="trash"></ion-icon>
+              </ion-button>
+            </ion-item>
+          }
+        </ion-list>
+      } @else {
+        <ion-list>
+        @for(utente of utenti_associati; track utente.id) {
+          <ion-item lines ="none" class="ion-display-flex ion-justify-content-around">
+              <ion-label>{{utente.id_associazione}}: {{utente.nome_p}} {{utente.cognome_p}}</ion-label>
+              <ion-button color="danger" (click)="richiediAnnullamento(utente.id_associazione)">
+                <ion-icon name="trash"></ion-icon>
+              </ion-button>
+            </ion-item>
+        }
+        </ion-list>
+      }
+    </ion-card-content>
+  </ion-card>
+</div>
