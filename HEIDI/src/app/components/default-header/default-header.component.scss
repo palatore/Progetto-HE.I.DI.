@@ -1,0 +1,34 @@
+//VARIABILI
+$orange-primary:  #F57C00;
+$orange-light:    #FFA726;
+$orange-dark:     #E65100;
+$orange-pale:     #2C1A00;
+
+$bg-page:         #1A1A1A;
+$bg-card:         #232323;
+$bg-input:        #2C2C2C;
+$bg-subtitle:     #2C1A00;
+
+$text-white:      #ffffff;
+$text-muted:      #888888;
+$text-hint:       #666666;
+$border-color:    #333333;
+$border-input:    #444444;
+$border-abort:    #ff0000;
+
+$purple-confirm:  #8482fb;
+
+// TOOLBAR
+ion-toolbar {
+  --background: #{$orange-primary};
+  --color: #{$text-white};
+
+  ion-title {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+  }
+}

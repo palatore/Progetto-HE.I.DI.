@@ -8,13 +8,14 @@ import { firstValueFrom } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { RiempiDettagliComponent } from "../../../components/riempi-dettagli/riempi-dettagli.component";
 import { InfoDettagliComponent } from "src/app/components/info-dettagli/info-dettagli.component";
+import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
 
 @Component({
   selector: 'app-creazione-pasto',
   templateUrl: './creazione-pasto.page.html',
   styleUrls: ['./creazione-pasto.page.scss'],
   standalone: true,
-  imports: [IonCardTitle, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent]
+  imports: [IonCardTitle, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent, DefaultHeaderComponent]
 })
 export class CreazionePastoPage implements OnInit {
 public page_title:string = 'Creazione Pasto';

@@ -6,13 +6,14 @@ import { RichiesteUtenteComponent } from './richieste-utente/richieste-utente.co
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { firstValueFrom, map, Subject, takeUntil } from 'rxjs';
 import { UtentiAssociatiComponent } from 'src/app/components/utenti-associati/utenti-associati.component';
+import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
 
 @Component({
   selector: 'app-richieste',
   templateUrl: './richieste.page.html',
   styleUrls: ['./richieste.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonButton, IonBadge, IonLabel, IonItem, IonList, IonCardContent, RichiesteUtenteComponent, IonCard, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonMenuButton, CommonModule, FormsModule, IonCardHeader, IonCardTitle, UtentiAssociatiComponent]
+  imports: [IonIcon, IonButton, IonBadge, IonLabel, IonItem, IonList, IonCardContent, RichiesteUtenteComponent, IonCard, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonMenuButton, CommonModule, FormsModule, IonCardHeader, IonCardTitle, UtentiAssociatiComponent, DefaultHeaderComponent]
 })
 export class RichiestePage implements OnInit, OnDestroy{
 
