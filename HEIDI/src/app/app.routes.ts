@@ -44,14 +44,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'gestioneProfessionisti',
-    loadComponent: () => import('./pages/utente/gestione-professionisti/gestione-professionisti.page').then( m => m.GestioneProfessionistiPage)
-  },
-  {
     path: 'profilo',
     loadComponent: () => import('./pages/utente/profilo/profilo.page').then( m => m.ProfiloPage),
     canActivate: [AuthGuard]
-  },  {
+  },
+  {
     path: 'calendario',
     loadComponent: () => import('./pages/calendario/calendario.page').then( m => m.CalendarioPage)
   },

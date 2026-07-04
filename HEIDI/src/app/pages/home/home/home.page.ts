@@ -28,11 +28,7 @@ export class HomePage implements OnInit {
   public richieste_pending:number = 0;
   private destroy$ = new Subject<void>();
 
-  ngOnInit() {
-    if(this.ruoloUtente === '0') {
-    this.caricaAttivitaGiornaliere();
-    }
-  }
+  ngOnInit() {}
 
   public visualizzazione: 'pasti' | 'allenamenti' = 'pasti';
 

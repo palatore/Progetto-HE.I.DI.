@@ -10,23 +10,57 @@
 <ion-content [fullscreen]="true">
     <ion-list>
         @for(allenamento of allenamentiUtente; track allenamentoTrack($index, allenamento)) {
-        <ion-item>
-            <ion-label>
-                <h2>{{ allenamento.name }}</h2>
-                <p>Giorno: {{ allenamento.data | date: 'dd/MM/yyyy' }}</p>
-                <p>Data creazione: {{ allenamento.data_creazione | date: 'dd/MM/yyyy' }}</p>
-            </ion-label>
-            <ion-button fill="outline" (click)="mostraDettagli(allenamento)" slot="end">
-                <ion-icon name="eye-outline"></ion-icon>
-            </ion-button>
-            <ion-button fill="outline" (click)="modificaAllenamento(allenamento)" slot="end">
-                <ion-icon name="create"></ion-icon>
-            </ion-button>
-            <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">
-                <ion-icon name="trash"></ion-icon>
-            </ion-button>
-        </ion-item>
-    }
+            <ion-item>
+                <ion-label>
+                    <h2>{{ allenamento.name }}</h2>
+                    <p>Giorno: {{ allenamento.data | date: 'dd/MM/yyyy' }}</p>
+                    <p>Data creazione: {{ allenamento.data_creazione | date: 'dd/MM/yyyy' }}</p>
+                </ion-label>
+                <ion-button fill="outline" (click)="mostraDettagli(allenamento)" slot="end">
+                    <ion-icon name="eye-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="outline" (click)="modificaAllenamento(allenamento)" slot="end">
+                    <ion-icon name="create"></ion-icon>
+                </ion-button>
+                <ion-button id="open-modal-pasto-{{ allenamento.id }}"fill="outline" (click)="apriRichiesta(allenamento.id)" slot="end">
+                    <ion-icon name="help-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">
+                    <ion-icon name="trash"></ion-icon>
+                </ion-button>
+            </ion-item>
+
+            <ion-modal #modal trigger="open-modal-pasto-{{ allenamento.id }}">
+                <ng-template>
+                    <ion-header>
+                        <ion-toolbar>
+                        <ion-title>Invia a un Professionista</ion-title>
+                        <ion-buttons slot="end">
+                            <ion-button (click)="modal.dismiss()">
+                            <ion-icon name="close"></ion-icon>
+                            </ion-button>
+                        </ion-buttons>
+                        </ion-toolbar>
+                    </ion-header>
+
+                    <ion-content class="ion-padding">
+                        <h3>Seleziona a chi vuoi mandare una richiesta:</h3>
+                        
+                        <ion-list>
+                            @for (prof of professionisti_disponibili; track prof.id) {
+                            <ion-item class="ion-display-flex">
+                                <ion-label>{{ prof.nome_P }} {{ prof.cognome_P }}</ion-label>
+                                <ion-button (click)="inviaRichiesta(prof.id_professionista, 'MODIFICA')">Modifica</ion-button>
+                                <ion-button (click)="inviaRichiesta(prof.id_professionista, 'VOTO')">Vota</ion-button>
+                            </ion-item>
+                            } @empty {
+                            <ion-item>Nessun professionista associato trovato</ion-item>
+                            }
+                        </ion-list>
+                    </ion-content>
+                </ng-template>
+            </ion-modal>
+        }
     </ion-list>
 
     @if(allenamentoSelezionato) {

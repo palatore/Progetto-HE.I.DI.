@@ -1,25 +1,33 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { GestioneAllenamentiService } from "src/app/services/allenamenti/gestione-allenamenti.service";
-import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonMenuButton } from "@ionic/angular/standalone";
+import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonMenuButton, AlertController, IonModal } from "@ionic/angular/standalone";
 import { RouterModule } from "@angular/router";
 import { ModificaDettagliComponent } from "src/app/components/modifica-dettagli/modifica-dettagli.component";
 import { firstValueFrom } from "rxjs/internal/firstValueFrom";
 import { Allenamento } from "src/app/models/allenamento.model";
+import { GestioneUtentiService } from "src/app/services/utenti/gestione-utenti.service";
 
 @Component({
     selector: 'app-allenamenti-utente',
     templateUrl: './allenamenti-utente.page.html',
     styleUrls: ['./allenamenti-utente.page.scss'],
     standalone: true,
-    imports: [IonCardContent, IonCardHeader, IonCardTitle, IonCard, IonIcon, IonItem, IonLabel, IonList, IonContent, IonButton, IonButtons, IonMenuButton, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule, ModificaDettagliComponent ]
+    imports: [IonModal, IonCardContent, IonCardHeader, IonCardTitle, IonCard, IonIcon, IonItem, IonLabel, IonList, IonContent, IonButton, IonButtons, IonMenuButton, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule, ModificaDettagliComponent ]
 })
 export class AllenamentiUtentePage implements OnInit{
 
     public viewModifica:boolean = false;
     public esercizi:any[] = [];
+    public professionisti_disponibili:any[] = [];
 
-    constructor(private workoutService:GestioneAllenamentiService){ }
+    public id_allenamento_richiesta!:number;
+    public allenamentoSelezionato: any = null;
+    public allenamento_da_modificare: any = null;
+    public esercizioSelezionato:any = null;
+    public dettagliAllenamento: any = null; // Variabile per i dettagli dell'allenamento selezionato
+
+    constructor(private workoutService:GestioneAllenamentiService, private alertController: AlertController, private userService:GestioneUtentiService){ }
 
     ngOnInit(){
         this.loadAllenamentiUtente();
@@ -29,12 +37,6 @@ export class AllenamentiUtentePage implements OnInit{
     ionViewWillEnter(){
         this.loadAllenamentiUtente();
     }
-
-    public allenamentoSelezionato: any = null;
-    public allenamento_da_modificare: any = null;
-    public esercizioSelezionato:any = null;
-    public dettagliAllenamento: any = null; // Variabile per i dettagli dell'allenamento selezionato
-
 
     async mostraDettagli(allenamento: any) {
         this.allenamentoSelezionato = allenamento;
@@ -107,6 +109,42 @@ export class AllenamentiUtentePage implements OnInit{
         }
     }
 
+    apriRichiesta(id_allenamento:number) {
+    this.id_allenamento_richiesta = id_allenamento;
+
+    this.userService.getAssociazioniUtente().subscribe({
+      next: (data) => {
+        this.professionisti_disponibili = data.filter(professionista => professionista.ruolo === 2);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  async inviaRichiesta(id_prof:number, tipo:string) {
+    const pacchetto = {
+      id_professionista: id_prof,
+      id_attivita: this.id_allenamento_richiesta,
+      tipologia_attivita: 1,
+      tipo_richiesta: tipo,
+    }
+    try {
+      const response = await firstValueFrom(this.userService.creaRichiesta(pacchetto));
+      if(response.status == 201) {
+        const alert = await this.alertController.create({
+          header: 'Successo',
+          message: 'Richiesta ivniata con successo!',
+          buttons: ['OK']
+        });
+        await alert.present()
+      }
+    } catch(e) {
+      if(e instanceof Error) {
+        console.log('Errore nell\'invio della richiesta', e);
+      }
+    }
+
+  }
+
     async eliminaAllenamento(id: number){
         try{
             const response = await firstValueFrom(this.workoutService.eliminaAllenamento(id));
@@ -123,6 +161,7 @@ export class AllenamentiUtentePage implements OnInit{
     }
 
     allenamentiUtente:Allenamento[] = [];
+
     loadAllenamentiUtente(){
         console.log('Caricamento allenamenti utente...');
         this.workoutService.getAllenamentiUtente().subscribe({

@@ -80,6 +80,18 @@ class User {
     });
   }
 
+  static async getRichieste() {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT * FROM richieste', (err, rows) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
   static async getProfessionisti() {
     return new Promise((resolve, reject) => {
       db.all('SELECT id, name, surname, email, ruolo FROM utenti WHERE ruolo > 0', (err, rows) => {
@@ -156,6 +168,18 @@ class User {
   static async accettaAssociazione(id_associazione) {
     return new Promise((resolve, reject) => {
       db.run('UPDATE associazioni SET stato = "ACCETTATA" WHERE id = ?', [id_associazione], function(err) {
+        if(err) {
+          reject(err);
+        } else {
+          resolve({lastID: this.lastID});
+        }
+      });
+    });
+  }
+
+  static async creaRichiesta(id_utente, dati) {
+    return new Promise((resolve, reject) => {
+      db.run('INSERT INTO richieste (id_professionista, id_paziente, id_attivita, tipologia_attivita, tipo_richiesta) VALUES (?, ?, ?, ?, ?)', [dati.id_professionista, id_utente, dati.id_attivita, dati.tipologia_attivita, dati.tipo_richiesta], function(err) {
         if(err) {
           reject(err);
         } else {

@@ -75,6 +75,16 @@ class UserServices {
         }
     };
 
+    static async getRichieste() {
+        const richieste = await User.getRichieste();
+        if(richieste && richieste.length >0) {
+            return richieste;
+        } else {
+            console.log('richieste non trovate');
+            return [];
+        }
+    };
+
     static async getRuoloProfessionista(id_professionista) {
         const ruolo = await User.getRuoloProfessionista(id_professionista);
         if(ruolo) {
@@ -138,6 +148,16 @@ class UserServices {
         }
         return accettata;
     };
+
+    static async creaRichiesta(id_utente, dati) {
+        const creata = await User.creaRichiesta(id_utente, dati);
+        if(creata) {
+            console.log('Richiesta creata con successo');
+        } else {
+            console.log('Errore nella creazione della richiesta');
+        }
+        return creata;
+    }
 
     static async creaInfo(id_utente){
         const info = await User.creaInfo(id_utente);

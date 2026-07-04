@@ -70,6 +70,19 @@ class UserControllers {
             res.status(500).json({error: e.message});
         }
     };
+    static getRichieste = async (req, res) => {
+        try {
+            const result = await UserServices.getRichieste();
+            if(result) {
+                console.log('Richieste in arrivo', result);
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'non trovato'});
+            }
+        } catch (e) {
+            res.status(500).json({error: e.message});
+        }
+    }
 
     static getRuoloProfessionista = async (req, res) => {
         try {
@@ -150,6 +163,17 @@ class UserControllers {
             console.log('Controller: id_associazione ricevuto:', id_associazione);
             const result = await UserServices.accettaAssociazione(id_associazione);
             res.status(201).json({message: 'Associazione accettata con successo', result});
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static creaRichiesta = async (req, res) => {
+        try {
+            const user_id = req.user.id;
+            const { dati } = req.body;
+            const result = await UserServices.creaRichiesta(user_id, dati);
+            res.status(201).json({message: 'Richiesta creata con successo', result});
         } catch(e) {
             res.status(500).json({error: e.message});
         }

@@ -43,20 +43,20 @@
             </ion-toolbar>
           </ion-header>
           <ion-content class="ion-padding">
-          <h3>Seleziona a chi vuoi mandare una richiesta:</h3>
+            <h3>Seleziona a chi vuoi mandare una richiesta:</h3>
           
-          <ion-list>
-            @for (prof of professionisti_disponibili; track prof.id) {
-              <ion-item class="ion-display-flex">
-                <ion-label>{{ prof.nome_P }} {{ prof.cognome_P }}</ion-label>
-                <ion-button (click)="inviaRichiesta(prof.id_professionista, 'MODIFICA')">Modifica</ion-button>
-                <ion-button (click)="inviaRichiesta(prof.id_professionista, 'VOTO')">Vota</ion-button>
-              </ion-item>
-            } @empty {
-              <ion-item>Nessun professionista associato trovato</ion-item>
-            }
-          </ion-list>
-        </ion-content>
+            <ion-list>
+              @for (prof of professionisti_disponibili; track prof.id) {
+                <ion-item class="ion-display-flex">
+                  <ion-label>{{ prof.nome_P }} {{ prof.cognome_P }}</ion-label>
+                  <ion-button (click)="inviaRichiesta(prof.id_professionista, 'MODIFICA')">Modifica</ion-button>
+                  <ion-button (click)="inviaRichiesta(prof.id_professionista, 'VOTO')">Vota</ion-button>
+                </ion-item>
+              } @empty {
+                <ion-item>Nessun professionista associato trovato</ion-item>
+              }
+            </ion-list>
+          </ion-content>
         </ng-template>
       </ion-modal>
     }

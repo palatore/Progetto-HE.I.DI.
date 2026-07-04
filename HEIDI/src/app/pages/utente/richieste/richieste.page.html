@@ -1,43 +1,109 @@
-<app-default-header [page_title]="'Richieste'"></app-default-header>
+@if(ruoloUtente === '0') {
+  <app-default-header [page_title]="'Gestione Professionisti'"></app-default-header>
 
-<ion-content [fullscreen]="true">
-  <ion-card class="statusRichieste">
-    @if(nuova_richiesta_pending) {
-      <!-- qui metto in evidenza le richieste in attesa di approvazione -->
-       <ion-card class="richiestePending">
-        <ion-card-header>
-          <ion-card-title>Hai richieste in attesa di approvazione</ion-card-title>
-          <ion-card-content>
-            <ion-list>
-              @for(richiesta of richieste_associazioni; track richiesta.id) {
-                <ion-item>
-                  <ion-label class="ion-display-flex ion-justify-content-between">
-                    <h2 class="ion-no-margin">{{richiesta.id}} {{richiesta.nome_p}} {{richiesta.cognome_p}}</h2>
-                    <p class="ion-no-margin">Richiesta associazione</p>
-                    <ion-badge color="warning" class="badge-pending">PENDING</ion-badge>
-                  </ion-label>
+  <ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-title size="large">gestione-professionisti</ion-title>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
-                  <ion-button slot="end" color="success" (click)="accettaAssociazione(richiesta.id_associazione)">
-                    <ion-icon name="checkmark-outline"></ion-icon>
-                  </ion-button>
-                  <ion-button slot="end" color="danger" (click)="rifiutaAssociazione(richiesta.id_associazione)">
-                    <ion-icon name="trash"></ion-icon>
-                  </ion-button>
-                </ion-item>
-              }
-            </ion-list>
-          </ion-card-content>
-        </ion-card-header>
-       </ion-card>
-    }
+  <app-utenti-associati
+    [utenti_associati]="associazioni_in_corso"
+    [flag_utenti]="false"
+    (cancella_associazione)="annullaAssociazione($event)">
+    </app-utenti-associati>
 
-    <!--  qui metto tutte le richieste ordinandole per status, l'ideale sarebbe inserire dei flag per visualizzare le diverse tipologie -->
-    <app-richieste-utente></app-richieste-utente>
-
-    <app-utenti-associati
-      [utenti_associati]="associazioni_in_corso"
-      [flag_utenti]="true"
-      (cancella_associazione)="rifiutaAssociazione($event)"></app-utenti-associati>
-
+  <ion-card class="mieiProfessionistiCard">
+    <ion-card-header>
+      <ion-card-title>
+        Richieste associazioni inviate
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      @for(associazione of associazioni; track associazione.id) {
+        <ion-item [ngStyle]="{'display': 'flex', 'justify-content':'space-between'}">
+          <ion-label>{{associazione.nome_P}} {{associazione.cognome_P}}, {{associazione.ruolo}}</ion-label>
+          @if(associazione.stato === 'PENDING') {
+          <ion-badge color="warning">{{associazione.stato}}</ion-badge>
+          } @else if(associazione.stato === "ACCETTATA"){
+          <ion-badge color="success">{{associazione.stato}}</ion-badge>
+          }
+        </ion-item>
+      }
+    </ion-card-content>
   </ion-card>
-</ion-content>
+
+  <ion-card class="professionistiCard">
+    <ion-card-header>
+      <ion-card-title>
+        Professionisti disponibili
+      </ion-card-title>
+    </ion-card-header>
+
+    <!--Spazio dove vengono mostrati i professionisti, manca una label o un radio per filtrare i ruoli-->
+    <ion-card-content [ngStyle]="{'max-height': '400px', 'overflow-y': 'auto'}">
+      @for(professionista of professionisti; track professionista.email) {
+        <ion-card [ngStyle]="{'display': 'flex', 'justify-content':'space-between','box-shadow': '0 10px 10px rgba(0, 0, 0, 0.1)', 'max-height':'60px', 'overflow-x':'auto'}">
+          <ion-card-content><b>{{professionista.name}} {{professionista.surname}}</b></ion-card-content>
+          <ion-card-content>{{professionista.email}}</ion-card-content>
+          @if( professionista.ruolo === 1) {
+          <ion-card-content>Nutrizionista</ion-card-content>
+          } @else {
+          <ion-card-content>Allenatore</ion-card-content>
+          }
+          <ion-button [disabled]="checkRichieste(professionista.id)" (click)="inviaRichiesta(professionista.id)">Richiedi</ion-button>
+        </ion-card>
+      }
+    </ion-card-content>
+  </ion-card>
+
+  </ion-content>
+} @else {
+  <app-default-header [page_title]="'Richieste'"></app-default-header>
+  
+  <ion-content [fullscreen]="true">
+    <ion-card class="statusRichieste">
+      @if(nuova_richiesta_pending) {
+        <!-- qui metto in evidenza le richieste in attesa di approvazione -->
+        <ion-card class="richiestePending">
+          <ion-card-header>
+            <ion-card-title>Hai richieste in attesa di approvazione</ion-card-title>
+            <ion-card-content>
+              <ion-list>
+                @for(richiesta of richieste_associazioni; track richiesta.id) {
+                  <ion-item>
+                    <ion-label class="ion-display-flex ion-justify-content-between">
+                      <h2 class="ion-no-margin">{{richiesta.id}} {{richiesta.nome_p}} {{richiesta.cognome_p}}</h2>
+                      <p class="ion-no-margin">Richiesta associazione</p>
+                      <ion-badge color="warning" class="badge-pending">PENDING</ion-badge>
+                    </ion-label>
+
+                    <ion-button slot="end" color="success" (click)="accettaAssociazione(richiesta.id_associazione)">
+                      <ion-icon name="checkmark-outline"></ion-icon>
+                    </ion-button>
+                    <ion-button slot="end" color="danger" (click)="rifiutaAssociazione(richiesta.id_associazione)">
+                      <ion-icon name="trash"></ion-icon>
+                    </ion-button>
+                  </ion-item>
+                }
+              </ion-list>
+            </ion-card-content>
+          </ion-card-header>
+        </ion-card>
+      }
+
+      <!--  qui metto tutte le richieste ordinandole per status, l'ideale sarebbe inserire dei flag per visualizzare le diverse tipologie -->
+      <app-richieste-utente></app-richieste-utente>
+
+      <app-utenti-associati
+        [utenti_associati]="associazioni_in_corso"
+        [flag_utenti]="true"
+        (cancella_associazione)="rifiutaAssociazione($event)"></app-utenti-associati>
+
+    </ion-card>
+  </ion-content>
+}

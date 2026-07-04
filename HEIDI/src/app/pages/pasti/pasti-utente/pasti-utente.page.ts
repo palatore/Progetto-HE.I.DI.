@@ -159,20 +159,19 @@ export class PastiUtentePage implements OnInit {
     }
     try {
       const response = await firstValueFrom(this.userService.creaRichiesta(pacchetto));
-      if(response && response.status === 201) {
-        console.log('Richiesta inviata con successo', response);
-        const alert = this.alertController.create({
+      if(response.status == 201) {
+        const alert = await this.alertController.create({
           header: 'Successo',
           message: 'Richiesta ivniata con successo!',
           buttons: ['OK']
         });
+        await alert.present()
       }
     } catch(e) {
       if(e instanceof Error) {
         console.log('Errore nell\'invio della richiesta', e);
       }
     }
-
   }
 
   async eliminaPasto(id_pasto: number) {

@@ -9,12 +9,14 @@ router.get('/utente/:id_utente', authenticateToken, UserControllers.getUtenteByI
 router.get('/infoUtente/:id_utente', authenticateToken, UserControllers.getInfoUtenteById);
 router.get('/ruoli/:ruolo', UserControllers.getUtentiByRuolo);
 router.get('/albo', UserControllers.getAlbo);
+router.get('/richieste', UserControllers.getRichieste);
 router.get('/associazioniUtente', authenticateToken, UserControllers.getAssociazioniUtente);
 router.get('/associazioniProfessionista', authenticateToken, UserControllers.getAssociazioniProfessionista);
 router.get('/richiestePending', authenticateToken, UserControllers.getRichiestePending);
 router.get('/ruoloProfessionista/:id_professionista', authenticateToken, UserControllers.getRuoloProfessionista);
 router.post('/creaAssociazione', authenticateToken, UserControllers.creaAssociazione);
 router.patch('/accettaAssociazione', authenticateToken, UserControllers.accettaAssociazione);
+router.post('/creaRichiesta', authenticateToken, UserControllers.creaRichiesta);
 router.post('/utente/creaInfo', authenticateToken, UserControllers.creaInfo);
 router.post('/utente/riempiInfo', authenticateToken, UserControllers.riempiInfo);
 router.post('/utente/aggiornaPassword/:id_utente', authenticateToken, UserControllers.aggiornaPassword);
