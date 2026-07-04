@@ -38,11 +38,11 @@ export class RichiestePage implements OnInit, OnDestroy{
   }
 
   //Da finire dopo aver implementato richieste di voto e modifiche lato utente
-  async loadAllRichieste() {
+  loadAllRichieste() {
    
   }
 
-  async loadAllAssociazioni() {
+  loadAllAssociazioni() {
     this.userService.getAssociazioniProfessionista().pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
         console.log('Associazioni caricate:', data);

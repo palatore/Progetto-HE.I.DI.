@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { Pasto } from 'src/app/models/pasto.model';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonIcon, IonMenuButton } from '@ionic/angular/standalone';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonIcon, IonMenuButton, IonModal, AlertController } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { ModificaDettagliComponent } from 'src/app/components/modifica-dettagli/modifica-dettagli.component';
+import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { ModificaDettagliComponent } from 'src/app/components/modifica-dettagli/
   templateUrl: './pasti-utente.page.html',
   styleUrls: ['./pasti-utente.page.scss'],
   standalone: true,
-  imports: [IonButtons, IonMenuButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent]
+  imports: [IonModal, IonButtons, IonMenuButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent]
 })
 export class PastiUtentePage implements OnInit {
   totZuccheri:number = 0;
@@ -24,19 +25,10 @@ export class PastiUtentePage implements OnInit {
   totVitamine:string = '';
 
   public alimenti:any[] = [];
+  public professionisti_disponibili:any[] = [];
   public viewModifica:boolean = false;
 
-  constructor(private foodService:GestionePastiService) { }
-
-  ngOnInit() {
-    this.loadPastiUtente();
-    this.loadAlimenti();
-  }
-
-  ionViewWillEnter() {
-    this.loadPastiUtente();
-  }
-
+  public id_pasto_richiesta!:number;
   public pastoSelezionato: any = null;
   public pasto_da_modificare: any = null;
   public alimentoSelezionato:any = null;
@@ -49,6 +41,17 @@ export class PastiUtentePage implements OnInit {
   public filtroNome: string = ''; // Variabile per il filtro per nome del pasto
   public filtroCalorie: number = 0; // Variabile per il filtro per calorie
   public filtroAlimenti: string[] = []; // Variabile per il filtro per alimenti
+
+  constructor(private foodService:GestionePastiService, private userService:GestioneUtentiService, private alertController:AlertController) { }
+
+  ngOnInit() {
+    this.loadPastiUtente();
+    this.loadAlimenti();
+  }
+
+  ionViewWillEnter() {
+    this.loadPastiUtente();
+  }
 
 
  async mostraDettagli(pasto: any) {
@@ -136,9 +139,45 @@ export class PastiUtentePage implements OnInit {
     }
   }
 
-  async eliminaPasto(id: number) {
+  apriRichiesta(id_pasto:number) {
+    this.id_pasto_richiesta = id_pasto;
+
+    this.userService.getAssociazioniUtente().subscribe({
+      next: (data) => {
+        this.professionisti_disponibili = data.filter(professionista => professionista.ruolo === 1);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  async inviaRichiesta(id_prof:number, tipo:string) {
+    const pacchetto = {
+      id_professionista: id_prof,
+      id_attivita: this.id_pasto_richiesta,
+      tipologia_attivita: 0,
+      tipo_richiesta: tipo,
+    }
     try {
-      const response = await firstValueFrom(this.foodService.eliminaPasto(id));
+      const response = await firstValueFrom(this.userService.creaRichiesta(pacchetto));
+      if(response && response.status === 201) {
+        console.log('Richiesta inviata con successo', response);
+        const alert = this.alertController.create({
+          header: 'Successo',
+          message: 'Richiesta ivniata con successo!',
+          buttons: ['OK']
+        });
+      }
+    } catch(e) {
+      if(e instanceof Error) {
+        console.log('Errore nell\'invio della richiesta', e);
+      }
+    }
+
+  }
+
+  async eliminaPasto(id_pasto: number) {
+    try {
+      const response = await firstValueFrom(this.foodService.eliminaPasto(id_pasto));
       console.log('Pasto eliminato con successo:', response);
       // Ricarica i pasti utente dopo l'eliminazione
       this.loadPastiUtente();
@@ -179,5 +218,4 @@ export class PastiUtentePage implements OnInit {
       error: (err) => {console.error(err);}
     });
   }
-
 }

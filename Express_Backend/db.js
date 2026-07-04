@@ -98,7 +98,7 @@ db.serialize(() => {
         }
     });
 
-    //creazione della tabella delle richieste di modifica/voto di un pasto o allenamento da parte di un paziente a un professionista
+    //creazione della tabella delle richieste di modifica/voto di un pasto o allenamento da parte di un paziente a un professionista, 0 per i pasti 1 per gli allenamenti
     db.run(`CREATE TABLE IF NOT EXISTS richieste (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_professionista INTEGER NOT NULL,

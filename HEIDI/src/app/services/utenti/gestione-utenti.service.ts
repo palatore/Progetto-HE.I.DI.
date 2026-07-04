@@ -76,6 +76,13 @@ export class GestioneUtentiService {
     return this.http.post<any>(`${this.apiUrl}/api/users/creaAssociazione`, {id_persona}, {headers, observe: 'response'});
   }
 
+  creaRichiesta(dati:any):Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post<any>(`${this.apiUrl}/api/users/creaRichiesta`, {dati}, {headers, observe: 'response'});
+
+  }
+
   accettaAssociazione(id_associazione:number):Observable<any> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };

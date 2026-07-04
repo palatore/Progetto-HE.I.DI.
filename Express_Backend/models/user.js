@@ -107,7 +107,7 @@ class User {
 
   static async getAssociazioniUtente(id_utente) {
     return new Promise((resolve, reject) => {
-      db.all('SELECT a.id AS id_associazione, a.id_professionista, u.name AS nome_P, u.surname AS cognome_P, a.stato FROM associazioni a JOIN utenti u ON a.id_professionista = u.id WHERE a.id_paziente = ?', [id_utente], (err, rows) => {
+      db.all('SELECT a.id AS id_associazione, a.id_professionista, u.name AS nome_P, u.surname AS cognome_P, u.ruolo, a.stato FROM associazioni a JOIN utenti u ON a.id_professionista = u.id WHERE a.id_paziente = ?', [id_utente], (err, rows) => {
         if(err) {
           reject(err);
         } else {
