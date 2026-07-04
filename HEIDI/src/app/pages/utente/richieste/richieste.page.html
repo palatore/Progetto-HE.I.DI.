@@ -37,6 +37,11 @@
     </ion-card-content>
   </ion-card>
 
+  <app-richieste-utente
+    [richieste_utente]="richieste"
+    [ruoloUtente]="ruoloUtente">
+    </app-richieste-utente>
+
   <ion-card class="professionistiCard">
     <ion-card-header>
       <ion-card-title>
@@ -62,9 +67,9 @@
   </ion-card>
 
   </ion-content>
-} @else {
+} @else if(ruoloUtente === '1' || ruoloUtente === '2'){
   <app-default-header [page_title]="'Richieste'"></app-default-header>
-  
+
   <ion-content [fullscreen]="true">
     <ion-card class="statusRichieste">
       @if(nuova_richiesta_pending) {
@@ -96,8 +101,11 @@
         </ion-card>
       }
 
-      <!--  qui metto tutte le richieste ordinandole per status, l'ideale sarebbe inserire dei flag per visualizzare le diverse tipologie -->
-      <app-richieste-utente></app-richieste-utente>
+      <app-richieste-utente
+      [richieste_utente]="richieste"
+      [ruoloUtente]="ruoloUtente"
+      (rifiuta)="rifiutaRichiesta($event)">
+      </app-richieste-utente>
 
       <app-utenti-associati
         [utenti_associati]="associazioni_in_corso"
@@ -106,4 +114,7 @@
 
     </ion-card>
   </ion-content>
-}
+} @else {
+    Controlla di avere i giusti permessi
+    <ion-button [routerLink]="['/login']"></ion-button>
+  }

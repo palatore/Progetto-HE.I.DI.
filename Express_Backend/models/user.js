@@ -141,6 +141,30 @@ class User {
     });
   }
 
+  static async getRichiesteUtente(id_utente) {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT r.id, r.id_attivita, r.tipologia_attivita, r.tipo_richiesta, r.stato, u.name AS nome_P, u.surname AS cognome_P FROM richieste r JOIN utenti u ON r.id_professionista = u.id WHERE r.id_paziente = ?', [id_utente], (err, rows) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
+  static async getRichiesteProfessionista(id_professionista) {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT r.id, r.id_attivita, r.tipologia_attivita, r.tipo_richiesta, r.stato, u.name AS nome_p, u.surname AS cognome_p FROM richieste r JOIN utenti u ON r.id_paziente = u.id WHERE r.id_professionista = ?', [id_professionista], (err, rows) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
   static async getRichiestePending(id_professionista) {
     return new Promise((resolve, reject) => {
       db.all('SELECT a.id, u.name, u.surname, u.email, a.stato FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_professionista = ? AND stato = "PENDING"', [id_professionista], (err, rows) => {

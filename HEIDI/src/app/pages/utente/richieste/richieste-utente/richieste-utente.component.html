@@ -1,3 +1,58 @@
-<div class="richiesteUtente">
-  
+<div class="richieste">
+  @if(ruoloUtente === '0') {
+    <ion-card class="richesteUtente ion-padding">
+        <ion-card-header>
+            <ion-card-title>Richieste effettuate</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            @for(richiesta of richieste_utente; track richiesta.id) {
+                <ion-item class="richiesta">
+                    @if(richiesta.tipologia_attivita === 0){
+                        <ion-label class="ion-padding-horizontal">{{richiesta.tipo_richiesta}} PASTO id: {{richiesta.id_attivita}}</ion-label>
+                    } @else {
+                        <ion-label class="ion-padding-horizontal">{{richiesta.tipo_richiesta}} ALLENAMENTO id: {{richiesta.id_attivita}}</ion-label>
+                    }
+                    <ion-label class="ion-padding-horizontal">A: {{richiesta.nome_P}} {{richiesta.cognome_P}}</ion-label>
+                    @if(richiesta.stato === 'PENDING') {
+                        <ion-badge color="warning">PENDING</ion-badge>
+                    } @else {
+                        <ion-badge color="success">{{richiesta.stato}}</ion-badge>
+                    }
+                </ion-item>
+            }
+        </ion-card-content>
+    </ion-card>
+  } @else if (ruoloUtente === '1' || ruoloUtente === '2') {
+    <ion-card class="richesteUtente">
+        <ion-card-header>
+            <ion-card-title>Richieste ricevute</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            @for(richiesta of richieste_utente; track richiesta.id) {
+                <ion-item class="richiesta">
+                    @if(richiesta.tipologia_attivita === 0){
+                        <ion-label class="ion-padding-horizontal">{{richiesta.tipo_richiesta}} PASTO id: {{richiesta.id_attivita}}</ion-label>
+                    } @else {
+                        <ion-label class="ion-padding-horizontal">{{richiesta.tipo_richiesta}} ALLENAMENTO id: {{richiesta.id_attivita}}</ion-label>
+                    }
+                    <ion-label class="ion-padding-horizontal">Da: {{richiesta.nome_p}} {{richiesta.cognome_p}}</ion-label>
+                    @if(richiesta.stato === 'PENDING') {
+                        <ion-badge color="warning">PENDING</ion-badge>
+                    } @else {
+                        <ion-badge color="success">{{richiesta.stato}}</ion-badge>
+                    }
+                <ion-button slot="end" fill="outline" color="success">
+                    <ion-icon name="checkmark-outline"></ion-icon>
+                </ion-button>
+                <ion-button slot="end" fill="outline" color="danger">
+                    <ion-icon name="trash"></ion-icon>
+                </ion-button>
+                </ion-item>
+            }
+        </ion-card-content>
+    </ion-card>
+  } @else {
+    Controlla di avere i giusti permessi
+    <ion-button [routerLink]="['/login']"></ion-button>
+  }
 </div>

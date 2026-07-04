@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonLabel, IonBadge, IonButton, IonIcon, AlertController } from '@ionic/angular/standalone';
@@ -8,15 +8,16 @@ import { firstValueFrom, forkJoin, map, of, Subject, switchMap, takeUntil } from
 import { UtentiAssociatiComponent } from 'src/app/components/utenti-associati/utenti-associati.component';
 import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
 import { LoginService } from 'src/app/services/auth/login.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-richieste',
   templateUrl: './richieste.page.html',
   styleUrls: ['./richieste.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonButton, IonBadge, IonLabel, IonItem, IonList, IonCardContent, RichiesteUtenteComponent, IonCard, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonMenuButton, CommonModule, FormsModule, IonCardHeader, IonCardTitle, UtentiAssociatiComponent, DefaultHeaderComponent]
+  imports: [RouterModule, IonIcon, IonButton, IonBadge, IonLabel, IonItem, IonList, IonCardContent, RichiesteUtenteComponent, IonCard, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonMenuButton, CommonModule, FormsModule, IonCardHeader, IonCardTitle, UtentiAssociatiComponent, DefaultHeaderComponent]
 })
-export class RichiestePage implements OnInit, OnDestroy{
+export class RichiestePage implements OnInit {
 
   //VARIABILI ESCLUSIVE LATO UTENTE
   public professionisti:any[] = [];
@@ -32,13 +33,15 @@ export class RichiestePage implements OnInit, OnDestroy{
   public ruoloUtente:string | null = null;
   public associazioni:any[] = [];
   public associazioni_in_corso:any[] = [];
+  public richieste:any[] = [];
 
   constructor(private userService:GestioneUtentiService, private authService:LoginService, private alertController:AlertController) { }
 
 
   //LIFECYCLE PAGINA---------------------------------------------------------------------------
+  ngOnInit() {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.authService.ruoloUtente.pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
         this.ruoloUtente = data;
@@ -46,20 +49,20 @@ export class RichiestePage implements OnInit, OnDestroy{
         if(this.ruoloUtente === '0') {
           this.loadProfessionisti();
           this.loadAssociazioniUtente();
+          this.loadRichiesteUtente();
         } else {
           console.log('Caricamento richieste in corso...');
           this.loadAssociazioniProfessionista();
-          this.loadAllRichieste();
+          this.loadRichiesteProfessionista();
         }
       },
       error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
     });
   }
 
-  ngOnDestroy() {
-    console.log('ondestroy');
+  ionViewWillLeave() {
+    console.log('willLeave');
     this.destroy$.next();
-    this.destroy$.complete();
   }
 
   //METODI LATO UTENTE---------------------------------------------------------------------------
@@ -104,6 +107,13 @@ export class RichiestePage implements OnInit, OnDestroy{
         console.log(e.message);
       }
     }
+  }
+
+  loadRichiesteUtente() {
+    this.userService.getRichiesteUtente().pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => this.richieste = data,
+      error: (err) => console.log(err)
+    });
   }
 
   checkRichieste(id_professionista:number):boolean {
@@ -159,9 +169,11 @@ export class RichiestePage implements OnInit, OnDestroy{
 
   //METODI LATO PROFESSIONISTA-------------------------------------------------------------------
 
-  //Da finire dopo aver implementato richieste di voto e modifiche lato utente
-  loadAllRichieste() {
-   
+  loadRichiesteProfessionista() {
+   this.userService.getRichiesteProfessionista().pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => this.richieste = data,
+      error: (err) => console.log(err)
+    });
   }
 
   loadAssociazioniProfessionista() {
@@ -172,7 +184,6 @@ export class RichiestePage implements OnInit, OnDestroy{
 
         this.richieste_associazioni = this.associazioni.filter(associazione => associazione.stato === 'PENDING');
         this.associazioni_in_corso = this.associazioni.filter(associazione => associazione.stato === 'ACCETTATA');
-        console.log(this.richieste_associazioni);
 
         if(this.richieste_associazioni.length > 0 || this.richieste_voto.length > 0 || this.richieste_modifica.length > 0) {
           this.nuova_richiesta_pending = true;
@@ -213,5 +224,8 @@ export class RichiestePage implements OnInit, OnDestroy{
         console.log('Errore nel rifiuto dell\'associazione', e.message);
       }
     }
+  }
+
+  async rifiutaRichiesta(id_richiesta:number) {
   }
 }

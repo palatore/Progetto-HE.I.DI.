@@ -108,7 +108,7 @@ class UserControllers {
                 console.log('Arrivano le associazioni');
                 res.json(result);
             } else {
-                res.status(404).json({error: 'Associazioi non trovate'});
+                res.status(404).json({error: 'Associazioni non trovate'});
             }
         } catch(e) {
             res.status(500).json({error: e.message});
@@ -118,7 +118,6 @@ class UserControllers {
     static getAssociazioniProfessionista = async (req, res) => {
         try {
             const id_professionista = req.user.id;
-            console.log(id_professionista);
             const result = await UserServices.getAssociazioniProfessionista(id_professionista);
             if(result){
                 console.log('Arrivano le associazioni del professionista', result);
@@ -130,6 +129,38 @@ class UserControllers {
             res.status(500).json({error: e.message});
         }
     };
+
+    static getRichiesteUtente = async (req, res) => {
+        try {
+            const id_utente = req.user.id;
+            const result = await UserServices.getRichiesteUtente(id_utente);
+            if(result){
+                console.log('Arrivano le richieste');
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Richieste non trovate'});
+            }
+            
+        } catch (e) {
+            res.status(500).json({error: e.message});
+        }
+    }
+
+    static getRichiesteProfessionista = async (req, res) => {
+        try {
+            const id_professionista = req.user.id;
+            const result = await UserServices.getRichiesteProfessionista(id_professionista);
+            if(result){
+                console.log('Arrivano le richieste');
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Richieste non trovate'});
+            }
+            
+        } catch (e) {
+            res.status(500).json({error: e.message});
+        }
+    }
 
     static getRichiestePending = async (req, res) => {
         try {

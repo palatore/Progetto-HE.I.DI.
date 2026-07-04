@@ -110,10 +110,32 @@ class UserServices {
     static async getAssociazioniProfessionista(id_professionista) {
         const associazioni = await User.getAssociazioniProfessionista(id_professionista);
         if(associazioni && associazioni.length > 0) {
-            console.log('Lista ottenutaaaaaaa:', associazioni);
+            console.log('Lista ottenuta:', associazioni);
             return associazioni;
         } else {
             console.log('Nessuna associazione con professionisti trovata');
+            return [];
+        }
+    };
+
+    static async getRichiesteUtente(id_utente) {
+        const richieste = await User.getRichiesteUtente(id_utente);
+        if(richieste && richieste.length > 0) {
+            console.log('Lista ottenuta:', richieste);
+            return richieste;
+        } else {
+            console.log('Nessuna richiesta trovata');
+            return [];
+        }
+    };
+
+    static async getRichiesteProfessionista(id_professionista) {
+        const richieste = await User.getRichiesteProfessionista(id_professionista);
+        if(richieste && richieste.length > 0) {
+            console.log('Lista ottenuta:', richieste);
+            return richieste;
+        } else {
+            console.log('Nessuna richiesta trovata');
             return [];
         }
     };

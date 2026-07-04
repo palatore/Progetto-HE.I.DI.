@@ -12,6 +12,8 @@ router.get('/albo', UserControllers.getAlbo);
 router.get('/richieste', UserControllers.getRichieste);
 router.get('/associazioniUtente', authenticateToken, UserControllers.getAssociazioniUtente);
 router.get('/associazioniProfessionista', authenticateToken, UserControllers.getAssociazioniProfessionista);
+router.get('/richiesteUtente', authenticateToken, UserControllers.getRichiesteUtente);
+router.get('/richiesteProfessionista', authenticateToken, UserControllers.getRichiesteProfessionista);
 router.get('/richiestePending', authenticateToken, UserControllers.getRichiestePending);
 router.get('/ruoloProfessionista/:id_professionista', authenticateToken, UserControllers.getRuoloProfessionista);
 router.post('/creaAssociazione', authenticateToken, UserControllers.creaAssociazione);
