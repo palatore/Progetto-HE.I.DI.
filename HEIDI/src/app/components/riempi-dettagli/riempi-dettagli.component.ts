@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { IonButton, IonCard, IonCardHeader, IonCardContent, IonCol, IonGrid, IonInput, IonRow, IonCardTitle, IonIcon } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
+import { addIcons } from 'ionicons';
+import { searchOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-riempi-dettagli',
@@ -19,7 +21,10 @@ export class RiempiDettagliComponent  implements OnChanges, OnDestroy{
   public dettagli_inseriti:any[] = [];
   public durata_allenamento:number = 0;
 
-  constructor() {}
+  constructor() {
+
+    addIcons({ searchOutline });
+  }
 
   @Input()
     set miei_dettagli(value:any[]) {

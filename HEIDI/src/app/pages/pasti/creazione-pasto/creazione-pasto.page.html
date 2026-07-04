@@ -3,14 +3,14 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{page_title}}</ion-title>
+    <ion-title class="ion-text-center">{{page_title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-card class="provvisoria">
+<ion-content [fullscreen]="true" class="pastoBackground">
+  <ion-card class="datiPasto">
     <ion-card-header>
-      SEZIONE PROVVISORIA
+      <ion-card-title>Inserisci i dati del pasto</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <form [formGroup]="pastoForm" (ngSubmit)="onSubmit()">
@@ -21,7 +21,7 @@
             </ion-col>
             <ion-col>
               <ion-item>
-                <ion-select placeholder="Tipo Pasto" formControlName="tipo">
+                <ion-select placeholder="Tipo Pasto" formControlName="tipo" cancelText="Annulla" okText="Conferma">
                   <ion-select-option value="Colazione">Colazione</ion-select-option>
                   <ion-select-option value="Pranzo">Pranzo</ion-select-option>
                   <ion-select-option value="Cena">Cena</ion-select-option>
@@ -32,10 +32,12 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-        <ion-button type="submit" [disabled]="!pastoForm.valid">Crea</ion-button>
-        @if(showRiempiPasto){
-          <ion-button color="danger" (click)="annullaCreazione()">Annulla</ion-button>
+        <ion-row class="buttonRow">
+          @if(showRiempiPasto){
+          <ion-button class="dangerButton" (click)="annullaCreazione()">Annulla</ion-button>
         } 
+          <ion-button type="submit" [disabled]="!pastoForm.valid">Crea pasto</ion-button>
+        </ion-row>
         @if(showAlreadyExistent){
           <div style="color: red; background-color: transparent">
           Pasto già esistente

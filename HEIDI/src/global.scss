@@ -44,6 +44,24 @@ ion-input {
   }
 }
 
+ion-alert {
+  --ion-color-primary: #F57C00;
+
+  .alert-wrapper {
+  .alert-button-group {
+    button:first-of-type {
+      color: #ff0000!important;
+    }
+
+    button:last-of-type {
+      color: #F57C00 !important;
+    }
+  }
+}
+}
+
+
+
 ion-content {
     --ion-background-color: lightblue;
 }

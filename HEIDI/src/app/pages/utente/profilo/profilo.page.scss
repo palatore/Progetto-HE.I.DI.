@@ -16,6 +16,8 @@ $border-color:    #333333;
 $border-input:    #444444;
 $border-abort:    #ff0000;
 
+$purple-confirm:  #8482fb;
+
 // TOOLBAR
 ion-toolbar {
   --background: #{$orange-primary};
@@ -156,7 +158,12 @@ ion-modal {
     --background: #{$orange-primary};
 
 
-
+    ion-input {
+        --color: #{$text-white};
+        --placeholder-color: #{$text-muted};
+        --highlight-color-focused: #{$orange-primary};
+        --highlight-color-valid: #{$purple-confirm};
+    }
 
     ion-card-header {
         font-size: 15px;

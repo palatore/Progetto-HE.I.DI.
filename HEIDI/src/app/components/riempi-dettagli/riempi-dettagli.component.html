@@ -9,7 +9,7 @@
       <!--Sezione cibo-->
       <ion-card-content class="foodCardContent">
         <ion-grid>
-          <ion-row>
+          <ion-row class="textRow">
             <ion-col size="5">
               Alimenti inseriti
             </ion-col>
@@ -17,7 +17,7 @@
               Quantità in grammi
             </ion-col>
           </ion-row>
-          <ion-row>
+          <ion-row class="dettagliRow">
             @for(dettaglio of dettagli_inseriti; track dettaglioTrack($index, dettaglio)) {
               <ion-col size = "5">
                 <p><b>{{dettaglio.name}}</b></p>
@@ -26,14 +26,16 @@
                 <p><b>{{dettaglio.quantita}} g</b></p>
               </ion-col>
               <ion-col size = "2">
-                  <ion-button (click)="rimuoviDettaglio($index)" color="danger" fill="outline">
+                  <ion-button (click)="rimuoviDettaglio($index)" class="deleteAlimento" fill="outline">
                     <ion-icon name="trash"></ion-icon>
                   </ion-button>
               </ion-col>
             }
           </ion-row>
         </ion-grid>
-        <ion-button (click)="submitRiempi()">Completa Pasto</ion-button>
+        <ion-row class="buttonRow">
+           <ion-button (click)="submitRiempi()">Completa Pasto</ion-button>
+        </ion-row>
       </ion-card-content>
     }
     @else {
@@ -95,7 +97,11 @@
 
   <!--Sezione icone quadrate-->
     <ion-card class="containerDettagliCards">
-        <ion-input type="text", placeholder="Cerca..." (input)="filtraDettagli($event)" [ngStyle]="{'margin': '0 30px'}"></ion-input>
+      <ion-row class="searchRow">
+        <ion-input type="text", placeholder="Cerca..." (input)="filtraDettagli($event)" [ngStyle]="{'margin': '0 30px'}">
+          <ion-icon name="search-outline" slot="start"></ion-icon>
+        </ion-input>
+      </ion-row>
         <ion-grid>
           <ion-row class="dettagliRow">
             <ion-col size="3" *ngFor="let dettaglio of dettagli">
