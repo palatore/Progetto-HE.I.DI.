@@ -1,4 +1,26 @@
+//IN QUESTO FILE VANNO SALVATI TUTTI I CAMBI DI STILE SPECIFICI DI IONIC IN MODO CHE LI USI COME DEFAULT NELL'HTML
 
+
+//COLORI CUSTOM
+:root {
+    --ion-color-orange: #F57C00;  //arancione primario
+  --ion-color-orange-rgb: 245,124,0;
+  --ion-color-orange-contrast: #ffffff; //colore dei testi
+  --ion-color-orange-contrast-rgb: 255,255,255;
+  --ion-color-orange-shade: #E65100;   // al click
+  --ion-color-orange-tint: #FFA726;    // per alcuni stati di focus (non tutti)
+}
+
+
+//HTML: color="orange"
+.ion-color-orange {
+  --ion-color-base: var(--ion-color-orange);
+  --ion-color-base-rgb: var(--ion-color-orange-rgb);
+  --ion-color-contrast: var(--ion-color-orange-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-orange-contrast-rgb);
+  --ion-color-shade: var(--ion-color-orange-shade);
+  --ion-color-tint: var(--ion-color-orange-tint);
+}
 
 
 

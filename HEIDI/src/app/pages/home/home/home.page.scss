@@ -123,10 +123,7 @@ ion-toolbar {
     flex: wrap;
 
     ion-button {
-        --background: #{$orange-primary};
-        --background-hover: #{$orange-dark};
         --border-radius: 8px;
-        --color: #{$text-white};
         padding-inline: 16px; 
     }
    }
