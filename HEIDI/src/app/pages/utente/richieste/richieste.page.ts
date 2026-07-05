@@ -8,7 +8,7 @@ import { firstValueFrom, forkJoin, map, of, Subject, switchMap, takeUntil } from
 import { UtentiAssociatiComponent } from 'src/app/components/utenti-associati/utenti-associati.component';
 import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
 import { LoginService } from 'src/app/services/auth/login.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-richieste',
@@ -35,7 +35,7 @@ export class RichiestePage implements OnInit {
   public associazioni_in_corso:any[] = [];
   public richieste:any[] = [];
 
-  constructor(private userService:GestioneUtentiService, private authService:LoginService, private alertController:AlertController) { }
+  constructor(private userService:GestioneUtentiService, private authService:LoginService, private router:Router, private alertController:AlertController) { }
 
 
   //LIFECYCLE PAGINA---------------------------------------------------------------------------
@@ -61,7 +61,6 @@ export class RichiestePage implements OnInit {
   }
 
   ionViewWillLeave() {
-    console.log('willLeave');
     this.destroy$.next();
   }
 
@@ -74,8 +73,8 @@ export class RichiestePage implements OnInit {
       next: (data) => {this.professionisti = data;},
       error: (err) => {console.error(err)}
     });
-    } catch(err) {
-      console.log(err);
+    } catch(error) {
+      console.log('Errore nell\'accettazione della richiesta', error);
     }
   }
 
@@ -102,10 +101,8 @@ export class RichiestePage implements OnInit {
       },
       error: (err) => {console.error(err);}
     });
-    } catch (e:any) {
-      if(e instanceof Error) {
-        console.log(e.message);
-      }
+    } catch(error) {
+      console.log('Errore nell\'accettazione della richiesta', error);
     }
   }
 
@@ -144,10 +141,8 @@ export class RichiestePage implements OnInit {
         await alert.present();
         this.loadAssociazioniUtente();
       }
-    } catch(e:any) {
-      if(e instanceof Error) {
-        console.log(e.message);
-      }
+    } catch(error) {
+      console.log('Errore nell\'accettazione della richiesta', error);
     }
   }
 
@@ -160,10 +155,8 @@ export class RichiestePage implements OnInit {
       } else {
         console.log('Errore annullamento dell\'associazione');
       }
-    } catch(e) {
-      if(e instanceof Error) {
-        console.log('Errore annullamento dell\'associazione', e.message);
-      }
+    } catch(error) {
+      console.log('Errore nell\'accettazione della richiesta', error);
     }
   }
 
@@ -203,10 +196,8 @@ export class RichiestePage implements OnInit {
       } else {
         console.log('Errore nell\'accettazione dell\'associazione');
       }
-    } catch(e) {
-      if(e instanceof Error) {
-        console.log('Errore nell\'accettazione dell\'associazione', e.message);
-      }
+    } catch(error) {
+      console.log('Errore nell\'accettazione della richiesta', error);
     }
   }
 
@@ -216,16 +207,52 @@ export class RichiestePage implements OnInit {
       if(response && response.status === 201) {
         console.log('Associazione rifiutata con successo');
         this.loadAssociazioniProfessionista();
-      } else {
-        console.log('Errore nel rifiuto dell\'associazione');
       }
-    } catch(e) {
-      if(e instanceof Error) {
-        console.log('Errore nel rifiuto dell\'associazione', e.message);
+    } catch(error) {
+      console.log('Errore nell\'accettazione della richiesta', error);
+    }
+  }
+
+  async accettaRichiesta(richiesta: {id:number, id_att:number, tipologia:number, tipo:string}) {
+
+    if(richiesta.tipo !== 'MODIFICA' && richiesta.tipo !== 'VOTO') {
+      console.log('Tipo richiesta non valido per l\'accettazione.');
+      return;
+    } 
+    try {
+      const response = await firstValueFrom(this.userService.accettaRichiesta(richiesta));
+      if(response && response.status === 201) {
+        console.log('Accettata con successo');
+        if(richiesta.tipologia === 0) {
+          await this.router.navigate(['/pastiUtente'], {
+            queryParams: {
+              pasto_id: richiesta.id_att,
+              tipo_richiesta: richiesta.tipo
+            }
+          });
+        } else if(richiesta.tipologia === 1) {
+          await this.router.navigate(['/allenamentiUtente'], {
+            queryParams: {
+              allenamento_id: richiesta.id_att,
+              tipo_richiesta: richiesta.tipo
+            }
+          });
+        }
       }
+    } catch(error) {
+      console.log('Errore nell\'accettazione della richiesta', error);
     }
   }
 
   async rifiutaRichiesta(id_richiesta:number) {
+    try {
+      const response = await firstValueFrom(this.userService.annullaRichiesta(id_richiesta));
+      if(response && response.status === 201) {
+        console.log('Richiesta rifiutata con successo');
+        this.loadRichiesteProfessionista();
+      }
+    } catch(error) {
+      console.log('Errore nell\'accettazione della richiesta', error);
+    }
   }
 }

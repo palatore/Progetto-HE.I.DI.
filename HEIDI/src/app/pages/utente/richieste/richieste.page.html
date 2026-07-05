@@ -104,6 +104,7 @@
       <app-richieste-utente
       [richieste_utente]="richieste"
       [ruoloUtente]="ruoloUtente"
+      (accetta)="accettaRichiesta($event)"
       (rifiuta)="rifiutaRichiesta($event)">
       </app-richieste-utente>
 

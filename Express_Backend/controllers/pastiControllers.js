@@ -65,6 +65,21 @@ class PastiControllers {
         }
     };
 
+    //GET dammi un pasto dato il suo ID
+    static getPastoById = async (req, res) => {
+        try {
+            const id_pasto = req.params.id_pasto;
+            const pasto = await PastiServices.getPastoById(id_pasto);
+            if(pasto) {
+                res.json(pasto);
+            } else {
+                res.status(404).json({error: 'Pasto non trovato'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
     //GET dammi tutti i pasti relativi a un utente dato il suo ID
     static getPastiUtente = async (req, res) => {
         try {

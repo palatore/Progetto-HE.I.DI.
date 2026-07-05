@@ -71,6 +71,12 @@ export class GestionePastiService {
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.get<any>(`${this.apiUrl}/api/pasti/dettagliPasto/${id_pasto}`, {headers});
   }
+
+  getPastoById(id_pasto:number):Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<any>(`${this.apiUrl}/api/pasti/pasto/${id_pasto}`, {headers});
+  }
   
   getAlimenti() {
     return this.http.get<any[]>('http://localhost:3000/api/pasti/alimenti');

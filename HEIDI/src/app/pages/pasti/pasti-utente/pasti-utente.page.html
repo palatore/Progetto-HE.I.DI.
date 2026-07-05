@@ -1,11 +1,4 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>I Miei Pasti</ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-default-header [page_title] = "'I Miei Pasti'"></app-default-header>
 
 <ion-content [fullscreen]="true">
   <ion-list>
@@ -19,15 +12,21 @@
         <ion-button fill="outline" (click)="mostraDettagli(pasto)" slot="end">
           <ion-icon name="eye-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="outline" (click)="modificaPasto(pasto)" slot="end">
+        <ion-button fill="outline" [disabled]="professionista_vota" (click)="modificaPasto(pasto)" slot="end">
           <ion-icon name="create"></ion-icon>
         </ion-button>
-        <ion-button id="open-modal-pasto-{{ pasto.id }}"fill="outline" (click)="apriRichiesta(pasto.id)" slot="end">
-          <ion-icon name="help-outline"></ion-icon>
-        </ion-button>
-        <ion-button fill="outline" color="danger" (click)="eliminaPasto(pasto.id)" slot="end">
-          <ion-icon name="trash"></ion-icon>
-        </ion-button>
+        @if(!professionista_vota && !professionista_modifica) {
+          <ion-button id="open-modal-pasto-{{ pasto.id }}"fill="outline" (click)="apriRichiesta(pasto.id)" slot="end">
+            <ion-icon name="help-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="outline" color="danger" (click)="eliminaPasto(pasto.id)" slot="end">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        } @else {
+          <ion-button fill="outline" [disabled]="professionista_modifica" (click)="votaPasto(pasto.id)" slot="end">
+            <ion-icon name="thumbs-up-outline"></ion-icon>
+          </ion-button>
+        }
       </ion-item>
 
       <ion-modal #modal trigger="open-modal-pasto-{{ pasto.id }}">

@@ -61,6 +61,12 @@ export class GestioneAllenamentiService {
         return this.http.get<any>(`${this.apiUrl}/api/allenamenti/dettagliAllenamento/${id_allenamento}`, {headers});
     }
 
+    getAllenamentoById(id_allenamento:number): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = { Authorization: `Bearer ${token}` };
+        return this.http.get<any>(`${this.apiUrl}/api/allenamenti/allenamento/${id_allenamento}`, {headers});
+    }
+
     getEsercizi() {
         return this.http.get<any[]>('http://localhost:3000/api/allenamenti/esercizi');
     }

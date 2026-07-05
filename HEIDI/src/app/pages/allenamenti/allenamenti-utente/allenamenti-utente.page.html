@@ -22,15 +22,21 @@
                 <ion-button fill="outline" (click)="modificaAllenamento(allenamento)" slot="end">
                     <ion-icon name="create"></ion-icon>
                 </ion-button>
-                <ion-button id="open-modal-pasto-{{ allenamento.id }}"fill="outline" (click)="apriRichiesta(allenamento.id)" slot="end">
-                    <ion-icon name="help-outline"></ion-icon>
-                </ion-button>
-                <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">
-                    <ion-icon name="trash"></ion-icon>
-                </ion-button>
+                @if(!professionista_vota && !professionista_modifica) {
+                    <ion-button id="open-modal-allenamento-{{ allenamento.id }}"fill="outline" (click)="apriRichiesta(allenamento.id)" slot="end">
+                        <ion-icon name="help-outline"></ion-icon>
+                    </ion-button>
+                    <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">
+                        <ion-icon name="trash"></ion-icon>
+                    </ion-button>
+                } @else {
+                    <ion-button fill="outline" [disabled]="professionista_modifica" (click)="votaAllenamento(allenamento.id)" slot="end">
+                        <ion-icon name="thumbs-up-outline"></ion-icon>
+                    </ion-button>
+                }
             </ion-item>
 
-            <ion-modal #modal trigger="open-modal-pasto-{{ allenamento.id }}">
+            <ion-modal #modal trigger="open-modal-allenamento-{{ allenamento.id }}">
                 <ng-template>
                     <ion-header>
                         <ion-toolbar>
