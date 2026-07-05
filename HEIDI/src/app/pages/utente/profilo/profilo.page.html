@@ -47,7 +47,7 @@
                                 </ion-item>
                             }
                             <div class="buttonContainer">
-                                <ion-button (click)="modalOpen = true">Modifica password</ion-button>
+                                <ion-button (click)="modalOpen = true" color="orange">Modifica password</ion-button>
                             </div>
                         </ion-col>
                             @if(dati_utente.ruolo === 0){
@@ -61,8 +61,8 @@
                                 </ion-label>
                                 <ion-input #etaInput type="number" [readonly]="!flag_eta" (keypress)="numeriEta($event)" [placeholder]="info_utente.eta + ' anni' "></ion-input>
                                 @if(!flag_eta){
-                                    <ion-button (click)="modificaEta()">
-                                        <ion-icon name="create"></ion-icon>
+                                    <ion-button (click)="modificaEta()" color="orange">
+                                        <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                     </ion-button>
                                 }@else{
                                     <ion-button color="tertiary" (click)="Submit(etaInput.value ?? '', 0, 0, '')">
@@ -76,8 +76,8 @@
                                     </ion-label>
                                     <ion-input #pesoInput type="number" [readonly]="!flag_peso" (keypress)="numeriPesoAltezza($event)" [placeholder]="info_utente.peso_kg + ' kg' "></ion-input>
                                     @if(!flag_peso){
-                                        <ion-button (click)="modificaPeso()">
-                                        <ion-icon name="create"></ion-icon>
+                                        <ion-button class="changeInfoButton" (click)="modificaPeso()" color="orange">
+                                        <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                     </ion-button>
                                     }@else{
                                         <ion-button color="tertiary" (click)="Submit(0,pesoInput.value ?? '', 0, '')">
@@ -91,8 +91,8 @@
                                     </ion-label>
                                      <ion-input #altezzaInput type="number" [readonly]="!flag_altezza" (keypress)="numeriPesoAltezza($event)" [placeholder]="info_utente.altezza_cm + ' cm' "></ion-input>
                                     @if(!flag_altezza){
-                                        <ion-button (click)="modificaAltezza()">
-                                            <ion-icon name="create"></ion-icon>
+                                        <ion-button class="changeInfoButton" (click)="modificaAltezza()" color="orange">
+                                            <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                         </ion-button>
                                     }@else{
                                         <ion-button color="tertiary" (click)="Submit(0, 0, altezzaInput.value ?? '', '')">
@@ -106,8 +106,8 @@
                                     <div class="textArea">
                                         <ion-textarea #CondizioniInput type="text" [readonly]="!flag_condizioni" [placeholder]="info_utente.condizioni_mediche"></ion-textarea>
                                         @if(!flag_condizioni){
-                                            <ion-button (click)="modificaCondizioni()">
-                                                <ion-icon name="create"></ion-icon>
+                                            <ion-button class="changeInfoButton" (click)="modificaCondizioni()" color="orange">
+                                                <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                             </ion-button>
                                         }@else{
                                             <ion-button color="tertiary" (click)="Submit(0, 0, 0, CondizioniInput.value ?? '')">
@@ -145,14 +145,14 @@
                                     <ion-label>e-mail: {{dati_esperto_alimentare.email}}</ion-label>
                                 </ion-item>
                                 <div class="buttonContainer">
-                                    <ion-button [routerLink]="['/gestioneProfessionisti']">Gestisci esperto</ion-button>
+                                    <ion-button [routerLink]="['/richieste']" color="orange">Gestisci esperto</ion-button>
                                 </div>
                             }@else {
                                 <ion-item class="dataCamp">
                                     <ion-label>Ancora nessun professionista</ion-label>
                                 </ion-item>
                                 <div class="buttonContainer">
-                                    <ion-button [routerLink]="['/gestioneProfessionisti']">Scegli un esperto</ion-button>
+                                    <ion-button [routerLink]="['/richieste']" color="orange">Scegli un esperto</ion-button>
                                 </div>
                             }
                         </ion-col>
@@ -171,14 +171,14 @@
                                     <ion-label>e-mail: {{dati_esperto_allenamenti.email}}</ion-label>
                                 </ion-item>
                                 <div class="buttonContainer">
-                                    <ion-button [routerLink]="['/gestioneProfessionisti']">Gestisci esperto</ion-button>
+                                    <ion-button [routerLink]="['/richieste']">Gestisci esperto</ion-button>
                                 </div>
                             }@else {
                                 <ion-item class="dataCamp">
                                     <ion-label>Ancora nessun professionista</ion-label>
                                 </ion-item>
                                 <div class="buttonContainer">
-                                    <ion-button [routerLink]="['/gestioneProfessionisti']">Scegli un esperto</ion-button>
+                                    <ion-button [routerLink]="['/richieste']" color="orange">Scegli un esperto</ion-button>
                                 </div>
                             }
                         </ion-col>
@@ -217,7 +217,7 @@
                             </ion-grid>
                             <div class="buttonContainer">
                                 <ion-button class="dangerButton" (click)="chiudiModal()">Annulla</ion-button>
-                                <ion-button type="submit" [disabled]="!passwordForm.valid"> Conferma </ion-button>
+                                <ion-button type="submit" [disabled]="!passwordForm.valid" color="orange"> Conferma </ion-button>
                                 @if(controlloVecchiaPassword){
                                     <div style="color: red; background-color: transparent">
                                         La vecchia password non coincide
