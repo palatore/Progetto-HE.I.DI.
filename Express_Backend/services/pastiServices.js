@@ -50,6 +50,17 @@ class PastiServices {
         }
     }
 
+    static async getPastoById(id_pasto) {
+        const pasto = await Pasti.findPastoById(id_pasto);
+        if(pasto) {
+            console.log('Pasto trovato');
+            return pasto;
+        } else {
+            console.log('Pasto non trovato con ID:', id_pasto);
+            return null;
+        }
+    }
+
     static async getPastiUtente(user_id) {
         //ottieni tutti i pasti appartenenti all'utente
         const pastiUtente = await Pasti.getPastiUtente(user_id);

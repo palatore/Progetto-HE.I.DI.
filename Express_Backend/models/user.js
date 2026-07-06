@@ -165,9 +165,21 @@ class User {
     });
   }
 
-  static async getRichiestePending(id_professionista) {
+  static async getAssociazioniPending(id_professionista) {
     return new Promise((resolve, reject) => {
       db.all('SELECT a.id, u.name, u.surname, u.email, a.stato FROM associazioni a JOIN utenti u ON a.id_paziente = u.id WHERE a.id_professionista = ? AND stato = "PENDING"', [id_professionista], (err, rows) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
+  static async getRichiestePending(id_professionista) {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT r.id, r.stato FROM richieste r WHERE r.id_professionista = ? AND r.stato = "PENDING"', [id_professionista], (err, rows) => {
         if(err) {
           reject(err);
         } else {
@@ -204,6 +216,18 @@ class User {
   static async creaRichiesta(id_utente, dati) {
     return new Promise((resolve, reject) => {
       db.run('INSERT INTO richieste (id_professionista, id_paziente, id_attivita, tipologia_attivita, tipo_richiesta) VALUES (?, ?, ?, ?, ?)', [dati.id_professionista, id_utente, dati.id_attivita, dati.tipologia_attivita, dati.tipo_richiesta], function(err) {
+        if(err) {
+          reject(err);
+        } else {
+          resolve({lastID: this.lastID});
+        }
+      });
+    });
+  }
+
+  static async accettaRichiesta(id_richiesta, tipo_richiesta) {
+    return new Promise((resolve, reject) => {
+      db.run('UPDATE richieste SET stato = ? WHERE id = ?', [tipo_richiesta, id_richiesta], function(err) {
         if(err) {
           reject(err);
         } else {
@@ -281,6 +305,17 @@ class User {
     });
   }
 
+  static async annullaRichiesta(id_richiesta) {
+    return new Promise((resolve, reject) => {
+      db.run('DELETE FROM richieste WHERE id = ?', [id_richiesta], function(err) {
+        if(err) {
+          reject(err);
+        } else {
+          resolve({lastID: this.lastID});
+        }
+      });
+    });
+  }
 }
 
 module.exports = User;

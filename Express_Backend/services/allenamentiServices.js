@@ -52,6 +52,17 @@ class AllenamentiServices {
         }
     };
 
+    static async getAllenamentoById(id_allenamento) {
+        const allenamento = await Allenamenti.findAllenamentoById(id_allenamento);
+        if(allenamento){
+            console.log('Allenamento trovato');
+            return allenamento;
+        } else {
+            console.log('Nessun allenamento con ID:', id_allenamento);
+            return null;
+        }
+    }
+
     static async getAllenamentiUtente(user_id){
         //ottieni tutti gli allenamenti appartenenti ad un utente
         const allenamentiUtente = await Allenamenti.getAllenamentiUtente(user_id);

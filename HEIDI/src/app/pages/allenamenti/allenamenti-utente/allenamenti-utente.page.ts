@@ -2,12 +2,16 @@ import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { GestioneAllenamentiService } from "src/app/services/allenamenti/gestione-allenamenti.service";
 import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonMenuButton, AlertController, IonModal } from "@ionic/angular/standalone";
-import { RouterModule } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { ModificaDettagliComponent } from "src/app/components/modifica-dettagli/modifica-dettagli.component";
 import { firstValueFrom } from "rxjs/internal/firstValueFrom";
 import { Allenamento } from "src/app/models/allenamento.model";
 import { GestioneUtentiService } from "src/app/services/utenti/gestione-utenti.service";
+<<<<<<< HEAD
 import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
+=======
+import { Subject, takeUntil } from "rxjs";
+>>>>>>> 2d75903ccff33cbc25d88a44c3fd17a7a2593c57
 
 @Component({
     selector: 'app-allenamenti-utente',
@@ -18,26 +22,53 @@ import { DefaultHeaderComponent } from "src/app/components/default-header/defaul
 })
 export class AllenamentiUtentePage implements OnInit{
 
+    //VARIABILI LATO UTENTE
+    public professionisti_disponibili:any[] = [];
+    public id_allenamento_richiesta!:number;
+
+    //VARIABILI LATO PROFESSIONISTA
+    public professionista_modifica:boolean = false;
+    public professionista_vota:boolean = false;
+
+    //VARIABILI CONDIVISE
     public viewModifica:boolean = false;
     public esercizi:any[] = [];
-    public professionisti_disponibili:any[] = [];
-
-    public id_allenamento_richiesta!:number;
     public allenamentoSelezionato: any = null;
     public allenamento_da_modificare: any = null;
     public esercizioSelezionato:any = null;
     public dettagliAllenamento: any = null; // Variabile per i dettagli dell'allenamento selezionato
+    public destroy$ = new Subject<void>;
 
-    constructor(private workoutService:GestioneAllenamentiService, private alertController: AlertController, private userService:GestioneUtentiService){ }
+    constructor(private workoutService:GestioneAllenamentiService, private route:ActivatedRoute, private alertController: AlertController, private userService:GestioneUtentiService){ }
 
     ngOnInit(){
-        this.loadAllenamentiUtente();
         this.loadEsercizi();
     }
 
     ionViewWillEnter(){
+        const id_allenamentoString = this.route.snapshot.queryParamMap.get('pasto_id');
+        const id_allenamento:number = +id_allenamentoString!;
+        const tipo_richiesta = this.route.snapshot.queryParamMap.get('tipo_richiesta');
+        if(id_allenamento && tipo_richiesta === 'MODIFICA') {
+        //logica professionista modifica
+        this.professionista_modifica = true;
+        console.log('Professionista in visita per modifica del pasto:', id_allenamentoString);
+        this.loadSingoloAllenamento(id_allenamento);
+        } else if(id_allenamentoString && tipo_richiesta === 'VOTA') {
+        //logica professionista vota
+        this.professionista_vota = true;
+        console.log('Professionista in visita per votazione del pasto:', id_allenamentoString);
+        this.loadSingoloAllenamento(id_allenamento);
+        } else {
         this.loadAllenamentiUtente();
+        }
     }
+
+    ionViewWillLeave() {
+    this.professionista_modifica = false;
+    this.professionista_vota = false;
+    this.destroy$.next();
+  }
 
     async mostraDettagli(allenamento: any) {
         this.allenamentoSelezionato = allenamento;
@@ -161,6 +192,10 @@ export class AllenamentiUtentePage implements OnInit{
         this.viewModifica = false;
     }
 
+    votaAllenamento(id_allenamento:number) {
+
+    }
+
     allenamentiUtente:Allenamento[] = [];
 
     loadAllenamentiUtente(){
@@ -174,6 +209,13 @@ export class AllenamentiUtentePage implements OnInit{
                 console.error('Errore nel caricamento degli allenamenti:', err);
             }
         });
+    }
+
+    loadSingoloAllenamento(id_allnemento:number) {
+        this.workoutService.getAllenamentoById(id_allnemento).pipe(takeUntil(this.destroy$)).subscribe({
+              next: (allenamento) => this.allenamentiUtente = [allenamento],
+              error: (err) => console.log(err)
+            });
     }
 
     loadEsercizi() {

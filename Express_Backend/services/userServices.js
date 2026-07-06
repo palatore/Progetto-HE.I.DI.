@@ -140,6 +140,17 @@ class UserServices {
         }
     };
 
+static async getAssociazioniPending(id_utente) {
+        const associazioni = await User.getAssociazioniPending(id_utente);
+        if(associazioni && associazioni.length > 0) {
+            console.log('Lista ottenuta:', associazioni);
+            return associazioni;
+        } else {
+            console.log('Nessuna associazione pending trovata');
+            return [];
+        }
+    };
+
     static async getRichiestePending(id_utente) {
         const richieste = await User.getRichiestePending(id_utente);
         if(richieste && richieste.length > 0) {
@@ -180,6 +191,28 @@ class UserServices {
         }
         return creata;
     }
+
+    static async accettaRichiesta(richiesta) {
+        const id_richiesta = richiesta.id;
+        const tipo = richiesta.tipo;
+        if(tipo === 'MODIFICA') {
+            const accettata = await User.accettaRichiesta(id_richiesta, 'MODIFICATA');
+            if(accettata) {
+                console.log('Richiesta accettata con successo');
+            } else {
+                console.log('Errore nell\'accettazione della richiesta');
+            }
+            return accettata;
+        } else if(tipo === 'VOTA') {
+            const accettata = await User.accettaRichiesta(id_richiesta, 'VOTATA');
+            if(accettata) {
+                console.log('Richiesta accettata con successo');
+            } else {
+                console.log('Errore nell\'accettazione della richiesta');
+            }
+            return accettata;
+        }
+    };
 
     static async creaInfo(id_utente){
         const info = await User.creaInfo(id_utente);
@@ -228,6 +261,16 @@ class UserServices {
             console.log('Associazione annullata con successo');
         } else {
             console.log('Errore nell\'annullamento dell\'associazione');
+        }
+        return annullata;
+    };
+
+    static async annullaRichiesta(id_richiesta) {
+        const annullata = await User.annullaRichiesta(id_richiesta);
+        if(annullata) {
+            console.log('Richiesta annullata con successo');
+        } else {
+            console.log('Errore nell\'annullamento della richiesta');
         }
         return annullata;
     };

@@ -141,13 +141,18 @@
                 <ion-col>
                   <ion-item button [routerLink]="['/richieste']" class="opzioniProfessionista">
                     <ion-icon slot="start" name="mail-outline"></ion-icon> Richieste associazione
-                    @if(richieste_pending > 0) {
-                      <ion-badge color="danger" slot="end">{{richieste_pending}}</ion-badge>
+                    @if(associazioni_pending > 0) {
+                      <ion-badge color="danger" slot="end">{{associazioni_pending}}</ion-badge>
                     }
                   </ion-item>
                 </ion-col>
                 <ion-col>
-                  <ion-item button class="opzioniProfessionista">2: Richieste modifica</ion-item>
+                  <ion-item button [routerLink]="['/richieste']" class="opzioniProfessionista">
+                    <ion-icon slot="start" name="help-outline"></ion-icon> Richieste modifica
+                    @if(richieste_pending > 0) {
+                      <ion-badge color="danger" slot="end">{{richieste_pending}}</ion-badge>
+                    }
+                  </ion-item>
                 </ion-col>
                 <ion-col>
                   <ion-item button class="opzioniProfessionista">3: Richieste voto</ion-item>

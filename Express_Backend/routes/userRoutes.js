@@ -14,15 +14,18 @@ router.get('/associazioniUtente', authenticateToken, UserControllers.getAssociaz
 router.get('/associazioniProfessionista', authenticateToken, UserControllers.getAssociazioniProfessionista);
 router.get('/richiesteUtente', authenticateToken, UserControllers.getRichiesteUtente);
 router.get('/richiesteProfessionista', authenticateToken, UserControllers.getRichiesteProfessionista);
+router.get('/associazioniPending', authenticateToken, UserControllers.getAssociazioniPending);
 router.get('/richiestePending', authenticateToken, UserControllers.getRichiestePending);
 router.get('/ruoloProfessionista/:id_professionista', authenticateToken, UserControllers.getRuoloProfessionista);
 router.post('/creaAssociazione', authenticateToken, UserControllers.creaAssociazione);
 router.patch('/accettaAssociazione', authenticateToken, UserControllers.accettaAssociazione);
 router.post('/creaRichiesta', authenticateToken, UserControllers.creaRichiesta);
+router.patch('/accettaRichiesta', authenticateToken, UserControllers.accettaRichiesta);
 router.post('/utente/creaInfo', authenticateToken, UserControllers.creaInfo);
 router.post('/utente/riempiInfo', authenticateToken, UserControllers.riempiInfo);
 router.post('/utente/aggiornaPassword/:id_utente', authenticateToken, UserControllers.aggiornaPassword);
 router.delete('/annullaAssociazione/:id_associazione', authenticateToken, UserControllers.annullaAssociazione);
+router.delete('/annullaRichiesta/:id_richiesta', authenticateToken, UserControllers.annullaRichiesta);
 router.delete('/eliminaEta/:id_utente', authenticateToken, UserControllers.eliminaEta);
 
 module.exports = router;

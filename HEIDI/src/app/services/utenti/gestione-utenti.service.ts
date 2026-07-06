@@ -76,6 +76,12 @@ export class GestioneUtentiService {
     return this.http.get<any[]>(`${this.apiUrl}/api/users/richiesteProfessionista`, {headers});
   }
 
+  getAssociazioniPending():Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<any[]>(`${this.apiUrl}/api/users/associazioniPending`, {headers});
+  }
+
   getRichiestePending():Observable<any[]> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
@@ -101,10 +107,22 @@ export class GestioneUtentiService {
     return this.http.patch<any>(`${this.apiUrl}/api/users/accettaAssociazione`, {id_associazione}, {headers, observe: 'response'});
   }
 
+  accettaRichiesta(richiesta: {id:number, id_att:number, tipologia:number, tipo:string}):Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.patch<any>(`${this.apiUrl}/api/users/accettaRichiesta`, {richiesta}, {headers, observe: 'response'});
+  }
+
   annullaAssociazione(id_associazione:number):Observable<any> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.delete<any>(`${this.apiUrl}/api/users/annullaAssociazione/${id_associazione}`, {headers, observe: 'response'});
+  }
+
+  annullaRichiesta(id_richiesta:number):Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.delete<any>(`${this.apiUrl}/api/users/annullaRichiesta/${id_richiesta}`, {headers, observe: 'response'});
   }
 
   eliminaEta(id_utente:number){

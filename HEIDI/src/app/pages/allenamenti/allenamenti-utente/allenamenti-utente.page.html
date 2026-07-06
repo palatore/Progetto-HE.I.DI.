@@ -15,15 +15,30 @@
                 <ion-button color="orange" fill="outline" (click)="modificaAllenamento(allenamento)" slot="end">
                     <ion-icon name="create"></ion-icon>
                 </ion-button>
+<<<<<<< HEAD
                 <ion-button color="orange" id="open-modal-pasto-{{ allenamento.id }}"fill="outline" (click)="apriRichiesta(allenamento.id)" slot="end">
                     <ion-icon name="help-outline"></ion-icon>
                 </ion-button>
                 <ion-button fill="outline" color="red" slot="end" (click)="eliminaAllenamento(allenamento.id)">
                     <ion-icon name="trash"></ion-icon>
                 </ion-button>
+=======
+                @if(!professionista_vota && !professionista_modifica) {
+                    <ion-button id="open-modal-allenamento-{{ allenamento.id }}"fill="outline" (click)="apriRichiesta(allenamento.id)" slot="end">
+                        <ion-icon name="help-outline"></ion-icon>
+                    </ion-button>
+                    <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">
+                        <ion-icon name="trash"></ion-icon>
+                    </ion-button>
+                } @else {
+                    <ion-button fill="outline" [disabled]="professionista_modifica" (click)="votaAllenamento(allenamento.id)" slot="end">
+                        <ion-icon name="thumbs-up-outline"></ion-icon>
+                    </ion-button>
+                }
+>>>>>>> 2d75903ccff33cbc25d88a44c3fd17a7a2593c57
             </ion-item>
 
-            <ion-modal #modal trigger="open-modal-pasto-{{ allenamento.id }}">
+            <ion-modal #modal trigger="open-modal-allenamento-{{ allenamento.id }}">
                 <ng-template>
                     <ion-header>
                         <ion-toolbar>

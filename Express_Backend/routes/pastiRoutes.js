@@ -8,6 +8,7 @@ router.get('/alimento/:id_alimento', PastiControllers.getAlimentoById);
 router.get('/pasti', PastiControllers.getPasti);
 router.get('/alimenti_pasti', PastiControllers.getAlimentiPasti);
 router.get('/dettagliPasto/:id_pasto', authenticateToken, PastiControllers.getDettagliPasto);
+router.get('/pasto/:id_pasto', authenticateToken, PastiControllers.getPastoById);
 router.get('/pastiUtente', authenticateToken, PastiControllers.getPastiUtente);
 router.get('/pastiProgrammati', authenticateToken, PastiControllers.getPastiProgrammati);
 router.post('/checkPasto', authenticateToken, PastiControllers.checkPasto);

@@ -162,6 +162,21 @@ class UserControllers {
         }
     }
 
+    static getAssociazioniPending = async (req, res) => {
+        try {
+            const id_utente = req.user.id;
+            const result = await UserServices.getAssociazioniPending(id_utente);
+            if(result){
+                console.log('Arrivano le associazioni pending');
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Associazioni pending non trovate'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
     static getRichiestePending = async (req, res) => {
         try {
             const id_utente = req.user.id;
@@ -210,6 +225,16 @@ class UserControllers {
         }
     };
 
+    static accettaRichiesta = async (req, res) => {
+        try {
+            const { richiesta } = req.body;
+            console.log('Ho ricevuto l\'oggetto', richiesta);
+            const result = await UserServices.accettaRichiesta(richiesta);
+            res.status(201).json({message: 'Richiesta accettata con successo', result});
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
 
     static creaInfo = async (req, res) =>{
         try{
@@ -247,6 +272,16 @@ class UserControllers {
             const id_associazione = req.params.id_associazione;
             const result = await UserServices.annullaAssociazione(id_associazione);
             res.status(201).json({message: 'Associazione annullata con successo', result});
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static annullaRichiesta = async (req, res) => {
+        try {
+            const id_richiesta = req.params.id_richiesta;
+            const result = await UserServices.annullaRichiesta(id_richiesta);
+            res.status(201).json({message: 'Richiesta annullata con successo', result});
         } catch(e) {
             res.status(500).json({error: e.message});
         }

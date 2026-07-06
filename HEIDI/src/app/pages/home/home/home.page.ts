@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
   }
  
   public ruoloUtente: string | null = null;
+  public associazioni_pending:number = 0;
   public richieste_pending:number = 0;
   private destroy$ = new Subject<void>();
 
@@ -58,6 +59,7 @@ export class HomePage implements OnInit {
     if(this.ruoloUtente === '0') {
       this.caricaAttivitaGiornaliere();
     } else {
+      this.getAssociazioniPending();
       this.getRichiestePending();
     }
   }
@@ -107,16 +109,25 @@ export class HomePage implements OnInit {
     });
   }
 
-  async getRichiestePending() {
+  getAssociazioniPending() {
+    try {
+      this.userService.getAssociazioniPending().pipe(takeUntil(this.destroy$)).subscribe({
+        next: (data) => {this.associazioni_pending = data.length;},
+        error: (err) => {console.error(err);}
+      }); 
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  getRichiestePending() {
     try {
       this.userService.getRichiestePending().pipe(takeUntil(this.destroy$)).subscribe({
         next: (data) => {this.richieste_pending = data.length;},
         error: (err) => {console.error(err);}
       }); 
-    } catch(e) {
-      if(e instanceof Error) {
-        console.log(e.message);
-      }
+    } catch(error) {
+      console.log(error);
     }
   }
 

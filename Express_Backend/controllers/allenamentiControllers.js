@@ -61,6 +61,20 @@ class AllenamentiControllers {
         }
     };
 
+    static getAllenamentoById = async (req, res) => {
+        try {
+            const id_allenamento = req.params.id_allenamento;
+            const allenamento = await AllenamentiServices.getAllenamentoById(id_allenamento);
+            if(allenamento){
+                res.json(allenamento);
+            }else{
+                res.status(404).json({error: 'allenamento non trovato'});
+            }
+        }catch(e){
+            res.status(500).json({error: e.message});
+        }
+    }
+
     static getAllenamentiUtente = async (req, res) =>{
         try{
             const user_id = req.user.id;
