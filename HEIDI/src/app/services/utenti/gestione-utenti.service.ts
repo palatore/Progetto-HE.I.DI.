@@ -52,6 +52,20 @@ export class GestioneUtentiService {
     return this.http.get<any>(`${this.apiUrl}/api/users/ruoloProfessionista/${id_professionista}`, {headers});
   }
 
+  getVotiAttivita(id_attivita:number, tipologia_attivita:number):Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const oggOpzioni = {
+    headers: { 
+      Authorization: `Bearer ${token}` 
+    },
+    params: {
+      id_attivita: id_attivita.toString(),
+      tipologia_attivita: tipologia_attivita.toString()
+    }
+  };
+    return this.http.get<any>(`${this.apiUrl}/api/users/votiAttivita`, oggOpzioni);
+  }
+
   getAssociazioniUtente():Observable<any[]> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
@@ -86,6 +100,12 @@ export class GestioneUtentiService {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.get<any[]>(`${this.apiUrl}/api/users/richiestePending`, {headers});
+  }
+
+  votaAttivita(attivita: {id:number, valutazione:number, tipologia:number}):Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post<any>(`${this.apiUrl}/api/users/votaAttivita`, {attivita}, {headers, observe: 'response'});
   }
 
   creaAssociazione(id_persona:number):Observable<any> {

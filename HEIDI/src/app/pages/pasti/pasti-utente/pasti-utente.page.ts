@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { Pasto } from 'src/app/models/pasto.model';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonIcon, IonMenuButton, IonModal, AlertController } from '@ionic/angular/standalone';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonIcon, IonModal, AlertController } from '@ionic/angular/standalone';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 import { ModificaDettagliComponent } from 'src/app/components/modifica-dettagli/modifica-dettagli.component';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
+import { VotaAttivitaComponent } from "src/app/components/vota-attivita/vota-attivita.component";
 
 
 @Component({
@@ -16,7 +17,7 @@ import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.s
   templateUrl: './pasti-utente.page.html',
   styleUrls: ['./pasti-utente.page.scss'],
   standalone: true,
-  imports: [DefaultHeaderComponent, IonModal, IonButtons, IonMenuButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent]
+  imports: [DefaultHeaderComponent, IonModal, IonButtons, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent, VotaAttivitaComponent]
 })
 export class PastiUtentePage implements OnInit {
   totZuccheri:number = 0;
@@ -31,6 +32,7 @@ export class PastiUtentePage implements OnInit {
   //VARIABILI LATO PROFESSIONISTA
   public professionista_modifica:boolean = false;
   public professionista_vota:boolean = false;
+  public modalita_voto:boolean = false;
 
   //VARIABILI CONDIVISE
   public viewModifica:boolean = false;
@@ -39,7 +41,9 @@ export class PastiUtentePage implements OnInit {
   public pastoSelezionato: any = null;
   public pasto_da_modificare: any = null;
   public alimentoSelezionato:any = null;
-  public dettagliPasto: any = null; // Variabile per i dettagli del pasto selezionato
+  public dettagliPasto: any = null;
+  public voti_totali_pasto:number = 0;
+  public voto_pasto_caricato:number = 0;
   public destroy$ = new Subject<void>;
   public visualizzaLista: boolean = false; // Variabile per gestire la visualizzazione a lista o griglia
   public visualizzaGriglia: boolean = true; // Variabile per gestire la visualizzazione a griglia o lista
@@ -50,7 +54,7 @@ export class PastiUtentePage implements OnInit {
   public filtroCalorie: number = 0; // Variabile per il filtro per calorie
   public filtroAlimenti: string[] = []; // Variabile per il filtro per alimenti
 
-  constructor(private foodService:GestionePastiService, private userService:GestioneUtentiService, private route:ActivatedRoute, private alertController:AlertController) { }
+  constructor(private foodService:GestionePastiService, private userService:GestioneUtentiService, private route:ActivatedRoute, private router:Router, private alertController:AlertController) { }
 
 
   //METODI LIFECYCLE PAGINA
@@ -67,7 +71,7 @@ export class PastiUtentePage implements OnInit {
       this.professionista_modifica = true;
       console.log('Professionista in visita per modifica del pasto:', id_pastoString);
       this.loadSingoloPasto(id_pasto);
-    } else if(id_pastoString && tipo_richiesta === 'VOTA') {
+    } else if(id_pastoString && tipo_richiesta === 'VOTO') {
       //logica professionista vota
       this.professionista_vota = true;
       console.log('Professionista in visita per votazione del pasto:', id_pastoString);
@@ -83,17 +87,7 @@ export class PastiUtentePage implements OnInit {
     this.destroy$.next();
   }
 
-  loadPastiUtente() {
-    console.log('Caricamento pasti utente...');
-    this.foodService.getPastiUtente().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (pasti) => {
-        this.pastiUtente = pasti;      
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-  }
+  //METODI CONDIVISI----------------------------------------------------------------------------
 
   loadAlimenti() {
     this.foodService.getAlimenti().subscribe({
@@ -101,9 +95,6 @@ export class PastiUtentePage implements OnInit {
       error: (err) => {console.error(err);}
     });
   }
-
-
-  //METODI CONDIVISI----------------------------------------------------------------------------
 
   async mostraDettagli(pasto: any) {
     this.pastoSelezionato = pasto;
@@ -188,11 +179,47 @@ export class PastiUtentePage implements OnInit {
     }
   }
 
+  getVotoPasto(id_pasto:number) {
+    this.userService.getVotiAttivita(id_pasto, 0).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (voti) => {
+        this.voti_totali_pasto = voti.length;
+
+        if(voti && voti.length > 0) {
+          let somma = 0;
+
+          for(let i = 0; i < voti.length; i++) {
+            somma += Number(voti[i].voto);
+          }
+
+          const media = somma/voti.length;
+
+          this.voto_pasto_caricato = Math.round(media * 10)/10;
+        } else {
+          this.voto_pasto_caricato = 0;
+        }
+      },
+      error: (err) => console.log('Errore nel caricamento e calcolo del voto')
+    });
+  }
+
   onChiudi() {
     this.viewModifica = false;
   }
 
   //METODI LATO UTENTE
+
+  loadPastiUtente() {
+    console.log('Caricamento pasti utente...');
+    this.foodService.getPastiUtente().pipe(takeUntil(this.destroy$)).subscribe({
+      next: (pasti) => {
+        this.pastiUtente = pasti;      
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
   apriRichiesta(id_pasto:number) {
     this.id_pasto_richiesta = id_pasto;
 
@@ -221,10 +248,8 @@ export class PastiUtentePage implements OnInit {
         });
         await alert.present()
       }
-    } catch(e) {
-      if(e instanceof Error) {
-        console.log('Errore nell\'invio della richiesta', e);
-      }
+    } catch(error) {
+      console.log(error);
     }
   }
 
@@ -249,7 +274,37 @@ export class PastiUtentePage implements OnInit {
   }
 
   votaPasto(id_pasto:number) {
+    if(this.modalita_voto) {
+      this.modalita_voto = false;
+      return;
+    }
+    this.id_pasto_richiesta = id_pasto;
+    this.getVotoPasto(id_pasto);
+    this.modalita_voto = true;
+  }
 
+  async inviaVoto(voto:number, id_pasto:number) {
+    try {
+      const voto_da_inviare = {id: id_pasto, valutazione:voto, tipologia:0};
+      const response = await firstValueFrom(this.userService.votaAttivita(voto_da_inviare));
+      if(response.status === 201) {
+        const alert = await this.alertController.create({
+            header: 'Successo',
+            message: 'Pasto votato con successo!',
+            buttons: [{
+              text: 'Torna alle richieste',
+              handler: () => {
+                this.router.navigate(['/richieste']);
+              }
+            }]
+          });
+          await alert.present()
+      }
+
+      this.modalita_voto = false;
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   pastiUtente:Pasto[] = [{name: 'Pasto 1', data_creazione: '1/1/1000', tipo: '', id: 1, data_calendario:'1/1/1000'},

@@ -99,6 +99,22 @@ class UserControllers {
         }
     };
 
+    static getVotiAttivita = async (req, res) => {
+        try {
+            const id_attivita = req.query.id_attivita;
+            const tipologia_attivita = req.query.tipologia_attivita;
+            const result = await UserServices.getVotiAttivita(id_attivita, tipologia_attivita);
+            if(result) {
+                console.log('Voti in arrivo:', result);
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Nessun voto'});
+            }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
     static getAssociazioniUtente = async (req, res) => {
         try {
             const id_utente = req.user.id;
@@ -187,6 +203,17 @@ class UserControllers {
             } else {
                 res.status(404).json({error: 'Richieste pending non trovate'});
             }
+        } catch(e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
+    static votaAttivita = async (req, res) => {
+        try {
+            const id_utente = req.user.id;
+            const { attivita } = req.body;
+            const result = await UserServices.votaAttivita(id_utente, attivita);
+            res.status(201).json({message: 'Voto piazzato con successo', result});
         } catch(e) {
             res.status(500).json({error: e.message});
         }

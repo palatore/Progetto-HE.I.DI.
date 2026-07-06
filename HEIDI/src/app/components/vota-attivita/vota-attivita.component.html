@@ -1,3 +1,36 @@
-<p>
-  vota-attivita works!
-</p>
+<div class="voto-container ion-text-center ion-padding">
+  @if(devo_votare) {
+    <p class="ion-no-margin font-small text-muted">Seleziona la valutazione:</p>
+  }
+  <div class="stars-row ion-margin-vertical">
+    @for (stella of stelle; track stella) {
+      @if(devo_votare) {
+        <ion-icon 
+          [name]="getIconaStella(stella)" 
+          color="warning" 
+          (click)="selezionaStella(stella)"
+          style="font-size: 32px; cursor: pointer; margin: 0 4px;">
+        </ion-icon>
+      } @else {
+        <ion-icon 
+          [name]="getIconaStella(stella)" 
+          color="warning" 
+          style="font-size: 32px; cursor: pointer; margin: 0 4px;">
+        </ion-icon>
+      }
+    }
+  </div>
+
+  <div class="voto-numerico ion-margin-bottom">
+    @if(devo_votare) {
+      <p><strong>Voto scelto: {{ voto_attuale }} / 5</strong></p>
+    }
+    <p><strong>Totale voti precedenti: {{ voto_precedente }} / 5</strong></p>
+  </div>
+
+  @if(devo_votare) {
+    <ion-button expand="block" size="small" color="success" (click)="confermaVoto()" [disabled]="voto_attuale === 0">
+      Invia Valutazione
+    </ion-button>
+  }
+</div>
