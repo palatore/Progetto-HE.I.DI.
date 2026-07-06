@@ -40,9 +40,12 @@ export class CalendarioComponent implements OnInit {
     initialView: 'dayGridMonth',
     locale: 'it', // Lingua italiana
     headerToolbar: {
-      left: 'prev,next today', // Crea i bottoni per scorrere
-      center: 'title',
-      right: ''
+      left: 'prev', // Crea i bottoni per scorrere
+      center: 'title,today',
+      right: 'next'
+    },
+    buttonText:{
+      today: 'Torna ad oggi'
     },
     height: 'auto',
 
@@ -179,7 +182,7 @@ export class CalendarioComponent implements OnInit {
               id: `pasto_${p.id}`,
               title: `🍲`,
               start: p.data_calendario!,
-              color: '#ffc409',
+              color: '#3880ff',
               extendedProps: {tipo: 'pasto', dati: p}
             });
           });
@@ -199,9 +202,9 @@ export class CalendarioComponent implements OnInit {
 
           tutte_le_attivita.push({
             id: `allenamento_${a.id}`,
-            title: '',
+            title: `🏋️`,
             start: data_alleamento,
-            color:'#3880ff',
+            color:'#7B1FA2',
             extendedProps: {tipo: 'allenamento', dati: a}
           });
         });

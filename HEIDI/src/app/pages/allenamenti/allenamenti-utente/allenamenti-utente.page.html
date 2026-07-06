@@ -48,9 +48,9 @@
                         <ion-list>
                             @for (prof of professionisti_disponibili; track prof.id) {
                             <ion-item class="ion-display-flex">
-                                <ion-label>{{ prof.nome_P }} {{ prof.cognome_P }}</ion-label>
-                                <ion-button (click)="inviaRichiesta(prof.id_professionista, 'MODIFICA')">Modifica</ion-button>
-                                <ion-button (click)="inviaRichiesta(prof.id_professionista, 'VOTO')">Vota</ion-button>
+                                <ion-label class="staticText">{{ prof.nome_P }} {{ prof.cognome_P }}</ion-label>
+                                <ion-button color="orange" (click)="inviaRichiesta(prof.id_professionista, 'MODIFICA')">Modifica</ion-button>
+                                <ion-button color="purple" (click)="inviaRichiesta(prof.id_professionista, 'VOTO')">Vota</ion-button>
                             </ion-item>
                             } @empty {
                             <ion-item>Nessun professionista associato trovato</ion-item>

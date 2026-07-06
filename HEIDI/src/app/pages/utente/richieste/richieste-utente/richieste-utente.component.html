@@ -31,20 +31,25 @@
             @for(richiesta of richieste_utente; track richiesta.id) {
                 <ion-item class="richiesta">
                     @if(richiesta.tipologia_attivita === 0){
-                        <ion-label class="ion-padding-horizontal">{{richiesta.tipo_richiesta}} PASTO id: {{richiesta.id_attivita}}</ion-label>
+                        <ion-label class="ion-padding-horizontal">
+                            <span class="reqText">{{richiesta.tipo_richiesta}}</span>
+                             PASTO id: {{richiesta.id_attivita}}</ion-label>
                     } @else {
-                        <ion-label class="ion-padding-horizontal">{{richiesta.tipo_richiesta}} ALLENAMENTO id: {{richiesta.id_attivita}}</ion-label>
+                        <ion-label class="ion-padding-horizontal">
+                            <span class="reqText">{{richiesta.tipo_richiesta}}</span>
+                             ALLENAMENTO id: {{richiesta.id_attivita}}</ion-label>
                     }
-                    <ion-label class="ion-padding-horizontal">Da: {{richiesta.nome_p}} {{richiesta.cognome_p}}</ion-label>
+                    <ion-label class="ion-padding-horizontal">Da: 
+                        <span class="reqText"> {{richiesta.nome_p}} {{richiesta.cognome_p}}</span> </ion-label>
                     @if(richiesta.stato === 'PENDING') {
                         <ion-badge color="warning">PENDING</ion-badge>
-                        <ion-button slot="end" fill="outline" color="success" (click)="accettaRichiesta(richiesta.id, richiesta.id_attivita, richiesta.tipologia_attivita, richiesta.tipo_richiesta)">
+                        <ion-button slot="end" color="purple" (click)="accettaRichiesta(richiesta.id, richiesta.id_attivita, richiesta.tipologia_attivita, richiesta.tipo_richiesta)">
                             <ion-icon name="checkmark-outline"></ion-icon>
                         </ion-button>
                     } @else {
                         <ion-badge color="success">{{richiesta.stato}}</ion-badge>
                     }
-                <ion-button slot="end" fill="outline" color="danger" (click)="rifiutaRichiesta(richiesta.id)">
+                <ion-button slot="end" color="red" (click)="rifiutaRichiesta(richiesta.id)">
                     <ion-icon name="trash"></ion-icon>
                 </ion-button>
                 </ion-item>
