@@ -16,7 +16,7 @@ ion-card-title {
 }
 
 .staticText {
-    color: var(--ion-color-orange);
+    color: var(--ion-color-orange) !important;
 }
 
 .dynamicText {
@@ -24,5 +24,9 @@ ion-card-title {
 }
 
 .buttonContainer {
+    text-align: center;
+}
+
+h3{
     text-align: center;
 }

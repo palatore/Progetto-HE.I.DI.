@@ -36,15 +36,19 @@ h2{
 :host ::ng-deep {
   .fc-event {
     border-radius: 50% !important;
-    width: 18px !important;
-    height: 18px !important;
+    width: 24px !important;
+    height: 24px !important;
     margin: 2px auto !important;
     padding: 0 !important;
-    font-size: 0 !important;
-  }
+    font-size: 1.5rem;
 
+  }
   .fc-event-main {
     display: none !important;
+  }
+
+  .fc-event-title {
+    margin: 0 !important;
   }
 
   .fc-header-toolbar {
@@ -102,5 +106,14 @@ h2{
   .fc-daygrid-day-number,
   .fc-col-header-cell-cushion {
     color: var(--ion-color-orange-shade);
+  }
+
+  .fc-event-main {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
   }
 }
