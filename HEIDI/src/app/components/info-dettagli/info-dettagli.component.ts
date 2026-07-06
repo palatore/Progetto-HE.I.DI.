@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonButton, IonCardContent, IonCard, IonCardHeader, IonInput, IonGrid, IonRow, IonCol, IonIcon } from "@ionic/angular/standalone";
+import { IonButton, IonCardContent, IonCard, IonCardHeader, IonInput, IonGrid, IonRow, IonCol, IonIcon, IonCardTitle, IonLabel } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-info-dettagli',
   templateUrl: './info-dettagli.component.html',
   styleUrls: ['./info-dettagli.component.scss'],
   standalone: true,
-  imports: [IonIcon, IonGrid, IonRow, IonCol, IonIcon, IonInput, IonCardContent, IonButton, IonCard, IonCardHeader, CommonModule, FormsModule],
+  imports: [IonLabel, IonCardTitle, IonIcon, IonGrid, IonRow, IonCol, IonIcon, IonInput, IonCardContent, IonButton, IonCard, IonCardHeader, CommonModule, FormsModule],
 })
 export class InfoDettagliComponent implements OnDestroy {
 

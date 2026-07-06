@@ -1,19 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonInput, IonButtons, IonMenuButton, IonModal, IonCardContent, IonText, IonTextarea } from '@ionic/angular/standalone';
+import { IonList, AlertController, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonInput, IonButtons, IonMenuButton, IonModal, IonCardContent, IonText, IonTextarea } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, takeUntil, Subject, switchMap, map, forkJoin, of } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { addIcons } from 'ionicons';
 import { create, close, checkmark } from 'ionicons/icons';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormControl, FormsModule } from '@angular/forms';
+import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
+import { LoginService } from 'src/app/services/auth/login.service';
 
 @Component({
   selector: 'app-profilo',
   templateUrl: './profilo.page.html',
   styleUrls: ['./profilo.page.scss'],
   standalone: true,
-  imports: [IonTextarea, IonText, FormsModule, ReactiveFormsModule, IonCardContent, IonModal, IonButtons, IonMenuButton,IonInput, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, IonTitle, IonToolbar, IonHeader, RouterLink, IonCol]
+  imports: [IonList, IonTextarea, IonText, FormsModule, ReactiveFormsModule, IonCardContent, IonModal, IonButtons, IonMenuButton,IonInput, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, IonTitle, IonToolbar, IonHeader, RouterLink, IonCol, DefaultHeaderComponent]
 })
 export class ProfiloPage implements OnInit{
 public dati_utente:{id:number, name:string, surname:string, email:string, password:string, ruolo:number, id_P1:number, id_P2:number} = {id:-1, name:"", surname:"", email:"", password:"", ruolo:0, id_P1:-1, id_P2:-1};
@@ -29,8 +31,12 @@ public passwordForm:FormGroup;
 public modalOpen:boolean = false;
 public controlloVecchiaPassword:boolean = false;
 public controlloNuovaPassword:boolean = false;
+private destroy$ = new Subject<void>();
+public associazioni:any[] = [];
+public utenti_associati:any[] = [];
+ public ruoloUtente:string | null = null;
 
-    constructor(private formbuilder: FormBuilder, private utenteService: GestioneUtentiService, private alertController: AlertController) {
+    constructor(private formbuilder: FormBuilder, private utenteService: GestioneUtentiService, private alertController: AlertController, private authService: LoginService) {
         this.passwordForm = formbuilder.group({
             vecchiaPassword: new FormControl({value:'', disabled:false}, Validators.required),
             nuovaPassword: new FormControl({value:'', disabled:false}, Validators.required),
@@ -44,8 +50,22 @@ public controlloNuovaPassword:boolean = false;
     }
 
     ionViewWillEnter() {
-        this.loadDatiUtente();
-    }
+        this.authService.ruoloUtente.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => {
+        this.ruoloUtente = data;
+
+        if(this.ruoloUtente === '0') {
+            this.loadDatiUtente();
+            this.loadAssociazioniUtente();
+        } else {
+          console.log('Caricamento richieste in corso...');
+          this.loadAssociazioniProfessionista();
+        }
+      },
+      error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
+    });
+  }
+    
 
    async loadDatiUtente(){
     const decoded = jwtDecode(localStorage.getItem('token') ?? '') as any;
@@ -171,5 +191,49 @@ public controlloNuovaPassword:boolean = false;
         event.preventDefault();
     }
     }
+
+    loadAssociazioniProfessionista() {
+        this.utenteService.getAssociazioniProfessionista().pipe(takeUntil(this.destroy$)).subscribe({
+          next: (data) => {
+            console.log('Associazioni caricate:', data);
+            this.associazioni = data;
+    
+            this.utenti_associati = this.associazioni.filter(associazione => associazione.stato === 'ACCETTATA');
+          },
+          error: (err) => {console.log('Errore nel caricamento delle associazioni', err)}
+        });
+      }
+
+      loadAssociazioniUtente() {
+          try {
+            this.utenteService.getAssociazioniUtente().pipe(switchMap((assoc) => {
+              if(assoc.length === 0) {
+                return of([]);
+              }
+              const chiamateRuoli$ = assoc.map((a) => {
+                return this.utenteService.getRuoloProfessionista(a.id_professionista).pipe(
+                  map((info_ruolo) => {
+                    return {...a, ruolo: info_ruolo.ruolo};
+                  })
+                );
+              });
+      
+              return forkJoin(chiamateRuoli$);
+            })
+          ).subscribe({
+            next: (risultato) => {
+              this.associazioni = risultato;
+              this.utenti_associati= this.associazioni.filter(associazione => associazione.stato === 'ACCETTATA');
+              console.log('Utenti associati', this.utenti_associati);
+            },
+            error: (err) => {console.error(err);}
+          });
+          } catch (e:any) {
+            if(e instanceof Error) {
+              console.log(e.message);
+            }
+          }
+        }
+    
        
 }

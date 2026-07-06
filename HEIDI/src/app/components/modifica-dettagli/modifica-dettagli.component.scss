@@ -4,7 +4,7 @@
     right: 0;
     bottom: 0;
     max-height: 90vh;
-    background-color: lightblue;
+    background-color: var(--ion-color-orange);
     border-radius: 20px;
     z-index: 1000;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
@@ -16,6 +16,16 @@
     &.closing {
         animation: slideDown 0.4s ease-in forwards;
     }
+}
+
+ion-title {
+    text-align: center;
+    color: var(--text-white);
+    font-size: 25px;
+}
+
+h1, h2 {
+    color: var(--text-white);
 }
 
 @keyframes slideUp {

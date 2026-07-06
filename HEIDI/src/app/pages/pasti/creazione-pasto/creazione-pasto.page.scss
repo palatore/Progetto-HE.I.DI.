@@ -1,84 +1,28 @@
-//VARIABILI
-$orange-primary:  #F57C00;
-$orange-light:    #FFA726;
-$orange-dark:     #E65100;
-$orange-pale:     #2C1A00;
-
-$bg-page:         #1A1A1A;
-$bg-card:         #232323;
-$bg-input:        #2C2C2C;
-$bg-subtitle:     #2C1A00;
-
-$text-white:      #ffffff;
-$text-muted:      #888888;
-$text-hint:       #666666;
-$border-color:    #333333;
-$border-input:    #444444;
-$border-abort:    #ff0000;
-
-$purple-confirm:  #8482fb;
-
-//SFONDO PAGINA
-.pastoBackground{
-    --background: #{$bg-page};
-}
-
 //CARD
 .datiPasto {
-    background: $bg-card;
-  border-radius: 16px;
-  border: 0.5px solid $border-color;
-  box-shadow: none;
   width: 70%;
   margin-inline: auto;
 
-  @media (max-width: 480px) {
-    border-radius: 12px;
-    margin: 1rem 0;
+  // HEADER CARD
+  ion-card-title {
+    font-size: 25px;
+    padding-bottom: 20px;
   }
 
-   // HEADER CARD
-  ion-card-header {
-    display: flex;
-
-    ion-card-title {
-      font-size: 25px;
-      font-weight: 500;
-      color: $text-white;
-      text-align: center;
-      padding-bottom: 20px;
-
-      @media (max-width: 480px) {
-        font-size: 18px;
-      }
-    }
-   }
-
-   ion-input {
-        font-size: 15px;
-        --color: #{$text-white};
-        --placeholder-color: #{$text-muted};
-        --highlight-color-focused: #{$orange-primary};
-        --highlight-color-valid: #{$purple-confirm};
-        text-align: center;
-    }
+  ion-input {
+    font-size: 15px;
+    --color: var(--text-white);
+    --highlight-color-focused: var(--ion-color-orange);
+    --highlight-color-valid: var(--ion-color-purple);
+    text-align: center;
+  }
 
 
-    .buttonRow {
-        justify-content: center;
-
-        .dangerButton {
-        --background: transparent;
-  --color: #{$text-white};
-  --border-width: 4px;
-  --border-style: solid;
-  --border-color: #{$border-abort};
-    }
-    }
-    ion-button {
-        --background: #{$orange-primary};
-        --border-radius: 8px;
-        --color: #{$text-white};
-        padding-inline: 16px;
-    }
+  .buttonRow {
+    justify-content: center;
+  }
+  
+  ion-button {
+    padding-inline: 16px;
+  }
 }

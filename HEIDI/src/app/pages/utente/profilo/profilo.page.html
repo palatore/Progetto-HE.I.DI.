@@ -1,11 +1,6 @@
-<ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-title class="ion-text-center">Il mio profilo</ion-title>
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
+<app-default-header [page_title]="'Il mio profilo'"></app-default-header>
+
+
 <ion-content [fullscreen]="true" class="profiloBackground">
     <ion-grid>
         <ion-row class="ion-justify-content-center">
@@ -41,7 +36,7 @@
                             @if(dati_utente.ruolo != 0){
                                 <ion-item class="dataCamp">
                                     <ion-label>
-                                        <span class="staticLabel">Campo specializzazione:</span>
+                                        <span class="staticLabel">Campo specializzazione: </span>
                                         <span class="dicamicLabel">{{dati_utente.ruolo == 1 ? 'Alimentazione' : 'Allenamenti'}}</span> 
                                     </ion-label>
                                 </ion-item>
@@ -65,8 +60,8 @@
                                         <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                     </ion-button>
                                 }@else{
-                                    <ion-button color="tertiary" (click)="Submit(etaInput.value ?? '', 0, 0, '')">
-                                        <ion-icon name="checkmark"></ion-icon>
+                                    <ion-button color="purple" (click)="Submit(etaInput.value ?? '', 0, 0, '')">
+                                        <ion-icon name="checkmark" [style.color]="'#000000'"></ion-icon>
                                     </ion-button>
                                 }
                             </ion-item>
@@ -80,8 +75,8 @@
                                         <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                     </ion-button>
                                     }@else{
-                                        <ion-button color="tertiary" (click)="Submit(0,pesoInput.value ?? '', 0, '')">
-                                            <ion-icon name="checkmark"></ion-icon>
+                                        <ion-button color="purple" (click)="Submit(0,pesoInput.value ?? '', 0, '')">
+                                            <ion-icon name="checkmark" [style.color]="'#000000'"></ion-icon>
                                         </ion-button>
                                     }
                                 </ion-item>
@@ -95,8 +90,8 @@
                                             <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                         </ion-button>
                                     }@else{
-                                        <ion-button color="tertiary" (click)="Submit(0, 0, altezzaInput.value ?? '', '')">
-                                            <ion-icon name="checkmark"></ion-icon>
+                                        <ion-button color="purple" (click)="Submit(0, 0, altezzaInput.value ?? '', '')">
+                                            <ion-icon name="checkmark" [style.color]="'#000000'"></ion-icon>
                                         </ion-button>
                                 }
                             </ion-item>
@@ -110,8 +105,8 @@
                                                 <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                             </ion-button>
                                         }@else{
-                                            <ion-button color="tertiary" (click)="Submit(0, 0, 0, CondizioniInput.value ?? '')">
-                                                <ion-icon name="checkmark"></ion-icon>
+                                            <ion-button color="purple" (click)="Submit(0, 0, 0, CondizioniInput.value ?? '')">
+                                                <ion-icon name="checkmark" [style.color]="'#000000'"></ion-icon>
                                             </ion-button>
                                         }
                                     </div>
@@ -121,66 +116,45 @@
                     }
                     </ion-row>
                 </ion-card>
-                <ion-card class="infoCard">
+                <ion-card class="listaCard">
                     <ion-card-header class="ion-justify-content-center">
                         <div class="iconContainer"><ion-icon size="large"></ion-icon></div>
-                        <ion-card-title>Informazioni {{dati_utente.ruolo === 0 ? 'esperti' : 'clienti'}} associati </ion-card-title>
+                        <ion-card-title>Lista {{dati_utente.ruolo === 0 ? 'esperti' : 'clienti'}} associati: </ion-card-title>
                     </ion-card-header>
                     <ion-row>
                         @if(dati_utente.ruolo !== 0){
-                            se non ci sono clienti associati messaggio di attesa, altrimenti lista dei clienti
+                            <ion-col>
+                                @if(utenti_associati.length > 0){
+                                    <ion-list>
+                                        @for(utente of utenti_associati; track utente.id) {
+                                            <ion-item>
+                                                <ion-label>{{utente.nome_p}} {{utente.cognome_p}}</ion-label>
+                                            </ion-item>
+                                        }
+                                    </ion-list>
+                                }@else {
+                                    <ion-item>
+                                        <ion-label>Ancora nessun utente associato</ion-label>
+                                    </ion-item>
+                                }
+                                <ion-button color="orange" [routerLink]="['/richieste']">Gestisci utenti</ion-button>
+                            </ion-col>
                         }@else {
-                            <ion-col class="colonnaDati">
-                            <ion-label class="ion-text-start">
-                             <h1 class="staticLabel">Per la tua alimentazione:</h1>
-                            </ion-label>
-                            @if((dati_utente.id_P1 ?? -1) !== -1 && dati_utente.id_P1 !== null){
-                                <ion-item class="dataCamp">
-                                    <ion-label>Nome: {{dati_esperto_alimentare.name}}</ion-label>
-                                </ion-item>
-                                <ion-item class="dataCamp">
-                                    <ion-label>Cognome: {{dati_esperto_alimentare.surname}}</ion-label>
-                                </ion-item>
-                                <ion-item class="dataCamp">
-                                    <ion-label>e-mail: {{dati_esperto_alimentare.email}}</ion-label>
-                                </ion-item>
-                                <div class="buttonContainer">
-                                    <ion-button [routerLink]="['/richieste']" color="orange">Gestisci esperto</ion-button>
-                                </div>
-                            }@else {
-                                <ion-item class="dataCamp">
-                                    <ion-label>Ancora nessun professionista</ion-label>
-                                </ion-item>
-                                <div class="buttonContainer">
-                                    <ion-button [routerLink]="['/richieste']" color="orange">Scegli un esperto</ion-button>
-                                </div>
-                            }
-                        </ion-col>
-                        <ion-col class="colonnaDati">
-                            <ion-label class="ion-text-start">
-                             <h1 class="staticLabel">Per i tuoi allenamenti:</h1>
-                            </ion-label>
-                            @if((dati_utente.id_P2 ?? -1) !== -1 && dati_utente.id_P2 !== null){
-                                <ion-item class="dataCamp">
-                                    <ion-label>Nome: {{dati_esperto_allenamenti.name}}</ion-label>
-                                </ion-item>
-                                <ion-item class="dataCamp">
-                                    <ion-label>Cognome: {{dati_esperto_allenamenti.surname}}</ion-label>
-                                </ion-item>
-                                <ion-item class="dataCamp">
-                                    <ion-label>e-mail: {{dati_esperto_allenamenti.email}}</ion-label>
-                                </ion-item>
-                                <div class="buttonContainer">
-                                    <ion-button [routerLink]="['/richieste']">Gestisci esperto</ion-button>
-                                </div>
-                            }@else {
-                                <ion-item class="dataCamp">
-                                    <ion-label>Ancora nessun professionista</ion-label>
-                                </ion-item>
-                                <div class="buttonContainer">
-                                    <ion-button [routerLink]="['/richieste']" color="orange">Scegli un esperto</ion-button>
-                                </div>
-                            }
+                            <ion-col>
+                                @if(utenti_associati.length > 0){
+                                    <ion-list>
+                                        @for(professionista of utenti_associati; track professionista.id) {
+                                            <ion-item>
+                                                <ion-label>{{professionista.nome_P}} {{professionista.cognome_P}}, {{professionista.ruolo}}</ion-label>
+                                            </ion-item>
+                                        }
+                                    </ion-list>
+                                }@else {
+                                    <ion-item>
+                                        <ion-label>Nessun professionista associato</ion-label>
+                                    </ion-item>
+                                }
+                                <ion-button [routerLink]="['/richieste']" color="orange">Gestisci esperti</ion-button>
                         </ion-col>
                         }
                     </ion-row>
@@ -194,7 +168,7 @@
             <ion-content class="modalBackground">
                 <ion-card>
                     <ion-card-header>
-                        MODIFICA PASSWORD
+                        <ion-card-title>MODIFICA PASSWORD</ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
                         <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
@@ -216,7 +190,7 @@
                                 </ion-row>
                             </ion-grid>
                             <div class="buttonContainer">
-                                <ion-button class="dangerButton" (click)="chiudiModal()">Annulla</ion-button>
+                                <ion-button fill="outline" class="annullaButton" (click)="chiudiModal()">Annulla</ion-button>
                                 <ion-button type="submit" [disabled]="!passwordForm.valid" color="orange"> Conferma </ion-button>
                                 @if(controlloVecchiaPassword){
                                     <div style="color: red; background-color: transparent">

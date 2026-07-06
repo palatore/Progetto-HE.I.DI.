@@ -26,7 +26,7 @@
                 <p><b>{{dettaglio.quantita}} g</b></p>
               </ion-col>
               <ion-col size = "2">
-                  <ion-button (click)="rimuoviDettaglio($index)" class="deleteAlimento" fill="outline">
+                  <ion-button (click)="rimuoviDettaglio($index)" color="red" fill="outline">
                     <ion-icon name="trash"></ion-icon>
                   </ion-button>
               </ion-col>
@@ -34,7 +34,7 @@
           </ion-row>
         </ion-grid>
         <ion-row class="buttonRow">
-           <ion-button (click)="submitRiempi()">Completa Pasto</ion-button>
+           <ion-button (click)="submitRiempi()" color="orange">Completa Pasto</ion-button>
         </ion-row>
       </ion-card-content>
     }
@@ -42,7 +42,7 @@
       <!--Sezione esercizi-->
       <ion-card-content class="exerciseCardContent">
         <ion-grid>
-          <ion-row>
+          <ion-row class="textRow">
             <ion-col size="2">
               Esercizio
             </ion-col>
@@ -59,7 +59,7 @@
               Pesi (kg)
             </ion-col>
           </ion-row>
-          <ion-row>
+          <ion-row class="dettagliRow">
             @for(dettaglio of dettagli_inseriti; track dettaglioTrack($index, dettaglio)) {
               <ion-col size = "2">
                 <p><b>{{dettaglio.name}}</b></p>
@@ -77,20 +77,16 @@
                 <p><b>{{dettaglio.pesi_kg}} kg</b></p>
               </ion-col>
               <ion-col size = "2">
-                  <ion-button (click)="rimuoviDettaglio($index)" color="danger" fill="outline">
+                  <ion-button (click)="rimuoviDettaglio($index)" color="red" fill="outline">
                     <ion-icon name="trash"></ion-icon>
                   </ion-button>
               </ion-col>
             }
           </ion-row>
         </ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-button (click)="submitRiempi()">Completa Allenamento</ion-button>
-          </ion-col>
+        <ion-row class="buttonRow">
+            <ion-button color="orange" (click)="submitRiempi()">Completa Allenamento</ion-button>
         </ion-row>
-        
-
       </ion-card-content>
     }
     </ion-card>

@@ -8,6 +8,7 @@ import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardT
 import { RouterModule } from '@angular/router';
 import { ModificaDettagliComponent } from 'src/app/components/modifica-dettagli/modifica-dettagli.component';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
+import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.s
   templateUrl: './pasti-utente.page.html',
   styleUrls: ['./pasti-utente.page.scss'],
   standalone: true,
-  imports: [IonModal, IonButtons, IonMenuButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent]
+  imports: [IonModal, IonButtons, IonMenuButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent, DefaultHeaderComponent]
 })
 export class PastiUtentePage implements OnInit {
   totZuccheri:number = 0;

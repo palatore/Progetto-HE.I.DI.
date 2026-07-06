@@ -1,11 +1,5 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>I Miei Pasti</ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-default-header [page_title]="'I Miei Pasti'"></app-default-header>
+
 
 <ion-content [fullscreen]="true">
   <ion-list>
@@ -16,16 +10,16 @@
           <p>Data: {{ pasto.data_creazione | date: 'dd/MM/yyyy' }}</p>
           <p>{{ pasto.tipo }}</p>
         </ion-label>
-        <ion-button fill="outline" (click)="mostraDettagli(pasto)" slot="end">
+        <ion-button color="purple" fill="outline" (click)="mostraDettagli(pasto)" slot="end">
           <ion-icon name="eye-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="outline" (click)="modificaPasto(pasto)" slot="end">
+        <ion-button color="orange" fill="outline" (click)="modificaPasto(pasto)" slot="end">
           <ion-icon name="create"></ion-icon>
         </ion-button>
-        <ion-button id="open-modal-pasto-{{ pasto.id }}"fill="outline" (click)="apriRichiesta(pasto.id)" slot="end">
+        <ion-button color="orange" id="open-modal-pasto-{{ pasto.id }}" fill="outline" (click)="apriRichiesta(pasto.id)" slot="end">
           <ion-icon name="help-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="outline" color="danger" (click)="eliminaPasto(pasto.id)" slot="end">
+        <ion-button fill="outline" color="red" (click)="eliminaPasto(pasto.id)" slot="end">
           <ion-icon name="trash"></ion-icon>
         </ion-button>
       </ion-item>
@@ -66,15 +60,33 @@
     <div class="overlay-dettagli" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>{{ pastoSelezionato.nome }}</ion-card-title>
+          <ion-card-title>{{ pastoSelezionato.name }}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <p>Data creazione: {{ pastoSelezionato.data_creazione.split('T')[0]}}</p>
-          <p>Tipo: {{ pastoSelezionato.tipo }}</p>
-          <p><b>Totale Calorie:</b> {{ totCalorie }} kcal</p>
-          <p>Totale carboidrati: {{totCarboidrati}} g</p>
-          <p>Totale zuccheri: {{totZuccheri}} g</p>
-          <p>Totale grassi: {{totGrassi}} g</p>
+          <p>
+            <span class="staticText">Data creazione: </span>
+            <span class="dynamicText">{{ pastoSelezionato.data_creazione | date: 'dd/MM/yyyy'}}</span>
+          </p>
+          <p>
+            <span class="staticText">Tipo: </span>
+            <span class="dynamicText">{{ pastoSelezionato.tipo }}</span>
+          </p>
+          <p>
+            <b><span class="staticText">Totale Calorie: </span></b>
+            <span class="dynamicText">{{ totCalorie }} kcal</span>
+          </p>
+          <p>
+            <span class="staticText">Totale carboidrati: </span>
+            <span class="dynamicText">{{totCarboidrati}} g</span>
+          </p>
+          <p>
+            <span class="staticText">Totale zuccheri: </span>
+            <span class="dynamicText">{{totZuccheri}} g</span>
+          </p>
+          <p>
+            <span class="staticText">Totale grassi: </span>
+            <span class="dynamicText">{{totGrassi}} g</span>
+          </p>
           <!--
           <p>Vitamine: {{totVitamine}}</p> metti solo se riesci a far comparire le vitamine una sola volta
           -->
@@ -85,13 +97,15 @@
               </li>
               }
           </ul>
-          <ion-button (click)="chiudiDettagli()">Chiudi</ion-button>
+          <div class="buttonContainer">
+            <ion-button color="red" fill="outline" (click)="chiudiDettagli()">Chiudi</ion-button>
+          </div>
         </ion-card-content>
       </ion-card>
     </div>
   }
 
-  <ion-button expand="full" [routerLink]='["/creazionePasto"]'>Aggiungi Pasto</ion-button>
+  <ion-button color="orange" expand="full" [routerLink]='["/creazionePasto"]'>Aggiungi Pasto</ion-button>
 
   @if(viewModifica) {
     <app-modifica-dettagli

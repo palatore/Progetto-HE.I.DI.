@@ -165,8 +165,8 @@ public alimento_da_aggiungere:any = null; //variabile per la gestione delle info
       const response = await firstValueFrom(this.foodService.riempiPasto(idPasto, alimenti));
       if(response && response.status === 201) {
         const alert = await this.alertController.create({
-          header: 'Successo',
-          message: 'Pasto salvato con successo!',
+          header: 'Fatto!',
+          message: 'Hai creato questo pasto',
           buttons: ['OK']
         });
         await alert.present();

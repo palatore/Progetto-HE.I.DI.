@@ -7,7 +7,7 @@
     <ion-card class="infoContent">
         <ion-card class="infoCard">
             <ion-card-header>
-            {{dettaglio.name}}
+            <ion-card-title>{{dettaglio.name}}</ion-card-title>
             </ion-card-header>
             <ion-card-content class = "infoDescription">
                 <img [src]="getImgPath(dettaglio)" alt="Immagine del dettaglio" style="width: 100%; height: 100%; border-radius: 8px;">
@@ -19,23 +19,38 @@
             <!--Sezione info alimenti-->
             <ion-grid class = "listaInfo">
                 <ion-row [ngStyle]="{'marginBottom': '10px'}">
-                    Info per 100g:
+                    <ion-label>Info per 100g:</ion-label>
                 </ion-row>
                 <ion-row>
-                    <ion-col size="6">Calorie: {{dettaglio.kcal}} kcal</ion-col>
-                    <ion-col size="6">Carboidrati: {{dettaglio.carboidrati_g}}g</ion-col>
+                    <ion-col size="6">
+                        <span class="staticText">Calorie: </span>
+                        <span class="dynamicText">{{dettaglio.kcal}} kcal</span>
+                    </ion-col>
+                    <ion-col size="6">
+                        <span class="staticText">Carboidrati: </span>
+                        <span class="dynamicText">{{dettaglio.carboidrati_g}} g</span>
+                    </ion-col>
                 </ion-row>
                 <ion-row>
-                    <ion-col size="6">Grassi: {{dettaglio.grassi_g}}g</ion-col>
-                    <ion-col size="6">Zuccheri: {{dettaglio.zuccheri_g}}g</ion-col>
-                    <ion-col size="6">Vitamine: {{dettaglio.vitamine}}</ion-col>
+                    <ion-col size="6">
+                        <span class="staticText">Grassi: </span>
+                        <span class="dynamicText">{{dettaglio.grassi_g}} g</span>
+                    </ion-col>
+                    <ion-col size="6">
+                        <span class="staticText">Zuccheri: </span>
+                        <span class="dynamicText">{{dettaglio.zuccheri_g}} g</span>
+                    </ion-col>
+                    <ion-col size="6">
+                        <span class="staticText">Vitamine: </span>
+                        <span class="dynamicText">{{dettaglio.vitamine}}</span>
+                    </ion-col>
                 </ion-row>
                 <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'gap': '10px', 'justify-content': 'left'}">
-                    <ion-button (click)="quantita = quantita - 1" fill="outline" size="small">-</ion-button>
+                    <ion-button color="orange" fill="outline" (click)="quantita = quantita - 1" fill="outline" size="small">-</ion-button>
                     <ion-input type="number" step="any" placeholder="Quantità" [(ngModel)]="quantita" [ngStyle]="{'max-width': '20px'}"></ion-input>
-                    <ion-button (click)="quantita = quantita + 1" fill="outline" size="small">+</ion-button>
+                    <ion-button color="orange" fill="outline" (click)="quantita = quantita + 1" fill="outline" size="small">+</ion-button>
                 </div>
-                <ion-button (click)="mandaInLista()">Aggiungi al pasto</ion-button>
+                <ion-button color="orange" (click)="mandaInLista()">Aggiungi al pasto</ion-button>
             </ion-grid>
         }
 
@@ -43,49 +58,55 @@
         @else {
             <ion-grid class="listaInfo">
                 <icon-row [ngStyle]="{'marginBottom': '10px'}">
-                    Info Allenamento
+                    <ion-label>Info Allenamento</ion-label>
                 </icon-row>
                 <ion-row>
-                    <ion-col size="6">Gruppo muscolare: {{dettaglio.gruppo_muscolare}}</ion-col>
-                    <ion-col size="6">Fase allenamento: {{dettaglio.fase}}</ion-col>
+                    <ion-col size="6">
+                        <span class="staticText">Gruppo muscolare: </span>
+                        <span class="dynamicText">{{dettaglio.gruppo_muscolare}}</span>
+                    </ion-col>
+                    <ion-col size="6">
+                        <span class="staticText">Fase allenamento: </span>
+                        <span class="dynamicText">{{dettaglio.fase}}</span>
+                    </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col>
-                        <ion-row>Serie</ion-row>
+                        <ion-row><span class="staticText">Serie</span></ion-row>
                         <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'gap': '10px', 'justify-content': 'left'}">
-                            <ion-button (click)="n_serie = n_serie - 1" fill="outline" size="small">-</ion-button>
+                            <ion-button color="orange" (click)="n_serie = n_serie - 1" fill="outline" size="small">-</ion-button>
                             <ion-input type="number" step="any" placeholder="Serie" [(ngModel)]="n_serie" [ngStyle]="{'max-width': '20px'}"></ion-input>
-                            <ion-button (click)="n_serie = n_serie + 1" fill="outline" size="small">+</ion-button>
+                            <ion-button color="orange" (click)="n_serie = n_serie + 1" fill="outline" size="small">+</ion-button>
                         </div>
                     </ion-col>
                     <ion-col>
-                            <ion-row>{{dettaglio.fase == 'Centrale' ?  'Ripetizioni'  : 'Secondi'}}</ion-row>
+                            <ion-row><span class="staticText">{{dettaglio.fase == 'Centrale' ?  'Ripetizioni'  : 'Secondi'}}</span></ion-row>
                         <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'gap': '10px', 'justify-content': 'left'}">
-                            <ion-button (click)="n_ripetizioni = n_ripetizioni - 1" fill="outline" size="small">-</ion-button>
+                            <ion-button color="orange" (click)="n_ripetizioni = n_ripetizioni - 1" fill="outline" size="small">-</ion-button>
                             <ion-input type="number" step="any" placeholder="Ripetizioni" [(ngModel)]="n_ripetizioni" [ngStyle]="{'max-width': '20px'}"></ion-input>
-                            <ion-button (click)="n_ripetizioni = n_ripetizioni + 1" fill="outline" size="small">+</ion-button>
+                            <ion-button color="orange" (click)="n_ripetizioni = n_ripetizioni + 1" fill="outline" size="small">+</ion-button>
                         </div>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col>
-                        <ion-row>Minuti di riposo</ion-row>
+                        <ion-row><span class="staticText">Minuti di riposo</span></ion-row>
                         <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'gap': '10px', 'justify-content': 'left'}">
-                            <ion-button (click)="min_riposo = min_riposo - 1" fill="outline" size="small">-</ion-button>
+                            <ion-button color="orange" (click)="min_riposo = min_riposo - 1" fill="outline" size="small">-</ion-button>
                             <ion-input type="number" step="any" placeholder="Riposo" [(ngModel)]="min_riposo" [ngStyle]="{'max-width': '20px'}"></ion-input>
-                            <ion-button (click)="min_riposo = min_riposo + 1" fill="outline" size="small">+</ion-button>
+                            <ion-button color="orange" (click)="min_riposo = min_riposo + 1" fill="outline" size="small">+</ion-button>
                         </div>
                     </ion-col>
                     <ion-col>
-                        <ion-row>Pesi in kg</ion-row>
+                        <ion-row><span class="staticText">Pesi in kg</span></ion-row>
                         <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'gap': '10px', 'justify-content': 'left'}">
-                            <ion-button (click)="n_pesi_kg = n_pesi_kg - 1" fill="outline" size="small">-</ion-button>
+                            <ion-button color="orange" (click)="n_pesi_kg = n_pesi_kg - 1" fill="outline" size="small">-</ion-button>
                             <ion-input type="number" step="any" placeholder="Pesi" [(ngModel)]="n_pesi_kg" [ngStyle]="{'max-width': '20px'}"></ion-input>
-                            <ion-button (click)="n_pesi_kg = n_pesi_kg + 1" fill="outline" size="small">+</ion-button>
+                            <ion-button color="orange" (click)="n_pesi_kg = n_pesi_kg + 1" fill="outline" size="small">+</ion-button>
                         </div>
                     </ion-col>
                 </ion-row>
-                <ion-button (click)="mandaInLista()">Aggiungi all'allenamento</ion-button>
+                <ion-button (click)="mandaInLista()" color="orange">Aggiungi all'allenamento</ion-button>
             </ion-grid>
         }
     </ion-card>

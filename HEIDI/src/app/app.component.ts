@@ -8,6 +8,7 @@ import { LoginService } from './services/auth/login.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss'],
   imports: [AsyncPipe, IonApp, IonRouterOutlet, IonMenu, IonMenuToggle,IonItem, IonList, IonHeader, IonIcon, IonLabel, IonToolbar, IonContent, IonTitle, RouterLink],
 })
 export class AppComponent implements OnInit {

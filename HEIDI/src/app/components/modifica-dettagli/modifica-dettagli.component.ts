@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IonCard, IonCardHeader, IonCardContent, IonTitle, IonGrid, IonRow, IonCol, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { RiempiDettagliComponent } from "../riempi-dettagli/riempi-dettagli.component";
 import { InfoDettagliComponent } from "../info-dettagli/info-dettagli.component";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-modifica-dettagli',
   templateUrl: './modifica-dettagli.component.html',
   styleUrls: ['./modifica-dettagli.component.scss'],
   standalone: true,
-  imports: [IonCard, IonCardHeader, IonCardContent, IonTitle, IonGrid, IonRow, IonCol, IonButton, IonIcon, RiempiDettagliComponent, InfoDettagliComponent]
+  imports: [DatePipe, IonCard, IonCardHeader, IonCardContent, IonTitle, IonGrid, IonRow, IonCol, IonButton, IonIcon, RiempiDettagliComponent, InfoDettagliComponent]
 })
 export class ModificaDettagliComponent {
 

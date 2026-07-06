@@ -1,86 +1,22 @@
-//VARIABILI
-$orange-primary:  #F57C00;
-$orange-light:    #FFA726;
-$orange-dark:     #E65100;
-$orange-pale:     #2C1A00;
-
-$bg-page:         #1A1A1A;
-$bg-card:         #232323;
-$bg-input:        #2C2C2C;
-$bg-subtitle:     #2C1A00;
-
-$text-white:      #ffffff;
-$text-muted:      #888888;
-$text-hint:       #666666;
-$border-color:    #333333;
-$border-input:    #444444;
-
-
-
-// TOOLBAR
-ion-toolbar {
-  --background: #{$orange-primary};
-  --color: #{$text-white};
-}
-
-
-// SFONDO PAGINA
-.signupBackground {
-  --background: #{$bg-page};
-}
-
-// GRIGLIA
-ion-grid {
-  height: 100%;
-
-  ion-row {
-    height: 100%;
-    align-items: center;
-
-    @media (max-width: 480px) {
-      align-items: flex-start;
-    }
-  }
-}
-
 // CARD
 .registrationCard {
-    background: $bg-card;
-  border-radius: 16px;
-  border: 0.5px solid $border-color;
-  box-shadow: none;
   margin: 1.5rem auto;
 
-  @media (max-width: 480px) {
-    border-radius: 12px;
-    margin: 1rem 0;
-  }
 
    // HEADER CARD
   ion-card-header {
-    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
     padding-bottom: 0;
 
-    ion-card-title {
-      font-size: 20px;
-      font-weight: 500;
-      color: $text-white;
-      text-align: center;
-
-      @media (max-width: 480px) {
-        font-size: 18px;
-      }
-    }
     }
     // ICONA HEIDI
   .iconContainer {
     width: 52px;
     height: 52px;
     border-radius: 14px;
-    background: $orange-primary;
+    background: var(--ion-color-orange);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,52 +38,24 @@ ion-radio-group {
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
+    padding-bottom: 15px;
 
     ion-label {
-        color: $text-white !important;
+        color: var(--text-white) !important;
         font-size: 14px;
         font-weight: 500;
         padding: 0 30px 0 2px !important;
     }
 
     ion-radio {
-        --color: #{$text-white};
-        --color-checked: #{$orange-primary};
+        --color-checked: var(--ion-color-orange);
         padding: 10px 2px !important;
     }
-}
-
-// CAMPI INPUT
-.registerCamp {
-  --background: #{$bg-input};
-  --color: #{$text-white};
-  --border-color: #{$border-input};
-  --border-radius: 8px;
-  --highlight-color-focused: #{$orange-primary};
-  --padding-start: 12px;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-
-  ion-label {
-    --color: #{$text-hint} !important;
-  }
-
-  ion-input {
-    --color: #{$text-white};
-    --placeholder-color: #{$text-hint};
-  }
 }
 
 // BOTTONE REGISTRATI
 .buttonContainer {
   margin-top: 1.25rem;
-
-  ion-button {
-    --border-radius: 8px;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-  }
 }
 
 // LINK
@@ -155,13 +63,7 @@ ion-radio-group {
   text-align: center;
   margin-top: 1rem;
   font-size: 13px;
-  color: $text-muted;
-
-  a {
-    color: $orange-light;
-    text-decoration: none;
-    font-weight: 500;
-  }
+  color: var(--text-muted);
 }
 
 

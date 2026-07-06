@@ -1,16 +1,10 @@
-<ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-title>Creazione Allenamento</ion-title>
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
+<app-default-header [page_title]="'Creazione Allenamento'"></app-default-header>
+
 
 <ion-content [fullscreen]="true">
-    <ion-card class="provvisoria">
+    <ion-card class="datiAllenamento">
         <ion-card-header>
-            CREAZIONE ALLENAMENTO
+            <ion-card-title class="titoloCard">Inserisci i dati dell'allenamento</ion-card-title>
         </ion-card-header>
         <ion-card-content>
            <form [formGroup]="allenamentoForm" (ngSubmit)="onSubmit()">
@@ -26,36 +20,41 @@
                         
                        <ion-datetime-button datetime="datetime" ></ion-datetime-button>
 
-                       <ion-modal [keepContentsMounted]="true">
+                       <ion-modal #modalCalendario [keepContentsMounted]="true">
                         <ng-template>
-                            <ion-datetime 
+                            <ion-datetime #calendario
                             id="datetime"
                             presentation="date"
-                            [showDefaultButtons]="true"
-                            doneText="Seleziona"
-                            cancelText="Annulla"
-                            formControlName="giorno">
+                            [showDefaultButtons]="false"
+                            formControlName="giorno"
+                            color="orange">
+                            <ion-buttons slot="buttons">
+                                <ion-button color="red" (click)="modalCalendario.dismiss()">Annulla</ion-button>
+                                <ion-button color="orange" (click)="calendario.confirm(); modalCalendario.dismiss()">Conferma</ion-button>
+                            </ion-buttons>
                             </ion-datetime>
                         </ng-template>                            
                        </ion-modal>                       
                     </ion-col>
 
                     <ion-col>
-                        <ion-row>
+                          <ion-label>
                             Quante ore ti alleni?
-                        </ion-row>
+                            </ion-label>
                         <ion-row>
-                            <ion-button (click)="decrementoDurata()" fill="outline" size="small">-</ion-button>
+                            <ion-button color="orange" (click)="decrementoDurata()" fill="outline" size="small">-</ion-button>
                             <ion-input type="number" step="any" placeholder="Durata" [ngStyle]="{'max-width': '50px', 'text-align': 'center'}" formControlName="durata"></ion-input>
-                            <ion-button (click)="incrementoDurata()" fill="outline" size="small">+</ion-button>
+                            <ion-button color="orange" (click)="incrementoDurata()" fill="outline" size="small">+</ion-button>
                         </ion-row>
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <ion-button type="submit" [disabled]="!allenamentoForm.valid"> Crea </ion-button>
+            <ion-row class="buttonRow">
             @if(showRiempiAllenamento){
-                <ion-button color="danger" (click)="annullaCreazione()">Annulla</ion-button>
-            } 
+                <ion-button color="red" fill="outline" (click)="annullaCreazione()">Annulla</ion-button>
+            }
+             <ion-button color="orange" type="submit" [disabled]="!allenamentoForm.valid"> Crea </ion-button>
+            </ion-row>
             @if(showAlreadyExistent){
                 <div style="color: red; background-color: transparent">
                 Allenamento già esistente

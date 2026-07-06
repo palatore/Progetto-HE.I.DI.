@@ -1,40 +1,20 @@
-//VARIABILI
-$orange-primary:  #F57C00;
-$orange-light:    #FFA726;
-$orange-dark:     #E65100;
-$orange-pale:     #2C1A00;
-
-$bg-page:         #1A1A1A;
-$bg-card:         #232323;
-$bg-input:        #2C2C2C;
-$bg-subtitle:     #2C1A00;
-
-$text-white:      #ffffff;
-$text-muted:      #888888;
-$text-hint:       #666666;
-$border-color:    #333333;
-$border-input:    #444444;
-$border-abort:    #ff0000;
-
-$purple-confirm:  #8482fb;
+//CARD
+.detailCard {
+    width: 80%;
+    margin-inline: auto;
+}
 
 ion-card-title {
-      font-size: 25px;
-      font-weight: 500;
-      color: $text-white;
-      text-align: center;
-      padding-bottom: 20px;
-
-      @media (max-width: 480px) {
-        font-size: 18px;
-      }
+    font-size: 25px;
+    padding-bottom: 20px;
 }
 
 .textRow {
     text-align: center;
+
     ion-col {
     font-size: 18px;
-    color: $orange-primary;
+    color: var(--ion-color-orange);
     }
 }
 
@@ -46,37 +26,28 @@ ion-card-title {
 
     ion-col {
     font-size: 15px;
-    color: $text-white;
-
-        .deleteAlimento {
-            color: $border-abort;
-            --border-color: $border-abort;
-        }
+    color: var(--text-white);
     }
 }
 
 .buttonRow {
     justify-content: center;
-
-    ion-button {
-    --background: #{$orange-primary};
-    --border-radius: 8px;
-    --color: #{$text-white};
-    }
+    padding-top: 20px;
 }
 
 .searchRow {
     justify-content: start;
+
     ion-input {
         min-width: auto;
         font-size: 20px;
         width:fit-content;
-        --color: #{$text-white};
-        --placeholder-color: #{$text-white};
-        --highlight-color-focused: #{$orange-primary};
+        --color: var(--text-white);
+        --placeholder-color: var(--text-white);
+        --highlight-color-focused: var(--ion-color-orange);
                                        
         ion-icon {
-            color: $orange-primary;
+            color: var(--ion-color-orange);
             font-size: 20px;
         }
     }
@@ -97,7 +68,6 @@ ion-card-title {
     padding: 5px;
     width: 100%;
     aspect-ratio: 1;  // Rende la card quadrata
-    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     background-color: antiquewhite; //da decidere

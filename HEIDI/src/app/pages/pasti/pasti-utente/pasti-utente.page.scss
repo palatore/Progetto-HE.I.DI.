@@ -1,0 +1,29 @@
+h2 {
+    color: var(--ion-color-orange);
+    font-size: 20px;
+}
+
+p {
+    color: var(--text-white);
+}
+
+ion-list {
+    background-color: transparent;
+}
+
+ion-card-title {
+    color: var(--ion-color-orange);
+}
+
+.staticText {
+    color: var(--ion-color-orange);
+}
+
+.dynamicText {
+    color: var(--text-white);
+}
+
+.buttonContainer {
+    text-align: center;
+}
+

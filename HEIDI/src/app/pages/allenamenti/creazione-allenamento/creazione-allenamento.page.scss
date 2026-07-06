@@ -1,0 +1,34 @@
+//CARD
+.datiAllenamento {
+    width: 70%;
+    margin-inline: auto;
+
+    .titoloCard {
+        font-size: 25px;
+    }
+
+    ion-card-title {
+      font-size: 20px;
+      padding-bottom: 20px;
+    }
+
+    ion-input {
+        font-size: 15px;
+        --color: var(--text-white);
+        --highlight-color-focused: var(--ion-color-orange);
+        --highlight-color-valid: var(--ion-color-purple);
+        text-align: center;
+    }
+
+    ion-label {
+        color: var(--text-white) !important;
+    }
+}
+
+.buttonRow {
+    justify-content: center;
+}
+   ion-button {
+        padding-inline: 16px;
+    }
+

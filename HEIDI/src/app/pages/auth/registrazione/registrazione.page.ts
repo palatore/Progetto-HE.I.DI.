@@ -7,13 +7,14 @@ import { firstValueFrom } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { addIcons } from 'ionicons';
 import { enterOutline } from 'ionicons/icons';
+import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 
 @Component({
   selector: 'app-registrazione',
   templateUrl: './registrazione.page.html',
   styleUrls: ['./registrazione.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule, IonRadio, IonRadioGroup],
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule, IonRadio, IonRadioGroup, DefaultHeaderComponent],
 })
 
 export class RegistrazionePage implements OnInit {

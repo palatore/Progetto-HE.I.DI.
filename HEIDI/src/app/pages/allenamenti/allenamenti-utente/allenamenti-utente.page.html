@@ -1,11 +1,4 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>I Miei Allenamenti</ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-default-header [page_title]="'I Miei Allenamenti'"></app-default-header>
 
 <ion-content [fullscreen]="true">
     <ion-list>
@@ -16,16 +9,16 @@
                     <p>Giorno: {{ allenamento.data | date: 'dd/MM/yyyy' }}</p>
                     <p>Data creazione: {{ allenamento.data_creazione | date: 'dd/MM/yyyy' }}</p>
                 </ion-label>
-                <ion-button fill="outline" (click)="mostraDettagli(allenamento)" slot="end">
+                <ion-button color="purple" fill="outline" (click)="mostraDettagli(allenamento)" slot="end">
                     <ion-icon name="eye-outline"></ion-icon>
                 </ion-button>
-                <ion-button fill="outline" (click)="modificaAllenamento(allenamento)" slot="end">
+                <ion-button color="orange" fill="outline" (click)="modificaAllenamento(allenamento)" slot="end">
                     <ion-icon name="create"></ion-icon>
                 </ion-button>
-                <ion-button id="open-modal-pasto-{{ allenamento.id }}"fill="outline" (click)="apriRichiesta(allenamento.id)" slot="end">
+                <ion-button color="orange" id="open-modal-pasto-{{ allenamento.id }}"fill="outline" (click)="apriRichiesta(allenamento.id)" slot="end">
                     <ion-icon name="help-outline"></ion-icon>
                 </ion-button>
-                <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">
+                <ion-button fill="outline" color="red" slot="end" (click)="eliminaAllenamento(allenamento.id)">
                     <ion-icon name="trash"></ion-icon>
                 </ion-button>
             </ion-item>
@@ -64,15 +57,24 @@
     </ion-list>
 
     @if(allenamentoSelezionato) {
-        <div class="overlay-dettagli" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+        <div class="overlay-dettagli" style="overflow: visible; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
             <ion-card>
                 <ion-card-header>
                     <ion-card-title>{{ allenamentoSelezionato.name }}</ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
-                    <p>Giorno: {{ allenamentoSelezionato.data | date: 'dd/MM/yyyy' }}</p>
-                    <p>Durata: {{ allenamentoSelezionato.durata }} {{allenamentoSelezionato.durata !== 1 ? 'Ore' : 'Ora'}}</p>
-                    <p>Data creazione: {{ allenamentoSelezionato.data_creazione.split('T')[0] }}</p>
+                    <p>
+                        <span class="staticText">Giorno: </span>
+                        <span class="dynamicText">{{ allenamentoSelezionato.data | date: 'dd/MM/yyyy' }}</span>
+                    </p>
+                    <p>
+                        <span class="staticText">Durata: </span>
+                        <span class="dynamicText">{{ allenamentoSelezionato.durata }} {{allenamentoSelezionato.durata !== 1 ? 'Ore' : 'Ora'}}</span>
+                    </p>
+                    <p>
+                        <span class="staticText">Data creazione: </span>
+                        <span class="dynamicText">{{ allenamentoSelezionato.data_creazione | date: 'dd/MM/yyyy' }}</span>
+                    </p>
                     <ul>
                         @for(esercizio of dettagliAllenamento?.esercizi; track esercizioTrack($index, esercizio)) {
                             <li>
@@ -80,13 +82,15 @@
                             </li>
                         }
                     </ul>
-                    <ion-button (click)="chiudiDettagli()">Chiudi</ion-button>
+                    <div class="buttonContainer">
+                    <ion-button color="orange" (click)="chiudiDettagli()">Chiudi</ion-button>
+                    </div>
                 </ion-card-content>
             </ion-card>
         </div>
     }
 
-    <ion-button expand="full" [routerLink]='["/creazioneAllenamento"]'>Aggiungi allenamento</ion-button>
+    <ion-button color="orange" expand="full" [routerLink]='["/creazioneAllenamento"]'>Aggiungi allenamento</ion-button>
 
     @if(viewModifica) {
         <app-modifica-dettagli 
@@ -101,5 +105,4 @@
         (chiudi)="onChiudi()">
         </app-modifica-dettagli>
     }
-
 </ion-content>
