@@ -32,7 +32,7 @@ h2{
   padding-bottom: 10px;
 }
 
-
+//CALENDARIO
 :host ::ng-deep {
   .fc-event {
     border-radius: 50% !important;
@@ -45,5 +45,62 @@ h2{
 
   .fc-event-main {
     display: none !important;
+  }
+
+  .fc-header-toolbar {
+    padding-top: 1.5em;
+  }
+
+  .fc-button {
+    background: var(--ion-color-orange);
+    border-radius: 8px;
+  }
+
+  .fc-button:hover {
+    background: var(--ion-color-orange-tint);
+  }
+
+  .fc-button:disabled {
+    background: var(--ion-color-orange-shade);
+  }
+
+  .fc-button:active {
+    background: var(--ion-color-orange-shade) !important;
+  }
+
+  .fc-toolbar-title {
+    padding-bottom: 8px;
+  }
+
+  .fc-toolbar-chunk > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .fc-toolbar-chunk {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .fc-scrollgrid-sync-inner {
+    background: var(--bg-input);
+  }
+
+  .fc-day {
+    background: var(--bg-input);
+  }
+
+  .fc-daygrid-day-frame:hover,
+  .fc-day:hover {
+    background: var(--ion-color-orange-tint);
+  }
+
+  .fc-daygrid-day-number,
+  .fc-col-header-cell-cushion {
+    color: var(--ion-color-orange-shade);
   }
 }
