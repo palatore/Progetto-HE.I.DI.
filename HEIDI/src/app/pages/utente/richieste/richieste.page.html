@@ -28,9 +28,9 @@
         <ion-item [ngStyle]="{'display': 'flex', 'justify-content':'space-between'}">
           <ion-label class="labelInfo">{{associazione.nome_P}} {{associazione.cognome_P}}, {{associazione.ruolo}}</ion-label>
           @if(associazione.stato === 'PENDING') {
-          <ion-badge color="purple">{{associazione.stato}}</ion-badge>
+          <ion-badge color="warning">{{associazione.stato}}</ion-badge>
           } @else if(associazione.stato === "ACCETTATA"){
-          <ion-badge color="orange">{{associazione.stato}}</ion-badge>
+          <ion-badge color="success">{{associazione.stato}}</ion-badge>
           }
         </ion-item>
       }
@@ -84,7 +84,7 @@
                     <ion-label class="ion-display-flex ion-justify-content-between">
                       <h2 class="labelInfo">{{richiesta.id}} {{richiesta.nome_p}} {{richiesta.cognome_p}}</h2>
                       <p class="ion-no-margin">Richiesta associazione</p>
-                      <ion-badge color="purple" class="badge-pending">PENDING</ion-badge>
+                      <ion-badge color="warning" class="badge-pending">PENDING</ion-badge>
                     </ion-label>
 
                     <ion-button slot="end" color="purple" (click)="accettaAssociazione(richiesta.id_associazione)">
