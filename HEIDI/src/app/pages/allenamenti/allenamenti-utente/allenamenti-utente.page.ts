@@ -7,11 +7,8 @@ import { ModificaDettagliComponent } from "src/app/components/modifica-dettagli/
 import { firstValueFrom } from "rxjs/internal/firstValueFrom";
 import { Allenamento } from "src/app/models/allenamento.model";
 import { GestioneUtentiService } from "src/app/services/utenti/gestione-utenti.service";
-<<<<<<< HEAD
-import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
-=======
 import { Subject, takeUntil } from "rxjs";
->>>>>>> 2d75903ccff33cbc25d88a44c3fd17a7a2593c57
+import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
 
 @Component({
     selector: 'app-allenamenti-utente',

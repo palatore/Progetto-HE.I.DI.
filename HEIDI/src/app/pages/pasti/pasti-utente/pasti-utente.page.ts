@@ -9,7 +9,6 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 import { ModificaDettagliComponent } from 'src/app/components/modifica-dettagli/modifica-dettagli.component';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
-import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 
 
 @Component({
@@ -17,11 +16,7 @@ import { DefaultHeaderComponent } from 'src/app/components/default-header/defaul
   templateUrl: './pasti-utente.page.html',
   styleUrls: ['./pasti-utente.page.scss'],
   standalone: true,
-<<<<<<< HEAD
-  imports: [IonModal, IonButtons, IonMenuButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent, DefaultHeaderComponent]
-=======
   imports: [DefaultHeaderComponent, IonModal, IonButtons, IonMenuButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonCard, IonLabel, IonCardHeader, IonCardContent, IonCardTitle, IonButton, RouterModule, ModificaDettagliComponent]
->>>>>>> 2d75903ccff33cbc25d88a44c3fd17a7a2593c57
 })
 export class PastiUtentePage implements OnInit {
   totZuccheri:number = 0;
