@@ -110,7 +110,9 @@
     </div>
   }
 
-  <ion-button color="orange" expand="full" [routerLink]='["/creazionePasto"]'>Aggiungi Pasto</ion-button>
+  @if(!professionista_modifica && !professionista_vota) {
+    <ion-button color="orange" expand="full" [routerLink]='["/creazionePasto"]'>Aggiungi Pasto</ion-button>
+  }
 
   @if(viewModifica) {
     <app-modifica-dettagli

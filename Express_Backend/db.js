@@ -72,8 +72,8 @@ db.serialize(() => {
         id_professionista INTEGER NOT NULL,
         id_ruolo INTEGER NOT NULL,
         tipo VARCHAR(255),
-        FOREIGN KEY(id_professionista) REFERENCES utenti(id),
-        FOREIGN KEY(id_ruolo) REFERENCES ruoli_professionisti(id)
+        FOREIGN KEY(id_professionista) REFERENCES utenti(id) ON DELETE CASCADE,
+        FOREIGN KEY(id_ruolo) REFERENCES ruoli_professionisti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella albo_professionisti ' + err.message);
@@ -88,8 +88,8 @@ db.serialize(() => {
         id_professionista INTEGER NOT NULL,
         id_paziente INTEGER NOT NULL,
         stato VARCHAR(255) NOT NULL DEFAULT 'PENDING',
-        FOREIGN KEY(id_professionista) REFERENCES utenti(id),
-        FOREIGN KEY(id_paziente) REFERENCES utenti(id)
+        FOREIGN KEY(id_professionista) REFERENCES utenti(id) ON DELETE CASCADE,
+        FOREIGN KEY(id_paziente) REFERENCES utenti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella associazioni ' + err.message);
@@ -107,13 +107,29 @@ db.serialize(() => {
         tipologia_attivita INTEGER NOT NULL,
         tipo_richiesta VARCHAR(255) NOT NULL,
         stato VARCHAR(255) NOT NULL DEFAULT 'PENDING',
-        FOREIGN KEY(id_professionista) REFERENCES utenti(id),
-        FOREIGN KEY(id_paziente) REFERENCES utenti(id)
+        FOREIGN KEY(id_professionista) REFERENCES utenti(id) ON DELETE CASCADE,
+        FOREIGN KEY(id_paziente) REFERENCES utenti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella richieste ' + err.message);
         } else {
             console.log('Tabella richieste creata con successo.');
+        }
+    });
+
+    //creazione della tabella dei voti delle attività
+    db.run(`CREATE TABLE IF NOT EXISTS voti (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_attivita INTEGER NOT NULL
+        tipologia_attivita INTEGER NOT NULL
+        id_votante INTEGER NOT NULL
+        voto INTEGER NOT NULL
+        FOREIGN KEY(id_votante) REFERENCES utenti(id) ON DELETE CASCADE
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella voti' + err.message);
+        } else {
+            console.log('Tabella voti creata con successo.');
         }
     });
 
@@ -208,7 +224,7 @@ db.serialize(() => {
         data DATE NOT NULL,
         durata INTEGER NOT NULL,
         data_creazione DATE NULL,
-        FOREIGN KEY(user_id) REFERENCES utenti(id)
+        FOREIGN KEY(user_id) REFERENCES utenti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella allenamenti ' + err.message);
@@ -226,7 +242,7 @@ db.serialize(() => {
         pesi_kg INTEGER NULL,
         riposo_minuti INTEGER NOT NULL,
         FOREIGN KEY(esercizio_id) REFERENCES esercizi(id),
-        FOREIGN KEY(allenamento_id) REFERENCES allenamenti(id)
+        FOREIGN KEY(allenamento_id) REFERENCES allenamenti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella esercizi_allenamento ' + err.message);
