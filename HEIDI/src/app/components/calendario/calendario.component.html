@@ -9,8 +9,13 @@
     <ng-template>
         <ion-header>
             <ion-toolbar>
-                <ion-title>{{data_selezionata}}</ion-title>
-                <ion-button (click)="isShow = false" slot="end"><ion-icon name="close"></ion-icon></ion-button>
+                @if(aggiuntaAttivita){
+                    <ion-buttons slot="start">
+                        <ion-button fill="solid" color="red" (click)="aggiuntaAttivita = false"><ion-icon class="backIcon" name="arrow-back"></ion-icon></ion-button>
+                    </ion-buttons>
+                }
+                <ion-title>{{data_selezionata | date: 'dd/MM/yyyy'}}</ion-title>
+                <ion-button color="red" (click)="isShow = false" slot="end"><ion-icon name="close"></ion-icon></ion-button>
             </ion-toolbar>
         </ion-header>
 
@@ -26,7 +31,7 @@
                                 <h2>{{pasto.name}}</h2>
                                 <hr>  
                                 <p>{{pasto.tipo}}</p>
-                                <ion-button class="ion-padding" color="danger" (click)="disdiciPasto(pasto.id)">
+                                <ion-button class="ion-padding" color="red" fill="outline" (click)="disdiciPasto(pasto.id)">
                                     <ion-icon name="trash"></ion-icon>
                                 </ion-button>
                             </ion-item>
@@ -47,7 +52,7 @@
                                 <h2>{{allenamento.name}}</h2>
                                 <hr>  
                                 <p>{{allenamento.durata}}</p>
-                                <ion-button class="ion-padding" color="danger" (click)="eliminaAllenamento(allenamento.id)">
+                                <ion-button class="ion-padding" color="red" fill="outline" (click)="eliminaAllenamento(allenamento.id)">
                                     <ion-icon name="trash"></ion-icon>
                                 </ion-button>
                             </ion-item>
@@ -60,8 +65,8 @@
                     </ion-list>
 
                     <ion-footer class="ion-no-border">
-                        <ion-toolbar>
-                            <ion-button expand="block" (click)="aggiungiAttivita()" >
+                        <ion-toolbar class="toolbarFooter">
+                            <ion-button color="orange" expand="block" (click)="aggiungiAttivita()" >
                                 <ion-icon name="add"></ion-icon>
                             </ion-button>
                         </ion-toolbar>
@@ -70,24 +75,23 @@
             } @else {
                 <ion-list>
                     <ion-list-header>
-                        <ion-label>Seleziona un pasto o un allenamento da aggiungere</ion-label>
-                        <ion-button fill="clear" (click)="aggiuntaAttivita = false">Indietro</ion-button>
+                        <ion-label class="labelAggiungi">Seleziona un pasto o un allenamento da aggiungere</ion-label>
                     </ion-list-header>
-                    <ion-title>Pasti</ion-title>
+                    <ion-title class="titoloCard">Pasti:</ion-title>
                     @for(pasto of pasti_utente; track pasto.id) {
                         <ion-item button (click)="fissaPasto(pasto.id)">
                             <ion-label>
                             <h2>{{ pasto.name }}</h2>
-                            <p>{{ pasto.tipo }} kcal</p>
+                            <p>{{ pasto.tipo }}</p>
                             </ion-label>
                         </ion-item>
                     }
-                    <ion-title>Allenamenti</ion-title>
+                    <ion-title class="titoloCard">Allenamenti:</ion-title>
                     @for(allenamento of allenamenti_utente; track allenamento.id) {
                         <ion-item button (click)="fissaAllenamento(allenamento.id)">
                             <ion-label>
                             <h2>{{ allenamento.name }}</h2>
-                            <p>{{ allenamento.durata }} kcal</p>
+                            <p>{{ allenamento.durata }} {{allenamento.durata > 1 ? 'Ore' : 'Ora'}}</p>
                             </ion-label>
                         </ion-item>
                     }

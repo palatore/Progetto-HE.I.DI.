@@ -189,8 +189,8 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
             const response = await firstValueFrom(this.workoutService.riempiAllenamento(idAllenamento, esercizi));
             if (response && response.status === 201){
                 const alert = await this.alertController.create({
-                    header: 'Successo',
-                    message: 'Esercizi inseriti con successo!',
+                    header: 'Fatto!',
+                    message: 'Hai creato questo allenamento',
                     buttons: ['OK']
                 });
                 await alert.present();

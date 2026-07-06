@@ -14,6 +14,9 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarOptions } from '@fullcalendar/core';
 import { Pasto } from 'src/app/models/pasto.model';
 import { Allenamento } from 'src/app/models/allenamento.model';
+import { addIcons } from 'ionicons';
+import { arrowBack } from 'ionicons/icons';
+
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
@@ -27,6 +30,7 @@ export class CalendarioComponent implements OnInit {
 
   ngOnInit() {
     this.loadAllEvents();
+    addIcons({ arrowBack });
   }
 
   @ViewChild('calendario') calendar_component!: FullCalendarComponent;

@@ -26,11 +26,11 @@
     <ion-card-content>
       @for(associazione of associazioni; track associazione.id) {
         <ion-item [ngStyle]="{'display': 'flex', 'justify-content':'space-between'}">
-          <ion-label>{{associazione.nome_P}} {{associazione.cognome_P}}, {{associazione.ruolo}}</ion-label>
+          <ion-label class="labelInfo">{{associazione.nome_P}} {{associazione.cognome_P}}, {{associazione.ruolo}}</ion-label>
           @if(associazione.stato === 'PENDING') {
-          <ion-badge color="warning">{{associazione.stato}}</ion-badge>
+          <ion-badge color="purple">{{associazione.stato}}</ion-badge>
           } @else if(associazione.stato === "ACCETTATA"){
-          <ion-badge color="success">{{associazione.stato}}</ion-badge>
+          <ion-badge color="orange">{{associazione.stato}}</ion-badge>
           }
         </ion-item>
       }
@@ -56,11 +56,11 @@
           <ion-card-content><b>{{professionista.name}} {{professionista.surname}}</b></ion-card-content>
           <ion-card-content>{{professionista.email}}</ion-card-content>
           @if( professionista.ruolo === 1) {
-          <ion-card-content>Nutrizionista</ion-card-content>
+          <ion-card-content class="textRuolo">Nutrizionista</ion-card-content>
           } @else {
-          <ion-card-content>Allenatore</ion-card-content>
+          <ion-card-content class="textRuolo">Allenatore</ion-card-content>
           }
-          <ion-button [disabled]="checkRichieste(professionista.id)" (click)="inviaRichiesta(professionista.id)">Richiedi</ion-button>
+          <ion-button color="orange" [disabled]="checkRichieste(professionista.id)" (click)="inviaRichiesta(professionista.id)">Richiedi</ion-button>
         </ion-card>
       }
     </ion-card-content>
@@ -82,16 +82,16 @@
                 @for(richiesta of richieste_associazioni; track richiesta.id) {
                   <ion-item>
                     <ion-label class="ion-display-flex ion-justify-content-between">
-                      <h2 class="ion-no-margin">{{richiesta.id}} {{richiesta.nome_p}} {{richiesta.cognome_p}}</h2>
+                      <h2 class="labelInfo">{{richiesta.id}} {{richiesta.nome_p}} {{richiesta.cognome_p}}</h2>
                       <p class="ion-no-margin">Richiesta associazione</p>
-                      <ion-badge color="warning" class="badge-pending">PENDING</ion-badge>
+                      <ion-badge color="purple" class="badge-pending">PENDING</ion-badge>
                     </ion-label>
 
-                    <ion-button slot="end" color="success" (click)="accettaAssociazione(richiesta.id_associazione)">
-                      <ion-icon name="checkmark-outline"></ion-icon>
+                    <ion-button slot="end" color="purple" (click)="accettaAssociazione(richiesta.id_associazione)">
+                      <ion-icon name="checkmark-outline" [style.color]="'#000000'"></ion-icon>
                     </ion-button>
-                    <ion-button slot="end" color="danger" (click)="rifiutaAssociazione(richiesta.id_associazione)">
-                      <ion-icon name="trash"></ion-icon>
+                    <ion-button slot="end" color="red" (click)="rifiutaAssociazione(richiesta.id_associazione)">
+                      <ion-icon name="trash" [style.color]="'#000000'"></ion-icon>
                     </ion-button>
                   </ion-item>
                 }
