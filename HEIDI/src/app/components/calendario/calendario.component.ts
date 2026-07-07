@@ -6,7 +6,6 @@ import { filter, firstValueFrom, forkJoin, map, Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { GestioneAllenamentiService } from 'src/app/services/allenamenti/gestione-allenamenti.service';
-import { CalendarioService } from 'src/app/services/calendario/calendario.service';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
