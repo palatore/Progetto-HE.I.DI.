@@ -48,7 +48,7 @@
                         <span class="reqText"> {{richiesta.nome_p}} {{richiesta.cognome_p}}</span> </ion-label>
                     @if(richiesta.stato === 'PENDING') {
                         <ion-badge color="warning">PENDING</ion-badge>
-                        <ion-button slot="end" color="purple" (click)="accettaRichiesta(richiesta.id, richiesta.id_attivita, richiesta.tipologia_attivita, richiesta.tipo_richiesta)">
+                        <ion-button slot="end" color="success" (click)="accettaRichiesta(richiesta.id, richiesta.id_attivita, richiesta.tipologia_attivita, richiesta.tipo_richiesta)">
                             <ion-icon name="checkmark-outline"></ion-icon>
                         </ion-button>
                     } @else {
