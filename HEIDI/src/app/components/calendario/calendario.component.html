@@ -10,9 +10,7 @@
         <ion-header>
             <ion-toolbar>
                 @if(aggiuntaAttivita){
-                    <ion-buttons slot="start">
-                        <ion-button fill="solid" color="red" (click)="aggiuntaAttivita = false"><ion-icon class="backIcon" name="arrow-back"></ion-icon></ion-button>
-                    </ion-buttons>
+                    <ion-button class="backButton" color="red" (click)="aggiuntaAttivita = false" slot="start"><ion-icon name="arrow-back"></ion-icon></ion-button>
                 }
                 <ion-title>{{data_selezionata | date: 'dd/MM/yyyy'}}</ion-title>
                 <ion-button color="red" (click)="isShow = false" slot="end"><ion-icon name="close"></ion-icon></ion-button>
@@ -21,7 +19,7 @@
 
         <ion-content>
             @if(!aggiuntaAttivita) {
-                <div>
+                
                     <ion-list lines="none">
                         <ion-list-header>
                             <ion-label>Pasti in programma</ion-label>
@@ -71,7 +69,7 @@
                             </ion-button>
                         </ion-toolbar>
                     </ion-footer>
-                </div>
+                
             } @else {
                 <ion-list>
                     <ion-list-header>

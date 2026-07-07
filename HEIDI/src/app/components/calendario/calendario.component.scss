@@ -22,8 +22,9 @@ h2{
   font-size: 20px;
 }
 
-.backIcon {
-  padding-inline: 8px;
+.backButton {
+  position: relative;
+  z-index: 10;
 }
 
 .titoloCard {
@@ -31,6 +32,7 @@ h2{
   font-size: 25px;
   padding-bottom: 10px;
 }
+
 
 //CALENDARIO
 :host ::ng-deep {
@@ -98,7 +100,10 @@ h2{
     background: var(--bg-input);
   }
 
-  .fc-daygrid-day-frame:hover,
+  .fc-daygrid-day-frame {
+  background: transparent !important;
+  }
+
   .fc-day:hover {
     background: var(--ion-color-orange-tint);
   }
