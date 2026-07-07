@@ -120,10 +120,10 @@ db.serialize(() => {
     //creazione della tabella dei voti delle attività
     db.run(`CREATE TABLE IF NOT EXISTS voti (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        id_attivita INTEGER NOT NULL
-        tipologia_attivita INTEGER NOT NULL
-        id_votante INTEGER NOT NULL
-        voto INTEGER NOT NULL
+        id_attivita INTEGER NOT NULL,
+        tipologia_attivita INTEGER NOT NULL,
+        id_votante INTEGER NOT NULL,
+        voto INTEGER NOT NULL,
         FOREIGN KEY(id_votante) REFERENCES utenti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {

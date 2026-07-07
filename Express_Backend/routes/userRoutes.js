@@ -10,6 +10,7 @@ router.get('/infoUtente/:id_utente', authenticateToken, UserControllers.getInfoU
 router.get('/ruoli/:ruolo', UserControllers.getUtentiByRuolo);
 router.get('/albo', UserControllers.getAlbo);
 router.get('/richieste', UserControllers.getRichieste);
+router.get('/votiAttivita', authenticateToken, UserControllers.getVotiAttivita);
 router.get('/associazioniUtente', authenticateToken, UserControllers.getAssociazioniUtente);
 router.get('/associazioniProfessionista', authenticateToken, UserControllers.getAssociazioniProfessionista);
 router.get('/richiesteUtente', authenticateToken, UserControllers.getRichiesteUtente);
@@ -17,6 +18,7 @@ router.get('/richiesteProfessionista', authenticateToken, UserControllers.getRic
 router.get('/associazioniPending', authenticateToken, UserControllers.getAssociazioniPending);
 router.get('/richiestePending', authenticateToken, UserControllers.getRichiestePending);
 router.get('/ruoloProfessionista/:id_professionista', authenticateToken, UserControllers.getRuoloProfessionista);
+router.post('/votaAttivita', authenticateToken, UserControllers.votaAttivita);
 router.post('/creaAssociazione', authenticateToken, UserControllers.creaAssociazione);
 router.patch('/accettaAssociazione', authenticateToken, UserControllers.accettaAssociazione);
 router.post('/creaRichiesta', authenticateToken, UserControllers.creaRichiesta);
