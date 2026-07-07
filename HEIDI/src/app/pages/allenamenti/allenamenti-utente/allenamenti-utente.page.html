@@ -3,12 +3,15 @@
 <ion-content [fullscreen]="true">
     <ion-list>
         @for(allenamento of allenamentiUtente; track allenamentoTrack($index, allenamento)) {
-            <ion-item>
-                <ion-label>
+            <ion-item lines="none">
+                <ion-label class="ion-display-flex ion-justify-content-evenly">
                     <h2>{{ allenamento.name }}</h2>
                     <p>Giorno: {{ allenamento.data | date: 'dd/MM/yyyy' }}</p>
                     <p>Data creazione: {{ allenamento.data_creazione | date: 'dd/MM/yyyy' }}</p>
                 </ion-label>
+            </ion-item>
+
+            <div class="toolbar-pulsanti">
                 <ion-button color="purple" fill="outline" (click)="mostraDettagli(allenamento)" slot="end">
                     <ion-icon name="eye-outline"></ion-icon>
                 </ion-button>
@@ -19,6 +22,9 @@
                     <ion-icon name="star-outline"></ion-icon>
                 </ion-button>
                 @if(!professionista_vota && !professionista_modifica) {
+                    <ion-button fill="outline" (click)="condividiAllenamento(allenamento.id)">
+                        <ion-icon name="share-social-outline"></ion-icon>
+                    </ion-button>
                     <ion-button id="open-modal-allenamento-{{ allenamento.id }}"fill="outline" (click)="apriRichiesta(allenamento.id)" slot="end">
                         <ion-icon name="help-outline"></ion-icon>
                     </ion-button>
@@ -26,7 +32,7 @@
                         <ion-icon name="trash"></ion-icon>
                     </ion-button>
                 }
-            </ion-item>
+            </div>
 
             <ion-modal #modal trigger="open-modal-allenamento-{{ allenamento.id }}">
                 <ng-template>
@@ -98,7 +104,7 @@
     @if(!professionista_vota && !professionista_modifica) {
         <ion-button color="orange" expand="full" [routerLink]='["/creazioneAllenamento"]'>Aggiungi allenamento</ion-button>
     }
-    
+
     @if(modalita_voto) {
         <ion-card class="ion-no-margin ion-margin-top animate__animated animate__fadeIn">
         <app-vota-attivita

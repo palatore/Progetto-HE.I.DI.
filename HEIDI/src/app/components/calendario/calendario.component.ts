@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AlertController, IonButton, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, IonHeader, IonInput, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonText, IonBadge, IonSearchbar, IonIcon, IonThumbnail, IonCardTitle, IonButtons, IonFabButton, IonFab, IonFooter } from '@ionic/angular/standalone';
-import { filter, firstValueFrom, forkJoin, map, Observable } from 'rxjs';
+import { AlertController, IonButton, IonHeader, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonIcon, IonButtons, IonFooter } from '@ionic/angular/standalone';
+import { firstValueFrom, forkJoin, map } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { GestioneAllenamentiService } from 'src/app/services/allenamenti/gestione-allenamenti.service';
@@ -21,7 +21,7 @@ import { arrowBack } from 'ionicons/icons';
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.component.scss'],
   standalone: true,
-  imports: [IonFooter, IonFab, IonFabButton, IonButtons, CommonModule, FullCalendarModule, IonCardTitle, IonButton, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, IonHeader, IonInput, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonText, IonBadge, IonSearchbar, IonIcon, IonThumbnail, IonCardTitle, IonButtons, IonFabButton, IonFab]
+  imports: [IonFooter, IonButtons, CommonModule, FullCalendarModule, IonButton, IonHeader, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonIcon, IonButtons, ]
 })
 export class CalendarioComponent implements OnInit {
 
