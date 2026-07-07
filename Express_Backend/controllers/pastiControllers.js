@@ -112,7 +112,7 @@ class PastiControllers {
             const user_id = req.user.id;
             console.log('I tuoi dati:', user_id, nome, tipo);
             const exists = await PastiServices.checkPasto(user_id, nome, tipo);
-            res.status(200).json({exists});
+            res.status(201).json({exists});
         } catch (e) {
             res.status(500).json({error: e.message});
         }

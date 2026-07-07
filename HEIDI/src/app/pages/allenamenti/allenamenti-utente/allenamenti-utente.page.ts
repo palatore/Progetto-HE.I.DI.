@@ -8,7 +8,8 @@ import { VotaAttivitaComponent } from "src/app/components/vota-attivita/vota-att
 import { firstValueFrom } from "rxjs/internal/firstValueFrom";
 import { Allenamento } from "src/app/models/allenamento.model";
 import { GestioneUtentiService } from "src/app/services/utenti/gestione-utenti.service";
-import { Subject, takeUntil } from "rxjs";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators"
 import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
 import { GestioneBachecaService } from "src/app/services/bacheca/gestione-bacheca.service";
 
@@ -17,7 +18,7 @@ import { GestioneBachecaService } from "src/app/services/bacheca/gestione-bachec
     templateUrl: './allenamenti-utente.page.html',
     styleUrls: ['./allenamenti-utente.page.scss'],
     standalone: true,
-    imports: [VotaAttivitaComponent, IonModal, IonCardContent, IonCardHeader, IonCardTitle, IonCard, IonIcon, IonItem, IonLabel, IonList, IonContent, IonButton, IonButtons, IonMenuButton, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule, ModificaDettagliComponent, DefaultHeaderComponent ]
+    imports: [VotaAttivitaComponent, IonModal, IonCardContent, IonCardHeader, IonCardTitle, IonCard, IonIcon, IonItem, IonLabel, IonList, IonContent, IonButton, IonButtons, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule, ModificaDettagliComponent, DefaultHeaderComponent]
 })
 export class AllenamentiUtentePage implements OnInit{
 
@@ -198,7 +199,31 @@ export class AllenamentiUtentePage implements OnInit{
     } catch(error) {
         console.log(error);
     }
+  }
 
+  async condividiAllenamento(id_allenamento:number) {
+    try {
+      const response = await firstValueFrom(this.boardService.getSingolaAttivitaBacheca(id_allenamento, 1));
+      console.log(response);
+      if(response && response.result) {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const response = await firstValueFrom(this.boardService.condividiAttivita(id_allenamento, 1));
+      if(response.status === 201) {
+        const alert = await this.alertController.create({
+          header: 'Successo',
+          message: 'Allenamento condiviso con successo!',
+          buttons: ['OK']
+        });
+        await alert.present()
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
     async eliminaAllenamento(id: number){

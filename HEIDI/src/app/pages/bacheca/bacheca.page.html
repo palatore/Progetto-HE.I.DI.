@@ -1,13 +1,72 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>bacheca</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-default-header [page_title]="'Bacheca Pubblica'"></app-default-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">bacheca</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar color="light">
+    <ion-segment value= -1 (ionChange)="cambiaFiltro($event)">
+      <ion-segment-button value="tutti">Tutti</ion-segment-button>
+      <ion-segment-button value="PASTO">Pasti</ion-segment-button>
+      <ion-segment-button value="ALLENAMENTO">Allenamenti</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="bacheca-list">
+    @for (item of attivita_filtrate; track item.data_condivisione) {
+      <ion-card class="bacheca-card">
+        <ion-item lines="none">
+          <ion-avatar slot="start">
+            <div class="avatar-placeholder">{{ item.nome_autore[0] }}{{ item.cognome_autore[0] }}</div>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{ item.nome_autore }} {{ item.cognome_autore }}</h3>
+            <p class="text-muted">Condiviso oggi</p>
+          </ion-label>
+          <ion-badge slot="end" [color]="item.tipologia_attivita === 0 ? 'success' : 'tertiary'">
+            {{ item.tipologia_mostrata}}
+          </ion-badge>
+        </ion-item>
+
+        <ion-card-content class="ion-display-flex">
+          <h2><strong>{{ item.nome_pasto || item.nome_allenamento }}</strong></h2>
+          
+          <hr class="divisore-leggero">
+
+          <div class="ion-display-flex ion-align-items-center ion-margin-vertical">
+            <ion-icon name="star" color="warning"></ion-icon>
+            <span class="ion-margin-horizontal">
+              <strong>{{ item.media || '0' }}</strong> ({{ item.voti_totali_attivita || 0 }} voti)
+            </span>
+          </div>
+
+          <hr class="divisore-leggero">
+          
+          <div class="pulsanti-row">
+            <ion-button fill="outline" color="warning" size="small" (click)="votaAttivita(item)">
+              <ion-icon name="star-half-outline"></ion-icon>
+            </ion-button>
+
+            <ion-button fill="outline" color="primary" size="small" (click)="importa_attivita(item)">
+              <ion-icon name="copy-outline"></ion-icon>
+            </ion-button>
+          </div>
+
+          @if (item.modalita_voto) {
+            <div class="box-voto-bacheca ion-margin-top">
+              <app-vota-attivita 
+                [voto_precedente]="item.media"
+                (voto_inviato)="inviaVoto($event, item)">
+              </app-vota-attivita>
+            </div>
+          }
+        </ion-card-content>
+      </ion-card>
+    } @empty {
+      <div class="ion-text-center ion-padding text-muted">
+        <ion-icon name="clipboard-outline" style="font-size: 48px;"></ion-icon>
+        <p>Nessuna attività condivisa nelle ultime 24 ore.</p>
+      </div>
+    }
+  </div>
+
 </ion-content>

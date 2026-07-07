@@ -241,15 +241,42 @@ export class PastiUtentePage implements OnInit {
     }
     try {
       const response = await firstValueFrom(this.userService.creaRichiesta(pacchetto));
-      if(response.status == 201) {
+      if(response.status === 201) {
         const alert = await this.alertController.create({
           header: 'Successo',
-          message: 'Richiesta ivniata con successo!',
+          message: 'Richiesta inviata con successo!',
           buttons: ['OK']
         });
         await alert.present()
       }
     } catch(error) {
+      console.log(error);
+    }
+  }
+
+
+  async condividiPasto(id_pasto:number) {
+    try {
+      const response = await firstValueFrom(this.boardService.getSingolaAttivitaBacheca(id_pasto, 0));
+      console.log(response);
+      if(response && response.result) {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      const response = await firstValueFrom(this.boardService.condividiAttivita(id_pasto, 0));
+      if(response.status === 201) {
+        const alert = await this.alertController.create({
+          header: 'Successo',
+          message: 'Pasto condiviso con successo!',
+          buttons: ['OK']
+        });
+        await alert.present()
+      }
+    } catch (error) {
       console.log(error);
     }
   }

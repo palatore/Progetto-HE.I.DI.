@@ -3,12 +3,15 @@
 <ion-content [fullscreen]="true">
   <ion-list>
     @for(pasto of pastiUtente; track pastoTrack($index, pasto)) {
-      <ion-item>
-        <ion-label>
+      <ion-item lines="none">
+        <ion-label class="ion-display-flex ion-justify-content-evenly">
           <h2>{{ pasto.name }}</h2>
           <p>Data: {{ pasto.data_creazione | date: 'dd/MM/yyyy' }}</p>
           <p>{{ pasto.tipo }}</p>
         </ion-label>
+      </ion-item>
+
+      <div class="toolbar-pulsanti">
         <ion-button color="purple" fill="outline" (click)="mostraDettagli(pasto)" slot="end">
           <ion-icon name="eye-outline"></ion-icon>
         </ion-button>
@@ -19,6 +22,9 @@
             <ion-icon name="star-outline"></ion-icon>
           </ion-button>
         @if(!professionista_vota && !professionista_modifica) {
+          <ion-button fill="outline" (click)="condividiPasto(pasto.id)" slot="end">
+            <ion-icon name="share-social-outline"></ion-icon>
+          </ion-button>
           <ion-button id="open-modal-pasto-{{ pasto.id }}"fill="outline" (click)="apriRichiesta(pasto.id)" slot="end">
             <ion-icon name="help-outline"></ion-icon>
           </ion-button>
@@ -26,7 +32,7 @@
             <ion-icon name="trash"></ion-icon>
           </ion-button>
         }
-      </ion-item>
+      </div>
 
       <ion-modal #modal trigger="open-modal-pasto-{{ pasto.id }}">
         <ng-template>
