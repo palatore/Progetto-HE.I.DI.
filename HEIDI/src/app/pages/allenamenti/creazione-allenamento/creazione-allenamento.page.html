@@ -20,6 +20,7 @@
                         
                        <ion-button fill="outline" class="dateButton" 
                                     (click)="apriModalCalendario()"
+                                    [disabled]="!pulsanteCalendarioAbilitato"
                                     [ngClass]="{ 'buttonPlaceholder': !allenamentoForm.get('giorno')?.value}">
                         {{ (allenamentoForm.get('giorno')?.value | date: 'dd/MM/yyyy') || (dataOdierna | date: 'dd/MM/yyyy') }}
                        </ion-button>
