@@ -15,16 +15,15 @@
                 <ion-button color="orange" fill="outline" (click)="modificaAllenamento(allenamento)" slot="end">
                     <ion-icon name="create"></ion-icon>
                 </ion-button>
+                <ion-button fill="outline" [disabled]="professionista_modifica" (click)="votaAllenamento(allenamento.id)" slot="end">
+                    <ion-icon name="star-outline"></ion-icon>
+                </ion-button>
                 @if(!professionista_vota && !professionista_modifica) {
                     <ion-button id="open-modal-allenamento-{{ allenamento.id }}"fill="outline" (click)="apriRichiesta(allenamento.id)" slot="end">
                         <ion-icon name="help-outline"></ion-icon>
                     </ion-button>
                     <ion-button fill="outline" color="danger" slot="end" (click)="eliminaAllenamento(allenamento.id)">
                         <ion-icon name="trash"></ion-icon>
-                    </ion-button>
-                } @else {
-                    <ion-button fill="outline" [disabled]="professionista_modifica" (click)="votaAllenamento(allenamento.id)" slot="end">
-                        <ion-icon name="star-outline"></ion-icon>
                     </ion-button>
                 }
             </ion-item>
@@ -96,7 +95,19 @@
         </div>
     }
 
-    <ion-button color="orange" expand="full" [routerLink]='["/creazioneAllenamento"]'>Aggiungi allenamento</ion-button>
+    @if(!professionista_vota && !professionista_modifica) {
+        <ion-button color="orange" expand="full" [routerLink]='["/creazioneAllenamento"]'>Aggiungi allenamento</ion-button>
+    }
+    
+    @if(modalita_voto) {
+        <ion-card class="ion-no-margin ion-margin-top animate__animated animate__fadeIn">
+        <app-vota-attivita
+            [devo_votare]="professionista_vota" 
+            [voto_precedente]="voto_allenamento_caricato"
+            (voto_inviato)="inviaVoto($event, id_allenamento_richiesta)">
+        </app-vota-attivita>
+        </ion-card>
+    }
 
     @if(viewModifica) {
         <app-modifica-dettagli 
