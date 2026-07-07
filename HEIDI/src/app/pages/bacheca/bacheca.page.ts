@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertController, IonContent, IonHeader, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonCard, IonItem, IonAvatar, IonLabel, IonBadge, IonCardContent, IonIcon, IonButton, ActionSheetController } from '@ionic/angular/standalone';
 import { firstValueFrom, Subject, forkJoin } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
 import { GestioneBachecaService } from 'src/app/services/bacheca/gestione-bacheca.service';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [IonButton, IonIcon, IonCardContent, IonBadge, IonLabel, IonAvatar, IonItem, IonCard, IonSegmentButton, IonSegment, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, DefaultHeaderComponent, VotaAttivitaComponent]
 })
-export class BachecaPage implements OnInit, OnDestroy {
+export class BachecaPage implements OnInit {
 
   public attivita_bacheca: any[] = [];
   public attivita_filtrate: any[] = [];
@@ -28,13 +28,14 @@ export class BachecaPage implements OnInit, OnDestroy {
 
   constructor(private boardService:GestioneBachecaService, private foodServive:GestionePastiService, private workoutService:GestioneAllenamentiService, private router:Router, private alertController:AlertController, private actionSheetController:ActionSheetController) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.caricaBacheca();
   }
 
-  ngOnDestroy() {
+  ionViewWillLeave() {
     this.destroy$.next();
-    this.destroy$.complete();
   }
 
   caricaBacheca() {
@@ -46,7 +47,9 @@ export class BachecaPage implements OnInit, OnDestroy {
           const pasti_formattati = pasti.map((p) => ({
             ...p,
             tipologia_mostrata: 'PASTO',
+            modalita_dettagli: false,
             modalita_voto: false,
+            dettagli: [],
             media: 0,
             voti_totali_attivita: 0
           }));
@@ -54,7 +57,9 @@ export class BachecaPage implements OnInit, OnDestroy {
           const allenamenti_formattati = allenamenti.map((a) => ({
             ...a,
             tipologia_mostrata: 'ALLENAMENTO',
+            modalita_dettagli: false,
             modalita_voto: false,
+            dettagli: [],
             media: 0,
             voti_totali_attivita: 0
           }));
@@ -94,8 +99,39 @@ export class BachecaPage implements OnInit, OnDestroy {
     this.filtraBacheca();
   }
 
-  getDettagliAttivita(attivita:any) {
+  async getDettagliAttivita(attivita:any) {
+    if(attivita.modalita_dettagli) {
+      attivita.modalita_dettagli = false;
+      return;
+    }
+    
+    if(attivita.tipologia_attivita === 0) {
+      try {
+        const response = await firstValueFrom(this.foodServive.getDettagliPasto(attivita.id_attivita));
+        if(response) {
+          attivita.dettagli = response;
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    } else if(attivita.tipologia_attivita === 1) {
+      try {
+        const response = await firstValueFrom(this.workoutService.getDettagliAllenamento(attivita.id_attivita));
+        if(response) {
+          attivita.dettagli = response;
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    attivita.modalita_dettagli = true;
+  }
 
+  alimentoTrack(index: number, alimento: any):string {
+    return `${alimento.name}-${alimento.quantita}-${alimento.kcal}`;
+  }
+  esercizioTrack(index: number, esercizio: any):string {
+    return `${esercizio.name} - ${esercizio.serie} - ${esercizio.ripetizioni} - ${esercizio.pesi_kg} - ${esercizio.riposo_minuti}`;
   }
 
   importa_attivita(attivita:any) {

@@ -42,6 +42,10 @@
           <hr class="divisore-leggero">
           
           <div class="pulsanti-row">
+            <ion-button fill="outline" color="purple" size="small" (click)="getDettagliAttivita(item)">
+              <ion-icon name="eye-outline"></ion-icon>
+            </ion-button>
+
             <ion-button fill="outline" color="warning" size="small" (click)="votaAttivita(item)">
               <ion-icon name="star-half-outline"></ion-icon>
             </ion-button>
@@ -60,6 +64,29 @@
             </div>
           }
         </ion-card-content>
+
+        @if (item.modalita_dettagli && item.tipologia_attivita === 0) {
+          <div class="dettagliContainer">
+            <ul>
+              @for(alimento of item.dettagli.alimenti; track alimentoTrack($index, alimento)) {
+            <li>
+              {{ alimento.name }} - {{ alimento.quantita }}g ({{ alimento.kcal }} kcal/100g)
+            </li>
+            }
+            </ul>
+          </div>
+        } @else if (item.modalita_dettagli && item.tipologia_attivita === 1) {
+          <div class="dettagliContainer">
+            <ul>
+              @for(esercizio of item.dettagli.esercizi; track esercizioTrack($index, esercizio)) {
+            <li>
+              {{ esercizio.name }} - {{ esercizio.serie }}g ({{ esercizio.ripetizioni }} kcal/100g)
+            </li>
+            }
+            </ul>
+          </div>
+        }
+
       </ion-card>
     } @empty {
       <div class="ion-text-center ion-padding text-muted">
