@@ -30,7 +30,8 @@ export class GestioneAllenamentiService {
         return this.http.post<any>(`${this.apiUrl}/api/allenamenti/modificaAllenamento`, {id_allenamento, modifiche_allenamento}, {headers, observe: 'response'});
     }
 
-    programmaAllenamento(id_allenamento:number, data_calendario:Date) {
+    programmaAllenamento(id_allenamento:number, data_calendario:string) {
+        console.log('programmaAllenamento passa:', data_calendario);
         const token = localStorage.getItem('token');
         const headers = { Authorization: `Bearer ${token}` };
         return this.http.post<any>(`${this.apiUrl}/api/allenamenti/programmaAllenamento`, {id_allenamento, data_calendario}, {headers, observe: 'response'}); 
