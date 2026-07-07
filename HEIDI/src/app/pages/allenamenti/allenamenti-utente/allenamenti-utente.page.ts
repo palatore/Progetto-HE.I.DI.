@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { GestioneAllenamentiService } from "src/app/services/allenamenti/gestione-allenamenti.service";
 import { IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonButtons, IonMenuButton, AlertController, IonModal } from "@ionic/angular/standalone";
-import { ActivatedRoute, RouterModule } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { ModificaDettagliComponent } from "src/app/components/modifica-dettagli/modifica-dettagli.component";
+import { VotaAttivitaComponent } from "src/app/components/vota-attivita/vota-attivita.component";
 import { firstValueFrom } from "rxjs/internal/firstValueFrom";
 import { Allenamento } from "src/app/models/allenamento.model";
 import { GestioneUtentiService } from "src/app/services/utenti/gestione-utenti.service";
@@ -15,28 +16,31 @@ import { DefaultHeaderComponent } from "src/app/components/default-header/defaul
     templateUrl: './allenamenti-utente.page.html',
     styleUrls: ['./allenamenti-utente.page.scss'],
     standalone: true,
-    imports: [IonModal, IonCardContent, IonCardHeader, IonCardTitle, IonCard, IonIcon, IonItem, IonLabel, IonList, IonContent, IonButton, IonButtons, IonMenuButton, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule, ModificaDettagliComponent, DefaultHeaderComponent ]
+    imports: [VotaAttivitaComponent, IonModal, IonCardContent, IonCardHeader, IonCardTitle, IonCard, IonIcon, IonItem, IonLabel, IonList, IonContent, IonButton, IonButtons, IonMenuButton, IonTitle, IonHeader, IonToolbar, RouterModule, CommonModule, ModificaDettagliComponent, DefaultHeaderComponent ]
 })
 export class AllenamentiUtentePage implements OnInit{
 
     //VARIABILI LATO UTENTE
     public professionisti_disponibili:any[] = [];
-    public id_allenamento_richiesta!:number;
 
     //VARIABILI LATO PROFESSIONISTA
     public professionista_modifica:boolean = false;
     public professionista_vota:boolean = false;
 
     //VARIABILI CONDIVISE
+    public id_allenamento_richiesta!:number;
     public viewModifica:boolean = false;
+    public modalita_voto:boolean = false;
+    public voti_totali_allenamento:number = 0;
     public esercizi:any[] = [];
     public allenamentoSelezionato: any = null;
     public allenamento_da_modificare: any = null;
     public esercizioSelezionato:any = null;
-    public dettagliAllenamento: any = null; // Variabile per i dettagli dell'allenamento selezionato
+    public dettagliAllenamento: any = null;
+    public voto_allenamento_caricato:number = 0;
     public destroy$ = new Subject<void>;
 
-    constructor(private workoutService:GestioneAllenamentiService, private route:ActivatedRoute, private alertController: AlertController, private userService:GestioneUtentiService){ }
+    constructor(private workoutService:GestioneAllenamentiService, private route:ActivatedRoute, private router:Router, private alertController: AlertController, private userService:GestioneUtentiService){ }
 
     ngOnInit(){
         this.loadEsercizi();
@@ -133,10 +137,34 @@ export class AllenamentiUtentePage implements OnInit{
             console.log('Allenamento modificato con successo:', response);
             //Ricarica gli allenamenti dopo la modifica
             this.loadAllenamentiUtente();
-        } catch (e) {
-            console.error('Errore nella modifica dell\'allenamento:', e);
+        } catch (error) {
+            console.error('Errore nella modifica dell\'allenamento:', error);
         }
     }
+
+    getVotoAllenamento(id_allenamento:number) {
+    this.userService.getVotiAttivita(id_allenamento, 1).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (voti) => {
+        this.voti_totali_allenamento = voti.length;
+
+        if(voti && voti.length > 0) {
+          let somma = 0;
+
+          for(let i = 0; i < voti.length; i++) {
+            somma += Number(voti[i].voto);
+          }
+
+          const media = somma/voti.length;
+
+          this.voto_allenamento_caricato = Math.round(media * 10)/10;
+        } else {
+          this.voto_allenamento_caricato = 0;
+        }
+      },
+      error: (err) => console.log('Errore nel caricamento e calcolo del voto')
+    });
+  }
+
 
     apriRichiesta(id_allenamento:number) {
     this.id_allenamento_richiesta = id_allenamento;
@@ -166,10 +194,8 @@ export class AllenamentiUtentePage implements OnInit{
         });
         await alert.present()
       }
-    } catch(e) {
-      if(e instanceof Error) {
-        console.log('Errore nell\'invio della richiesta', e);
-      }
+    } catch(error) {
+        console.log(error);
     }
 
   }
@@ -180,8 +206,8 @@ export class AllenamentiUtentePage implements OnInit{
             console.log('Allenamento eliminato con successo:', response);
             //ricarica la lista degli allenamenti dopo l'eliminazione
             this.loadAllenamentiUtente();
-        } catch(e){
-            console.error('Errore nell\'eliminazione dell\'allenamento:', e);
+        } catch(error){
+            console.error('Errore nell\'eliminazione dell\'allenamento:', error);
         }
     }
     
@@ -190,8 +216,38 @@ export class AllenamentiUtentePage implements OnInit{
     }
 
     votaAllenamento(id_allenamento:number) {
-
+        if(this.modalita_voto) {
+        this.modalita_voto = false;
+        return;
+        }
+        this.id_allenamento_richiesta = id_allenamento;
+        this.getVotoAllenamento(id_allenamento);
+        this.modalita_voto = true;
     }
+
+    async inviaVoto(voto:number, id_allenamento:number) {
+    try {
+      const voto_da_inviare = {id: id_allenamento, valutazione:voto, tipologia:1};
+      const response = await firstValueFrom(this.userService.votaAttivita(voto_da_inviare));
+      if(response.status === 201) {
+        const alert = await this.alertController.create({
+            header: 'Successo',
+            message: 'Allenamento votato con successo!',
+            buttons: [{
+              text: 'Torna alle richieste',
+              handler: () => {
+                this.router.navigate(['/richieste']);
+              }
+            }]
+          });
+          await alert.present()
+      }
+
+      this.modalita_voto = false;
+    } catch(error) {
+      console.log(error);
+    }
+  }
 
     allenamentiUtente:Allenamento[] = [];
 

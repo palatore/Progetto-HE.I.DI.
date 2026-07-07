@@ -104,7 +104,7 @@ db.serialize(() => {
         id_professionista INTEGER NOT NULL,
         id_paziente INTEGER NOT NULL,
         id_attivita INTEGER NOT NULL,
-        tipologia_attivita INTEGER NOT NULL,
+        tipologia_attivita INTEGER NOT NULL, -- 0 per pasti, 1 per allenamenti
         tipo_richiesta VARCHAR(255) NOT NULL,
         stato VARCHAR(255) NOT NULL DEFAULT 'PENDING',
         FOREIGN KEY(id_professionista) REFERENCES utenti(id) ON DELETE CASCADE,

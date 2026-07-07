@@ -32,7 +32,6 @@ export class PastiUtentePage implements OnInit {
   //VARIABILI LATO PROFESSIONISTA
   public professionista_modifica:boolean = false;
   public professionista_vota:boolean = false;
-  public modalita_voto:boolean = false;
 
   //VARIABILI CONDIVISE
   public viewModifica:boolean = false;
@@ -42,6 +41,7 @@ export class PastiUtentePage implements OnInit {
   public pasto_da_modificare: any = null;
   public alimentoSelezionato:any = null;
   public dettagliPasto: any = null;
+  public modalita_voto:boolean = false;
   public voti_totali_pasto:number = 0;
   public voto_pasto_caricato:number = 0;
   public destroy$ = new Subject<void>;

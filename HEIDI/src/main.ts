@@ -7,7 +7,7 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
 import { addIcons } from 'ionicons';
-import { close, trash, eyeOutline, create, add, logOutOutline, personOutline, menuOutline, homeOutline, calendarOutline, peopleOutline, mailOutline, checkmarkOutline, shareOutline, helpOutline, thumbsUpOutline, starOutline, starHalfOutline, star} from 'ionicons/icons';
+import { close, trash, eyeOutline, create, add, logOutOutline, personOutline, menuOutline, homeOutline, calendarOutline, peopleOutline, mailOutline, checkmarkOutline, shareOutline, helpOutline, thumbsUpOutline, starOutline, starHalfOutline, star, fileTrayFullOutline} from 'ionicons/icons';
 
 addIcons({
   close,
@@ -29,6 +29,7 @@ addIcons({
   starOutline,
   star,
   starHalfOutline,
+  fileTrayFullOutline,
   'a': 'assets/icon/mountain_line_art.svg'
 });
 

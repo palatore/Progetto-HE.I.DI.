@@ -94,7 +94,7 @@ class User {
 
   static async getProfessionisti() {
     return new Promise((resolve, reject) => {
-      db.all('SELECT id, name, surname, email, ruolo FROM utenti WHERE ruolo > 0', (err, rows) => {
+      db.all('SELECT u.id, u.name, u.surname, u.email, u.ruolo, r.ruolo AS professione FROM utenti u INNER JOIN albo_professionisti a ON u.id = a.id_professionista INNER JOIN ruoli_professionisti r ON a.id_ruolo = r.id WHERE u.ruolo > 0', (err, rows) => {
         if(err){
           reject(err);
         } else {
