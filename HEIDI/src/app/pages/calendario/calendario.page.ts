@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonMenuButton, IonButton, IonButtons } from '@ionic/angular/standalone';
@@ -17,6 +17,12 @@ export class CalendarioPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  @ViewChild(CalendarioComponent) aggiornaCalendario!: CalendarioComponent;
+
+  ionViewWillEnter(){
+    this.aggiornaCalendario.loadAllEvents();
   }
 
 }

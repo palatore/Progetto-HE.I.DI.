@@ -196,6 +196,9 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
                 await alert.present();
                 this.showRiempiAllenamento = false;
                 this.allenamentoForm.reset();
+                this.allenamentoForm.get('nome')?.enable();
+                this.allenamentoForm.get('giorno')?.enable();
+                this.allenamentoForm.get('durata')?.enable();
             }
         }catch(e:any){
             if(e instanceof Error){

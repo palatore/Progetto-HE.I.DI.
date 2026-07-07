@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, IonHeader, IonInput, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonText, IonBadge, IonSearchbar, IonIcon, IonThumbnail, IonCardTitle, IonButtons, IonFabButton, IonFab, IonFooter } from '@ionic/angular/standalone';
+import { AlertController, IonButton, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, IonHeader, IonInput, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonText, IonBadge, IonSearchbar, IonIcon, IonThumbnail, IonCardTitle, IonButtons, IonFabButton, IonFab, IonFooter } from '@ionic/angular/standalone';
 import { filter, firstValueFrom, forkJoin, map, Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
@@ -26,7 +26,7 @@ import { arrowBack } from 'ionicons/icons';
 })
 export class CalendarioComponent implements OnInit {
 
-  constructor(private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {}
+  constructor(private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService, private alertController:AlertController) {}
 
   ngOnInit() {
     this.loadAllEvents();
@@ -48,6 +48,7 @@ export class CalendarioComponent implements OnInit {
       today: 'Torna ad oggi'
     },
     height: 'auto',
+    firstDay: 1,
 
     dateClick: (info) => this.handleDateClick(info.dateStr),
 
@@ -108,7 +109,6 @@ export class CalendarioComponent implements OnInit {
       }
     }
     this.loadAllEvents();
-    this.loadAttivitaGiornaliere();
   }
 
   async disdiciPasto(id_pasto:number) {
@@ -123,11 +123,34 @@ export class CalendarioComponent implements OnInit {
 
   async fissaAllenamento(id_allenamento:number) {
     //metodo per cambiare la data all'allenamento
-    const nuova_data = new Date(this.data_selezionata);
+    console.log('data_selezionata:', this.data_selezionata);
+    const nuova_data = this.data_selezionata;
+    console.log('nuova_data:', nuova_data);
+
+    //controlla prima se esiste già un allenamento nella stessa data
+    try {
+        const response = await firstValueFrom(this.workoutService.checkAllenamento(this.data_selezionata));
+        if(response && response.exists){
+            const alert = await this.alertController.create({
+                    header: 'Attenzione!',
+                    message: 'Non puoi inserire più allenamenti nello stesso giorno',
+                    buttons: ['OK']
+                });
+                await alert.present();
+            return;
+        }
+    } catch(e:any){
+        if(e instanceof Error){
+            console.log(e.message);
+            return;
+        }
+    }
+        //se non esiste, crea l'allenamento
     try {
       const allenamentoFissato = await firstValueFrom(this.workoutService.programmaAllenamento(id_allenamento, nuova_data));
       if(allenamentoFissato && allenamentoFissato.status === 201) {
         this.aggiuntaAttivita = false;
+        this.loadAllEvents();
       }
     } catch(e) {
       if(e instanceof Error) {
@@ -221,6 +244,7 @@ export class CalendarioComponent implements OnInit {
         } else {
           this.calendarOptions.events = tutte_le_attivita;
         }
+        this.loadAttivitaGiornaliere();
       },
       error: (err) => {
         console.error('Errore nel caricamento e nell\'unione degli eventi:', err);

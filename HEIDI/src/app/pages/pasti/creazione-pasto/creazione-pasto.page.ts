@@ -172,7 +172,9 @@ public alimento_da_aggiungere:any = null; //variabile per la gestione delle info
         await alert.present();
         this.showRiempiPasto = false;
         this.id_pasto_creato = 0;
-        this.pastoForm.reset();      
+        this.pastoForm.reset();
+        this.pastoForm.get('nome')?.enable();
+        this.pastoForm.get('tipo')?.enable();     
       }
     } catch(e:any) {
       if(e instanceof Error) {
