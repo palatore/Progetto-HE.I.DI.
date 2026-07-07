@@ -117,18 +117,6 @@ class User {
     });
   }
 
-  static async getVotiAttivita(id_attivita, tipologia_attivita) {
-    return new Promise((resolve, reject) => {
-      db.all('SELECT voto FROM voti WHERE id_attivita = ? AND tipologia_attivita = ?', [id_attivita, tipologia_attivita], (err, rows) => {
-        if(err) {
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-      });
-    });
-  }
-
   static async getAssociazioniUtente(id_utente) {
     return new Promise((resolve, reject) => {
       db.all('SELECT a.id AS id_associazione, a.id_professionista, u.name AS nome_P, u.surname AS cognome_P, u.ruolo, a.stato FROM associazioni a JOIN utenti u ON a.id_professionista = u.id WHERE a.id_paziente = ?', [id_utente], (err, rows) => {
@@ -196,18 +184,6 @@ class User {
           reject(err);
         } else {
           resolve(rows);
-        }
-      });
-    });
-  }
-
-  static async votaAttivita(id_utente, attivita) {
-    return new Promise((resolve, reject) => {
-      db.run('INSERT INTO voti (id_attivita, tipologia_attivita, id_votante, voto) VALUES (?, ?, ?, ?)', [attivita.id, attivita.tipologia, id_utente, attivita.valutazione], function(err) {
-        if(err) {
-          reject(err);
-        } else {
-          resolve({lastID: this.lastID});
         }
       });
     });
@@ -341,5 +317,4 @@ class User {
     });
   }
 }
-
 module.exports = User;

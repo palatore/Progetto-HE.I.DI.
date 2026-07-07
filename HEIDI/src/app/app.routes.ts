@@ -55,7 +55,11 @@ export const routes: Routes = [
   {
     path: 'richieste',
     loadComponent: () => import('./pages/utente/richieste/richieste.page').then( m => m.RichiestePage)
+  },  {
+    path: 'bacheca',
+    loadComponent: () => import('./pages/bacheca/bacheca.page').then( m => m.BachecaPage)
   }
+
 
 
 ];

@@ -10,6 +10,7 @@ import { Allenamento } from "src/app/models/allenamento.model";
 import { GestioneUtentiService } from "src/app/services/utenti/gestione-utenti.service";
 import { Subject, takeUntil } from "rxjs";
 import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
+import { GestioneBachecaService } from "src/app/services/bacheca/gestione-bacheca.service";
 
 @Component({
     selector: 'app-allenamenti-utente',
@@ -40,7 +41,7 @@ export class AllenamentiUtentePage implements OnInit{
     public voto_allenamento_caricato:number = 0;
     public destroy$ = new Subject<void>;
 
-    constructor(private workoutService:GestioneAllenamentiService, private route:ActivatedRoute, private router:Router, private alertController: AlertController, private userService:GestioneUtentiService){ }
+    constructor(private workoutService:GestioneAllenamentiService, private route:ActivatedRoute, private router:Router, private alertController: AlertController, private userService:GestioneUtentiService, private boardService:GestioneBachecaService){ }
 
     ngOnInit(){
         this.loadEsercizi();
@@ -143,7 +144,7 @@ export class AllenamentiUtentePage implements OnInit{
     }
 
     getVotoAllenamento(id_allenamento:number) {
-    this.userService.getVotiAttivita(id_allenamento, 1).pipe(takeUntil(this.destroy$)).subscribe({
+    this.boardService.getVotiAttivita(id_allenamento, 1).pipe(takeUntil(this.destroy$)).subscribe({
       next: (voti) => {
         this.voti_totali_allenamento = voti.length;
 
@@ -228,7 +229,7 @@ export class AllenamentiUtentePage implements OnInit{
     async inviaVoto(voto:number, id_allenamento:number) {
     try {
       const voto_da_inviare = {id: id_allenamento, valutazione:voto, tipologia:1};
-      const response = await firstValueFrom(this.userService.votaAttivita(voto_da_inviare));
+      const response = await firstValueFrom(this.boardService.votaAttivita(voto_da_inviare));
       if(response.status === 201) {
         const alert = await this.alertController.create({
             header: 'Successo',

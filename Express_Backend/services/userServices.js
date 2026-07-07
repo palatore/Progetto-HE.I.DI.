@@ -96,16 +96,6 @@ class UserServices {
         }
     };
 
-    static async getVotiAttivita(id_attivita, tipologia_attivita) {
-        const voti = await User.getVotiAttivita(id_attivita, tipologia_attivita);
-        if(voti) {
-            return voti;
-        } else {
-            console.log('Nessun voto trovato');
-            return null;
-        }
-    };
-
     static async getAssociazioniUtente(id_utente) {
         const associazioni = await User.getAssociazioniUtente(id_utente);
         if(associazioni && associazioni.length > 0) {
@@ -170,17 +160,6 @@ static async getAssociazioniPending(id_utente) {
             console.log('Nessuna richiesta pending trovata');
             return [];
         }
-    };
-
-    static async votaAttivita(id_utente, attivita) {
-        const votata = await User.votaAttivita(id_utente, attivita);
-        if(votata) {
-            console.log('Attivita votata con successo');
-        } else {
-            console.log('Errore nella votazione dell\'attivita');
-        }
-        return votata;
-
     };
 
     static async creaAssociazione(id_utente, id_persona) {
@@ -263,7 +242,7 @@ static async getAssociazioniPending(id_utente) {
             console.log('Errore nell\'aggiornamento della password');
         }
         return password;
-    }
+    };
 
     static async eliminaEta(id_utente){
         console.log('SERVICE elimina età riceve e manda:', id_utente);
@@ -296,5 +275,4 @@ static async getAssociazioniPending(id_utente) {
         return annullata;
     };
 }
-
 module.exports = UserServices;

@@ -10,6 +10,7 @@ import { DefaultHeaderComponent } from 'src/app/components/default-header/defaul
 import { ModificaDettagliComponent } from 'src/app/components/modifica-dettagli/modifica-dettagli.component';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { VotaAttivitaComponent } from "src/app/components/vota-attivita/vota-attivita.component";
+import { GestioneBachecaService } from 'src/app/services/bacheca/gestione-bacheca.service';
 
 
 @Component({
@@ -54,10 +55,10 @@ export class PastiUtentePage implements OnInit {
   public filtroCalorie: number = 0; // Variabile per il filtro per calorie
   public filtroAlimenti: string[] = []; // Variabile per il filtro per alimenti
 
-  constructor(private foodService:GestionePastiService, private userService:GestioneUtentiService, private route:ActivatedRoute, private router:Router, private alertController:AlertController) { }
+  constructor(private foodService:GestionePastiService, private userService:GestioneUtentiService, private boardService:GestioneBachecaService, private route:ActivatedRoute, private router:Router, private alertController:AlertController) { }
 
 
-  //METODI LIFECYCLE PAGINA
+  //METODI LIFECYCLE PAGINA------------------------------------------------------------------------
   ngOnInit() {
     this.loadAlimenti();
   }
@@ -180,7 +181,7 @@ export class PastiUtentePage implements OnInit {
   }
 
   getVotoPasto(id_pasto:number) {
-    this.userService.getVotiAttivita(id_pasto, 0).pipe(takeUntil(this.destroy$)).subscribe({
+    this.boardService.getVotiAttivita(id_pasto, 0).pipe(takeUntil(this.destroy$)).subscribe({
       next: (voti) => {
         this.voti_totali_pasto = voti.length;
 
@@ -286,7 +287,7 @@ export class PastiUtentePage implements OnInit {
   async inviaVoto(voto:number, id_pasto:number) {
     try {
       const voto_da_inviare = {id: id_pasto, valutazione:voto, tipologia:0};
-      const response = await firstValueFrom(this.userService.votaAttivita(voto_da_inviare));
+      const response = await firstValueFrom(this.boardService.votaAttivita(voto_da_inviare));
       if(response.status === 201) {
         const alert = await this.alertController.create({
             header: 'Successo',

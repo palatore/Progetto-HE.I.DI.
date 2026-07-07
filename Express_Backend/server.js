@@ -11,6 +11,8 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const pastiRoutes = require('./routes/pastiRoutes');
 const allenamentiRoutes = require('./routes/allenamentiRoutes');
+const bachecaRoutes = require('./routes/bachecaRoutes');
+
 //creazione del server Express
 //importazioni dei moduli
 
@@ -25,6 +27,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/pasti', pastiRoutes);
 app.use('/api/allenamenti', allenamentiRoutes);
+app.use('/api/bacheca', bachecaRoutes);
 //abilitazione del CORS e del body parser per gestire le richieste JSON e URL-encoded
 
 app.get('/', (req, res) => {

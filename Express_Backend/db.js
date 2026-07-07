@@ -133,6 +133,22 @@ db.serialize(() => {
         }
     });
 
+    //creazione della tabella della bacheca
+    db.run(`CREATE TABLE IF NOT EXISTS bacheca (
+        id INTEGER AUTO_INCREMENT PRIMARY KEY,
+        id_utente_condivisore INTEGER NOT NULL,
+        id_attivita INTEGER NOT NULL,
+        tipologia_attivita INTEGER NOT NULL, -- 0 pasto, 1 allenamento
+        data_condivisione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_utente_condivisore) REFERENCES utenti(id) ON DELETE CASCADE
+    )`, (err) => {
+        if (err) {
+            console.error('Errore nella creazione della tabella bacheca' + err.message);
+        } else {
+            console.log('Tabella bacheca creata con successo.');
+        }
+    });
+
 //SEZIONE ALIMENTARE
 
   //creazione della tabella degli alimenti
