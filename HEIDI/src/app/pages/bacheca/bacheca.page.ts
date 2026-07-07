@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AlertController, IonContent, IonHeader, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonCard, IonItem, IonAvatar, IonLabel, IonBadge, IonCardContent, IonIcon, IonButton, ActionSheetController } from '@ionic/angular/standalone';
+import { AlertController, IonContent, IonHeader, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonCard, IonItem, IonAvatar, IonLabel, IonBadge, IonCardContent, IonIcon, IonButton, ActionSheetController, IonButtons, IonFooter } from '@ionic/angular/standalone';
 import { firstValueFrom, Subject, forkJoin } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   templateUrl: './bacheca.page.html',
   styleUrls: ['./bacheca.page.scss'],
   standalone: true,
-  imports: [IonButton, IonIcon, IonCardContent, IonBadge, IonLabel, IonAvatar, IonItem, IonCard, IonSegmentButton, IonSegment, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, DefaultHeaderComponent, VotaAttivitaComponent]
+  imports: [IonButton, IonIcon, IonCardContent, IonBadge, IonLabel, IonAvatar, IonItem, IonCard, IonSegmentButton, IonSegment, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, DefaultHeaderComponent, VotaAttivitaComponent, IonFooter]
 })
 export class BachecaPage implements OnInit {
 
@@ -196,14 +196,14 @@ export class BachecaPage implements OnInit {
           text: 'Un mio Pasto',
           icon: 'fast-food-outline',
           handler: () => {
-            this.router.navigate(['/pasti-utente']);
+            this.router.navigate(['/pastiUtente']);
           }
         },
         {
           text: 'Un mio Allenamento',
           icon: 'barbell-outline',
           handler: () => {
-            this.router.navigate(['/allenamenti-utente']);
+            this.router.navigate(['/allenamentiUtente']);
           }
         },
         {
