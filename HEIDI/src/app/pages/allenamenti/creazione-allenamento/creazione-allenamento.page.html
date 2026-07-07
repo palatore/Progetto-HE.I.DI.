@@ -13,19 +13,27 @@
                     <ion-col>
                         <ion-input type="text" placeholder="Nome Allenamento" formControlName="nome"></ion-input>
                     </ion-col>
-                    <ion-col class="ion-justify-top">
+                    <ion-col class="dateCol">
                         <ion-card-title> 
                             Giorno Allenamento
                         </ion-card-title>
                         
-                       <ion-datetime-button datetime="datetime" ></ion-datetime-button>
+                       <ion-button fill="outline" class="dateButton" 
+                                    (click)="apriModalCalendario()"
+                                    [disabled]="!pulsanteCalendarioAbilitato"
+                                    [ngClass]="{ 'buttonPlaceholder': !allenamentoForm.get('giorno')?.value}">
+                        {{ (allenamentoForm.get('giorno')?.value | date: 'dd/MM/yyyy') || (dataOdierna | date: 'dd/MM/yyyy') }}
+                       </ion-button>
 
-                       <ion-modal #modalCalendario [keepContentsMounted]="true">
+                       <ion-modal #modalCalendario class="calendarModal"
+                                (ionModalWillPresent)="apriCalendario = true"
+                                (ionModalDidDismiss)="apriCalendario = false">
                         <ng-template>
+                            @if(apriCalendario){
                             <ion-datetime #calendario
-                            id="datetime"
                             presentation="date"
                             [showDefaultButtons]="false"
+                            [firstDayOfWeek]="1"
                             formControlName="giorno"
                             color="orange">
                             <ion-buttons slot="buttons">
@@ -33,6 +41,7 @@
                                 <ion-button color="orange" (click)="calendario.confirm(); modalCalendario.dismiss()">Conferma</ion-button>
                             </ion-buttons>
                             </ion-datetime>
+                        }
                         </ng-template>                            
                        </ion-modal>                       
                     </ion-col>
