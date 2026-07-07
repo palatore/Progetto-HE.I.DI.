@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
 import { IonButtons, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter, IonDatetimeButton, IonModal, IonDatetime, AlertController, IonMenuButton, IonLabel } from '@ionic/angular/standalone';
@@ -24,8 +24,12 @@ public id_allenamento_creato:number = 0;
 public showAlreadyExistent:boolean = false;
 public showRiempiAllenamento:boolean = false;
 public expiredSession:boolean = false;
+public apriCalendario:boolean = false;
+public dataOdierna = new Date();
 esercizio_selezionato:any = null //variabile per la gestione delle info
 esercizio_da_aggiungere:any = null //variabile per la gestione delle info
+@ViewChild('modalCalendario') modalCalendario!: IonModal;
+
 
     constructor(private formbuilder:FormBuilder, private workoutService:GestioneAllenamentiService, private alertController: AlertController) {
         this.allenamentoForm = formbuilder.group({
@@ -65,7 +69,10 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
         }
     }
 
-    
+    apriModalCalendario() {
+        this.modalCalendario.present();
+    }
+
     //INSERIMENTO ALLENAMENTO DEL DB
     async onSubmit(){
         const nomeAllenamento = this.allenamentoForm.value.nome;

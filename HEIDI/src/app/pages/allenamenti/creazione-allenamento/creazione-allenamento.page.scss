@@ -12,6 +12,30 @@
       padding-bottom: 20px;
     }
 
+    
+    .dateCol {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .dateButton {
+        color: var(--ion-color-orange);
+        --border-color: var(--ion-color-orange);
+        margin-top: -10px;
+        min-height: 20px;
+        height: 30px;
+    }
+
+    .buttonPlaceholder{
+        color: rgba(245, 124, 0, 0.6);
+        --border-color: var(--ion-color-orange);
+    }
+
+
+
+
     ion-input {
         font-size: 15px;
         --color: var(--text-white);
@@ -24,6 +48,16 @@
         color: var(--text-white) !important;
     }
 }
+
+
+    ion-modal.calendarModal {
+        --width: auto;
+        --height: auto;
+        --border-radius: 16px;
+        --backdrop-opacity: 0;
+        align-items: center;
+        justify-content: center;
+    }
 
 .buttonRow {
     justify-content: center;
