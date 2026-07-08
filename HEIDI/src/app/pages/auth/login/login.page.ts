@@ -61,7 +61,7 @@ export class LoginPage implements OnInit {
       if(e.status === 401) {
         this.loginFailed = true;
         this.showError = true;
-        this.errMessage = e.status.json;
+        this.errMessage = e?.error?.message;
       } else {
         this.errMessage = e?.error?.message || 'Dati di accesso non validi';
         this.loginFailed = true;
@@ -69,11 +69,4 @@ export class LoginPage implements OnInit {
       }
     }
   }
-
-  logout() {
-    localStorage.removeItem('tipoUtente');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('token');
-  }
-
 }

@@ -51,7 +51,7 @@ class PastiServices {
 
     static async getPastiUtente(user_id) {
         const pasti_utente = await Pasti.getPastiUtente(user_id);
-        if (!(pasti_utente && pastiUtente.length > 0)) {
+        if (!(pasti_utente && pasti_utente.length > 0)) {
             console.log('Nessun pasto trovato per l\'utente con ID:', user_id);
             return [];
         };
@@ -101,11 +101,11 @@ class PastiServices {
         }
         const risultatoElimanzione = await Pasti.eliminaDettagliPasto(id_pasto);
         if(!risultatoElimanzione) {
-            throw new Error('Errore nell\'eliminazione del pasto con id:', id_pasto);
+            throw new Error('Errore nell\'eliminazione del pasto');
         }
         const result = await Pasti.riempiPasto(id_pasto, modifiche_pasto);
         if (!result) {
-            throw new Error('Errore nella modifica del pasto con id:', id_pasto, 'e modifiche:', modifiche_pasto);
+            throw new Error('Errore nella modifica del pasto');
         }
         return result;
     }
@@ -113,7 +113,7 @@ class PastiServices {
     static async programmaPasto(id_pasto, data_calendario) {
         const programmato = await Pasti.programmaPasto(id_pasto, data_calendario);
          if (!programmato) {
-            throw new Error('Errore nella programmazione del pasto con id:', id_pasto, 'e data', data_calendario);
+            throw new Error('Errore nella programmazione del pasto');
         }
         return programmato;
     }
@@ -138,7 +138,7 @@ class PastiServices {
             return null;
         }
         const dettagli_vecchio_pasto = await Pasti.getDettagliPasto(id_pasto, dati_vecchio_pasto);
-        if(!dettagli_vecchio_pasto || dettagli_vecchio_pasto.length === 0) {
+        if(!dettagli_vecchio_pasto || dettagli_vecchio_pasto.alimenti.length === 0) {
             console.log('Pasto clonato ma senza dettagli');
             return id_nuovo_pasto;
         }

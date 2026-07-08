@@ -17,7 +17,7 @@ export class InfoDettagliComponent implements OnDestroy {
   public n_serie:number = 1;
   public n_ripetizioni:number = 1;
   public min_riposo:number = 1;
-  public n_pesi_kg:number = 1;
+  public n_pesi_kg:number = 0;
   public isClosing:Boolean = false;
 
   @Input() 

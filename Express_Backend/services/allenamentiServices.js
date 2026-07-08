@@ -92,11 +92,11 @@ class AllenamentiServices {
         }
         const risultatoEliminazione = await Allenamenti.eliminaDettagliAllenamento(id_allenamento);
         if(!risultatoEliminazione){
-            throw new Error('Errore nell\'eliminazione dei dettagli dell\'allenamento con id:', id_allenamento);
+            throw new Error('Errore nell\'eliminazione dei dettagli dell\'allenamento');
         }
         const result = await Allenamenti.riempiAllenamento(id_allenamento, modifiche_allenamento);
         if(!result){
-           throw new Error('Errore nella modifica dell\'allenamento con id:', id_allenamento);
+           throw new Error('Errore nella modifica dell\'allenamento');
         }
         return result;
     }
@@ -104,7 +104,7 @@ class AllenamentiServices {
     static async programmaAllenamento(id_allenamento, data_calendario) {
         const risultatoProgrammazione = await Allenamenti.programmaAllenamento(id_allenamento, data_calendario);
         if(!risultatoProgrammazione) {
-            throw new Error('Errore nella programmazione dell\'allenamento con ID:', id_allenamento, 'per la data', data_calendario);
+            throw new Error('Errore nella programmazione dell\'allenamento');
         }
         return risultatoProgrammazione;
     }
@@ -116,7 +116,7 @@ class AllenamentiServices {
             return null;
         }
         
-        const id_nuovo_allenamento = await Allenamenti.creaAllenamenti(id_nuovo_utente, dati_vecchio_allenamento.name, dati_vecchio_allenamento.data, dati_vecchio_allenamento.durata);
+        const id_nuovo_allenamento = await Allenamenti.creaAllenamenti(id_nuovo_utente, dati_vecchio_allenamento.name, dati_vecchio_allenamento.data, dati_vecchio_allenamento.durata, new Date().toISOString());
         if(!id_nuovo_allenamento) {
             console.log('Errore nella creazione del nuovo allenamento clonato');
             return null;

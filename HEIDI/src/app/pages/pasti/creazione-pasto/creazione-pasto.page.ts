@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonMenuButton, IonCardTitle } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonContent, IonGrid, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonCardTitle } from '@ionic/angular/standalone';
 import { AlertController } from '@ionic/angular';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { firstValueFrom } from 'rxjs';
@@ -15,7 +15,7 @@ import { DefaultHeaderComponent } from "src/app/components/default-header/defaul
   templateUrl: './creazione-pasto.page.html',
   styleUrls: ['./creazione-pasto.page.scss'],
   standalone: true,
-  imports: [IonCardTitle, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent, DefaultHeaderComponent]
+  imports: [IonCardTitle, IonContent, CommonModule, FormsModule, IonButton, IonItem, IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, ReactiveFormsModule, IonInput, IonSelect, IonSelectOption, RouterModule, RiempiDettagliComponent, InfoDettagliComponent, DefaultHeaderComponent]
 })
 export class CreazionePastoPage implements OnInit {
 public page_title:string = 'Creazione Pasto';
@@ -147,7 +147,7 @@ public alimento_da_aggiungere:any = null; //variabile per la gestione delle info
         console.log('Alimento non trovato per id:', id_alimento);
       }
     } catch (error) {
-      console.error('Errore nel recupero dellw info:', error);
+      console.error('Errore nel recupero delle info:', error);
     }
 
   }
