@@ -3,10 +3,6 @@ import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
-  },
-  {
     path: 'login',
     loadComponent: () => import('./pages/auth/login/login.page').then( m => m.LoginPage)
   },
@@ -31,7 +27,9 @@ export const routes: Routes = [
   },
   {
     path: 'pastiUtente',
-    loadComponent: () => import('./pages/pasti/pasti-utente/pasti-utente.page').then( m => m.PastiUtentePage)
+    loadComponent: () => import('./pages/pasti/pasti-utente/pasti-utente.page').then( m => m.PastiUtentePage),
+    canActivate: [AuthGuard]
+
   },
   {
     path: 'creazioneAllenamento',
@@ -50,16 +48,17 @@ export const routes: Routes = [
   },
   {
     path: 'calendario',
-    loadComponent: () => import('./pages/calendario/calendario.page').then( m => m.CalendarioPage)
+    loadComponent: () => import('./pages/calendario/calendario.page').then( m => m.CalendarioPage),
+    canActivate: [AuthGuard]
   },
   {
     path: 'richieste',
-    loadComponent: () => import('./pages/utente/richieste/richieste.page').then( m => m.RichiestePage)
-  },  {
+    loadComponent: () => import('./pages/utente/richieste/richieste.page').then( m => m.RichiestePage),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'bacheca',
-    loadComponent: () => import('./pages/bacheca/bacheca.page').then( m => m.BachecaPage)
+    loadComponent: () => import('./pages/bacheca/bacheca.page').then( m => m.BachecaPage),
+    canActivate: [AuthGuard]
   }
-
-
-
 ];
