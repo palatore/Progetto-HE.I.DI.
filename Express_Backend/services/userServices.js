@@ -160,6 +160,19 @@ static async getAssociazioniPending(id_utente) {
             console.log('Nessuna richiesta pending trovata');
             return [];
         }
+        return richieste;
+    };
+
+    static async getFeedAssociati(id_professionsta) {
+        const feed = await User.getFeedAssociati(id_professionsta);
+        if(feed && feed.length > 0) {
+            console.log('Feed ottenuto');
+            return feed;
+        } else {
+            console.log('Nessun feed');
+            return [];
+        }
+        return feed;
     };
 
     static async creaAssociazione(id_utente, id_persona) {

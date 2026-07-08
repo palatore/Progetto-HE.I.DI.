@@ -193,6 +193,21 @@ class UserControllers {
         }
     };
 
+    static getFeedAssociati = async (req, res) => {
+        try {
+        const user_id = req.user.id;
+        const result = await UserServices.getFeedAssociati(user_id);
+            if(result){
+                console.log('Arriva il feed');
+                res.json(result);
+            } else {
+                res.status(404).json({error: 'Feed non trovato'});
+            }
+        } catch (e) {
+            res.status(500).json({error: e.message});
+        }
+    };
+
     static creaAssociazione = async (req, res) => {
         try {
             const id_utente = req.user.id;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol, IonItem, IonIcon, IonBadge } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol, IonItem, IonIcon, IonBadge, IonAvatar, IonList } from '@ionic/angular/standalone';
 import { forkJoin, map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { LoginService } from 'src/app/services/auth/login.service';
@@ -17,7 +17,7 @@ import { DefaultHeaderComponent } from "src/app/components/default-header/defaul
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonBadge, IonIcon, IonItem, IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, IonCardHeader, IonCardTitle, DefaultHeaderComponent]
+  imports: [IonList, IonAvatar, IonBadge, IonIcon, IonItem, IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, IonCardHeader, IonCardTitle, DefaultHeaderComponent]
 })
 export class HomePage implements OnInit {
 
@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
   }
  
   public ruoloUtente: string | null = null;
+  public feedAssociati:any[] = [];
   public associazioni_pending:number = 0;
   public richieste_pending:number = 0;
   private destroy$ = new Subject<void>();
@@ -61,10 +62,11 @@ export class HomePage implements OnInit {
     } else {
       this.getAssociazioniPending();
       this.getRichiestePending();
+      this.caricaFeedAssociati();
     }
   }
 
-  async caricaAttivitaGiornaliere() {
+  caricaAttivitaGiornaliere() {
     const oggi = new Date().toISOString().split('T')[0];
     const oggi_a = new Date();
     oggi_a.setHours(0, 0, 0, 0);
@@ -109,26 +111,29 @@ export class HomePage implements OnInit {
     });
   }
 
+  caricaFeedAssociati() {
+
+  }
+
   getAssociazioniPending() {
-    try {
-      this.userService.getAssociazioniPending().pipe(takeUntil(this.destroy$)).subscribe({
-        next: (data) => {this.associazioni_pending = data.length;},
-        error: (err) => {console.error(err);}
-      }); 
-    } catch(error) {
-      console.log(error);
-    }
+    this.userService.getAssociazioniPending().pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => {this.associazioni_pending = data.length;},
+      error: (err) => {console.error(err);}
+    }); 
   }
 
   getRichiestePending() {
-    try {
-      this.userService.getRichiestePending().pipe(takeUntil(this.destroy$)).subscribe({
-        next: (data) => {this.richieste_pending = data.length;},
-        error: (err) => {console.error(err);}
-      }); 
-    } catch(error) {
-      console.log(error);
-    }
+    this.userService.getRichiestePending().pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => {this.richieste_pending = data.length;},
+      error: (err) => {console.error(err);}
+    }); 
+  }
+
+  getFeedAssociati() {
+    this.userService.getFeedAssociati().pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => {this.feedAssociati = data;},
+      error: (err) => {console.error(err);}
+    }); 
   }
 
   isLoggedIn(): boolean {

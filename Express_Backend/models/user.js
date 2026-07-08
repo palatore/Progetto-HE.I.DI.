@@ -188,6 +188,34 @@ class User {
       });
     });
   }
+
+  static async getFeedAssociati(id_professionsita) {
+    return new Promise((resolve, reject) => {
+      db.all(`
+        SELECT 'PASTO' AS tipologia, p.name AS nome_attivita, p.data_creazione, u.name, u.surname
+        FROM pasti p
+        INNER JOIN associazioni a ON p.user_id = a.id_paziente
+        INNER JOIN utenti u ON p.user_id = u.id
+        WHERE a.id_professionista = ? AND a.stato = 'ACCETTATA'
+
+        UNION ALL
+
+        SELECT 'ALLENAMENTO' AS tipologia, al.name AS nome_attivita, al.data_creazione, u.name, u.surname
+        FROM allenamenti al
+        INNER JOIN associazioni a ON al.user_id = a.id_paziente
+        INNER JOIN utenti u ON al.user_id = u.id
+        WHERE a.id_professionista = ? AND a.stato = 'ACCETTATA'
+
+        ORDER BY data_creazione DESC
+        LIMIT 10;`, [id_professionsita, id_professionsita], (err, rows) => {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
   
   static async creaAssociazione(id_utente, id_persona) {
     return new Promise((resolve, reject) => {

@@ -87,6 +87,12 @@ export class GestioneUtentiService {
     return this.http.get<any[]>(`${this.apiUrl}/api/users/richiestePending`, {headers});
   }
 
+  getFeedAssociati():Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<any[]>(`${this.apiUrl}/api/users/feedAssociati`, {headers});
+  }
+
   creaAssociazione(id_persona:number):Observable<any> {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };

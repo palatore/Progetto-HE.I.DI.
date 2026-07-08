@@ -17,6 +17,7 @@ router.get('/richiesteProfessionista', authenticateToken, UserControllers.getRic
 router.get('/associazioniPending', authenticateToken, UserControllers.getAssociazioniPending);
 router.get('/richiestePending', authenticateToken, UserControllers.getRichiestePending);
 router.get('/ruoloProfessionista/:id_professionista', authenticateToken, UserControllers.getRuoloProfessionista);
+router.get('/feedAssociati', authenticateToken, UserControllers.getFeedAssociati);
 router.post('/creaAssociazione', authenticateToken, UserControllers.creaAssociazione);
 router.patch('/accettaAssociazione', authenticateToken, UserControllers.accettaAssociazione);
 router.post('/creaRichiesta', authenticateToken, UserControllers.creaRichiesta);
