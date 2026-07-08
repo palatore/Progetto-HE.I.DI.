@@ -34,12 +34,7 @@ export class LoginService {
     const ruoloStr = ruolo.toString();
     localStorage.setItem('tipoUtente', ruoloStr);
     this.ruoloUtente.next(ruoloStr);
-    if(ruolo === '3') { //numero non esistente, da cambiare una volta sistemata la home
-      await this.router.navigate(["/home2"]);
-    }
-    else {
-      await this.router.navigate(['/home']);
-    }
+    await this.router.navigate(["/home"]);
   }
 
   getUserRole(): Observable<string | null> {
@@ -48,13 +43,14 @@ export class LoginService {
 
   getUserId():number {
     const token = localStorage.getItem('token');
+    if(!token) {
+      return 0;
+    }
     const decoded:any = jwtDecode(token!);
-    const userId = decoded.id;
-    return userId;
+    return decoded.id;
   }
 
   register(ruolo:string, nome:string, cognome:string, email:string, password:string): Observable<any> {
-    console.log('Dati invati al server:', { ruolo, nome, cognome, email, password});
     return this.http.post(`${this.apiUrl}/api/auth/register`, {ruolo, nome, cognome, email, password}, {observe: 'response'});
   }
 

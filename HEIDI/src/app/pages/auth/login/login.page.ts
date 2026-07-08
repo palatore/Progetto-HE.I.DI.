@@ -8,14 +8,13 @@ import { firstValueFrom } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { RouterModule } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule, DefaultHeaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule]
 })
 export class LoginPage implements OnInit {
   public loginForm: FormGroup;
@@ -43,33 +42,32 @@ export class LoginPage implements OnInit {
   }
 
   async onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('Form inviato!', this.loginForm.value);
-      // Qui avviene il login
-        try {
-          const response =  await firstValueFrom(this.loginservice.login(this.loginForm.value.email, this.loginForm.value.password));
-          const token = response.token;
-          const decoded:any = jwtDecode(token);
-          //imposta nel localstorage l'email e il token utente, che serviranno solo per successive funzioni
-          localStorage.setItem('userEmail', this.loginForm.value.email);
-          localStorage.setItem('token', token);
-          //controlla il ruolo e indirizza alla home corretta, 0 per utente, tutto il resto per Professionisti
-          await this.loginservice.onLoginSuccess(decoded.ruolo);
-          }
-        catch (e:any) {
-          if(e.status === 401) {
-            this.loginFailed = true;
-            this.showError = true;
-            this.errMessage = e.status.json;
-          }
-          else if(e instanceof Error) {
-            this.errMessage = e.message || 'Si è verificato un errore.';
-            this.loginFailed = true;
-            this.showError = true;
-          }
-        }
-    } else {
+    if (!this.loginForm.valid) {
       console.log('Il form non è valido');
+      return;
+    }
+    
+    this.loginFailed = false;
+    this.showError = false;
+    console.log('Form inviato!', this.loginForm.value);
+    try {
+      const response =  await firstValueFrom(this.loginservice.login(this.loginForm.value.email, this.loginForm.value.password));
+      const token = response.token;
+      const decoded:any = jwtDecode(token);
+      localStorage.setItem('userEmail', this.loginForm.value.email);
+      localStorage.setItem('token', token);
+      await this.loginservice.onLoginSuccess(decoded.ruolo);
+      }
+    catch (e:any) {
+      if(e.status === 401) {
+        this.loginFailed = true;
+        this.showError = true;
+        this.errMessage = e.status.json;
+      } else {
+        this.errMessage = e?.error?.message || 'Dati di accesso non validi';
+        this.loginFailed = true;
+        this.showError = true;
+      }
     }
   }
 

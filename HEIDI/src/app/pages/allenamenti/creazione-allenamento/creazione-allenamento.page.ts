@@ -56,6 +56,10 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     //questo metodo fa sì che al refresh della pagina il form venga resettato
     ionViewWillEnter() {
         this.allenamentoForm.reset();
+        this.showAlreadyExistent = false;
+        this.showRiempiAllenamento = false;
+        this.pulsanteCalendarioAbilitato = true;
+
     }
 
     incrementoDurata() {
@@ -209,6 +213,7 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
                 this.allenamentoForm.get('nome')?.enable();
                 this.allenamentoForm.get('giorno')?.enable();
                 this.allenamentoForm.get('durata')?.enable();
+                this.pulsanteCalendarioAbilitato = true;
             }
         }catch(e:any){
             if(e instanceof Error){

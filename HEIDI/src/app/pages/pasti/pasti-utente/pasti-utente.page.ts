@@ -111,6 +111,11 @@ export class PastiUtentePage implements OnInit {
   }
 
   calcolaDettagliPasto(listaDettagli: any) {
+    this.totZuccheri = 0;
+    this.totCalorie = 0;
+    this.totGrassi = 0;
+    this.totCarboidrati = 0;
+
     for (let alimento of listaDettagli.alimenti) {
       this.totZuccheri += alimento.zuccheri_g * alimento.quantita / 100;
       this.totCalorie += alimento.kcal * alimento.quantita / 100;

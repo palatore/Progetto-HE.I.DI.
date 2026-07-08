@@ -7,14 +7,13 @@ import { firstValueFrom } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { addIcons } from 'ionicons';
 import { enterOutline } from 'ionicons/icons';
-import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 
 @Component({
   selector: 'app-registrazione',
   templateUrl: './registrazione.page.html',
   styleUrls: ['./registrazione.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule, IonRadio, IonRadioGroup, DefaultHeaderComponent],
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule, IonRadio, IonRadioGroup],
 })
 
 export class RegistrazionePage implements OnInit {
@@ -43,8 +42,7 @@ export class RegistrazionePage implements OnInit {
     addIcons({enterOutline});
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async onSubmit() {
     const ruolo = this.registerForm.value.ruolo;
@@ -52,25 +50,28 @@ export class RegistrazionePage implements OnInit {
     const name = this.registerForm.value.nome;
     const surname = this.registerForm.value.cognome;
     const pw = this.registerForm.value.password;
+    this.registrationFailed = false;
+    this.showError = false;
+    this.serverError = false;
 
     try{
       const response = await firstValueFrom(this.registrationService.register(ruolo, name, surname, mail, pw));
       console.log('Registrazione completata con successo:', response);
-      if(!response.body.success || response.status !== 201) {
-        console.log('Registrazione fallita');
+      if(!response?.body?.success || response.status !== 201) {
         this.showError = true;
         this.registrationFailed = true;
         this.serverError =  true;
-        this.errMessage = 'Errore interno';
+        this.errMessage = 'Errore interno durante la registrazione.';
       } else {
-        console.log('Registrato il profilo con id:', response.body.data.id, response.body.data.ruolo);
         await this.registrationService.onRegistrationSuccess();
       }
     } catch(e:any) {
-
+      this.registrationFailed = true;
+      this.showError = true;
+      this.serverError = true;
+      this.errMessage = e?.error?.message || 'Registrazione fallita. Riprova più tardi.';
     } 
   }
-
 }
 
 export function passwordMatchValidator():ValidatorFn {

@@ -48,7 +48,7 @@ class Allenamenti {
     //metodo per trovare gli allenamenti grazie al loro ID
     static async findAllenamentoById(id_allenamento){
         return new Promise((resolve, reject) =>{
-            db.all('SELECT * FROM allenamenti WHERE id = ?', [id_allenamento], (err, rows) =>{
+            db.get('SELECT * FROM allenamenti WHERE id = ?', [id_allenamento], (err, rows) =>{
                 if(err){
                     reject(err);
                 } else {
@@ -116,7 +116,6 @@ class Allenamenti {
 
     //metodo per creare allenamenti
     static async creaAllenamenti(user_id, nome, giorno, durata, data_creazione){
-        console.log('MODEL: ricevo e mando:', user_id, data_creazione);
         return new Promise((resolve, reject)=>{
             db.run('INSERT INTO allenamenti (user_id, name, data, durata, data_creazione) VALUES (?, ?, ?, ?, ?)', [user_id, nome, giorno, durata, data_creazione], function(err){
                 if(err){
@@ -130,23 +129,22 @@ class Allenamenti {
 
     //metodo per riempire un allenamento
     static async riempiAllenamento(id_allenamento, esercizi){
-        return new Promise((resolve, reject)=> {
-            const insertAllenamenti = esercizi.map(esercizio =>{
-                console.log('Model: sto inserendo allenamento:', esercizio.id_dettaglio, 'con:', esercizio.serie, 'x', esercizio.ripetizioni, 'ripetizioni,', esercizio.pesi_kg, 'kg, e', esercizio.riposo_minuti, 'minuti di riposo');
-                return new Promise((res, reject)=>{
+        return new Promise((resolve, reject) => {
+            const insertAllenamenti = esercizi.map(esercizio => {
+                return new Promise((res, rej)=>{
                     db.run('INSERT INTO esercizi_allenamento (allenamento_id, esercizio_id, serie, ripetizioni, pesi_kg, riposo_minuti) VALUES (?, ?, ?, ?, ?, ?)', [id_allenamento, esercizio.id_dettaglio, esercizio.serie, esercizio.ripetizioni, esercizio.pesi_kg, esercizio.riposo_minuti], function(err){
                         if(err){
-                            reject(err);
+                            rej(err);
                         } else {
-                            resolve(this.lastID);
+                            res(this.lastID);
                         }
                     });
                 });
             });
 
             Promise.all([insertAllenamenti])
-            .then(results => resolve({message: 'Model:Allenamento riempito con successo', id_allenamento, esercizi}))
-            .catch(err => reject(err));
+            .then(() => resolve({message: 'Allenamento riempito con successo', id_allenamento, esercizi}))
+            .catch(reject);
         });
     }
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol, IonItem, IonIcon, IonBadge, IonAvatar, IonList } from '@ionic/angular/standalone';
-import { forkJoin, map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { IonButton, IonCard, IonCardContent, IonContent, IonCardHeader, IonCardTitle, IonSegment, IonSegmentButton, IonLabel, IonGrid, IonRow, IonCol, IonItem, IonIcon, IonBadge, IonAvatar, IonList } from '@ionic/angular/standalone';
+import { forkJoin, map, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
@@ -17,7 +17,7 @@ import { DefaultHeaderComponent } from "src/app/components/default-header/defaul
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonList, IonAvatar, IonBadge, IonIcon, IonItem, IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonCardContent, IonMenuButton, ReactiveFormsModule, RouterModule, IonCardHeader, IonCardTitle, DefaultHeaderComponent]
+  imports: [IonList, IonAvatar, IonBadge, IonIcon, IonItem, IonCol, IonRow, IonGrid, IonLabel, IonSegmentButton, IonSegment, IonContent, CommonModule, FormsModule, IonButton, IonCard, IonCardContent, ReactiveFormsModule, RouterModule, IonCardHeader, IonCardTitle, DefaultHeaderComponent]
 })
 export class HomePage implements OnInit {
 
@@ -53,17 +53,19 @@ export class HomePage implements OnInit {
 
   ionViewWillEnter() {
     this.authService.ruoloUtente.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (data) => this.ruoloUtente = data,
+      next: (data) => {
+        this.ruoloUtente = data;
+      
+        if(this.ruoloUtente === '0') {
+          this.caricaAttivitaGiornaliere();
+        } else {
+          this.getAssociazioniPending();
+          this.getRichiestePending();
+          this.getFeedAssociati();
+        }
+      },
       error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
     });
-
-    if(this.ruoloUtente === '0') {
-      this.caricaAttivitaGiornaliere();
-    } else {
-      this.getAssociazioniPending();
-      this.getRichiestePending();
-      this.getFeedAssociati();
-    }
   }
 
   caricaAttivitaGiornaliere() {
