@@ -49,7 +49,6 @@ export class LoginPage implements OnInit {
     
     this.loginFailed = false;
     this.showError = false;
-    console.log('Form inviato!', this.loginForm.value);
     try {
       const response =  await firstValueFrom(this.loginservice.login(this.loginForm.value.email, this.loginForm.value.password));
       const token = response.token;

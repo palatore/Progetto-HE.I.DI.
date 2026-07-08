@@ -26,7 +26,6 @@ export class LoginService {
   }
 
   login(email: string, password: string) {
-    console.log('Dati inviati al server:', { email, password });
     return this.http.post<any>(`${this.apiUrl}/api/auth/login`, { email, password });
   }
 
@@ -41,6 +40,10 @@ export class LoginService {
     return this.ruoloUtente.asObservable();
   }
 
+  getRuoliProfessionista():Observable<any[]> {
+    return this.http.get<any>(`${this.apiUrl}/api/auth/ruoliProfessionista`);
+  }
+
   getUserId():number {
     const token = localStorage.getItem('token');
     if(!token) {
@@ -50,8 +53,8 @@ export class LoginService {
     return decoded.id;
   }
 
-  register(ruolo:string, nome:string, cognome:string, email:string, password:string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/auth/register`, {ruolo, nome, cognome, email, password}, {observe: 'response'});
+  register(ruolo:string, id_ruolo_professionista:number | null, nome:string, cognome:string, email:string, password:string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/api/auth/register`, {ruolo, id_ruolo_professionista, nome, cognome, email, password}, {observe: 'response'});
   }
 
   async onRegistrationSuccess() {

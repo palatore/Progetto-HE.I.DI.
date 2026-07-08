@@ -63,7 +63,7 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS albo_professionisti (
         id_professionista INTEGER NOT NULL,
         id_ruolo INTEGER NOT NULL,
-        tipo VARCHAR(255),
+        tipo VARCHAR(255) DEFAULT NULL,
         FOREIGN KEY(id_professionista) REFERENCES utenti(id) ON DELETE CASCADE,
         FOREIGN KEY(id_ruolo) REFERENCES ruoli_professionisti(id) ON DELETE CASCADE
     )`, (err) => {

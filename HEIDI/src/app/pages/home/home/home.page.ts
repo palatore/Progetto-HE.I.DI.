@@ -22,6 +22,7 @@ import { DefaultHeaderComponent } from "src/app/components/default-header/defaul
 export class HomePage implements OnInit {
 
   constructor(private authService:LoginService, private userService:GestioneUtentiService, private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {
+  this.ruoloUtente = this.authService.ruoloUtente.value;
   }
  
   public ruoloUtente: string | null = null;
@@ -52,20 +53,15 @@ export class HomePage implements OnInit {
 
 
   ionViewWillEnter() {
-    this.authService.ruoloUtente.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (data) => {
-        this.ruoloUtente = data;
-      
-        if(this.ruoloUtente === '0') {
-          this.caricaAttivitaGiornaliere();
-        } else {
-          this.getAssociazioniPending();
-          this.getRichiestePending();
-          this.getFeedAssociati();
-        }
-      },
-      error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
-    });
+
+    if(this.ruoloUtente === '0') {
+      this.caricaAttivitaGiornaliere();
+    } else {
+      this.getAssociazioniPending();
+      this.getRichiestePending();
+      this.getFeedAssociati();
+    }
+ 
   }
 
   caricaAttivitaGiornaliere() {

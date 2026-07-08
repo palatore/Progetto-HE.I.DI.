@@ -103,6 +103,19 @@ class User {
     });
   }
 
+  static async getRuoliProfessionisti() {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT * FROM ruoli_professionisti', (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+          resolve(rows);
+          }
+        }
+      );
+    });
+  }
+
   static async getRuoloProfessionista(id_professionista) {
     return new Promise((resolve, reject) => {
       db.get('SELECT rp.ruolo FROM albo_professionisti ap JOIN ruoli_professionisti rp ON ap.id_ruolo = rp.id WHERE ap.id_professionista = ?', [id_professionista], (err, row) => {
@@ -210,6 +223,18 @@ class User {
           reject(err);
         } else {
           resolve(rows);
+        }
+      });
+    });
+  }
+
+  static async iscriviProfessionista(id_professionista, id_ruolo) {
+    return new Promise((resolve, reject) => {
+      db.run('INSERT INTO albo_professionisti (id_professionista, id_ruolo) VALUES (?, ?)', [id_professionista, id_ruolo], function (err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this.lastID);
         }
       });
     });
