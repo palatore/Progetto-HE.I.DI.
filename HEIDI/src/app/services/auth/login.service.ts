@@ -5,13 +5,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  private apiUrl:String = "http://localhost:3000";
+  private apiUrl:String = environment.apiUrl;
   public ruoloUtente = new BehaviorSubject<string | null>(null);
 
   constructor(private router:Router, private http:HttpClient) {

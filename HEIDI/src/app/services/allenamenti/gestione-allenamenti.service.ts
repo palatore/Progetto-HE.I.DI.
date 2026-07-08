@@ -2,13 +2,14 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Allenamento } from "src/app/models/allenamento.model";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class GestioneAllenamentiService {
 
-    private apiUrl:string = "http://localhost:3000"; //sostiturire con URL definitivo
+    private apiUrl:String = environment.apiUrl;
 
     constructor(private http:HttpClient) { }
 
@@ -75,10 +76,10 @@ export class GestioneAllenamentiService {
     }
 
     getEsercizi() {
-        return this.http.get<any[]>('http://localhost:3000/api/allenamenti/esercizi');
+        return this.http.get<any[]>(`${this.apiUrl}/api/allenamenti/esercizi`);
     }
 
     getEsercizioById(id_esercizio:number): Observable<any> {
-        return this.http.get<any>(`http://localhost:3000/api/allenamenti/esercizio/${id_esercizio}`);
+        return this.http.get<any>(`${this.apiUrl}/api/allenamenti/esercizio/${id_esercizio}`);
     }
 }
