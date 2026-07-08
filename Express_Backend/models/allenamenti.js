@@ -138,7 +138,7 @@ class Allenamenti {
                 });
             });
 
-            Promise.all([insertAllenamenti])
+            Promise.all(insertAllenamenti)
             .then(() => resolve({message: 'Allenamento riempito con successo', id_allenamento, esercizi}))
             .catch(reject);
         });

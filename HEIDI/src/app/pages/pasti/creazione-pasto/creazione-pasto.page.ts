@@ -131,7 +131,6 @@ public alimento_da_aggiungere:any = null; //variabile per la gestione delle info
 
   //metodo per ricevere un alimento dal component di riempimento per mostrarne le info
   async onAlimentoSelezionato(id_alimento:number) {
-    console.log('Ho ricevuto un alimento da selezionare:', id_alimento);
     this.alimento_selezionato = await this.datiAlimento(id_alimento);
   }
 

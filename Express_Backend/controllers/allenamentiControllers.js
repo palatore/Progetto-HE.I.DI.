@@ -110,7 +110,7 @@ class AllenamentiControllers {
             const {id_allenamento, esercizi} = req.body;
             const user_id = req.user.id;
             const result = await AllenamentiServices.riempiAllenamento(id_allenamento, esercizi);
-            res.status(201).json({message: 'Allenamento riempito con successo', result});
+            res.status(201).json({message: 'Allenamento riempito con successo', id: result});
         } catch(e) {
             res.status(500).json({error: e.message});
         }

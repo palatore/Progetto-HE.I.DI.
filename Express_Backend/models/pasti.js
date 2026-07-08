@@ -131,15 +131,15 @@ class Pasti {
                 return new Promise((res, rej) => {
                     db.run('INSERT INTO alimenti_pasto (pasto_id, alimento_id, quantita) VALUES (?, ?, ?)', [id_pasto, alimento.id_dettaglio, alimento.quantita], function(err) {
                         if(err) {
-                            reject(err);
+                            rej(err);
                         } else {
-                            resolve(this.lastID);
+                            res(this.lastID);
                         }
                     });
                 });
             });
 
-            Promise.all([insertAlimenti])
+            Promise.all(insertAlimenti)
                 .then(results => resolve({message: 'Pasto riempito con successo', id_pasto, alimenti}))
                 .catch(err => reject(err));
         });

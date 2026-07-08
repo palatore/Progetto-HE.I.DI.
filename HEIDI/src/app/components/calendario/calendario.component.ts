@@ -168,7 +168,6 @@ export class CalendarioComponent implements OnInit {
   }
 
   chiudiModal() {
-    console.log('chiudiModal chiamato');
     this.loadAllEvents();
     this.pasti_giornalieri = [];
     this.allenamenti_giornalieri = [];
