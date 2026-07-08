@@ -117,6 +117,7 @@
             }
           </ion-card-content>
         </ion-card>
+        <ion-button [routerLink]="['/bacheca']" color="orange">📢 Bacheca Community 📢</ion-button>
       </ion-content>
     </ng-container>
 
@@ -125,45 +126,7 @@
     <!--Da implementare: I tuoi Pazienti sezione più interattiva con qualcosa-->
     <ng-container>
         <ion-content [fullscreen]="true" class="homeBackground">
-          <ion-card class="iTuoiPazienti">
-            <ion-card-header>
-               <ion-card-title>I tuoi Pazienti</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-list lines="none">
-                @for (azione of feedAssociati; track azione.data_creazione) {
-                  <ion-item class="card-feed ion-margin-bottom">
-                    <ion-avatar slot="start" class="avatar-cliente">
-                      <div class="iniziali">{{ azione.name[0] }}{{ azione.surname[0] }}</div>
-                    </ion-avatar>
-                    
-                    <ion-label>
-                      <h3><strong>{{ azione.name }} {{ azione.surname }}</strong></h3>
-                      <p class="descrizione-azione">
-                        Ha tracciato il {{ azione.tipologia === 'PASTO' ? 'pasto' : 'allenamento' }}: 
-                        <span class="evidenziato">"{{ azione.nome_attivita }}"</span>
-                      </p>
-                      <p class="data-azione">
-                        <ion-icon name="time-outline"></ion-icon> 
-                        {{ azione.data_creazione | date:'dd/MM/yyyy HH:mm' }}
-                      </p>
-                    </ion-label>
-
-                    <ion-badge slot="end" [color]="azione.tipologia === 'PASTO' ? 'success' : 'tertiary'">
-                      <ion-icon [name]="azione.tipologia === 'PASTO' ? 'fast-food' : 'barbell'"></ion-icon>
-                    </ion-badge>
-                  </ion-item>
-                } @empty {
-                  <div class="ion-text-center ion-padding empty-state">
-                    <ion-icon name="analytics-outline" size="large" color="medium"></ion-icon>
-                    <p>I tuoi clienti non hanno ancora registrato attività di recente.</p>
-                  </div>
-                }
-              </ion-list>
-            </ion-card-content>
-          </ion-card>
-
-          <ion-card class="menuProfessionista">
+                    <ion-card class="menuProfessionista">
             <ion-grid>
               <ion-row>
                 <ion-col>
@@ -184,6 +147,44 @@
                 </ion-col>
               </ion-row>
             </ion-grid>
+          </ion-card>
+
+          <ion-card class="iTuoiPazienti">
+            <ion-card-header>
+               <ion-card-title>I tuoi Pazienti</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list lines="none">
+                @for (azione of feedAssociati; track azione.data_creazione) {
+                  <ion-item class="card-feed ion-margin-bottom">
+                    <ion-avatar slot="start" class="avatar-cliente">
+                      <div class="iniziali">{{ azione.name[0] }}{{ azione.surname[0] }}</div>
+                    </ion-avatar>
+                    
+                    <ion-label>
+                      <h3><strong>{{ azione.name }} {{ azione.surname }}</strong></h3>
+                      <p class="descrizione-azione">
+                        Ha creato/modificato: {{ azione.tipologia === 'PASTO' ? 'pasto' : 'allenamento' }} 
+                        <span class="evidenziato">"{{ azione.nome_attivita }}"</span>
+                      </p>
+                      <p class="data-azione">
+                        <ion-icon name="time-outline"></ion-icon> 
+                        {{ azione.data_creazione | date:'dd/MM/yyyy HH:mm' }}
+                      </p>
+                    </ion-label>
+
+                    <ion-badge slot="end" [color]="azione.tipologia === 'PASTO' ? 'success' : 'tertiary'">
+                      <ion-icon [name]="azione.tipologia === 'PASTO' ? 'fast-food' : 'barbell'"></ion-icon>
+                    </ion-badge>
+                  </ion-item>
+                } @empty {
+                  <div class="ion-text-center ion-padding empty-state">
+                    <ion-icon name="analytics-outline" size="large" color="medium"></ion-icon>
+                    <p>I tuoi clienti non hanno ancora registrato attività di recente.</p>
+                  </div>
+                }
+              </ion-list>
+            </ion-card-content>
           </ion-card>
         </ion-content>
     </ng-container>

@@ -62,7 +62,7 @@ export class HomePage implements OnInit {
     } else {
       this.getAssociazioniPending();
       this.getRichiestePending();
-      this.caricaFeedAssociati();
+      this.getFeedAssociati();
     }
   }
 
@@ -111,10 +111,6 @@ export class HomePage implements OnInit {
     });
   }
 
-  caricaFeedAssociati() {
-
-  }
-
   getAssociazioniPending() {
     this.userService.getAssociazioniPending().pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {this.associazioni_pending = data.length;},
@@ -131,7 +127,9 @@ export class HomePage implements OnInit {
 
   getFeedAssociati() {
     this.userService.getFeedAssociati().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (data) => {this.feedAssociati = data;},
+      next: (data) => {this.feedAssociati = data;
+        console.log("ecco i dati", data);
+      },
       error: (err) => {console.error(err);}
     }); 
   }
