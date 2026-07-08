@@ -7,7 +7,6 @@ class Allenamenti {
     //metodo per ottenere tutti gli esercizi
     static async getAllEsercizi(){
         return new Promise((resolve, reject) => {
-            console.log('Eseguo la query di ottenimento di TUTTI gli esercizi');
             db.all('SELECT * FROM esercizi', [], (err, rows) => {
                 if(err){
                     reject(err);
@@ -33,7 +32,6 @@ class Allenamenti {
     //metodo per ottenere tutti gli allenamenti
     static async getAllAllenamenti(){
         return new Promise((resolve, reject) => {
-            console.log('Eseguo la query di ottenimento di TUTTI gli allenamenti');
             db.all('SELECT * FROM allenamenti', [], (err, rows) => {
                 if(err){
                     reject(err);
@@ -101,8 +99,6 @@ class Allenamenti {
 
     //metodo per evitare allenamenti duplicati
     static async checkAllenamento(user_id, giorno) {
-        console.log('Model, giorno è:', giorno);
-        console.log('Model giorno è di tipo:', typeof(giorno));
         return new Promise((resolve, reject)=> {
             db.all('SELECT * FROM allenamenti WHERE user_id = ? AND data = ?', [user_id, giorno], (err, rows)=>{
                 if(err){
@@ -153,7 +149,6 @@ class Allenamenti {
         return new Promise((resolve, reject) => {
             db.run('UPDATE allenamenti SET data = ? WHERE id = ?', [data_calendario, id_allenamento], function(err) {
                 if(err) {
-                    console.log(err);
                     reject(err);
                 } else {
                     resolve(this.lastID);

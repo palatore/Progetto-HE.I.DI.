@@ -6,7 +6,6 @@ class BachecaControllers {
         try {
             const result = await BachecaServices.getPastiBacheca();
             if(result) {
-                console.log('Pasti della bacheca in arrivo', result);
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Nessun pasto'});
@@ -20,7 +19,6 @@ class BachecaControllers {
         try {
             const result = await BachecaServices.getAllenamentiBacheca();
             if(result) {
-                console.log('Allenamenti della bacheca in arrivo', result);
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Nessun allenamento'});
@@ -36,7 +34,6 @@ class BachecaControllers {
             const tipologia_attivita = req.query.tipologia_attivita;
             const result = await BachecaServices.getSingolaAttivitaBacheca(id_attivita, tipologia_attivita);
             if(result) {
-                console.log('Attività in arrivo:', result);
                 res.status(201).json({result});
             } else {
                 res.status(404).json({error: 'Nessuna attività'});
@@ -52,7 +49,6 @@ class BachecaControllers {
             const tipologia_attivita = req.query.tipologia_attivita;
             const result = await BachecaServices.getVotiAttivita(id_attivita, tipologia_attivita);
             if(result) {
-                console.log('Voti in arrivo:', result);
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Nessun voto'});

@@ -49,7 +49,6 @@ class User {
   }
 
   static async findInfo(id_utente){
-    console.log('MODEL: cerco con id:', id_utente);
     return new Promise((resolve, reject)=>{
       db.get('SELECT id_utente, eta, altezza_cm, peso_kg, condizioni_mediche, id_P1, professionista1, id_P2, professionista2 FROM profilo_utente WHERE id_utente = ?', [id_utente], (err, row) =>{
         if(err) reject(err);
@@ -98,7 +97,6 @@ class User {
         if(err){
           reject(err);
         } else {
-          console.log('ecco cosa ho trovato: ', rows);
           resolve(rows);
         }
       });

@@ -6,7 +6,6 @@ class Pasti {
 
     static async getAllAlimenti() {
         return new Promise((resolve, reject) => {
-            console.log('Sto eseguendo la query per ottenere tutti gli alimenti');
             db.all('SELECT * FROM alimenti', [], (err, rows) => {
                 if(err) {
                     reject(err);
@@ -129,7 +128,6 @@ class Pasti {
     static async riempiPasto(id_pasto, alimenti) {
     return new Promise((resolve, reject) => {
             const insertAlimenti = alimenti.map(alimento => {
-                console.log('sto inserendo alimento:', alimento, alimento.id_dettaglio, 'con quantità:', alimento.quantita);
                 return new Promise((res, rej) => {
                     db.run('INSERT INTO alimenti_pasto (pasto_id, alimento_id, quantita) VALUES (?, ?, ?)', [id_pasto, alimento.id_dettaglio, alimento.quantita], function(err) {
                         if(err) {
@@ -148,13 +146,11 @@ class Pasti {
     }
 
     static async programmaPasto(id_pasto, data_calendario) {
-        console.log('model chiamato per dati:', id_pasto, data_calendario);
         return new Promise((resolve, reject) => {
             db.run('INSERT INTO pasti_programmati (pasto_id, data_calendario) VALUES (?, ?)', [id_pasto, data_calendario], function(err) {
                 if(err) {
                     reject(err);
                 } else {
-                    console.log('successo');
                     resolve({message: 'Pasto programmato con successo'});
                 }
             });
@@ -162,7 +158,6 @@ class Pasti {
     }
 
     static async disdiciPasto(id_pasto, data_calendario) {
-        console.log('model chiamato per disdire');
         return new Promise((resolve, reject) => {
             db.run('DELETE FROM pasti_programmati WHERE pasto_id = ? AND data_calendario = ?', [id_pasto, data_calendario], function(err) {
                 if(err) {

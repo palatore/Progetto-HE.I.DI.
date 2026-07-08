@@ -83,7 +83,6 @@ class AllenamentiControllers {
     };
 
     static checkAllenamento = async (req, res) =>{
-        console.log('Controllo allenamento in corso...');
         try{
             const {giorno} = req.body;
             const user_id = req.user.id;
@@ -153,7 +152,6 @@ class AllenamentiControllers {
     static eliminaAllenamento = async (req, res) =>{
         try{
             const id_allenamento = req.params.id_allenamento;
-            console.log('Eliminazione allenamento con ID:', id_allenamento);
             await AllenamentiServices.eliminaAllenamento(id_allenamento);
             res.status(201).json({message: 'Allenamento eliminato con successo'});
         }catch(e){

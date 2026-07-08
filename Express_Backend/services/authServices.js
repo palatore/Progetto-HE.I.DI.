@@ -31,12 +31,10 @@ class Authservices {
 
     static async registration(ruolo, nome, cognome, email, password) {
         try {
-            console.log("controllo se l'email esiste: ", email);
             const user = await User.findByEmail(email);
             if(user) {
                 throw new Error('Email già in uso');
             }
-            console.log("REGISTRAZIONE DEI DATI:", {ruolo, nome, cognome, email, password});
             return await User.create({nome, cognome, email, password, ruolo});
         } catch(e) {
             throw e;

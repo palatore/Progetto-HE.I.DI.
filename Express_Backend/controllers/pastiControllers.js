@@ -16,10 +16,8 @@ class PastiControllers {
     static getAlimentoById = async (req, res) => {
         try {
             const id_alimento = req.params.id_alimento;
-            console.log('ID alimento:', id_alimento);
             const alimento = await PastiServices.getAlimentoById(id_alimento);
             if(alimento) {
-                console.log('Alimento trovato:', alimento);
                 res.json(alimento);
             } else {
                 res.status(404).json({error: 'Alimento non trovato'});
@@ -53,7 +51,6 @@ class PastiControllers {
     static getDettagliPasto = async (req, res) => {
         try {
             const id_pasto = req.params.id_pasto;
-            console.log('ID pasto:', id_pasto);
             const dettagliPasto = await PastiServices.getDettagliPasto(id_pasto);
             if (dettagliPasto) {
                 res.json(dettagliPasto);
@@ -104,7 +101,6 @@ class PastiControllers {
 
     //POST controlla se un pasto, dato il nome e il tipo, esiste già nel database per l'utente
     static checkPasto = async (req, res) => {
-        console.log('Controllo pasto in corso...');
         try {
             const {nome, tipo} = req.body;
             const user_id = req.user.id;
@@ -168,7 +164,6 @@ class PastiControllers {
         try {
             const user_id = req.user.id;
             const id_pasto = req.body.id_pasto;
-            console.log('passo i dati', id_pasto, user_id);
             const result = await PastiServices.clonaPasto(id_pasto, user_id);
             res.status(201).json({message: 'Pasto clonato con successo', result});
         } catch (e) {
@@ -193,7 +188,6 @@ class PastiControllers {
     static eliminaPasto = async (req, res) => {
         try {
             const id_pasto = req.params.id_pasto;
-            console.log('Eliminazione pasto con ID:', id_pasto);
             await PastiServices.eliminaPasto(id_pasto);
             res.status(201).json({message: 'Pasto eliminato con successo'});
         } catch (e) {

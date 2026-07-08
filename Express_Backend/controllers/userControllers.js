@@ -27,10 +27,8 @@ class UserControllers {
     };
 
     static getInfoUtenteById = async (req, res) =>{
-        console.log('Controller chiamato');
         try{
             const id_utente = req.params.id_utente;
-            console.log('Controller: sto passando:', id_utente);
             const info = await UserServices.getInfoUtenteById(id_utente);
             if(info){
                 res.json(info);
@@ -47,7 +45,6 @@ class UserControllers {
             const ruolo = req.params.ruolo;
             const result = await UserServices.getUtentiByRuolo(ruolo);
             if(result){
-                console.log('Lista in arrivo:', result);
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Utenti non trovati'});
@@ -61,7 +58,6 @@ class UserControllers {
         try {
             const result = await UserServices.getAlbo();
             if(result){
-                console.log('Albo in arrivo:', result);
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Albo non trovato'});
@@ -75,7 +71,6 @@ class UserControllers {
         try {
             const result = await UserServices.getRichieste();
             if(result) {
-                console.log('Richieste in arrivo', result);
                 res.json(result);
             } else {
                 res.status(404).json({error: 'non trovato'});
@@ -90,7 +85,6 @@ class UserControllers {
             const id_professionista = req.params.id_professionista;
             const result = await UserServices.getRuoloProfessionista(id_professionista);
             if(result){
-                console.log('Ruolo in arrivo:', result);
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Ruolo non trovato'});
@@ -103,10 +97,8 @@ class UserControllers {
     static getAssociazioniUtente = async (req, res) => {
         try {
             const id_utente = req.user.id;
-            console.log(id_utente);
             const result = await UserServices.getAssociazioniUtente(id_utente);
             if(result){
-                console.log('Arrivano le associazioni');
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Associazioni non trovate'});
@@ -121,7 +113,6 @@ class UserControllers {
             const id_professionista = req.user.id;
             const result = await UserServices.getAssociazioniProfessionista(id_professionista);
             if(result){
-                console.log('Arrivano le associazioni del professionista', result);
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Associazioni non trovate'});
@@ -136,7 +127,6 @@ class UserControllers {
             const id_utente = req.user.id;
             const result = await UserServices.getRichiesteUtente(id_utente);
             if(result){
-                console.log('Arrivano le richieste');
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Richieste non trovate'});
@@ -152,7 +142,6 @@ class UserControllers {
             const id_professionista = req.user.id;
             const result = await UserServices.getRichiesteProfessionista(id_professionista);
             if(result){
-                console.log('Arrivano le richieste');
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Richieste non trovate'});
@@ -168,7 +157,6 @@ class UserControllers {
             const id_utente = req.user.id;
             const result = await UserServices.getAssociazioniPending(id_utente);
             if(result){
-                console.log('Arrivano le associazioni pending');
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Associazioni pending non trovate'});
@@ -183,7 +171,6 @@ class UserControllers {
             const id_utente = req.user.id;
             const result = await UserServices.getRichiestePending(id_utente);
             if(result){
-                console.log('Arrivano le richieste pending');
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Richieste pending non trovate'});
@@ -198,7 +185,6 @@ class UserControllers {
         const user_id = req.user.id;
         const result = await UserServices.getFeedAssociati(user_id);
             if(result){
-                console.log('Arriva il feed');
                 res.json(result);
             } else {
                 res.status(404).json({error: 'Feed non trovato'});
@@ -222,7 +208,6 @@ class UserControllers {
     static accettaAssociazione = async (req, res) => {
         try {
             const { id_associazione } = req.body;
-            console.log('Controller: id_associazione ricevuto:', id_associazione);
             const result = await UserServices.accettaAssociazione(id_associazione);
             res.status(201).json({message: 'Associazione accettata con successo', result});
         } catch(e) {
@@ -244,7 +229,6 @@ class UserControllers {
     static accettaRichiesta = async (req, res) => {
         try {
             const { richiesta } = req.body;
-            console.log('Ho ricevuto l\'oggetto', richiesta);
             const result = await UserServices.accettaRichiesta(richiesta);
             res.status(201).json({message: 'Richiesta accettata con successo', result});
         } catch(e) {
@@ -294,10 +278,8 @@ class UserControllers {
     };
 
     static eliminaEta = async (req, res) =>{
-        console.log('elimina età chiamato');
         try{
             const id_utente = req.params.id_utente;
-            console.log('CONTROLLER cerco di eliminare info con id utente:', id_utente);
             await UserServices.eliminaEta(id_utente);
             res.status(201).json({message: 'Età fatta fuori'});
         }catch(e){
