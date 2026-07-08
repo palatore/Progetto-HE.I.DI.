@@ -120,7 +120,7 @@ class Pasti {
                 if(err) {
                     reject(err);
                 } else {
-                    resolve({lastID: this.lastID});
+                    resolve(this.lastID);
                 }
             });
         });

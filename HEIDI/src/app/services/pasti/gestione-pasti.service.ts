@@ -36,6 +36,12 @@ export class GestionePastiService {
     return this.http.post<any>(`${this.apiUrl}/api/pasti/programmaPasto`, {id_pasto, data_calendario }, {headers, observe: 'response'});
   }
 
+  clonaPasto(id_pasto:number) {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post<any>(`${this.apiUrl}/api/pasti/clonaPasto`, {id_pasto}, {headers, observe: 'response'});
+  }
+
   disdiciPasto(id_pasto:number, data_calendario:string) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };

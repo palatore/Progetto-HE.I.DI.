@@ -134,13 +134,6 @@ db.serialize(() => {
     });
 
     //creazione della tabella della bacheca
-    db.run('DROP TABLE IF EXISTS bacheca', (err) => {
-        if (err) {
-            console.error('Errore nella cancellazione della tabella bacheca' + err.message);
-        } else {
-            console.log('Tabella bacheca ELMINATA con successo.');
-        }
-    });
     db.run(`CREATE TABLE IF NOT EXISTS bacheca (
         id INTEGER AUTO_INCREMENT PRIMARY KEY,
         id_utente_condivisore INTEGER NOT NULL,

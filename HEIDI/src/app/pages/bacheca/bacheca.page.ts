@@ -49,6 +49,8 @@ export class BachecaPage implements OnInit {
             tipologia_mostrata: 'PASTO',
             modalita_dettagli: false,
             modalita_voto: false,
+            disable_voto: false,
+            disable_clona: false,
             dettagli: [],
             media: 0,
             voti_totali_attivita: 0
@@ -59,6 +61,8 @@ export class BachecaPage implements OnInit {
             tipologia_mostrata: 'ALLENAMENTO',
             modalita_dettagli: false,
             modalita_voto: false,
+            disable_voto: false,
+            disable_clona: false,
             dettagli: [],
             media: 0,
             voti_totali_attivita: 0
@@ -134,8 +138,42 @@ export class BachecaPage implements OnInit {
     return `${esercizio.name} - ${esercizio.serie} - ${esercizio.ripetizioni} - ${esercizio.pesi_kg} - ${esercizio.riposo_minuti}`;
   }
 
-  importa_attivita(attivita:any) {
+  async importa_attivita(attivita:any) {
+    if(attivita.tipologia_attivita === 0) {
+      try {
+        const response = await firstValueFrom(this.foodServive.clonaPasto(attivita.id_attivita));
+        if(response.status === 201) {
+          console.log('Pasto clonato con successo');
+          const alert = await this.alertController.create({
+              header: 'Successo',
+              message: 'Pasto clonato con successo!',
+              buttons: ['OK']
+            });
+            await alert.present()
 
+            attivita.disable_clona = true;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else if(attivita.tipologia_attivita === 1) {
+      try {
+        const response = await firstValueFrom(this.workoutService.clonaAllenamento(attivita.id_attivita));
+        if(response.status === 201) {
+          console.log('Allenamento clonato con successo');
+          const alert = await this.alertController.create({
+              header: 'Successo',
+              message: 'Allenamento clonato con successo!',
+              buttons: ['OK']
+            });
+            await alert.present()
+
+            attivita.disable_clona = true;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   async getVotoAttivita(attivita:any) {
@@ -181,8 +219,8 @@ export class BachecaPage implements OnInit {
           });
           await alert.present()
       }
-
       attivita.modalita_voto = false;
+      attivita.disable_voto = true;
     } catch(error) {
       console.log(error);
     }

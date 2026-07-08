@@ -95,6 +95,5 @@ class Bacheca {
             });
         });
     }
-
 }
 module.exports = Bacheca;

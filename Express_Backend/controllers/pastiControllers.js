@@ -84,7 +84,6 @@ class PastiControllers {
     static getPastiUtente = async (req, res) => {
         try {
             const user_id = req.user.id;
-            console.log('ID utente:', user_id);
             const pastiUtente = await PastiServices.getPastiUtente(user_id);
             res.json(pastiUtente);
         } catch (e) {
@@ -96,7 +95,6 @@ class PastiControllers {
     static getPastiProgrammati = async (req, res) => {
         try {
             const user_id = req.user.id;
-            console.log('ID utente:', user_id);
             const pastiProgrammati = await PastiServices.getPastiProgrammati(user_id);
             res.json(pastiProgrammati);
         } catch (e) {
@@ -110,7 +108,6 @@ class PastiControllers {
         try {
             const {nome, tipo} = req.body;
             const user_id = req.user.id;
-            console.log('I tuoi dati:', user_id, nome, tipo);
             const exists = await PastiServices.checkPasto(user_id, nome, tipo);
             res.status(201).json({exists});
         } catch (e) {
@@ -132,7 +129,6 @@ class PastiControllers {
 
     //POST aggiungi i dettagli di un determinato pasto nel detabase
     static riempiPasto = async (req, res) => {
-        console.log('RiempiPasto controller chiamato');
         try {
             const {id_pasto, alimenti} = req.body;
             const user_id = req.user.id;
@@ -145,7 +141,6 @@ class PastiControllers {
 
     //POST modifica i dettagli di un determinato pasto nel database
     static modificaPasto = async (req, res) => {
-        console.log('ModificaPasto controller chiamato');
         try {
             const {id_pasto, modifiche_pasto} = req.body;
             const user_id = req.user.id;
@@ -158,17 +153,28 @@ class PastiControllers {
 
     //POST inserisci nel calendario un determinato pasto
     static programmaPasto = async (req, res) => {
-        console.log('ProgrammaPasto controller chiamato');
         try {
             const {id_pasto, data_calendario} = req.body;
             const user_id = req.user.id;
             const result = await PastiServices.programmaPasto(id_pasto, data_calendario);
-            console.log(result);
             res.status(201).json({result});
         } catch(e) {
             res.status(500).json({error: e.message});
         }
     };
+
+    //POST clona un pasto della bacheca nei pasti utente dato il suo id
+    static clonaPasto = async (req, res) => {
+        try {
+            const user_id = req.user.id;
+            const id_pasto = req.body.id_pasto;
+            console.log('passo i dati', id_pasto, user_id);
+            const result = await PastiServices.clonaPasto(id_pasto, user_id);
+            res.status(201).json({message: 'Pasto clonato con successo', result});
+        } catch (e) {
+            res.status(500).json({error: e.message});
+        }
+    }
 
     //DELETE cancella un pasto dalla programmazione del calendario
     static disdiciPasto = async (req, res) => {

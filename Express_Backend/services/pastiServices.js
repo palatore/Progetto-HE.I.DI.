@@ -156,7 +156,6 @@ class PastiServices {
     }
 
     static async disdiciPasto(id_pasto, data_calendario) {
-        console.log('DisdiciPasto service chiamato per ID pasto:', id_pasto, 'e data', data_calendario);
         const disdetto = await Pasti.disdiciPasto(id_pasto, data_calendario);
         if (disdetto) {
             console.log('Pasto disdetto con successo');
@@ -164,6 +163,38 @@ class PastiServices {
             console.log("Errore nella disdetta del pasto o pasto non trovato");
         }
         return disdetto;
+    }
+
+    static async clonaPasto(id_pasto, id_nuovo_utente) {
+        const dati_vecchio_pasto = await Pasti.findPastoById(id_pasto);
+        if(!dati_vecchio_pasto) {
+            console.log('Errore nella ricerca del pasto da clonare');
+            return null;
+        }
+        const id_nuovo_pasto = await Pasti.creaPasti(id_nuovo_utente, dati_vecchio_pasto.name, dati_vecchio_pasto.tipo);
+        if(!id_nuovo_pasto) {
+            console.log('Errore nella creazione del nuovo pasto clonato');
+            return null;
+        }
+        const dettagli_vecchio_pasto = await Pasti.getDettagliPasto(id_pasto, dati_vecchio_pasto);
+        if(!dettagli_vecchio_pasto || dettagli_vecchio_pasto.length === 0) {
+            console.log('Pasto clonato ma senza dettagli');
+            return id_nuovo_pasto;
+        }
+        const dettagli_nuovo_pasto = dettagli_vecchio_pasto.alimenti.map((alimento) => ({
+            id_dettaglio: alimento.alimento_id,
+            quantita: alimento.quantita
+        }));
+
+        const dettagli_inseriti = await Pasti.riempiPasto(id_nuovo_pasto, dettagli_nuovo_pasto);
+        if(dettagli_inseriti) {
+            console.log('Pasto clonato con successo');
+            return dettagli_inseriti;
+        } else {
+            console.log('Errore nel riempimento del nuovo pasto clonato');
+        }
+        return dettagli_inseriti;
+
     }
     
     static async eliminaPasto(id_pasto) {

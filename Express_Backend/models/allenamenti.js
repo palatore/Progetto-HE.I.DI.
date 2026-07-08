@@ -47,7 +47,6 @@ class Allenamenti {
 
     //metodo per trovare gli allenamenti grazie al loro ID
     static async findAllenamentoById(id_allenamento){
-        console.log('Model, ID allenamento:', id_allenamento);
         return new Promise((resolve, reject) =>{
             db.all('SELECT * FROM allenamenti WHERE id = ?', [id_allenamento], (err, rows) =>{
                 if(err){
@@ -123,7 +122,7 @@ class Allenamenti {
                 if(err){
                     reject(err);
                 } else {
-                    resolve({lastID: this.lastID});
+                    resolve(this.lastID);
                 }
             });
         });

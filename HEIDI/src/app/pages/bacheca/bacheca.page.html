@@ -46,11 +46,11 @@
               <ion-icon name="eye-outline"></ion-icon>
             </ion-button>
 
-            <ion-button fill="outline" color="warning" size="small" (click)="votaAttivita(item)">
+            <ion-button [disabled]="item.disable_voto" fill="outline" color="warning" size="small" (click)="votaAttivita(item)">
               <ion-icon name="star-half-outline"></ion-icon>
             </ion-button>
 
-            <ion-button fill="outline" color="primary" size="small" (click)="importa_attivita(item)">
+            <ion-button [disabled]="item.disable_clona" fill="outline" color="primary" size="small" (click)="importa_attivita(item)">
               <ion-icon name="copy-outline"></ion-icon>
             </ion-button>
           </div>

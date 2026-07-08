@@ -16,6 +16,7 @@ router.post('/creaPasti', authenticateToken, PastiControllers.creaPasti);
 router.post('/riempiPasto', authenticateToken, PastiControllers.riempiPasto);
 router.post('/modificaPasto', authenticateToken, PastiControllers.modificaPasto);
 router.post('/programmaPasto', authenticateToken, PastiControllers.programmaPasto);
+router.post('/clonaPasto', authenticateToken, PastiControllers.clonaPasto);
 router.delete('/disdiciPasto', authenticateToken, PastiControllers.disdiciPasto);
 router.delete('/eliminaPasto/:id_pasto', authenticateToken, PastiControllers.eliminaPasto);
 

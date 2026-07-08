@@ -150,6 +150,43 @@ class AllenamentiServices {
         return risultatoProgrammazione;
     }
 
+    static async clonaAllenamento(id_allenamento, id_nuovo_utente) {
+        const dati_vecchio_allenamento = await Allenamenti.findAllenamentoById(id_allenamento);
+        if(!dati_allenamento) {
+            console.log('Allenamento non trovato');
+            return null;
+        }
+        
+        const id_nuovo_allenamento = await Allenamenti.creaAllenamenti(id_nuovo_utente, dati_allenamento.name, dati_allenamento.data, dati_allenamento.durata);
+        if(!id_nuovo_allenamento) {
+            console.log('Errore nella creazione del nuovo allenamento clonato');
+            return null;
+        }
+
+        const dettagli_vecchio_allenamento = Allenamenti.getDettagliAllenamento(id_allenamento, dati_vecchio_allenamento);
+        if(!dettagli_vecchio_allenamento || dettagli_vecchio_allenamento.length === 0) {
+            console.log("Allenamento clonato senza dettagli");
+            return id_nuovo_allenamento;
+        }
+
+        const dettagli_nuovo_allenamento = dettagli_vecchio_allenamento.esercizi.map((esercizio) => ({
+            id_dettaglio: esercizio.esercizio_id,
+            serie: esercizio.serie,
+            ripetizioni: esercizio.ripetizioni,
+            pesi_kg: esercizio.pesi_kg,
+            riposo_minuti: esercizio.riposo_minuti
+        }));
+
+        const dettagli_inseriti = await Allenamenti.riempiAllenamento(id_nuovo_allenamento, dettagli_nuovo_allenamento);
+        if(dettagli_inseriti) {
+            console.log('Allenamento clonato con successo');
+            return dettagli_inseriti;
+        } else {
+            console.log('Errore nell\'inserimento dettagli del nuovo allenamento clonato');
+        }
+        return dettagli_inseriti;
+    }
+
     static async eliminaAllenamento(id_allenamento){
         //elimina un allenamento esistente
         console.log('EliminaAllenamento service chiamato su ID:', id_allenamento);
