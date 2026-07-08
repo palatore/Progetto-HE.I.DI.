@@ -7,7 +7,6 @@ import { firstValueFrom } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { addIcons } from 'ionicons';
 import { enterOutline } from 'ionicons/icons';
-import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 
 @Component({
   selector: 'app-registrazione',
@@ -78,7 +77,6 @@ export class RegistrazionePage implements OnInit {
 
     try{
       const response = await firstValueFrom(this.registrationService.register(ruolo, id_ruolo_professionista, name, surname, mail, pw));
-      console.log('Registrazione completata con successo:', response);
       if(!response?.body?.success || response.status !== 201) {
         this.showError = true;
         this.registrationFailed = true;

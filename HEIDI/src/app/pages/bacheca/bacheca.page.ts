@@ -79,8 +79,6 @@ export class BachecaPage implements OnInit {
 
           this.filtraBacheca();
           this.caricaVotiIniziali();
-
-          console.log('Bacheca caricata e ordinata con successo!', this.attivita_bacheca);
         },
         error: (err) => console.log('Errore durante il forkjoin', err)
       }
@@ -142,7 +140,6 @@ export class BachecaPage implements OnInit {
       try {
         const response = await firstValueFrom(this.foodServive.clonaPasto(attivita.id_attivita));
         if(response?.status === 201) {
-          console.log('Pasto clonato con successo');
           const alert = await this.alertController.create({
               header: 'Successo',
               message: 'Pasto clonato con successo!',
@@ -159,7 +156,6 @@ export class BachecaPage implements OnInit {
       try {
         const response = await firstValueFrom(this.workoutService.clonaAllenamento(attivita.id_attivita));
         if(response?.status === 201) {
-          console.log('Allenamento clonato con successo');
           const alert = await this.alertController.create({
               header: 'Successo',
               message: 'Allenamento clonato con successo!',

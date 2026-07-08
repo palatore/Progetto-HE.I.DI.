@@ -40,7 +40,7 @@ class AllenamentiControllers {
             const eserciziAllenamenti = await AllenamentiServices.getAllEserciziAllenamenti();
             res.json(eserciziAllenamenti);
         }catch(e){
-            trs.status(500).json({error: e.message});
+            res.status(500).json({error: e.message});
         }
     };
 

@@ -89,7 +89,6 @@ export class RiempiDettagliComponent  implements OnChanges, OnDestroy{
 
   //emette il dettaglio selezionato al genitore per mostrarne le info tramite il componente di info
   segnaDettaglio(id_dettaglio:number) {
-    console.log('Dettaglio selezionato:', id_dettaglio);
     this.dettaglioSelezionato.emit(id_dettaglio);
   }
 
@@ -101,17 +100,13 @@ export class RiempiDettagliComponent  implements OnChanges, OnDestroy{
     //se riceve nuovi dettagli da info li aggiunge alla lista dei dettagli insieriti nel pasto o allenamento
     if(changes['dettagli_aggiunti_da_info']) {
       const nuovi_dettagli = changes['dettagli_aggiunti_da_info'].currentValue;
-      console.log('Ricevuti nuovi dettagli da inserire dal component di info:', nuovi_dettagli);
       if(nuovi_dettagli) {
         this.dettagli_inseriti.push(nuovi_dettagli);
-      } else {
-        console.log('Debug: nessun nuovo dettaglio o dettaglio vuoto');
       }
     }
   }
 
   rimuoviDettaglio(index:number) {
-    console.log('Rimuovo dettaglio all\'indice:', index);
     this.dettagli_inseriti.splice(index, 1);
   }
 

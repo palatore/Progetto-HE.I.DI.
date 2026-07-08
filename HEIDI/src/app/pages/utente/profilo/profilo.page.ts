@@ -213,14 +213,11 @@ public ruoloUtente:string | null = null;
             next: (risultato) => {
               this.associazioni = risultato;
               this.utenti_associati= this.associazioni.filter(associazione => associazione.stato === 'ACCETTATA');
-              console.log('Utenti associati', this.utenti_associati);
             },
             error: (err) => {console.error(err);}
           });
-          } catch (e:any) {
-            if(e instanceof Error) {
-              console.log(e.message);
-            }
+          } catch (error) {
+              console.log(error);
           }
         }
     

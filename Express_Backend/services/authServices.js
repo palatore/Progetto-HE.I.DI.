@@ -9,7 +9,7 @@ class Authservices {
         try {
             const user = await User.findByEmail(email);
             if (!user) {
-                throw new Error('Credenziali non valide');
+                throw {status:401, message:"Credenziali non valide"}
             }
             // check se la password è corretta
             const isMatch = await User.comparePassword(password, user.password);

@@ -51,7 +51,6 @@ export class RichiestePage implements OnInit {
           this.loadAssociazioniUtente();
           this.loadRichiesteUtente();
         } else {
-          console.log('Caricamento richieste in corso...');
           this.loadAssociazioniProfessionista();
           this.loadRichiesteProfessionista();
         }
@@ -150,7 +149,6 @@ export class RichiestePage implements OnInit {
     try {
       const response = await firstValueFrom(this.userService.annullaAssociazione(id_associazione));
       if(response && response.status === 201) {
-        console.log('Associazione annullata con successo');
         this.loadAssociazioniUtente();
       } else {
         console.log('Errore annullamento dell\'associazione');
@@ -172,7 +170,6 @@ export class RichiestePage implements OnInit {
   loadAssociazioniProfessionista() {
     this.userService.getAssociazioniProfessionista().pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
-        console.log('Associazioni caricate:', data);
         this.associazioni = data;
 
         this.richieste_associazioni = this.associazioni.filter(associazione => associazione.stato === 'PENDING');
@@ -188,7 +185,6 @@ export class RichiestePage implements OnInit {
 
   async accettaAssociazione(id_associazione:number) {
     try {
-      console.log('id accettazione:', id_associazione);
       const response = await firstValueFrom(this.userService.accettaAssociazione(id_associazione));
       if(response && response.status === 201) {
         console.log('Associazione accettata con successo');
@@ -205,7 +201,6 @@ export class RichiestePage implements OnInit {
     try {
       const response = await firstValueFrom(this.userService.annullaAssociazione(id_associazione));
       if(response && response.status === 201) {
-        console.log('Associazione rifiutata con successo');
         this.loadAssociazioniProfessionista();
       }
     } catch(error) {
@@ -248,7 +243,6 @@ export class RichiestePage implements OnInit {
     try {
       const response = await firstValueFrom(this.userService.annullaRichiesta(id_richiesta));
       if(response && response.status === 201) {
-        console.log('Richiesta rifiutata con successo');
         this.loadRichiesteProfessionista();
       }
     } catch(error) {
