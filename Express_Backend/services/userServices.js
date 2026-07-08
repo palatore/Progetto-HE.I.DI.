@@ -227,16 +227,6 @@ static async getAssociazioniPending(id_utente) {
         }
     };
 
-    static async creaInfo(id_utente){
-        const info = await User.creaInfo(id_utente);
-        if(info){
-            console.log('Info create con successo');
-        }else{
-            console.log('Errore nella creazione delle indfo');
-        }
-        return info;
-    }
-
     static async riempiInfo(info){
         const nuoveInfo = await User.riempiInfo(info);
         if(nuoveInfo){
@@ -247,8 +237,18 @@ static async getAssociazioniPending(id_utente) {
         return nuoveInfo;
     }
 
-    static async aggiornaPassword(id_utente, nuovaPassword){
-        const password = await User.aggiornaPassword(id_utente, nuovaPassword);
+    static async aggiornaPassword(id_utente, vecchiaPassword, nuovaPassword){
+        const utente = await User.findById(id_utente);
+        if(!utente) {
+            console.log('Utente non trovato');
+            return null;
+        }
+        const ok = await User.comparePassword(vecchiaPassword, utente.password);
+        if(!ok) {
+            console.log('Vecchia password non corretta');
+            return null;
+        }
+        const password = await User.aggiornaPasswordHash(id_utente, nuovaPassword);
         if(password){
             console.log('Password aggiornata con successo');
         }else{
@@ -258,10 +258,10 @@ static async getAssociazioniPending(id_utente) {
     };
 
     static async eliminaEta(id_utente){
-        console.log('SERVICE elimina età riceve e manda:', id_utente);
         const eliminato = await User.eliminaEta(id_utente);
-        if(eliminato){
-            console.log('SERVICE obiettivo eliminato');
+        if(!eliminato){
+            console.log('Errore eliminazione');
+            return null;
         }else{
             console.log('SERVICE obiettivo ancora in vita');
         }

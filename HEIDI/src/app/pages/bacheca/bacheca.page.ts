@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AlertController, IonContent, IonHeader, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonCard, IonItem, IonAvatar, IonLabel, IonBadge, IonCardContent, IonIcon, IonButton, ActionSheetController, IonButtons, IonFooter } from '@ionic/angular/standalone';
+import { AlertController, IonContent, IonToolbar, IonSegment, IonSegmentButton, IonCard, IonItem, IonAvatar, IonLabel, IonBadge, IonCardContent, IonIcon, IonButton, ActionSheetController } from '@ionic/angular/standalone';
 import { firstValueFrom, Subject, forkJoin } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { DefaultHeaderComponent } from "src/app/components/default-header/default-header.component";
@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   templateUrl: './bacheca.page.html',
   styleUrls: ['./bacheca.page.scss'],
   standalone: true,
-  imports: [IonButton, IonIcon, IonCardContent, IonBadge, IonLabel, IonAvatar, IonItem, IonCard, IonSegmentButton, IonSegment, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, DefaultHeaderComponent, VotaAttivitaComponent, IonFooter]
+  imports: [IonButton, IonIcon, IonCardContent, IonBadge, IonLabel, IonAvatar, IonItem, IonCard, IonSegmentButton, IonSegment, IonContent, IonToolbar, CommonModule, FormsModule, DefaultHeaderComponent, VotaAttivitaComponent]
 })
 export class BachecaPage implements OnInit {
 
@@ -39,6 +39,9 @@ export class BachecaPage implements OnInit {
   }
 
   caricaBacheca() {
+    this.attivita_bacheca = [];
+    this.attivita_filtrate = [];
+
     forkJoin({
       pasti: this.boardService.getPastiBacheca(),
       allenamenti: this.boardService.getAllenamentiBacheca()
@@ -112,18 +115,14 @@ export class BachecaPage implements OnInit {
     if(attivita.tipologia_attivita === 0) {
       try {
         const response = await firstValueFrom(this.foodServive.getDettagliPasto(attivita.id_attivita));
-        if(response) {
-          attivita.dettagli = response;
-        }
+        attivita.dettagli = response?.alimenti ?? response ?? [];
       } catch (error) {
         console.log(error)
       }
     } else if(attivita.tipologia_attivita === 1) {
       try {
         const response = await firstValueFrom(this.workoutService.getDettagliAllenamento(attivita.id_attivita));
-        if(response) {
-          attivita.dettagli = response;
-        }
+        attivita.dettagli = response?.alimenti ?? response ?? [];
       } catch (error) {
         console.log(error)
       }
@@ -142,7 +141,7 @@ export class BachecaPage implements OnInit {
     if(attivita.tipologia_attivita === 0) {
       try {
         const response = await firstValueFrom(this.foodServive.clonaPasto(attivita.id_attivita));
-        if(response.status === 201) {
+        if(response?.status === 201) {
           console.log('Pasto clonato con successo');
           const alert = await this.alertController.create({
               header: 'Successo',
@@ -159,7 +158,7 @@ export class BachecaPage implements OnInit {
     } else if(attivita.tipologia_attivita === 1) {
       try {
         const response = await firstValueFrom(this.workoutService.clonaAllenamento(attivita.id_attivita));
-        if(response.status === 201) {
+        if(response?.status === 201) {
           console.log('Allenamento clonato con successo');
           const alert = await this.alertController.create({
               header: 'Successo',

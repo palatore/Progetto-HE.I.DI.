@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonList, AlertController, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonInput, IonButtons, IonMenuButton, IonModal, IonCardContent, IonText, IonTextarea } from '@ionic/angular/standalone';
+import { IonList, AlertController, IonButton, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonIcon, IonCardTitle, IonItem, IonLabel, IonInput, IonModal, IonCardContent, IonTextarea } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { firstValueFrom, takeUntil, Subject, switchMap, map, forkJoin, of } from 'rxjs';
@@ -15,7 +15,7 @@ import { LoginService } from 'src/app/services/auth/login.service';
   templateUrl: './profilo.page.html',
   styleUrls: ['./profilo.page.scss'],
   standalone: true,
-  imports: [IonList, IonTextarea, IonText, FormsModule, ReactiveFormsModule, IonCardContent, IonModal, IonButtons, IonMenuButton,IonInput, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, IonTitle, IonToolbar, IonHeader, RouterLink, IonCol, DefaultHeaderComponent]
+  imports: [IonList, IonTextarea, FormsModule, ReactiveFormsModule, IonCardContent, IonModal, IonInput, IonLabel, IonItem, IonCardTitle, IonIcon, IonCardHeader, IonCard, IonRow, IonGrid, IonContent, IonButton, RouterLink, IonCol, DefaultHeaderComponent]
 })
 export class ProfiloPage implements OnInit{
 public dati_utente:{id:number, name:string, surname:string, email:string, password:string, ruolo:number, id_P1:number, id_P2:number} = {id:-1, name:"", surname:"", email:"", password:"", ruolo:0, id_P1:-1, id_P2:-1};
@@ -34,7 +34,7 @@ public controlloNuovaPassword:boolean = false;
 private destroy$ = new Subject<void>();
 public associazioni:any[] = [];
 public utenti_associati:any[] = [];
- public ruoloUtente:string | null = null;
+public ruoloUtente:string | null = null;
 
     constructor(private formbuilder: FormBuilder, private utenteService: GestioneUtentiService, private alertController: AlertController, private authService: LoginService) {
         this.passwordForm = formbuilder.group({
@@ -46,7 +46,6 @@ public utenti_associati:any[] = [];
 
     ngOnInit() {
         this.loadDatiUtente();
-        addIcons({ create, close, checkmark });
     }
 
     ionViewWillEnter() {
@@ -58,7 +57,6 @@ public utenti_associati:any[] = [];
             this.loadDatiUtente();
             this.loadAssociazioniUtente();
         } else {
-          console.log('Caricamento richieste in corso...');
           this.loadAssociazioniProfessionista();
         }
       },
@@ -92,10 +90,10 @@ public utenti_associati:any[] = [];
     const nuovaPassword = this.passwordForm.get('nuovaPassword')?.value;
     const confermaPassword = this.passwordForm.get('confermaPassword')?.value;
 
-    if(vecchiaPassword !== this.dati_utente.password){
+    /*if(vecchiaPassword !== this.dati_utente.password){
         this.controlloVecchiaPassword = true;
         this.controlloNuovaPassword = false;
-    }else if(nuovaPassword !== confermaPassword){
+    }else */if(nuovaPassword !== confermaPassword){
         this.controlloNuovaPassword = true;
         this.controlloVecchiaPassword = false;
     }else{
@@ -103,8 +101,8 @@ public utenti_associati:any[] = [];
         this.controlloNuovaPassword = false;
 
         try{
-            const response = await firstValueFrom(this.utenteService.aggiornaPassword(this.id_utente, nuovaPassword));
-            if(response && response.status === 201){
+            const response = await firstValueFrom(this.utenteService.aggiornaPassword(this.id_utente, vecchiaPassword, nuovaPassword));
+            if(response?.status === 201){
                 const alert = await this.alertController.create({
                     header: 'Password aggiornata',
                     message: 'La tua password è stata aggiornata con successo',
@@ -114,8 +112,8 @@ public utenti_associati:any[] = [];
                 this.modalOpen = false;
                 this.passwordForm.reset();
             }
-        }catch(e:any){
-            console.log('Errore durante l\'aggiornamento della password:', e.message);
+        }catch(error){
+            console.log('Errore durante l\'aggiornamento della password:', error);
         }
     }
 
@@ -130,13 +128,13 @@ public utenti_associati:any[] = [];
    }
 
    async Submit(age:string | number, weight:string | number, height:string | number, condition:string | number){
-    if(Number(age) != 0){
+    if(Number(age) !== 0){
         this.info_utente.eta = Number(age);
     }else if(Number(weight) != 0){
         this.info_utente.peso_kg = Number(weight);
     }else if(Number(height) != 0){
         this.info_utente.altezza_cm = Number(height);
-    }else if(condition != ""){
+    }else if(condition !== ""){
         this.info_utente.condizioni_mediche = String(condition);
     }else{
         this.flag_eta = false;
@@ -146,13 +144,6 @@ public utenti_associati:any[] = [];
         return;
     }
     try{
-        const creato = await firstValueFrom(this.utenteService.creaInfo());
-        if(creato === null){
-            console.log('errore di nullità');
-            return
-        }else if(creato.status === 201){
-            console.log('Info inserite con successo');
-        }
         const riempito = await firstValueFrom(this.utenteService.riempiInfo(this.info_utente));
         if(riempito === null){
             console.log('errore di nullità');
@@ -165,10 +156,8 @@ public utenti_associati:any[] = [];
             });
             await alert.present();
         }
-    }catch(e:any){
-        if(e instanceof Error){
-            console.log(e.message);
-        }
+    }catch(error){
+        console.log(error);
     }
     this.flag_eta = false;
     this.flag_peso = false;

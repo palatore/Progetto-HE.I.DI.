@@ -22,7 +22,6 @@ router.post('/creaAssociazione', authenticateToken, UserControllers.creaAssociaz
 router.patch('/accettaAssociazione', authenticateToken, UserControllers.accettaAssociazione);
 router.post('/creaRichiesta', authenticateToken, UserControllers.creaRichiesta);
 router.patch('/accettaRichiesta', authenticateToken, UserControllers.accettaRichiesta);
-router.post('/utente/creaInfo', authenticateToken, UserControllers.creaInfo);
 router.post('/utente/riempiInfo', authenticateToken, UserControllers.riempiInfo);
 router.post('/utente/aggiornaPassword/:id_utente', authenticateToken, UserControllers.aggiornaPassword);
 router.delete('/annullaAssociazione/:id_associazione', authenticateToken, UserControllers.annullaAssociazione);

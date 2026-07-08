@@ -252,16 +252,6 @@ class UserControllers {
         }
     };
 
-    static creaInfo = async (req, res) =>{
-        try{
-            const id_utente = req.user.id;
-            const result = await UserServices.creaInfo(id_utente);
-           res.status(201).json({message: 'Info create con successo', id: result.lastID});
-        }catch(e){
-            res.status(500).json({error: e.message});
-        }
-    };
-
     static riempiInfo = async (req, res) =>{
         try{
             const {info} = req.body;
@@ -275,8 +265,8 @@ class UserControllers {
     static aggiornaPassword = async (req, res) =>{
         try{
             const id_utente = req.user.id;
-            const { nuovaPassword } = req.body;
-            const result = await UserServices.aggiornaPassword(id_utente, nuovaPassword);
+            const {vecchiaPassword, nuovaPassword } = req.body;
+            const result = await UserServices.aggiornaPassword(id_utente, vecchiaPassword, nuovaPassword);
             res.status(201).json({message: 'Password aggiornata con successo', result});
         }catch(e){
             res.status(500).json({error: e.message});

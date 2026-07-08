@@ -65,18 +65,18 @@ export class PastiUtentePage implements OnInit {
 
   ionViewWillEnter() {
     const id_pastoString = this.route.snapshot.queryParamMap.get('pasto_id');
-    const id_pasto:number = +id_pastoString!;
+    const pasto_id:number = +id_pastoString!;
     const tipo_richiesta = this.route.snapshot.queryParamMap.get('tipo_richiesta');
-    if(id_pasto && tipo_richiesta === 'MODIFICA') {
+    if(pasto_id && tipo_richiesta === 'MODIFICA') {
       //logica professionista modifica
       this.professionista_modifica = true;
       console.log('Professionista in visita per modifica del pasto:', id_pastoString);
-      this.loadSingoloPasto(id_pasto);
+      this.loadSingoloPasto(pasto_id);
     } else if(id_pastoString && tipo_richiesta === 'VOTO') {
       //logica professionista vota
       this.professionista_vota = true;
       console.log('Professionista in visita per votazione del pasto:', id_pastoString);
-      this.loadSingoloPasto(id_pasto);
+      this.loadSingoloPasto(pasto_id);
     } else {
       this.loadPastiUtente();
     }

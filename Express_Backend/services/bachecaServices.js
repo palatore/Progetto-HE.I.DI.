@@ -38,8 +38,8 @@ class BachecaServices {
             return voti;
         } else {
             console.log('Nessun voto trovato');
-            return null;
         }
+        return [];
     };
 
     static async condividiAttivita(id_utente, id_attivita, tipologia_attivita) {

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
-import { IonButtons, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, ViewWillEnter, IonDatetimeButton, IonModal, IonDatetime, AlertController, IonMenuButton, IonLabel } from '@ionic/angular/standalone';
+import { IonButtons, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonInput, IonRow, IonModal, IonDatetime, AlertController, IonMenuButton, IonLabel } from '@ionic/angular/standalone';
 import { firstValueFrom } from 'rxjs';
 import { RouterModule } from "@angular/router";
 import { GestioneAllenamentiService } from "src/app/services/allenamenti/gestione-allenamenti.service";
@@ -14,7 +14,7 @@ import { DefaultHeaderComponent } from "src/app/components/default-header/defaul
     templateUrl: './creazione-allenamento.page.html',
     styleUrls: ['./creazione-allenamento.page.scss'],
     standalone: true,
-    imports: [IonLabel, IonItem, IonCardTitle, IonModal, IonDatetimeButton, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonMenuButton,RouterModule, IonCard, IonCardHeader, IonCardContent, FormsModule, ReactiveFormsModule, CommonModule, IonGrid, IonRow, IonCol, IonInput, IonDatetime, IonButton, RiempiDettagliComponent, InfoDettagliComponent, DefaultHeaderComponent]
+    imports: [IonLabel, IonCardTitle, IonModal, IonContent, IonButton, IonButtons, RouterModule, IonCard, IonCardHeader, IonCardContent, FormsModule, ReactiveFormsModule, CommonModule, IonGrid, IonRow, IonCol, IonInput, IonDatetime, IonButton, RiempiDettagliComponent, InfoDettagliComponent, DefaultHeaderComponent]
 })
 
 export class CreazioneAllenamentoPage implements OnInit{

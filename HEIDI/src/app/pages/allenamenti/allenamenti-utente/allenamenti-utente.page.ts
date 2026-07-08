@@ -49,19 +49,19 @@ export class AllenamentiUtentePage implements OnInit{
     }
 
     ionViewWillEnter(){
-        const id_allenamentoString = this.route.snapshot.queryParamMap.get('pasto_id');
-        const id_allenamento:number = +id_allenamentoString!;
+        const id_allenamentoString = this.route.snapshot.queryParamMap.get('allenamento_id');
+        const allenamento_id:number = +id_allenamentoString!;
         const tipo_richiesta = this.route.snapshot.queryParamMap.get('tipo_richiesta');
-        if(id_allenamento && tipo_richiesta === 'MODIFICA') {
+        if(allenamento_id && tipo_richiesta === 'MODIFICA') {
         //logica professionista modifica
         this.professionista_modifica = true;
-        console.log('Professionista in visita per modifica del pasto:', id_allenamentoString);
-        this.loadSingoloAllenamento(id_allenamento);
+        console.log('Professionista in visita per modifica dell\'allenamento:', id_allenamentoString);
+        this.loadSingoloAllenamento(allenamento_id);
         } else if(id_allenamentoString && tipo_richiesta === 'VOTA') {
         //logica professionista vota
         this.professionista_vota = true;
-        console.log('Professionista in visita per votazione del pasto:', id_allenamentoString);
-        this.loadSingoloAllenamento(id_allenamento);
+        console.log('Professionista in visita per votazione dell\'allenamento:', id_allenamentoString);
+        this.loadSingoloAllenamento(allenamento_id);
         } else {
         this.loadAllenamentiUtente();
         }
