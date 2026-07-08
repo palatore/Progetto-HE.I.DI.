@@ -99,8 +99,8 @@ class PastiServices {
             console.log('Pasto non trovato con ID:', id_pasto);
             return null;
         }
-        const risultatoElimanzione = await Pasti.eliminaDettagliPasto(id_pasto);
-        if(!risultatoElimanzione) {
+        const risultatoEliminazione = await Pasti.eliminaDettagliPasto(id_pasto);
+        if(!risultatoEliminazione) {
             throw new Error('Errore nell\'eliminazione del pasto');
         }
         const result = await Pasti.riempiPasto(id_pasto, modifiche_pasto);

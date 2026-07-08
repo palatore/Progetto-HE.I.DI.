@@ -60,9 +60,9 @@ class BachecaControllers {
 
     static condividiAttivita = async (req, res) => {
         try {
-        const id_utente = req.user.id;
-        const { id_attivita, tipologia_attivita } = req.body;
-        const result = await BachecaServices.condividiAttivita(id_utente, id_attivita, tipologia_attivita);
+            const id_utente = req.user.id;
+            const { id_attivita, tipologia_attivita } = req.body;
+            const result = await BachecaServices.condividiAttivita(id_utente, id_attivita, tipologia_attivita);
             res.status(201).json({message: 'Attività condivisa con successo', result});
         } catch(e) {
             res.status(500).json({error: e.message});
