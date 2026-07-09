@@ -120,7 +120,7 @@ export class BachecaPage implements OnInit {
     } else if(attivita.tipologia_attivita === 1) {
       try {
         const response = await firstValueFrom(this.workoutService.getDettagliAllenamento(attivita.id_attivita));
-        attivita.dettagli = response?.alimenti ?? response ?? [];
+        attivita.dettagli = response?.esercizi ?? response ?? [];
       } catch (error) {
         console.log(error)
       }

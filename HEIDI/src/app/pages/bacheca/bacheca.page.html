@@ -68,7 +68,7 @@
         @if (item.modalita_dettagli && item.tipologia_attivita === 0) {
           <div class="dettagliContainer">
             <ul>
-              @for(alimento of item.dettagli.alimenti; track alimentoTrack($index, alimento)) {
+              @for(alimento of item.dettagli; track alimentoTrack($index, alimento)) {
             <li>
               {{ alimento.name }} - {{ alimento.quantita }}g ({{ alimento.kcal }} kcal/100g)
             </li>
@@ -78,7 +78,7 @@
         } @else if (item.modalita_dettagli && item.tipologia_attivita === 1) {
           <div class="dettagliContainer">
             <ul>
-              @for(esercizio of item.dettagli.esercizi; track esercizioTrack($index, esercizio)) {
+              @for(esercizio of item.dettagli; track esercizioTrack($index, esercizio)) {
             <li>
               {{ esercizio.name }} - {{ esercizio.serie }}g ({{ esercizio.ripetizioni }} kcal/100g)
             </li>
