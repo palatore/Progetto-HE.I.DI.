@@ -5,132 +5,106 @@ class AllenamentiServices {
 
     static async getAllEsercizi(){
         const esercizi = await Allenamenti.getAllEsercizi();
-        console.log('Esercizi ottenuti:', esercizi);
         return esercizi;    
     };
 
     static async getEsercizioById(id_esercizio){
         const esercizio = await Allenamenti.getEsercizioById(id_esercizio);
-        if(esercizio){
-            console.log('Esercizio ottenuto:', esercizio);
-            return esercizio;
-        }else{
+        if(!esercizio){
             console.log('Esercizio non trovato con ID:', id_esercizio);
             return null;
         }
+        return esercizio;
     };
 
     static async getAllAllenamenti(){
         const allenamenti = await Allenamenti.getAllAllenamenti();
-        console.log('Allenamenti ottenuti:', allenamenti);
         return allenamenti;
     };
 
     static async getAllEserciziAllenamento(){
-        const eserciziAllenamento = await Allenamenti.getAllEserciziAllenamento();
-        console.log('esercizi_allenamento ottenuti:', eserciziAllenamento);
-        return eserciziAllenamento;
+        const esercizi_allenamento = await Allenamenti.getAllEserciziAllenamento();
+        return esercizi_allenamento;
     };
 
     static async getDettagliAllenamento(id_allenamento){
-        //Chiamo il model per assicurarmi che l'allenamento esista
         const allenamento = await Allenamenti.findAllenamentoById(id_allenamento);
         if(!allenamento){
             console.log('Nessun allenamento con ID:', id_allenamento);
             return null;
-        } else {
-            //Procedo alla ricerca dei dettagli dell'allenamento
-            const dettagliAllenamento = await Allenamenti.getDettagliAllenamento(id_allenamento, allenamento);
-            console.log('Dettagli allenamento ottenuti:', dettagliAllenamento);
-            return dettagliAllenamento;
         }
+        const dettagli_allenamento = await Allenamenti.getDettagliAllenamento(id_allenamento, allenamento);
+        if(!dettagli_allenamento) {
+            return null;
+        }
+        return dettagli_allenamento;
     };
 
     static async getAllenamentoById(id_allenamento) {
         const allenamento = await Allenamenti.findAllenamentoById(id_allenamento);
-        if(allenamento){
-            console.log('Allenamento trovato');
-            return allenamento;
-        } else {
+        if(!allenamento){
             console.log('Nessun allenamento con ID:', id_allenamento);
             return null;
         }
+        return allenamento;
     }
 
     static async getAllenamentiUtente(user_id){
         //ottieni tutti gli allenamenti appartenenti ad un utente
-        const allenamentiUtente = await Allenamenti.getAllenamentiUtente(user_id);
-        if(allenamentiUtente && allenamentiUtente.length > 0){
-            console.log('Allenamenti utente ottenuti:', allenamentiUtente);
-            return allenamentiUtente;
-        }else{
+        const allenamenti_utente = await Allenamenti.getAllenamentiUtente(user_id);
+        if(!(allenamenti_utente && allenamenti_utente.length > 0)){
             console.log('Nessun allenamento trovato per l\'utente con ID:', user_id);
             return[];
         }
+        return allenamenti_utente;
     };
 
     static async checkAllenamento(user_id, giorno){
-        //controlla se esiste un allenamento in quel giorno
         const allenamento = await Allenamenti.checkAllenamento(user_id, giorno);
-        if(allenamento){
-            console.log('Esiste già un allenamento in questo giorno', allenamento);
-        }else{
+        if(!allenamento){
             console.log('Nessun allenamento trovato con questi dati');
+            return null;
         }
         return allenamento;
     };
 
     static async creaAllenamenti(user_id, nome, giorno, durata, data_creazione){
         const nuovoAllenamento = await Allenamenti.creaAllenamenti(user_id, nome, giorno, durata, data_creazione);
-        if(nuovoAllenamento){
-            console.log('Allenamento creato con successo', nuovoAllenamento);
-        }else{
-            console.log('Errore nella creazione dell\'allenamento');
+        if(!nuovoAllenamento){
+            throw new Error('Errore nella creazione dell\'allenamento');
         }
         return nuovoAllenamento;
     };
 
     static async riempiAllenamento(id_allenamento, esercizi){
         const contenutoAllenamento = await Allenamenti.riempiAllenamento(id_allenamento, esercizi);
-        if(contenutoAllenamento){
-            console.log('Allenamento riempito con successo', contenutoAllenamento);
-        }else{
-            console.log('Errore nel riempimento dell\'allenamento');
+        if(!contenutoAllenamento){
+            throw new Error('Errore nel riempimento dell\'allenamento');
         }
         return contenutoAllenamento;
     };
 
     static async modificaAllenamento(id_allenamento, modifiche_allenamento){
-        //per prima cosa controllo che l'allenamento esista
         const allenamento = await Allenamenti.findAllenamentoById(id_allenamento);
         if(!allenamento){
             console.log('Nessun allenamento trovato con ID:', id_allenamento);
             return null;
         }
-        //in seguito, cancello i dettagli già esistenti dell'allenamento
         const risultatoEliminazione = await Allenamenti.eliminaDettagliAllenamento(id_allenamento);
-        if(risultatoEliminazione){
-            console.log('Dettagli allenamento con id:', id_allenamento, 'eliminati con successo');
-        }else{
-            console.log('Errore nell\'eliminazione dei dettagli dell\'allenamento con id:', id_allenamento);
-            return risultatoEliminazione;
+        if(!risultatoEliminazione){
+            throw new Error('Errore nell\'eliminazione dei dettagli dell\'allenamento');
         }
-        //infine, inserisco i nuovi dettagli dell'allenamento nel db
         const result = await Allenamenti.riempiAllenamento(id_allenamento, modifiche_allenamento);
         if(!result){
-            console.log('Errore nella modifica dell\'allenamento con id:', id_allenamento);
-            return null;
+           throw new Error('Errore nella modifica dell\'allenamento');
         }
         return result;
     }
 
     static async programmaAllenamento(id_allenamento, data_calendario) {
-        //programma nel calendario un allenamento esistente
         const risultatoProgrammazione = await Allenamenti.programmaAllenamento(id_allenamento, data_calendario);
-        if(risultatoProgrammazione) {
-            console.log('Allenamento programmato con successo');
-        } else {
-            console.log('Errore nella programmazione dell\'allenamento con ID:', id_allenamento, 'per la data', data_calendario);
+        if(!risultatoProgrammazione) {
+            throw new Error('Errore nella programmazione dell\'allenamento');
         }
         return risultatoProgrammazione;
     }
@@ -142,7 +116,7 @@ class AllenamentiServices {
             return null;
         }
         
-        const id_nuovo_allenamento = await Allenamenti.creaAllenamenti(id_nuovo_utente, dati_vecchio_allenamento.name, dati_vecchio_allenamento.data, dati_vecchio_allenamento.durata);
+        const id_nuovo_allenamento = await Allenamenti.creaAllenamenti(id_nuovo_utente, dati_vecchio_allenamento.name, dati_vecchio_allenamento.data, dati_vecchio_allenamento.durata, new Date().toISOString());
         if(!id_nuovo_allenamento) {
             console.log('Errore nella creazione del nuovo allenamento clonato');
             return null;
@@ -166,13 +140,9 @@ class AllenamentiServices {
     }
 
     static async eliminaAllenamento(id_allenamento){
-        //elimina un allenamento esistente
-        console.log('EliminaAllenamento service chiamato su ID:', id_allenamento);
         const risultatoEliminazione = await Allenamenti.eliminaAllenamento(id_allenamento);
-        if(risultatoEliminazione){
-            console.log('Allenamento eliminato con successo');
-        }else{
-            console.log('Errore nell\'eliminazione dell\'allenamento o allenamento non trovato');
+        if(!risultatoEliminazione){
+            throw new Error('Errore nell\'eliminazione dell\'allenamento o allenamento non trovato');
         }
         return risultatoEliminazione;
     };

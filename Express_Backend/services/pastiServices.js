@@ -4,163 +4,124 @@ const Pasti = require('../models/pasti');
 class PastiServices {
 
     static async getAllAlimenti() {
-        console.log('Chiamo il model per ottenere tutti gli alimenti');
         const alimenti = await Pasti.getAllAlimenti();
-        console.log('Alimenti ottenuti:', alimenti);
         return alimenti;
     }
 
     static async getAlimentoById(id_alimento) {
-        console.log('Chiamo il model per ottenere un alimento dato il suo ID:', id_alimento);
         const alimento = await Pasti.getAlimentoById(id_alimento);
-        if (alimento) {
-            console.log('Alimento ottenuto:', alimento);
-            return alimento;
-        } else {
+        if (!alimento) {
             console.log('Alimento non trovato con ID:', id_alimento);
             return null;
         }
+        return alimento;
     }
 
     static async getAllPasti() {
-        console.log('Chiamo il model per ottenere tutti i pasti');
         const pasti = await Pasti.getAllPasti();
-        console.log('Pasti ottenuti:', pasti);
         return pasti;
     }
 
     static async getAllAlimentiPasti() {
-        console.log('Chiamo il model per ottenere tutti gli alimenti_pasti');
         const alimentiPasti = await Pasti.getAllAlimentiPasti();
-        console.log('Alimenti_pasti ottenuti:', alimentiPasti);
         return alimentiPasti;
     }
 
     static async getDettagliPasto(id_pasto) {
-        //Per prima cosa chiamo il model per controllare che il pasto esista
         const pasto = await Pasti.findPastoById(id_pasto);
         if (!pasto) {
             console.log('Pasto non trovato con ID:', id_pasto);
             return null;
-        } else {
-        //Procedo alla ricerca dei dettagli del pasto
-            const dettagliPasto = await Pasti.getDettagliPasto(id_pasto, pasto);
-            console.log('Dettagli pasto ottenuti:', dettagliPasto);
-            return dettagliPasto;
         }
+        const dettagli_pasto = await Pasti.getDettagliPasto(id_pasto, pasto);
+        if(!dettagli_pasto) {
+            return null;
+        }
+        return dettagli_pasto;
     }
 
     static async getPastoById(id_pasto) {
         const pasto = await Pasti.findPastoById(id_pasto);
-        if(pasto) {
-            console.log('Pasto trovato');
-            return pasto;
-        } else {
+        if(!pasto) {
             console.log('Pasto non trovato con ID:', id_pasto);
             return null;
         }
+        return pasto;
     }
 
     static async getPastiUtente(user_id) {
-        //ottieni tutti i pasti appartenenti all'utente
-        const pastiUtente = await Pasti.getPastiUtente(user_id);
-        if (pastiUtente && pastiUtente.length > 0) {
-            console.log('Pasti utente ottenuti:', pastiUtente);
-            return pastiUtente;
-        } else {
+        const pasti_utente = await Pasti.getPastiUtente(user_id);
+        if (!(pasti_utente && pasti_utente.length > 0)) {
             console.log('Nessun pasto trovato per l\'utente con ID:', user_id);
             return [];
         };
+        return pasti_utente;
     }
 
     static async getPastiProgrammati(user_id) {
         //ottieni tutti i pasti programmati nel calendario appartenenti all'utente
-        const pastiProgrammati = await Pasti.getPastiProgrammati(user_id);
-        if (pastiProgrammati && pastiProgrammati.length > 0) {
-            console.log('Pasti utente programmati ottenuti:', pastiProgrammati);
-            return pastiProgrammati;
-        } else {
+        const pasti_programmati = await Pasti.getPastiProgrammati(user_id);
+        if (!(pasti_programmati && pasti_programmati.length > 0)) {
             console.log('Nessun pasto programmato trovato per l\'utente con ID:', user_id);
             return [];
         };
+        return pasti_programmati;
     }
 
     static async checkPasto(user_id, nome, tipo) {
-        //controlla se esiste già un pasto con lo stesso nome, data e tipo per l'utente
         const pasto = await Pasti.checkPasto(user_id, nome, tipo);
-        if (pasto) {
-            console.log('Pasto già esistente:', pasto);
-        } else {
+        if (!pasto) {
             console.log('Nessun risultato trovato con questi dati');
+            return null;
         }
         return pasto;
     }
 
     static async creaPasti(user_id, nome, tipo, data_creazione) {
-        //crea un nuovo pasto per l'utente
         const nuovoPasto = await Pasti.creaPasti(user_id, nome, tipo, data_creazione);
-        if (nuovoPasto) {
-            console.log('Pasto creato con successo:');
-        } else {
-            console.log('Errore nella creazione del pasto');
+        if (!nuovoPasto) {
+            throw new Error('Errore nella creazione del pasto');
         }
         return nuovoPasto;
     }
 
     static async riempiPasto(id_pasto, alimenti) {
-        //dopo la creazione di un pasto, riempi quel pasto con alimenti presi dal database
-        console.log('RiempiPasto service chiamato');
         const contenutoPasto = await Pasti.riempiPasto(id_pasto, alimenti);
-        if (contenutoPasto) {
-            console.log('Pasto riempito con successo:', contenutoPasto);
-        } else {
-            console.log('Errore nel riempimento del pasto');
+        if (!contenutoPasto) {
+            throw new Error('Errore nel riempimento del pasto');
         }
         return contenutoPasto;
     }
 
     static async modificaPasto(id_pasto, modifiche_pasto) {
-        //per prima cosa controllo che il pasto esista
         const pasto = await Pasti.findPastoById(id_pasto);
         if (!pasto) {
             console.log('Pasto non trovato con ID:', id_pasto);
             return null;
         }
-        //in seguito, cancello i dettagli già esistenti del pasto
-        const risultatoElimanzione = await Pasti.eliminaDettagliPasto(id_pasto);
-        if(risultatoElimanzione) {
-            console.log('Dettagli pasto con id:', id_pasto, 'eliminati con successo');
-        } else {
-            console.log('Errore nell\'eliminazione del pasto con id:', id_pasto);
-            return risultatoElimanzione;
+        const risultatoEliminazione = await Pasti.eliminaDettagliPasto(id_pasto);
+        if(!risultatoEliminazione) {
+            throw new Error('Errore nell\'eliminazione del pasto');
         }
-        //infine, inserisco i nuovi dettagli del pasto nel db
         const result = await Pasti.riempiPasto(id_pasto, modifiche_pasto);
-        if (result) {
-            console.log('Pasto modificato con successo:', result);
-        } else {
-            console.log('Errore nella modifica del pasto con id:', id_pasto, 'e modifiche:', modifiche_pasto);
+        if (!result) {
+            throw new Error('Errore nella modifica del pasto');
         }
         return result;
     }
 
     static async programmaPasto(id_pasto, data_calendario) {
-        console.log('ProgrammaPasto service chiamato per ID pasto:', id_pasto, 'e data', data_calendario);
         const programmato = await Pasti.programmaPasto(id_pasto, data_calendario);
-         if (programmato) {
-            console.log('Pasto programmato con successo:', programmato);
-        } else {
-            console.log('Errore nella programmazione del pasto con id:', id_pasto, 'e data', data_calendario);
+         if (!programmato) {
+            throw new Error('Errore nella programmazione del pasto');
         }
         return programmato;
     }
 
     static async disdiciPasto(id_pasto, data_calendario) {
         const disdetto = await Pasti.disdiciPasto(id_pasto, data_calendario);
-        if (disdetto) {
-            console.log('Pasto disdetto con successo');
-        } else {
-            console.log("Errore nella disdetta del pasto o pasto non trovato");
+        if (!disdetto) {
+            throw new Error("Errore nella disdetta del pasto o pasto non trovato");
         }
         return disdetto;
     }
@@ -177,7 +138,7 @@ class PastiServices {
             return null;
         }
         const dettagli_vecchio_pasto = await Pasti.getDettagliPasto(id_pasto, dati_vecchio_pasto);
-        if(!dettagli_vecchio_pasto || dettagli_vecchio_pasto.length === 0) {
+        if(!dettagli_vecchio_pasto || dettagli_vecchio_pasto.alimenti.length === 0) {
             console.log('Pasto clonato ma senza dettagli');
             return id_nuovo_pasto;
         }
@@ -198,13 +159,9 @@ class PastiServices {
     }
     
     static async eliminaPasto(id_pasto) {
-        //elimina un pasto esistente, prima eliminando le relazioni con gli alimenti e poi eliminando il pasto stesso
-        console.log('EliminaPasto service chiamato per ID pasto:', id_pasto);
         const risultatoEliminazione = await Pasti.eliminaPasto(id_pasto);
-        if (risultatoEliminazione) {
-            console.log('Pasto eliminato con successo:');
-        } else {
-            console.log('Errore nell\'eliminazione del pasto o pasto non trovato');
+        if (!risultatoEliminazione) {
+            throw new Error('Errore nell\'eliminazione del pasto o pasto non trovato');
         }
         return risultatoEliminazione;
     }

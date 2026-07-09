@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonRow, IonGrid, IonCol, IonCardTitle, IonCardHeader, IonCard, IonLabel, IonInput, IonButton, IonItem, IonCardContent, IonRadio, IonRadioGroup } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonRow, IonGrid, IonCol, IonCardTitle, IonCardHeader, IonCard, IonLabel, IonInput, IonButton, IonItem, IonCardContent, IonRadio, IonRadioGroup, IonSelectOption, IonSelect } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/login.service';
@@ -13,7 +13,7 @@ import { enterOutline } from 'ionicons/icons';
   templateUrl: './registrazione.page.html',
   styleUrls: ['./registrazione.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule, IonRadio, IonRadioGroup],
+  imports: [IonSelect, IonSelectOption, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule, IonRadio, IonRadioGroup],
 })
 
 export class RegistrazionePage implements OnInit {
@@ -24,9 +24,12 @@ export class RegistrazionePage implements OnInit {
   public serverError: boolean = false;
   public showError: boolean = false;
 
+  public ruoliProfessionista:any[] = [];
+
   constructor(private formbuilder:FormBuilder, private registrationService:LoginService) { 
     this.registerForm = formbuilder.group({
       ruolo: ['', Validators.required],
+      id_ruolo_professionista: [''],
       email: ['', [Validators.required, Validators.email]],
       nome: ['', Validators.required],
       cognome:['', Validators.required],
@@ -39,13 +42,31 @@ export class RegistrazionePage implements OnInit {
     this.registerForm.get('repeatpw')?.valueChanges.subscribe(() => {
       this.registerForm.updateValueAndValidity();
     });
+    this.registerForm.get('ruolo')?.valueChanges.subscribe((ruolo) => {
+    if (ruolo === '1' || ruolo === '2') {
+      this.loadRuoliProfessionista();
+    } else {
+      this.ruoliProfessionista = [];
+      this.registerForm.get('id_ruolo_professionista')?.reset();
+    }
+  });
     addIcons({enterOutline});
   }
 
   ngOnInit() {}
 
+  async loadRuoliProfessionista() {
+  try {
+    this.ruoliProfessionista = await firstValueFrom(this.registrationService.getRuoliProfessionista());
+  } catch (err) {
+    console.error(err);
+    this.ruoliProfessionista = [];
+  }
+}
+
   async onSubmit() {
     const ruolo = this.registerForm.value.ruolo;
+    const id_ruolo_professionista = this.registerForm.value.id_ruolo_professionista || null;
     const mail = this.registerForm.value.email;
     const name = this.registerForm.value.nome;
     const surname = this.registerForm.value.cognome;
@@ -55,8 +76,7 @@ export class RegistrazionePage implements OnInit {
     this.serverError = false;
 
     try{
-      const response = await firstValueFrom(this.registrationService.register(ruolo, name, surname, mail, pw));
-      console.log('Registrazione completata con successo:', response);
+      const response = await firstValueFrom(this.registrationService.register(ruolo, id_ruolo_professionista, name, surname, mail, pw));
       if(!response?.body?.success || response.status !== 201) {
         this.showError = true;
         this.registrationFailed = true;

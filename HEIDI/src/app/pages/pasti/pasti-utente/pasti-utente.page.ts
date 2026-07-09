@@ -46,14 +46,6 @@ export class PastiUtentePage implements OnInit {
   public voti_totali_pasto:number = 0;
   public voto_pasto_caricato:number = 0;
   public destroy$ = new Subject<void>;
-  public visualizzaLista: boolean = false; // Variabile per gestire la visualizzazione a lista o griglia
-  public visualizzaGriglia: boolean = true; // Variabile per gestire la visualizzazione a griglia o lista
-  public visualizzaPerData: boolean = false; // Variabile per gestire la visualizzazione per data
-  public filtroData: string = ''; // Variabile per il filtro per data
-  public filtroTipo: string = ''; // Variabile per il filtro per tipo di pasto
-  public filtroNome: string = ''; // Variabile per il filtro per nome del pasto
-  public filtroCalorie: number = 0; // Variabile per il filtro per calorie
-  public filtroAlimenti: string[] = []; // Variabile per il filtro per alimenti
 
   constructor(private foodService:GestionePastiService, private userService:GestioneUtentiService, private boardService:GestioneBachecaService, private route:ActivatedRoute, private router:Router, private alertController:AlertController) { }
 
@@ -65,18 +57,16 @@ export class PastiUtentePage implements OnInit {
 
   ionViewWillEnter() {
     const id_pastoString = this.route.snapshot.queryParamMap.get('pasto_id');
-    const id_pasto:number = +id_pastoString!;
+    const pasto_id:number = +id_pastoString!;
     const tipo_richiesta = this.route.snapshot.queryParamMap.get('tipo_richiesta');
-    if(id_pasto && tipo_richiesta === 'MODIFICA') {
+    if(pasto_id && tipo_richiesta === 'MODIFICA') {
       //logica professionista modifica
       this.professionista_modifica = true;
-      console.log('Professionista in visita per modifica del pasto:', id_pastoString);
-      this.loadSingoloPasto(id_pasto);
+      this.loadSingoloPasto(pasto_id);
     } else if(id_pastoString && tipo_richiesta === 'VOTO') {
       //logica professionista vota
       this.professionista_vota = true;
-      console.log('Professionista in visita per votazione del pasto:', id_pastoString);
-      this.loadSingoloPasto(id_pasto);
+      this.loadSingoloPasto(pasto_id);
     } else {
       this.loadPastiUtente();
     }
@@ -103,7 +93,6 @@ export class PastiUtentePage implements OnInit {
     //Effettua una chiamata al servizio per ottenere i dettagli del pasto selezionato
     try {
       this.dettagliPasto = await firstValueFrom(this.foodService.getDettagliPasto(pasto.id));
-      console.log('Dettagli del pasto:', this.dettagliPasto);
     } catch (error) {
       console.error('Errore nel caricamento dei dettagli del pasto:', error);
     }
@@ -134,7 +123,6 @@ export class PastiUtentePage implements OnInit {
   }
 
   async getAlimento(id_alimento:number) {
-    console.log('Ricevuto id da cercare:', id_alimento);
     this.alimentoSelezionato = await this.datiAlimento(id_alimento);
   }
 
@@ -142,7 +130,6 @@ export class PastiUtentePage implements OnInit {
     try {
       const response = await firstValueFrom(this.foodService.getAlimentoById(id_alimento));
       if(response) {
-        console.log('trovato:', response)
         return response;
       }
     } catch (error:any) {
@@ -177,7 +164,6 @@ export class PastiUtentePage implements OnInit {
     try {
       const id_pasto_modificato = this.pasto_da_modificare.id;
       const response = await firstValueFrom(this.foodService.modificaPasto(id_pasto_modificato, modifiche));
-      console.log('Pasto modificato con successo:', response);
       // Ricarica i pasti utente dopo la modifica
       this.loadPastiUtente();
     } catch (error) {
@@ -215,7 +201,6 @@ export class PastiUtentePage implements OnInit {
   //METODI LATO UTENTE
 
   loadPastiUtente() {
-    console.log('Caricamento pasti utente...');
     this.foodService.getPastiUtente().pipe(takeUntil(this.destroy$)).subscribe({
       next: (pasti) => {
         this.pastiUtente = pasti;      
@@ -263,7 +248,6 @@ export class PastiUtentePage implements OnInit {
   async condividiPasto(id_pasto:number) {
     try {
       const response = await firstValueFrom(this.boardService.getSingolaAttivitaBacheca(id_pasto, 0));
-      console.log(response);
       if(response && response.result) {
         return;
       }
@@ -289,8 +273,6 @@ export class PastiUtentePage implements OnInit {
   async eliminaPasto(id_pasto: number) {
     try {
       const response = await firstValueFrom(this.foodService.eliminaPasto(id_pasto));
-      console.log('Pasto eliminato con successo:', response);
-      // Ricarica i pasti utente dopo l'eliminazione
       this.loadPastiUtente();
     } catch (error) {
       console.error('Errore nell\'eliminazione del pasto:', error);
@@ -344,9 +326,4 @@ export class PastiUtentePage implements OnInit {
                  {name: 'Pasto 2', data_creazione: '1/1/1000', tipo: '', id: 2, data_calendario:'1/1/1000'},
                  {name: 'Pasto 3', data_creazione: '1/1/1000', tipo: '550', id: 3, data_calendario:'1/1/1000'}];
 
-  //DA IMPLEMENTARE:
-  // - Filtri visualizzazione pasti
-  // - Modifica pasto
-  // - Visualizzazione per lista/griglia
-  // - Visualizzazione per data
 }

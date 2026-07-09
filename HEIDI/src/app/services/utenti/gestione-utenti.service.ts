@@ -1,26 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GestioneUtentiService {
 
-  private apiUrl:string = "http://localhost:3000"; //sostituire con l'url corretto poi
+  private apiUrl:String = environment.apiUrl;
 
   constructor(private http:HttpClient) {}
 
-  aggiornaPassword(id_utente:number, nuovaPassword:string) {
+  aggiornaPassword(id_utente:number, vecchiaPassword:string, nuovaPassword:string) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
-    return this.http.post<any>(`${this.apiUrl}/api/users/utente/aggiornaPassword/${id_utente}`, {nuovaPassword}, {headers, observe: 'response'});
-  }
-
-  creaInfo(){
-    const token = localStorage.getItem('token');
-    const headers = { Authorization: `Bearer ${token}` };
-    return this.http.post<any>(`${this.apiUrl}/api/users/utente/creaInfo`, {token}, {headers, observe: 'response'});
+    return this.http.post<any>(`${this.apiUrl}/api/users/utente/aggiornaPassword/${id_utente}`, {vecchiaPassword, nuovaPassword}, {headers, observe: 'response'});
   }
 
   riempiInfo(info:any){

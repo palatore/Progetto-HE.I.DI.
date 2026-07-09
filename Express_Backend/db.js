@@ -7,8 +7,6 @@ const dbPath = path.join(__dirname, 'database.db');
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Errore di connessione al database ' + err.message);
-  } else {
-    console.log('Connesso al database SQLite.');
   }
 });
 //creazione del database SQLite
@@ -28,8 +26,6 @@ db.serialize(() => {
   )`, (err) => {
     if (err) {
         console.error('Errore nella creazione della tabella utenti ' + err.message);
-    } else {
-        console.log('Tabella utenti creata con successo.');
     }
   });
 
@@ -50,8 +46,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella profilo_utente ' + err.message);
-        } else {
-            console.log('Tabella profilo_utente creata con successo.');
         }
     });
 
@@ -62,8 +56,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella ruoli_professionisti ' + err.message);
-        } else {
-            console.log('Tabella ruoli_professionisti creata con successo.');
         }
     });
 
@@ -71,14 +63,12 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS albo_professionisti (
         id_professionista INTEGER NOT NULL,
         id_ruolo INTEGER NOT NULL,
-        tipo VARCHAR(255),
+        tipo VARCHAR(255) DEFAULT NULL,
         FOREIGN KEY(id_professionista) REFERENCES utenti(id) ON DELETE CASCADE,
         FOREIGN KEY(id_ruolo) REFERENCES ruoli_professionisti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella albo_professionisti ' + err.message);
-        } else {
-            console.log('Tabella albo_professionisti creata con successo.');
         }
     });
 
@@ -93,8 +83,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella associazioni ' + err.message);
-        } else {
-            console.log('Tabella associazioni creata con successo.');
         }
     });
 
@@ -112,8 +100,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella richieste ' + err.message);
-        } else {
-            console.log('Tabella richieste creata con successo.');
         }
     });
 
@@ -128,8 +114,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella voti' + err.message);
-        } else {
-            console.log('Tabella voti creata con successo.');
         }
     });
 
@@ -144,8 +128,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella bacheca' + err.message);
-        } else {
-            console.log('Tabella bacheca creata con successo.');
         }
     });
 
@@ -164,8 +146,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella alimenti ' + err.message);
-        } else {
-            console.log('Tabella alimenti creata con successo.');
         }
     });
 
@@ -180,8 +160,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella pasti ' + err.message);
-        } else {
-            console.log('Tabella pasti creata con successo.');
         }
     });
 
@@ -196,8 +174,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella alimenti_pasto ' + err.message);
-        } else {
-            console.log('Tabella alimenti_pasto creata con successo.');
         }
     });
 
@@ -210,8 +186,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella pasti_programmati' + err.message);
-        } else {
-            console.log('Tabella pasti_programmati creata con successo.');
         }
     });
 
@@ -226,8 +200,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella esercizi ' + err.message);
-        } else {
-            console.log('Tabella esercizi creata con successo.');
         }
     });
  
@@ -244,8 +216,6 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella allenamenti ' + err.message);
-        } else {
-            console.log('Tabella allenamenti creata con successo.');
         }
     });
 
@@ -262,26 +232,7 @@ db.serialize(() => {
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella esercizi_allenamento ' + err.message);
-        } else {
-            console.log('Tabella esercizi_allenamento creata con successo.');
         }
-    });
-
-    //popolazione della tabella utenti se non è già popolata
-    //ruolo 0 = utente, 1 = professionista alimentare, 2 = professionista allenamenti
-    db.get('SELECT COUNT(*) AS count FROM utenti', (err, row) => {
-      if (err) {
-        console.error('Errore nella selezione degli utenti ' + err.message);
-      } else if (row.count === 0) {
-        const comando = db.prepare('INSERT INTO utenti (name, surname, email, password, ruolo) VALUES (?, ?, ?, ?, ?)');
-        comando.run('Pietro', 'Gambadilegno', 'pietro.gdl@steambot.dis', 'malefica', '0');
-        comando.run('Wilson Grant', 'Fisk', 'kingpin@brooklyn.com', 'marvel', '0');
-        comando.run('Taro', 'Sakamoto', 'tarosakamoto01@gmail.com', 'HanaAoi', '0');
-        comando.run('Majin', 'Buu', 'babidiofficial@regnodemoniaco.kai', 'dolcetti', '0');
-        comando.run('Cereza', 'Balder', 'bayonetta@vigrid.fr', 'jubileus', '2');
-        comando.run('Shauna', 'Vayne', 'nighthunter@runeterra.rt', 'Demoni', '1');
-        comando.run('Dendra', 'Kihada', 'dendra.kihada@mesapoli.sp', 'Miriam', '2');
-      }
     });
 
     //popolazione della tabella ruoli_professionisti se non è già popolata

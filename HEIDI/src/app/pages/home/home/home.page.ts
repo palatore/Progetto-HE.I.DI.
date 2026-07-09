@@ -22,6 +22,7 @@ import { DefaultHeaderComponent } from "src/app/components/default-header/defaul
 export class HomePage implements OnInit {
 
   constructor(private authService:LoginService, private userService:GestioneUtentiService, private foodService:GestionePastiService, private workoutService:GestioneAllenamentiService) {
+  this.ruoloUtente = this.authService.ruoloUtente.value;
   }
  
   public ruoloUtente: string | null = null;
@@ -52,20 +53,24 @@ export class HomePage implements OnInit {
 
 
   ionViewWillEnter() {
+
     this.authService.ruoloUtente.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (data) => {
-        this.ruoloUtente = data;
-      
-        if(this.ruoloUtente === '0') {
-          this.caricaAttivitaGiornaliere();
-        } else {
-          this.getAssociazioniPending();
-          this.getRichiestePending();
-          this.getFeedAssociati();
-        }
+      next: (ruolo) => {
+        this.ruoloUtente = ruolo;
       },
-      error: (err) => {console.log('Errore nel caricamento del ruolo', err)}
+      error: (err) => {
+        console.error('Errore nel recupero del ruolo utente', err);
+      }
     });
+
+    if(this.ruoloUtente === '0') {
+      this.caricaAttivitaGiornaliere();
+    } else {
+      this.getAssociazioniPending();
+      this.getRichiestePending();
+      this.getFeedAssociati();
+    }
+ 
   }
 
   caricaAttivitaGiornaliere() {
@@ -79,7 +84,6 @@ export class HomePage implements OnInit {
     }).pipe(
       switchMap(({pasti, allenamenti}) => {
         const pasti_filtrati = pasti.filter((p:Pasto) => p.data_calendario === oggi);
-        console.log('ho filtrato i pasti:', pasti_filtrati);
 
         if(pasti_filtrati.length === 0) {
           return of({pasti_con_dettaglio: [], allenamenti});
@@ -129,10 +133,8 @@ export class HomePage implements OnInit {
 
   getFeedAssociati() {
     this.userService.getFeedAssociati().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (data) => {this.feedAssociati = data;
-        console.log("ecco i dati", data);
-      },
-      error: (err) => {console.error(err);}
+      next: (data) => this.feedAssociati = data,
+      error: (err) => console.error(err)
     }); 
   }
 

@@ -9,7 +9,7 @@ class Authservices {
         try {
             const user = await User.findByEmail(email);
             if (!user) {
-                throw new Error('Credenziali non valide');
+                throw {status:401, message:"Credenziali non valide"}
             }
             // check se la password è corretta
             const isMatch = await User.comparePassword(password, user.password);
@@ -29,18 +29,35 @@ class Authservices {
         }
     }
 
-    static async registration(ruolo, nome, cognome, email, password) {
+    static async registration(ruolo, id_ruolo_professionista, nome, cognome, email, password) {
         try {
-            console.log("controllo se l'email esiste: ", email);
-            const user = await User.findByEmail(email);
-            if(user) {
+            const dati =  { ruolo, id_ruolo_professionista, nome, cognome, email, password};
+
+            const userExists = await User.findByEmail(email);
+            if (userExists) {
                 throw new Error('Email già in uso');
             }
-            console.log("REGISTRAZIONE DEI DATI:", {ruolo, nome, cognome, email, password});
-            return await User.create({nome, cognome, email, password, ruolo});
-        } catch(e) {
-            throw e;
+
+            const user = await User.create({
+                nome,
+                cognome,
+                email,
+                password,
+                ruolo
+            });
+
+            if (Number(ruolo) > 0 && id_ruolo_professionista) {
+                await User.iscriviProfessionista(user.id, id_ruolo_professionista);
+            }
+
+            return user;
+        }   catch (e) {
+                throw e;
         }
+    }
+
+    static async getRuoliProfessionisti() {
+        return await User.getRuoliProfessionisti();
     }
 
 }

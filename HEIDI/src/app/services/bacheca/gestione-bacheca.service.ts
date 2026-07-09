@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -8,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GestioneBachecaService {
 
-  private apiUrl:string = "http://localhost:3000"; //sostituire con l'url corretto poi
+  private apiUrl:String = environment.apiUrl;
 
   constructor(private http:HttpClient) {}
 

@@ -49,19 +49,17 @@ export class AllenamentiUtentePage implements OnInit{
     }
 
     ionViewWillEnter(){
-        const id_allenamentoString = this.route.snapshot.queryParamMap.get('pasto_id');
-        const id_allenamento:number = +id_allenamentoString!;
+        const id_allenamentoString = this.route.snapshot.queryParamMap.get('allenamento_id');
+        const allenamento_id:number = +id_allenamentoString!;
         const tipo_richiesta = this.route.snapshot.queryParamMap.get('tipo_richiesta');
-        if(id_allenamento && tipo_richiesta === 'MODIFICA') {
+        if(allenamento_id && tipo_richiesta === 'MODIFICA') {
         //logica professionista modifica
         this.professionista_modifica = true;
-        console.log('Professionista in visita per modifica del pasto:', id_allenamentoString);
-        this.loadSingoloAllenamento(id_allenamento);
+        this.loadSingoloAllenamento(allenamento_id);
         } else if(id_allenamentoString && tipo_richiesta === 'VOTA') {
         //logica professionista vota
         this.professionista_vota = true;
-        console.log('Professionista in visita per votazione del pasto:', id_allenamentoString);
-        this.loadSingoloAllenamento(id_allenamento);
+        this.loadSingoloAllenamento(allenamento_id);
         } else {
         this.loadAllenamentiUtente();
         }
@@ -79,7 +77,6 @@ export class AllenamentiUtentePage implements OnInit{
         //Effettua una chiamata al servizio per ottenere i dettagli dell'allenamento selezionato
         try {
             this.dettagliAllenamento = await firstValueFrom(this.workoutService.getDettagliAllenamento(allenamento.id));
-            console.log('Dettagli dell\'allenamento:', this.dettagliAllenamento);
         } catch (error) {
             console.error('Errore nel caricamento dei dettagli dell\'allenamento:', error);
         }
@@ -94,7 +91,6 @@ export class AllenamentiUtentePage implements OnInit{
     }
 
     async getEsercizio(id_esercizio:number){
-        console.log('Ricevuto id da cercare:', id_esercizio);
         this.esercizioSelezionato = await this.datiEsercizio(id_esercizio);
     }
 
@@ -102,7 +98,6 @@ export class AllenamentiUtentePage implements OnInit{
         try {
             const response = await firstValueFrom(this.workoutService.getEsercizioById(id_esercizio));
             if(response) {
-                console.log('trovato:', response);
                 return response;
             }
         } catch (error:any) {
@@ -123,12 +118,10 @@ export class AllenamentiUtentePage implements OnInit{
     async modificaAllenamento(allenamento: any) {
         try {
             this.dettagliAllenamento = await firstValueFrom(this.workoutService.getDettagliAllenamento(allenamento.id));
-            console.log('Dettagli dell\'allenamento da modificare:', this.dettagliAllenamento);
         } catch (err){
             console.log(err);
         }
         this.allenamento_da_modificare = allenamento;
-        console.log('Allenamento da modificare:', this.allenamento_da_modificare);
         this.viewModifica = true;
     }
 
@@ -136,8 +129,6 @@ export class AllenamentiUtentePage implements OnInit{
         try {
             const id_allenamento_modificato = this.allenamento_da_modificare.id;
             const response = await firstValueFrom(this.workoutService.modificaAllenamento(id_allenamento_modificato, modifiche));
-            console.log('Allenamento modificato con successo:', response);
-            //Ricarica gli allenamenti dopo la modifica
             this.loadAllenamentiUtente();
         } catch (error) {
             console.error('Errore nella modifica dell\'allenamento:', error);
@@ -204,7 +195,6 @@ export class AllenamentiUtentePage implements OnInit{
   async condividiAllenamento(id_allenamento:number) {
     try {
       const response = await firstValueFrom(this.boardService.getSingolaAttivitaBacheca(id_allenamento, 1));
-      console.log(response);
       if(response && response.result) {
         return;
       }
@@ -229,8 +219,6 @@ export class AllenamentiUtentePage implements OnInit{
     async eliminaAllenamento(id: number){
         try{
             const response = await firstValueFrom(this.workoutService.eliminaAllenamento(id));
-            console.log('Allenamento eliminato con successo:', response);
-            //ricarica la lista degli allenamenti dopo l'eliminazione
             this.loadAllenamentiUtente();
         } catch(error){
             console.error('Errore nell\'eliminazione dell\'allenamento:', error);
@@ -278,11 +266,9 @@ export class AllenamentiUtentePage implements OnInit{
     allenamentiUtente:Allenamento[] = [];
 
     loadAllenamentiUtente(){
-        console.log('Caricamento allenamenti utente...');
         this.workoutService.getAllenamentiUtente().subscribe({
             next: (allenamenti) => {
                 this.allenamentiUtente = allenamenti;
-                console.log('Allenamenti caricati:', this.allenamentiUtente);
             },
             error: (err) => {
                 console.error('Errore nel caricamento degli allenamenti:', err);

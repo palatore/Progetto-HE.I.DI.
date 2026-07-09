@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AlertController, IonButton, IonHeader, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonIcon, IonButtons, IonFooter } from '@ionic/angular/standalone';
+import { AlertController, IonButton, IonHeader, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonIcon, IonFooter } from '@ionic/angular/standalone';
 import { firstValueFrom, forkJoin, map } from 'rxjs';
-import { RouterModule } from '@angular/router';
 import { GestionePastiService } from 'src/app/services/pasti/gestione-pasti.service';
 import { GestioneAllenamentiService } from 'src/app/services/allenamenti/gestione-allenamenti.service';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -21,7 +20,7 @@ import { arrowBack } from 'ionicons/icons';
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.component.scss'],
   standalone: true,
-  imports: [IonFooter, IonButtons, CommonModule, FullCalendarModule, IonButton, IonHeader, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonIcon, IonButtons, ]
+  imports: [IonFooter, CommonModule, FullCalendarModule, IonButton, IonHeader, IonContent, IonLabel, IonItem, IonModal, IonToolbar, IonTitle, IonList, IonListHeader, IonIcon]
 })
 export class CalendarioComponent implements OnInit {
 
@@ -99,13 +98,11 @@ export class CalendarioComponent implements OnInit {
   async fissaPasto(id_attivita:number) {
     try {
       const response = await firstValueFrom(this.foodService.programmaPasto(id_attivita, this.data_selezionata));
-      if(response && response.status === 201) {
+      if(response?.status === 201) {
         this.aggiuntaAttivita = false;
       }
-    } catch(e:any) {
-      if(e instanceof Error) {
-        console.log(e.message);
-      }
+    } catch(error) {
+       console.log(error);
     }
     this.loadAllEvents();
   }
@@ -113,10 +110,11 @@ export class CalendarioComponent implements OnInit {
   async disdiciPasto(id_pasto:number) {
     try {
       const response = await firstValueFrom(this.foodService.disdiciPasto(id_pasto, this.data_selezionata));
-    } catch (e:any) {
-      if(e instanceof Error) {
-        console.log(e.message);
+      if(response?.status === 201) {
+        this.loadAllEvents();
       }
+    } catch(error) {
+       console.log(error);
     }
   }
 
@@ -151,10 +149,8 @@ export class CalendarioComponent implements OnInit {
         this.aggiuntaAttivita = false;
         this.loadAllEvents();
       }
-    } catch(e) {
-      if(e instanceof Error) {
-        console.log(e.message);
-      }
+    } catch(error) {
+       console.log(error);
     }
 
   }
@@ -162,18 +158,16 @@ export class CalendarioComponent implements OnInit {
   async eliminaAllenamento(id_allenamento:number) {
     try {
       const response = await firstValueFrom(this.workoutService.eliminaAllenamento(id_allenamento));
-      if(response && response.status === 201) {
+      if(response?.status === 201) {
         this.isShow = false;
+        this.loadAllEvents();
       }
-    } catch (e:any) {
-      if(e instanceof Error) {
-        console.log(e.message);
-      }
+    } catch(error) {
+       console.log(error);
     }
   }
 
   chiudiModal() {
-    console.log('chiudiModal chiamato');
     this.loadAllEvents();
     this.pasti_giornalieri = [];
     this.allenamenti_giornalieri = [];
@@ -193,9 +187,6 @@ export class CalendarioComponent implements OnInit {
       )
     }).subscribe({
       next: ({pasti, allenamenti}) => {
-
-        console.log('Pasti ricevuti dal DB:', pasti.length);
-        console.log('Allenamenti ricevuti dal DB:', allenamenti.length);
 
         const tutte_le_attivita:any[] = []; 
 
@@ -232,17 +223,15 @@ export class CalendarioComponent implements OnInit {
         });
 
         this.attivita_calendario = tutte_le_attivita;
+        this.calendarOptions = { ...this.calendarOptions, events: tutte_le_attivita };
+
 
         if(this.calendar_component) {
-          console.log(this.calendar_component);
           const calendar_api = this.calendar_component.getApi();
-          console.log('calendario già esistente')
           calendar_api.removeAllEvents();
           calendar_api.addEventSource(tutte_le_attivita);
-          console.log('attivit', this.calendarOptions.events);
-        } else {
-          this.calendarOptions.events = tutte_le_attivita;
         }
+        
         this.loadAttivitaGiornaliere();
       },
       error: (err) => {

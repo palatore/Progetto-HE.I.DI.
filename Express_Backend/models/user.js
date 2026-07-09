@@ -49,7 +49,6 @@ class User {
   }
 
   static async findInfo(id_utente){
-    console.log('MODEL: cerco con id:', id_utente);
     return new Promise((resolve, reject)=>{
       db.get('SELECT id_utente, eta, altezza_cm, peso_kg, condizioni_mediche, id_P1, professionista1, id_P2, professionista2 FROM profilo_utente WHERE id_utente = ?', [id_utente], (err, row) =>{
         if(err) reject(err);
@@ -98,10 +97,22 @@ class User {
         if(err){
           reject(err);
         } else {
-          console.log('ecco cosa ho trovato: ', rows);
           resolve(rows);
         }
       });
+    });
+  }
+
+  static async getRuoliProfessionisti() {
+    return new Promise((resolve, reject) => {
+      db.all('SELECT * FROM ruoli_professionisti', (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+          resolve(rows);
+          }
+        }
+      );
     });
   }
 
@@ -216,6 +227,18 @@ class User {
       });
     });
   }
+
+  static async iscriviProfessionista(id_professionista, id_ruolo) {
+    return new Promise((resolve, reject) => {
+      db.run('INSERT INTO albo_professionisti (id_professionista, id_ruolo) VALUES (?, ?)', [id_professionista, id_ruolo], function (err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this.lastID);
+        }
+      });
+    });
+  }
   
   static async creaAssociazione(id_utente, id_persona) {
     return new Promise((resolve, reject) => {
@@ -270,33 +293,55 @@ class User {
     return bcrypt.compare(candidatePassword, hash);
   }
 
+  static async riempiInfo(info) {
+  return new Promise((resolve, reject) => {
+    db.get(
+      'SELECT id FROM profilo_utente WHERE id_utente = ?',
+      [info.id_utente],
+      (err, row) => {
+        if (err) return reject(err);
 
-  static async creaInfo(id_utente){   
-      return new Promise((resolve, reject) =>{
-        db.run('INSERT INTO profilo_utente (id_utente) VALUES (?)', [id_utente], function(err){
-          if(err){
-            reject(err);
-          } else {
-            resolve({lastID: this.lastID});
-          }
-        });
-      });
-  }
-
-  static async riempiInfo(info){
-    return new Promise((resolve, reject)=>{
-        db.run('UPDATE profilo_utente SET eta = ?, altezza_cm = ?, peso_kg = ?, condizioni_mediche = ? WHERE id_utente = ?', [info.eta, info.altezza_cm, info.peso_kg, info.condizioni_mediche, info.id_utente], function(err) {
-        if(err){
-          reject(err);
-        }else{
-          resolve({lastID: this.lastID});
+        if (row) {
+          db.run(
+            `UPDATE profilo_utente
+             SET eta = ?, altezza_cm = ?, peso_kg = ?, condizioni_mediche = ?
+             WHERE id_utente = ?`,
+            [
+              info.eta,
+              info.altezza_cm,
+              info.peso_kg,
+              info.condizioni_mediche,
+              info.id_utente
+            ],
+            function (err) {
+              if (err) return reject(err);
+              resolve({ success: true, action: 'update' });
+            }
+          );
+        } else {
+          db.run(
+            `INSERT INTO profilo_utente
+             (id_utente, eta, altezza_cm, peso_kg, condizioni_mediche)
+             VALUES (?, ?, ?, ?, ?)`,
+            [
+              info.id_utente,
+              info.eta,
+              info.altezza_cm,
+              info.peso_kg,
+              info.condizioni_mediche
+            ],
+            function (err) {
+              if (err) return reject(err);
+              resolve({ success: true, action: 'insert' });
+            }
+          );
         }
-      });
-    });
-  }
+      }
+    );
+  });
+}
 
   static async aggiornaEta(id_utente, eta){
-    console.log('MODEL cerca di aggiungere:', id_utente, eta);
     return new Promise((resolve, reject)=>{
       db.run('UPDATE profilo_utente SET eta = ? WHERE id_utente = ?', [eta, id_utente], function(err){
         if(err){
@@ -308,10 +353,11 @@ class User {
     });
   }
 
-  static async aggiornaPassword(id_utente, nuovaPassword){
-    console.log('MODEL cerca di aggiornare la password per utente con id:', id_utente);
+  static async aggiornaPasswordHash(id_utente, nuovaPassword){
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(nuovaPassword, salt);
     return new Promise(async (resolve, reject)=>{
-      db.run('UPDATE utenti SET password = ? WHERE id = ?', [nuovaPassword, id_utente], function(err){
+      db.run('UPDATE utenti SET password = ? WHERE id = ?', [hashedPassword, id_utente], function(err){
         if(err){
           reject(err);
         }else{

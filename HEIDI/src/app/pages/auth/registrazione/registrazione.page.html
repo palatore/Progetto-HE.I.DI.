@@ -40,6 +40,18 @@
                 </ion-row>
               </ion-grid>
               </ion-radio-group>
+
+              @if (ruoliProfessionista.length > 0) {
+                <ion-item>
+                  <ion-label>Ruolo professionale</ion-label>
+                  <ion-select formControlName="id_ruolo_professionista" interface="alert">
+                    @for (ruolo of ruoliProfessionista; track ruolo.id) {
+                      <ion-select-option [value]="ruolo.id">{{ ruolo.ruolo }}</ion-select-option>
+                    }
+                  </ion-select>
+                </ion-item>
+              }
+
               <ion-item class="registerCamp">
                 <ion-label position="floating">Email</ion-label>
                 <ion-input type="email" formControlName="email"></ion-input>
