@@ -56,7 +56,7 @@ export class AllenamentiUtentePage implements OnInit{
         //logica professionista modifica
         this.professionista_modifica = true;
         this.loadSingoloAllenamento(allenamento_id);
-        } else if(id_allenamentoString && tipo_richiesta === 'VOTA') {
+        } else if(id_allenamentoString && tipo_richiesta === 'VOTO') {
         //logica professionista vota
         this.professionista_vota = true;
         this.loadSingoloAllenamento(allenamento_id);

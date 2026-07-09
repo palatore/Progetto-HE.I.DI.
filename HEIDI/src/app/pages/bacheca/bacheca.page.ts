@@ -135,7 +135,7 @@ export class BachecaPage implements OnInit {
     return `${esercizio.name} - ${esercizio.serie} - ${esercizio.ripetizioni} - ${esercizio.pesi_kg} - ${esercizio.riposo_minuti}`;
   }
 
-  async importa_attivita(attivita:any) {
+  async importaAttivita(attivita:any) {
     if(attivita.tipologia_attivita === 0) {
       try {
         const response = await firstValueFrom(this.foodServive.clonaPasto(attivita.id_attivita));
