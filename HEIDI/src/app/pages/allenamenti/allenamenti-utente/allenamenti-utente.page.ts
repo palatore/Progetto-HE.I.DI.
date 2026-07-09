@@ -195,12 +195,20 @@ export class AllenamentiUtentePage implements OnInit{
   async condividiAllenamento(id_allenamento:number) {
     try {
       const response = await firstValueFrom(this.boardService.getSingolaAttivitaBacheca(id_allenamento, 1));
-      if(response && response.result) {
+      if(response?.result) {
+        const alert = await this.alertController.create({
+            header: 'Già presente',
+            message: 'Questo allenamento è già nella bacheca.',
+            buttons: ['OK']
+        });
+        await alert.present();
         return;
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+    if (error.status !== 404) {
+      return; 
     }
+  }
     try {
       const response = await firstValueFrom(this.boardService.condividiAttivita(id_allenamento, 1));
       if(response.status === 201) {

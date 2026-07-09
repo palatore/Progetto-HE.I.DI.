@@ -30,9 +30,10 @@ class BachecaControllers {
 
     static getSingolaAttivitaBacheca = async (req, res) => {
         try {
+            const user_id = req.user.id;
             const id_attivita = req.query.id_attivita;
             const tipologia_attivita = req.query.tipologia_attivita;
-            const result = await BachecaServices.getSingolaAttivitaBacheca(id_attivita, tipologia_attivita);
+            const result = await BachecaServices.getSingolaAttivitaBacheca(user_id, id_attivita, tipologia_attivita);
             if(result) {
                 res.status(201).json({result});
             } else {

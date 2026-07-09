@@ -46,9 +46,9 @@ class Bacheca {
         });
     }
 
-    static async getSingolaAttivitaBacheca(id_attivita, tipologia_attivita) {
+    static async getSingolaAttivitaBacheca(id_utente, id_attivita, tipologia_attivita) {
         return new Promise((resolve, reject) => {
-            db.get('SELECT * FROM bacheca WHERE id_attivita = ? AND tipologia_attivita = ?', [id_attivita, tipologia_attivita], (err, row) => {
+            db.get('SELECT * FROM bacheca WHERE id_utente_condivisore = ? AND id_attivita = ? AND tipologia_attivita = ?', [id_utente, id_attivita, tipologia_attivita], (err, row) => {
                 if(err) {
                     reject(err);
                 } else {

@@ -14,16 +14,14 @@ class BachecaServices {
     static async getAllenamentiBacheca() {
         const allenamenti = await Bacheca.getAllenamentiBacheca();
         if(!(allenamenti && allenamenti.length > 0)) {
-            console.log('Nessun allenamento nella bacheca');
             return [];
         }
         return allenamenti;
     }
 
-    static async getSingolaAttivitaBacheca(id_attivita, tipologia_attivita) {
-        const attivita = await Bacheca.getSingolaAttivitaBacheca(id_attivita, tipologia_attivita);
+    static async getSingolaAttivitaBacheca(id_utente, id_attivita, tipologia_attivita) {
+        const attivita = await Bacheca.getSingolaAttivitaBacheca(id_utente, id_attivita, tipologia_attivita);
         if(!attivita) {
-            console.log('Nessuna attività trovata con questo id e questa tipologia');
             return null;
         }
         return attivita;

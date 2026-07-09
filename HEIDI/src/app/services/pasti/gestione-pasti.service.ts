@@ -86,11 +86,11 @@ export class GestionePastiService {
   }
   
   getAlimenti() {
-    return this.http.get<any[]>('http://localhost:3000/api/pasti/alimenti');
+    return this.http.get<any[]>(`${this.apiUrl}/api/pasti/alimenti`);
   }
 
   getAlimentoById(id_alimento:number): Observable<any> {
-    return this.http.get<any>(`http://localhost:3000/api/pasti/alimento/${id_alimento}`);
+    return this.http.get<any>(`${this.apiUrl}/api/pasti/alimento/${id_alimento}`);
   }
 
 }

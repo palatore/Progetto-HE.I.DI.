@@ -248,11 +248,19 @@ export class PastiUtentePage implements OnInit {
   async condividiPasto(id_pasto:number) {
     try {
       const response = await firstValueFrom(this.boardService.getSingolaAttivitaBacheca(id_pasto, 0));
-      if(response && response.result) {
+      if(response?.result) {
+        const alert = await this.alertController.create({
+            header: 'Già presente',
+            message: 'Questo pasto è già nella bacheca.',
+            buttons: ['OK']
+        });
+        await alert.present();
         return;
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.status !== 404) {
+      return;
+      }
     }
 
     try {

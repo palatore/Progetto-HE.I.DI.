@@ -104,6 +104,11 @@ db.serialize(() => {
     });
 
     //creazione della tabella dei voti delle attività
+    /*db.run('DROP TABLE IF EXISTS voti', (err) => {
+        if (err) {
+            console.error('Errore nella cancellazione della tabella voti ' + err.message);
+        }
+    });*/
     db.run(`CREATE TABLE IF NOT EXISTS voti (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_attivita INTEGER NOT NULL,
@@ -118,6 +123,11 @@ db.serialize(() => {
     });
 
     //creazione della tabella della bacheca
+    /*db.run('DROP TABLE IF EXISTS bacheca', (err) => {
+        if (err) {
+            console.error('Errore nella cancellazione della tabella bacheca ' + err.message);
+        }
+    });*/
     db.run(`CREATE TABLE IF NOT EXISTS bacheca (
         id INTEGER AUTO_INCREMENT PRIMARY KEY,
         id_utente_condivisore INTEGER NOT NULL,
