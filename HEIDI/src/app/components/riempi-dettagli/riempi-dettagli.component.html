@@ -39,8 +39,8 @@
       </ion-card-content>
     }
     @else {
-      <!--Sezione esercizi-->
-      <ion-card-content class="exerciseCardContent">
+      <!--Sezione esercizi su Desktop-->
+      <ion-card-content class="exerciseCardContentDesktop">
         <ion-grid>
           <ion-row class="textRow">
             <ion-col size="2">
@@ -88,6 +88,44 @@
             <ion-button color="orange" (click)="submitRiempi()">Completa Allenamento</ion-button>
         </ion-row>
       </ion-card-content>
+
+      <!--Sezione esercizi su Mobile-->
+      <ion-card-content class="exerciseCardContentMobile">
+        @for(dettaglio of dettagli_inseriti; track dettaglioTrack($index, dettaglio)) {
+          <ion-card class="cardEserciziMobile">
+            
+              <ion-row class="dettagliRow">
+                {{dettaglio.name}}
+                <ion-button color="red" fill="outline" size="small" (click)="rimuoviDettaglio($index)">
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+              </ion-row>
+            
+            <ion-row>
+              <span class="etichetta">Serie</span>
+              <span class="valore">{{dettaglio.serie}}</span>
+            </ion-row>
+            <ion-row>
+              <span class="etichetta">Ripetizioni / secondi</span>
+              <span class="valore">{{dettaglio.ripetizioni}}</span>
+            </ion-row>
+            <ion-row>
+              <span class="etichetta">Riposo</span>
+              <span class="valore">{{dettaglio.riposo_minuti}} {{dettaglio.riposo_minuti === 1 ? 'minuto' : 'minuti'}}</span>
+            </ion-row>
+            <ion-row>
+              <span class="etichetta">Pesi</span>
+              <span class="valore">{{dettaglio.pesi_kg}} Kg</span>
+            </ion-row>
+          </ion-card>
+        }
+
+        <ion-row class="buttonRow">
+          <ion-button color="orange" (click)="submitRiempi()">Completa Allenamento</ion-button>
+        </ion-row>
+        
+      </ion-card-content>
+
     }
     </ion-card>
 
