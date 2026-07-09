@@ -10,10 +10,10 @@
            <form [formGroup]="allenamentoForm" (ngSubmit)="onSubmit()">
             <ion-grid class="ion-justify-center">
                 <ion-row>
-                    <ion-col>
+                    <ion-col size="12" size-md="4">
                         <ion-input type="text" placeholder="Nome Allenamento" formControlName="nome"></ion-input>
                     </ion-col>
-                    <ion-col class="dateCol">
+                    <ion-col class="dateCol" size="12" size-md="4">
                         <ion-card-title> 
                             Giorno Allenamento
                         </ion-card-title>
@@ -46,7 +46,7 @@
                        </ion-modal>                       
                     </ion-col>
 
-                    <ion-col>
+                    <ion-col size="12" size-md="4">
                           <ion-label>
                             Quante ore ti alleni?
                             </ion-label>

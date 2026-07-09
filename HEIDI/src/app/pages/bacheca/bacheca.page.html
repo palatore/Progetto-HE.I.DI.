@@ -1,7 +1,7 @@
 <app-default-header [page_title]="'Bacheca Pubblica'"></app-default-header>
 
-  <ion-toolbar color="light">
-    <ion-segment value= -1 (ionChange)="cambiaFiltro($event)">
+  <ion-toolbar>
+    <ion-segment value= "tutti" (ionChange)="cambiaFiltro($event)">
       <ion-segment-button value="tutti">Tutti</ion-segment-button>
       <ion-segment-button value="PASTO">Pasti</ion-segment-button>
       <ion-segment-button value="ALLENAMENTO">Allenamenti</ion-segment-button>
@@ -19,7 +19,7 @@
             <div class="avatar-placeholder">{{ item.nome_autore[0] }}{{ item.cognome_autore[0] }}</div>
           </ion-avatar>
           <ion-label>
-            <h3>{{ item.nome_autore }} {{ item.cognome_autore }}</h3>
+            <h3 class="autore">{{ item.nome_autore }} {{ item.cognome_autore }}</h3>
             <p class="text-muted">Condiviso oggi</p>
           </ion-label>
           <ion-badge slot="end" [color]="item.tipologia_attivita === 0 ? 'success' : 'tertiary'">
@@ -50,7 +50,7 @@
               <ion-icon name="star-half-outline"></ion-icon>
             </ion-button>
 
-            <ion-button [disabled]="item.disable_clona" fill="outline" color="primary" size="small" (click)="importa_attivita(item)">
+            <ion-button [disabled]="item.disable_clona" fill="outline" color="orange" size="small" (click)="importa_attivita(item)">
               <ion-icon name="copy-outline"></ion-icon>
             </ion-button>
           </div>
@@ -99,7 +99,7 @@
 </ion-content>
 
 <div class="ion-display-flex ion-align-items-center ion-padding">
-    <ion-button class="ion-align-self-end" fill="outline" color="primary" slot="end" (click)="condivisione()">
+    <ion-button class="ion-align-self-end" fill="outline" color="orange" slot="end" (click)="condivisione()">
       <ion-icon name="add"></ion-icon>
     </ion-button>
 </div>

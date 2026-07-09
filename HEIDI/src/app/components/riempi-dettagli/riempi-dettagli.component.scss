@@ -53,7 +53,51 @@ ion-card-title {
     }
 }
 
+.exerciseCardContentMobile {
+  display: none;
+}
 
+.cardEserciziMobile .dettagliRow {
+    color: var(--text-white);
+    font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 2px solid var(--border-input);
+  font-weight: 600;
+}
+
+.cardEserciziMobile ion-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+.etichetta {
+  color: var(--ion-color-orange);
+}
+
+.valore {
+    color: var(--text-white);
+  font-weight: 600;
+}
+
+/* Sotto il breakpoint, inverti visibilità */
+@media (max-width: 700px) {
+  .exerciseCardContentDesktop {
+    display: none;
+  }
+
+  .exerciseCardContentMobile {
+    display: block;
+  }
+}
 
 
 .containerDettagliCards {

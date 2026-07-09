@@ -40,6 +40,10 @@ ion-radio-group {
     gap: 8px;
     padding-bottom: 15px;
 
+    ion-item {
+      --background:transparent;
+    }
+
     ion-label {
         color: var(--text-white) !important;
         font-size: 14px;

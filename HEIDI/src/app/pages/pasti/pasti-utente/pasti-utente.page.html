@@ -15,10 +15,10 @@
         <ion-button color="purple" fill="outline" (click)="mostraDettagli(pasto)" slot="end">
           <ion-icon name="eye-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="outline" [disabled]="professionista_vota" (click)="modificaPasto(pasto)" slot="end">
+        <ion-button color="orange" fill="outline" [disabled]="professionista_vota" (click)="modificaPasto(pasto)" slot="end">
           <ion-icon name="create"></ion-icon>
         </ion-button>
-        <ion-button fill="outline" [disabled]="professionista_modifica" (click)="votaPasto(pasto.id)" slot="end">
+        <ion-button color="warning" fill="outline" [disabled]="professionista_modifica" (click)="votaPasto(pasto.id)" slot="end">
             <ion-icon name="star-outline"></ion-icon>
           </ion-button>
         @if(!professionista_vota && !professionista_modifica) {

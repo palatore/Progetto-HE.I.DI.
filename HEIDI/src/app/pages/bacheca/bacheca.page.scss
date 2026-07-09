@@ -1,0 +1,14 @@
+ion-toolbar {
+    --background: var(--bg-card);
+}
+
+
+ion-segment-button {
+  --color-checked: var(--ion-color-orange);
+  --indicator-color: var(--ion-color-orange);
+  font-size: 18px;
+}
+
+.autore {
+    color: var(--ion-color-orange);
+}

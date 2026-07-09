@@ -171,6 +171,11 @@ ion-button {
   --background-activated: var(--ion-color-red-tint);
 }
 
+//ICONE AGGIUNGI IN BACHECA
+.iconaCondividi ion-icon{
+    color: var(--ion-color-orange) !important;
+}
+
 //LINK
 a {
   color: var(--ion-color-orange-tint);

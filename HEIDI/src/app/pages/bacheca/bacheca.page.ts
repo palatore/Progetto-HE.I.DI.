@@ -228,6 +228,7 @@ export class BachecaPage implements OnInit {
         {
           text: 'Un mio Pasto',
           icon: 'fast-food-outline',
+          cssClass: 'iconaCondividi',
           handler: () => {
             this.router.navigate(['/pastiUtente']);
           }
@@ -235,6 +236,7 @@ export class BachecaPage implements OnInit {
         {
           text: 'Un mio Allenamento',
           icon: 'barbell-outline',
+          cssClass: 'iconaCondividi',
           handler: () => {
             this.router.navigate(['/allenamentiUtente']);
           }

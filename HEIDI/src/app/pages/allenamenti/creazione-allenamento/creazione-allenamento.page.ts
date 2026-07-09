@@ -174,7 +174,6 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
     async datiEsercizio(id_esercizio:number): Promise<any> {
         try {
             const response = await firstValueFrom(this.workoutService.getEsercizioById(id_esercizio));
-            const faseEsercizio = response.fase;
             if(response) {
                 return response;
             } else {
