@@ -124,11 +124,4 @@ export class GestioneUtentiService {
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.delete<any>(`${this.apiUrl}/api/users/annullaRichiesta/${id_richiesta}`, {headers, observe: 'response'});
   }
-
-  eliminaEta(id_utente:number){
-    const token = localStorage.getItem('token');
-    const headers = { Authorization: `Bearer ${token}` };
-    return this.http.delete<any>(`${this.apiUrl}/api/users/eliminaEta/${id_utente}`, {headers, observe: 'response'});
-  }
-  
 }

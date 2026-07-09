@@ -26,6 +26,5 @@ router.post('/utente/riempiInfo', authenticateToken, UserControllers.riempiInfo)
 router.post('/utente/aggiornaPassword/:id_utente', authenticateToken, UserControllers.aggiornaPassword);
 router.delete('/annullaAssociazione/:id_associazione', authenticateToken, UserControllers.annullaAssociazione);
 router.delete('/annullaRichiesta/:id_richiesta', authenticateToken, UserControllers.annullaRichiesta);
-router.delete('/eliminaEta/:id_utente', authenticateToken, UserControllers.eliminaEta);
 
 module.exports = router;

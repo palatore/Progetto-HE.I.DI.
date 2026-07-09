@@ -276,15 +276,5 @@ class UserControllers {
             res.status(500).json({error: e.message});
         }
     };
-
-    static eliminaEta = async (req, res) =>{
-        try{
-            const id_utente = req.params.id_utente;
-            await UserServices.eliminaEta(id_utente);
-            res.status(201).json({message: 'Età fatta fuori'});
-        }catch(e){
-            res.status(500).json({error: e.message});
-        }
-    };
 }
 module.exports = UserControllers;
