@@ -266,7 +266,14 @@ export class AllenamentiUtentePage implements OnInit{
       }
 
       this.modalita_voto = false;
-    } catch(error) {
+    } catch(error:any) {
+      const message = error?.error?.error || error?.error?.message || 'Errore interno del server';
+      const alert = await this.alertController.create({
+        header: 'Occhio',
+        message: message,
+        buttons: ['OK']
+      });
+      await alert.present();
       console.log(error);
     }
   }

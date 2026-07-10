@@ -36,13 +36,7 @@ db.serialize(() => {
         altezza_cm INTEGER,
         peso_kg INTEGER,
         condizioni_mediche VARCHAR(255),
-        id_P1 INTEGER,
-        professionista1 VARCHAR(50),
-        id_P2 INTEGER,
-        professionista2 VARCHAR(50),
-        FOREIGN KEY(id_utente) REFERENCES utenti(id),
-        FOREIGN KEY(id_P1) REFERENCES utenti(id),
-        FOREIGN KEY(id_P2) REFERENCES utenti(id)
+        FOREIGN KEY(id_utente) REFERENCES utenti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
             console.error('Errore nella creazione della tabella profilo_utente ' + err.message);
@@ -104,17 +98,13 @@ db.serialize(() => {
     });
 
     //creazione della tabella dei voti delle attività
-    /*db.run('DROP TABLE IF EXISTS voti', (err) => {
-        if (err) {
-            console.error('Errore nella cancellazione della tabella voti ' + err.message);
-        }
-    });*/
     db.run(`CREATE TABLE IF NOT EXISTS voti (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_attivita INTEGER NOT NULL,
         tipologia_attivita INTEGER NOT NULL,
         id_votante INTEGER NOT NULL,
         voto INTEGER NOT NULL,
+        UNIQUE(id_attivita, tipologia_attivita, id_votante),
         FOREIGN KEY(id_votante) REFERENCES utenti(id) ON DELETE CASCADE
     )`, (err) => {
         if (err) {
@@ -123,11 +113,6 @@ db.serialize(() => {
     });
 
     //creazione della tabella della bacheca
-    /*db.run('DROP TABLE IF EXISTS bacheca', (err) => {
-        if (err) {
-            console.error('Errore nella cancellazione della tabella bacheca ' + err.message);
-        }
-    });*/
     db.run(`CREATE TABLE IF NOT EXISTS bacheca (
         id INTEGER AUTO_INCREMENT PRIMARY KEY,
         id_utente_condivisore INTEGER NOT NULL,
@@ -259,20 +244,6 @@ db.serialize(() => {
             comando.run('Diabetologo');
             comando.run('Chiropratico');
             comando.run('Dietista');
-        }
-    });
-
-    //popolazione della tabella albo_professionisti se non è già popolata
-    //la tabella albo_professionisti va continuata a popolare tramite registrazione o modifica profilo professionista
-    db.get('SELECT COUNT(*) AS count FROM albo_professionisti', (err, row) => {
-        if (err) {
-            console.error('Errore nella selezione degli albo_professionisti ' + err.message);
-        } else if (row.count === 0) {
-            const comando = db.prepare('INSERT INTO albo_professionisti (id_professionista, id_ruolo, tipo) VALUES (?, ?, ?)');
-            comando.run(5, 2, 'Allenamenti');
-            comando.run(6, 1, 'Alimentazione');
-            comando.run(7, 7, 'Allenamenti');
-            comando.run(8, 3, 'Alimentazione');
         }
     });
 

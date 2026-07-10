@@ -216,7 +216,14 @@ export class BachecaPage implements OnInit {
       }
       attivita.modalita_voto = false;
       attivita.disable_voto = true;
-    } catch(error) {
+    } catch(error:any) {
+      const message = error?.error?.error || error?.error?.message || 'Errore interno del server';
+      const alert = await this.alertController.create({
+        header: 'Occhio',
+        message: message,
+        buttons: ['OK']
+      });
+      await alert.present();
       console.log(error);
     }
   }

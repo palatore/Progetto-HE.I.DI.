@@ -77,7 +77,7 @@ class BachecaControllers {
             const result = await BachecaServices.votaAttivita(id_utente, attivita);
             res.status(201).json({message: 'Voto piazzato con successo', result});
         } catch(e) {
-            res.status(500).json({error: e.message});
+            res.status(e?.status || 500).json({error: e?.message || 'Errore interno del server'});
         }
     };
 }
