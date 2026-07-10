@@ -2,9 +2,11 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { API_URL } from "src/app/api-config";
+
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000' //Se avviato da android sosttuire 'localhost' con l'indirizzo ip della macchina usata per hostare
+  apiUrl: API_URL //Se avviato da android sosttuire 'localhost' con l'indirizzo ip della macchina usata per hostare
 };
 
 /*
