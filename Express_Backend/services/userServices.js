@@ -210,14 +210,6 @@ static async getAssociazioniPending(id_utente) {
         return password;
     };
 
-    static async eliminaEta(id_utente){
-        const eliminato = await User.eliminaEta(id_utente);
-        if(!eliminato){
-            return null;
-        }
-        return eliminato;
-    };
-
     static async annullaAssociazione(id_associazione) {
         const annullata = await User.annullaAssociazione(id_associazione);
         if(!annullata) {

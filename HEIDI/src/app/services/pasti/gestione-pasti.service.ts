@@ -92,5 +92,4 @@ export class GestionePastiService {
   getAlimentoById(id_alimento:number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/pasti/alimento/${id_alimento}`);
   }
-
 }

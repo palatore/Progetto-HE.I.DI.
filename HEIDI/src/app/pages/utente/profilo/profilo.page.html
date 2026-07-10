@@ -60,7 +60,7 @@
                                         <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                     </ion-button>
                                 }@else{
-                                    <ion-button color="purple" (click)="Submit(etaInput.value ?? '', 0, 0, '')">
+                                    <ion-button color="purple" (click)="onSubmit(etaInput.value ?? '', 0, 0, '')">
                                         <ion-icon name="checkmark" [style.color]="'#000000'"></ion-icon>
                                     </ion-button>
                                 }
@@ -75,7 +75,7 @@
                                         <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                     </ion-button>
                                     }@else{
-                                        <ion-button color="purple" (click)="Submit(0,pesoInput.value ?? '', 0, '')">
+                                        <ion-button color="purple" (click)="onSubmit(0,pesoInput.value ?? '', 0, '')">
                                             <ion-icon name="checkmark" [style.color]="'#000000'"></ion-icon>
                                         </ion-button>
                                     }
@@ -90,7 +90,7 @@
                                             <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                         </ion-button>
                                     }@else{
-                                        <ion-button color="purple" (click)="Submit(0, 0, altezzaInput.value ?? '', '')">
+                                        <ion-button color="purple" (click)="onSubmit(0, 0, altezzaInput.value ?? '', '')">
                                             <ion-icon name="checkmark" [style.color]="'#000000'"></ion-icon>
                                         </ion-button>
                                 }
@@ -105,7 +105,7 @@
                                                 <ion-icon name="create" [style.color]="'#000000'"></ion-icon>
                                             </ion-button>
                                         }@else{
-                                            <ion-button color="purple" (click)="Submit(0, 0, 0, CondizioniInput.value ?? '')">
+                                            <ion-button color="purple" (click)="onSubmit(0, 0, 0, CondizioniInput.value ?? '')">
                                                 <ion-icon name="checkmark" [style.color]="'#000000'"></ion-icon>
                                             </ion-button>
                                         }

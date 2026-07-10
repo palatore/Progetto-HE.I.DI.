@@ -28,6 +28,13 @@
                 <ion-label position="floating">Password</ion-label>
                 <ion-input type="password" formControlName="password"></ion-input>
               </ion-item>
+              @if(showError) {
+                <ion-text color="danger">
+                  <p class="ion-padding-start">
+                    {{ errMessage }}
+                  </p>
+                </ion-text>
+              }
               <div class="buttonContainer">
                 <ion-button expand="full" type="submit" [disabled]="!loginForm.valid" color="orange">
                   Accedi

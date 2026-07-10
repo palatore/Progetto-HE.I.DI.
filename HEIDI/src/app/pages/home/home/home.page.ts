@@ -138,10 +138,6 @@ export class HomePage implements OnInit {
     }); 
   }
 
-  isLoggedIn(): boolean {
-    return this.ruoloUtente != null;
-  }
-
   ionViewWillLeave() {
     this.destroy$.next();
   }

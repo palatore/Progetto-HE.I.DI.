@@ -120,7 +120,7 @@ export class BachecaPage implements OnInit {
     } else if(attivita.tipologia_attivita === 1) {
       try {
         const response = await firstValueFrom(this.workoutService.getDettagliAllenamento(attivita.id_attivita));
-        attivita.dettagli = response?.alimenti ?? response ?? [];
+        attivita.dettagli = response?.esercizi ?? response ?? [];
       } catch (error) {
         console.log(error)
       }
@@ -135,7 +135,7 @@ export class BachecaPage implements OnInit {
     return `${esercizio.name} - ${esercizio.serie} - ${esercizio.ripetizioni} - ${esercizio.pesi_kg} - ${esercizio.riposo_minuti}`;
   }
 
-  async importa_attivita(attivita:any) {
+  async importaAttivita(attivita:any) {
     if(attivita.tipologia_attivita === 0) {
       try {
         const response = await firstValueFrom(this.foodServive.clonaPasto(attivita.id_attivita));
@@ -216,7 +216,14 @@ export class BachecaPage implements OnInit {
       }
       attivita.modalita_voto = false;
       attivita.disable_voto = true;
-    } catch(error) {
+    } catch(error:any) {
+      const message = error?.error?.error || error?.error?.message || 'Errore interno del server';
+      const alert = await this.alertController.create({
+        header: 'Occhio',
+        message: message,
+        buttons: ['OK']
+      });
+      await alert.present();
       console.log(error);
     }
   }

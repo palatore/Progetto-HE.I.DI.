@@ -87,7 +87,7 @@ export class PastiUtentePage implements OnInit {
     });
   }
 
-  async mostraDettagli(pasto: any) {
+  async mostraDettagli(pasto: Pasto) {
     this.pastoSelezionato = pasto;
     this.dettagliPasto = null; // Resetta i dettagli del pasto selezionato
     //Effettua una chiamata al servizio per ottenere i dettagli del pasto selezionato
@@ -164,7 +164,6 @@ export class PastiUtentePage implements OnInit {
     try {
       const id_pasto_modificato = this.pasto_da_modificare.id;
       const response = await firstValueFrom(this.foodService.modificaPasto(id_pasto_modificato, modifiche));
-      // Ricarica i pasti utente dopo la modifica
       this.loadPastiUtente();
     } catch (error) {
       console.error('Errore nella modifica del pasto:', error);
@@ -325,7 +324,14 @@ export class PastiUtentePage implements OnInit {
       }
 
       this.modalita_voto = false;
-    } catch(error) {
+    } catch(error:any) {
+      const message = error?.error?.error || error?.error?.message || 'Errore interno del server';
+      const alert = await this.alertController.create({
+        header: 'Occhio',
+        message: message,
+        buttons: ['OK']
+      });
+      await alert.present();
       console.log(error);
     }
   }
@@ -333,5 +339,4 @@ export class PastiUtentePage implements OnInit {
   pastiUtente:Pasto[] = [{name: 'Pasto 1', data_creazione: '1/1/1000', tipo: '', id: 1, data_calendario:'1/1/1000'},
                  {name: 'Pasto 2', data_creazione: '1/1/1000', tipo: '', id: 2, data_calendario:'1/1/1000'},
                  {name: 'Pasto 3', data_creazione: '1/1/1000', tipo: '550', id: 3, data_calendario:'1/1/1000'}];
-
 }

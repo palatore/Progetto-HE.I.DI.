@@ -4,8 +4,6 @@ import { RouterLink } from '@angular/router';
 import { GestioneUtentiService } from 'src/app/services/utenti/gestione-utenti.service';
 import { firstValueFrom, takeUntil, Subject, switchMap, map, forkJoin, of } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
-import { addIcons } from 'ionicons';
-import { create, close, checkmark } from 'ionicons/icons';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormControl, FormsModule } from '@angular/forms';
 import { DefaultHeaderComponent } from 'src/app/components/default-header/default-header.component';
 import { LoginService } from 'src/app/services/auth/login.service';
@@ -20,8 +18,6 @@ import { LoginService } from 'src/app/services/auth/login.service';
 export class ProfiloPage implements OnInit{
 public dati_utente:{id:number, name:string, surname:string, email:string, password:string, ruolo:number, id_P1:number, id_P2:number} = {id:-1, name:"", surname:"", email:"", password:"", ruolo:0, id_P1:-1, id_P2:-1};
 public info_utente:{eta:number, peso_kg:number, altezza_cm:number, condizioni_mediche:string} = {eta:0, peso_kg:0, altezza_cm:0, condizioni_mediche:""};
-public dati_esperto_alimentare:{id:number, name:string, surname:string, email:string, ruolo:number} = {id:-1, name:"", surname:"", email:"", ruolo:0};
-public dati_esperto_allenamenti:{id:number, name:string, surname:string, email:string, ruolo:number} = {id:-1, name:"", surname:"", email:"", ruolo:0};
 public id_utente:number = -1;
 public flag_eta:boolean = false;
 public flag_peso:boolean = false;
@@ -90,10 +86,7 @@ public ruoloUtente:string | null = null;
     const nuovaPassword = this.passwordForm.get('nuovaPassword')?.value;
     const confermaPassword = this.passwordForm.get('confermaPassword')?.value;
 
-    /*if(vecchiaPassword !== this.dati_utente.password){
-        this.controlloVecchiaPassword = true;
-        this.controlloNuovaPassword = false;
-    }else */if(nuovaPassword !== confermaPassword){
+    if(nuovaPassword !== confermaPassword){
         this.controlloNuovaPassword = true;
         this.controlloVecchiaPassword = false;
     }else{
@@ -127,7 +120,7 @@ public ruoloUtente:string | null = null;
     this.passwordForm.reset();
    }
 
-   async Submit(age:string | number, weight:string | number, height:string | number, condition:string | number){
+   async onSubmit(age:string | number, weight:string | number, height:string | number, condition:string | number){
     if(Number(age) !== 0){
         this.info_utente.eta = Number(age);
     }else if(Number(weight) != 0){

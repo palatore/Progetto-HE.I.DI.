@@ -45,11 +45,18 @@ class BachecaServices {
     }
 
     static async votaAttivita(id_utente, attivita) {
-        const votata = await Bacheca.votaAttivita(id_utente, attivita);
-        if(votata) {
-            throw new Error('Errore nella votazione dell\'attività');
+        try {
+            const votata = await Bacheca.votaAttivita(id_utente, attivita);
+            if(!votata) {
+                throw {status: 500, message:'Errore nella votazione dell\'attività'};
+            }
+            return votata;
+        } catch (e) {
+            if(e?.code === 'SQLITE_CONSTRAINT' || e?.code === 'SQLITE_CONSTRAINT_UNIQUE' || e?.code === 'SQLITE_CONSTRAINT_PRIMARYKEY') {
+                throw {status: 409, message:'Hai già votato questa attività'};
+            }
+            throw e;
         }
-        return votata;
     };
 }
 module.exports = BachecaServices;

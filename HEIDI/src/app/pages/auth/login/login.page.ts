@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonRow, IonGrid, IonCol, IonCardTitle, IonCardHeader, IonCard, IonLabel, IonInput, IonButton, IonItem, IonCardContent} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonRow, IonGrid, IonCol, IonCardTitle, IonCardHeader, IonCard, IonLabel, IonInput, IonButton, IonItem, IonCardContent, IonText } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { flame, flashOutline, logInOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
@@ -14,7 +14,7 @@ import { jwtDecode } from 'jwt-decode';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule]
+  imports: [IonText, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonIcon, IonGrid, IonRow, IonCol, IonCardTitle, IonCardHeader, IonCardContent, IonCard, IonLabel, IonInput, IonButton, IonItem, RouterModule]
 })
 export class LoginPage implements OnInit {
   public loginForm: FormGroup;
@@ -61,9 +61,9 @@ export class LoginPage implements OnInit {
       if(e.status === 401) {
         this.loginFailed = true;
         this.showError = true;
-        this.errMessage = e?.error?.message;
+        this.errMessage = e?.error?.error || 'Dati di accesso non validi';
       } else {
-        this.errMessage = e?.error?.message || 'Dati di accesso non validi';
+        this.errMessage = e?.error?.error || 'Errore di accesso';
         this.loginFailed = true;
         this.showError = true;
       }

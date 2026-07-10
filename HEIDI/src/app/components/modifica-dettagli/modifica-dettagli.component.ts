@@ -66,7 +66,6 @@ export class ModificaDettagliComponent {
 
 
   onDettaglioSelezionato(dettaglio:number) {
-    console.log('Dettaglio ricevuto:', dettaglio)
     this.dettaglio_selezionato_in_attesa.emit(dettaglio);
   }
 
@@ -88,7 +87,6 @@ export class ModificaDettagliComponent {
       }
     });
     this.inviaModifiche.emit(dettagli_sistemati);
-    console.log('dettagli mandati sopra:', dettagli_sistemati);
     this.clickChiudi();
   }
 

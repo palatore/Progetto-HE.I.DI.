@@ -19,7 +19,6 @@ export class UtentiAssociatiComponent  implements OnInit {
   ngOnInit() {}
 
   richiediAnnullamento(id_associazione:number) {
-    console.log('Ho ricevuto un ID lo tratto come se fosse quello dell\'associazione', id_associazione);
     this.cancella_associazione.emit(id_associazione);
   }
 

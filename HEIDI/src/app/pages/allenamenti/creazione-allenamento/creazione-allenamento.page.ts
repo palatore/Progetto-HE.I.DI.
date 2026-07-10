@@ -85,9 +85,6 @@ esercizio_da_aggiungere:any = null //variabile per la gestione delle info
         const durataAllenamento = this.allenamentoForm.value.durata;
         //grazie al metodo split() posso trasformare il formato della data da YYYY-MM-dd T ore:minuti
         //al formato YYYY-MM-DD, escludendo così l'informazione sull'orario
-        console.log('Giorno letto:', giornoAllenamento);
-        console.log('giorno è di tipo:', typeof(giornoAllenamento));
-
         //ricava i dati inseriti nel form e quindi procede a controllare se esiste già un allenamento nello stesso giorno
     //se esiste, ritorna con un messaggio di errore impostato dal flag true
     //se non esiste, procede alla creazione dell'allenamento con i dati inseriti

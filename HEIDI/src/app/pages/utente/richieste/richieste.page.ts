@@ -187,7 +187,6 @@ export class RichiestePage implements OnInit {
     try {
       const response = await firstValueFrom(this.userService.accettaAssociazione(id_associazione));
       if(response && response.status === 201) {
-        console.log('Associazione accettata con successo');
         this.loadAssociazioniProfessionista();
       } else {
         console.log('Errore nell\'accettazione dell\'associazione');
